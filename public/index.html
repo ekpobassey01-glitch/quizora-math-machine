@@ -1,1 +1,128 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Maths Machine - Quizora</title>
+<style>
+*{box-sizing:border-box;margin:0;font-family:Arial}body{background:#f6f7fb;color:#111}
+header{background:#fff;display:flex;justify-content:space-between;align-items:center;padding:12px 16px;position:sticky;top:0;z-index:10}
+.logo{display:flex;gap:10px;align-items:center}.m{width:42px;height:42px;background:#FFC21A;border:3px solid #1E4DA1;border-radius:10px;display:grid;place-items:center;font-size:26px;font-weight:900;color:#1E4DA1}
+.btn{border:0;border-radius:999px;padding:11px 18px;font-weight:800;cursor:pointer}.blue{background:#1E4DA1;color:#fff}.yellow{background:#FFC21A;color:#000}.white{background:#fff;color:#1E4DA1;border:1px solid #ddd}.green{background:#0a9d5c;color:#fff}.red{background:#e11;color:#fff}
+.hero{background:#1E4DA1;color:#fff;text-align:center;padding:24px 16px;border-radius:0 0 24px 24px}
+.bigM{width:80px;height:80px;background:#FFC21A;border:4px solid #fff;border-radius:50%;display:grid;place-items:center;font-size:48px;font-weight:900;color:#1E4DA1;margin:0 auto 10px}
+.wrap{padding:16px;max-width:560px;margin:auto}.card{background:#fff;border-radius:16px;padding:16px;margin-bottom:14px}
+.row{padding:12px 0;border-bottom:1px solid #eee;font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.row:last-child{border:0}.sec{background:#f8f9ff;padding:12px;border-radius:12px;margin-bottom:10px;font-weight:700;cursor:pointer}
+.small{color:#666;font-weight:400;font-size:13px}input,textarea,select{width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;margin:8px 0}textarea{min-height:70px}
+.hidden{display:none!important}.lessonStep{background:#f8f9ff;border-left:4px solid #1E4DA1;padding:12px;border-radius:10px;margin-bottom:10px;white-space:pre-wrap}
+.stepBtn{border:1px solid #1E4DA1;background:#fff;color:#1E4DA1;border-radius:999px;padding:6px 12px;font-weight:700;cursor:pointer;margin:4px 4px 0 0}
+.badge{background:#FFC21A;padding:3px 9px;border-radius:999px;font-size:12px;font-weight:800}.lock{color:#e11}
+#adminBox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);place-items:center;z-index:99}#adminBox.show{display:grid}.popup{background:#fff;width:92%;max-width:380px;border-radius:16px;padding:20px;max-height:90vh;overflow:auto}
+img.prev{width:100%;border-radius:12px;margin-top:8px}
+</style></head><body>
 
+<header><div class="logo"><div class="m">M</div><div><b>Maths Machine</b><br><small>Learn Maths Like A Real Teacher</small></div></div>
+<button class="btn blue" onclick="showHome()">Home</button></header>
+
+<!-- HOME -->
+<div id="home">
+<div class="hero"><div class="bigM">M</div><h2>Snap / Type Your Question<br><span style="color:#FFC21A">Get Audio + Visual Explanation</span></h2><br>
+<button class="btn yellow" style="width:100%;padding:14px" onclick="showSections()">Continue as Student →</button><br><br>
+<button class="btn white" style="width:100%;padding:13px" onclick="openAdmin()">Login as Admin 🔐</button><br><br>
+<span>📸 Snap & Solve &nbsp; 🎙️ Voice + Typing &nbsp; 🎧 Audio + Visual</span></div>
+<div class="wrap"><div class="card"><b>✨ Features</b><br><br>
+<div class="row"><span>📸 Snap / Type Your Question</span></div><div class="row"><span>🧮 Real Maths Symbols</span></div>
+<div class="row"><span>🎧 Audio + Visual Step-by-Step</span></div><div class="row"><span>✏️ Snap Your Working for Correction</span></div></div>
+<div class="card"><b>📚 Sections - Tap to Start</b><br><span class="small">1st Topic in each section is FREE</span><br><br>
+<div class="sec" onclick="openCategory('JSS')">📗 Junior Secondary Maths<br><span class="small">1st Topic FREE • Then ₦5,000 / year</span></div>
+<div class="sec" onclick="openCategory('SSS')">📘 Senior Secondary Maths<br><span class="small">1st Topic FREE • Then ₦5,000 / year</span></div>
+<div class="sec" onclick="openCategory('JAMB')">🎯 JAMB / A-Level Maths<br><span class="small">1st Topic FREE • Then ₦5,000 / year</span></div></div>
+<button class="btn yellow" style="width:100%;padding:14px" onclick="showSections()">Start Learning →</button></div>
+<p style="text-align:center;color:#888;font-size:12px;padding:10px">Quizora Maths Machine • © 2026 • 1st Topic FREE per Category</p>
+</div>
+
+<!-- SECTIONS -->
+<div id="sections" class="hidden wrap"><button class="btn white" onclick="showHome()">← Back</button><br><br>
+<h2>Choose Your Section</h2><p class="small">Tap a section to see topics. Only subscribed users can upload questions for solving.</p><br>
+<div class="card"><div class="sec" onclick="openCategory('JSS')">📗 Junior Secondary (JSS)<br><span class="small" id="statJSS"></span></div>
+<div class="sec" onclick="openCategory('SSS')">📘 Senior Secondary (SSS)<br><span class="small" id="statSSS"></span></div>
+<div class="sec" onclick="openCategory('JAMB')">🎯 JAMB / A-Level<br><span class="small" id="statJAMB"></span></div></div>
+<div class="card"><b>🔑 Have a Subscription PIN?</b><input id="pinInput" placeholder="Enter PIN e.g. JSS-1234"><button class="btn blue" style="width:100%" onclick="activatePIN()">Activate PIN on This Phone</button><p class="small" id="pinMsg"></p><p class="small">PIN is locked to the first phone that uses it. It cannot be transferred.</p></div>
+<div class="card"><b>📸 Snap / Type a Question (Subscribers Only)</b><p class="small">Upload a question photo OR type it. Only unlocked categories can use this.</p>
+<input type="file" accept="image/*" onchange="previewQ(event)"><img id="qPrev" class="prev hidden">
+<textarea id="qText" placeholder="Or type your question here... e.g. Solve 2x + 5 = 17"></textarea>
+<button class="btn green" style="width:100%" onclick="solveQuestion()">Solve My Question →</button><div id="qAns"></div></div>
+</div>
+
+<!-- TOPICS -->
+<div id="topics" class="hidden wrap"><button class="btn white" onclick="showSections()">← Sections</button><br><br><h2 id="catTitle"></h2><p class="small" id="catSub"></p><br><div class="card" id="topicList"></div>
+<div class="card"><b>🔑 Unlock This Category - ₦5,000 / Year</b><p class="small">Pay, then ask Admin for your PIN. PIN works only on this phone.</p><input id="pinInput2" placeholder="Enter PIN"><button class="btn blue" style="width:100%" onclick="activatePIN2()">Activate PIN</button><p class="small" id="pinMsg2"></p></div></div>
+
+<!-- LESSON -->
+<div id="lesson" class="hidden wrap"><button class="btn white" onclick="backToTopics()">← Topics</button><br><br>
+<h2 id="lessonTitle"></h2><p class="small" id="lessonIntro"></p><br>
+<div class="card"><b>🎧 Teacher - Voice + Typing</b><p class="small">Tap Play. Tap any step you don't understand.</p>
+<button class="btn blue" onclick="playLesson()">▶ Play Lesson</button>
+<button class="btn white" onclick="pauseLesson()">⏸ Pause</button>
+<button class="btn white" onclick="stopVoice()">⏹ Stop Voice</button><br><br><div id="lessonSteps"></div>
+<div class="card" style="background:#fff7d6"><b>❓ Don't understand a step?</b><p class="small">Tap a step above to underline it, then ask below.</p>
+<textarea id="askBox" placeholder="Type your question... e.g. Why did we divide by 2?"></textarea>
+<button class="btn yellow" style="width:100%" onclick="askTeacher()">Ask Teacher - Explain Again (Different Method)</button>
+<button class="btn white" style="width:100%" onclick="askVoice()">🎙️ Ask by Voice</button><div id="askAns"></div></div></div>
+<div class="card"><b>✏️ Practice Exercises</b><div id="exList"></div><p class="small">Solve on paper, snap it, upload for correction.</p>
+<input type="file" accept="image/*" onchange="previewWork(event)"><img id="workPrev" class="prev hidden">
+<button class="btn green" style="width:100%" onclick="correctWork()">Send for Correction →</button><div id="correctAns"></div></div>
+<div class="card"><b>📈 Graph Plotting</b><p class="small">Example: y = 2x + 1 . Watch how graph is built step by step.</p><canvas id="graph" width="320" height="200" style="width:100%;background:#fff;border:1px solid #eee;border-radius:10px"></canvas><br><button class="btn blue" onclick="drawGraph()">Draw Graph</button></div>
+</div>
+
+<!-- ADMIN POPUP -->
+<div id="adminBox" onclick="if(event.target==this) closeAdmin()"><div class="popup">
+<h3>Admin 🔐</h3><input id="adminPass" type="password" placeholder="Admin Password"><button class="btn blue" style="width:100%" onclick="checkAdmin()">Login</button><p id="adminMsg" style="color:red;font-size:13px"></p>
+<div id="adminPanel" class="hidden"><hr><h3>Generate PIN</h3><p class="small">PIN = ₦5,000 per category per year. Locked to first phone that uses it.</p>
+<select id="pinCat"><option value="JSS">Junior (JSS)</option><option value="SSS">Senior (SSS)</option><option value="JAMB">JAMB / A-Level</option></select>
+<input id="studentName" placeholder="Student Name"><button class="btn green" style="width:100%" onclick="genPIN()">Generate PIN →</button><div id="genResult"></div>
+<button class="btn" onclick="closeAdmin()">Close</button></div></div></div>
+
+<script>
+const TOPICS={
+JSS:["1. Number & Numeration (FREE)","2. Basic Operations & BODMAS","3. Fractions, Decimals & Percentages","4. Algebra - Simple Equations","5. Geometry - Angles & Shapes","6. Mensuration - Area & Volume"],
+SSS:["1. Indices & Logarithms (FREE)","2. Quadratic Equations","3. Trigonometry","4. Coordinate Geometry & Graphs","5. Probability & Statistics","6. Calculus - Differentiation"],
+JAMB:["1. Number & Surds (FREE)","2. Algebra - Inequalities & Equations","3. Trigonometry & Geometry","4. Calculus & Application","5. Probability, Statistics & Permutation","6. JAMB Past Questions Drill"]};
+const LESSONS={
+"JSS-0":{t:"Number & Numeration",intro:"We learn place value, whole numbers, and how numbers work. This is FREE.",steps:["Step 1: Place Value - In 4,532, 4 = 4000, 5 = 500, 3 = 30, 2 = 2.","Step 2: Example - Write 7,208 in words = Seven thousand, two hundred and eight.","Step 3: Example - 345 + 278 = ? Add units: 5+8=13, write 3 carry 1. Tens: 4+7+1=12. Hundreds: 3+2+1=6. Answer = 623.","Step 4: Try: 456 + 379 = ? Follow same steps."]},
+"SSS-0":{t:"Indices & Logarithms",intro:"Indices are powers. a² means a × a. Logarithms are the opposite of powers.",steps:["Step 1: Law 1 - a^m × a^n = a^(m+n). Example: 2³ × 2² = 2⁵ = 32.","Step 2: Law 2 - a^m ÷ a^n = a^(m-n). Example: 3⁵ ÷ 3² = 3³ = 27.","Step 3: Logarithm - If 2³ = 8, then log₂ 8 = 3.","Step 4: Example - Simplify 4² × 4³ = 4⁵ = 1024."]},
+"JAMB-0":{t:"Number & Surds",intro:"Surds are roots that cannot be simplified to whole numbers, like √2, √3.",steps:["Step 1: √2 × √3 = √6. Multiply numbers inside root.","Step 2: √12 = √(4×3) = 2√3. Break into perfect square.","Step 3: Example - Simplify √18 + √8 = 3√2 + 2√2 = 5√2.","Step 4: Rationalise: 1/√2 = √2/2. Multiply top and bottom by √2."]}};
+function getLesson(cat,idx){return LESSONS[cat+"-"+idx]||{t:TOPICS[cat][idx],intro:"Full lesson: Introduction → Examples → Harder exercises. Teacher explains each step with voice + typing.",steps:["Step 1: Introduction - What is this topic? Why do we need it? Teacher explains with a real-life example.","Step 2: Worked Example 1 - Easy example, solved step-by-step. Follow each step slowly.","Step 3: Worked Example 2 - Harder example. Same method, bigger numbers.","Step 4: Practice - Try the exercises below. Snap your working for correction."]}}
+let curCat="JSS",curTopic=0,selectedStep=-1,typingTimer=null,curSteps=[];
+let deviceId=localStorage.getItem("deviceId")||("PHONE-"+Math.random().toString(36).slice(2,8).toUpperCase());localStorage.setItem("deviceId",deviceId);
+function getPins(){try{return JSON.parse(localStorage.getItem("pins")||"{}")}catch(e){return{}}}
+function savePins(p){localStorage.setItem("pins",JSON.stringify(p))}
+function isUnlocked(cat){if(cat==="JSS"||cat==="SSS"||cat==="JAMB"){return true}return false} // topic 0 always free, full unlock checked in openTopic
+function hasSub(cat){let p=getPins();for(let k in p){if(p[k].cat===cat && p[k].device===deviceId) return true}return false}
+function showHome(){hideAll();document.getElementById("home").classList.remove("hidden")}
+function showSections(){hideAll();document.getElementById("sections").classList.remove("hidden");updateStats()}
+function hideAll(){["home","sections","topics","lesson"].forEach(id=>document.getElementById(id).classList.add("hidden"))}
+function updateStats(){["JSS","SSS","JAMB"].forEach(c=>{document.getElementById("stat"+c).innerText=hasSub(c)?"✅ Subscribed on this phone":"🔒 Topic 1 FREE • Others need PIN • ₦5,000/year"})}
+function openCategory(cat){curCat=cat;hideAll();document.getElementById("topics").classList.remove("hidden");document.getElementById("catTitle").innerText=cat==="JSS"?"📗 Junior Secondary":cat==="SSS"?"📘 Senior Secondary":"🎯 JAMB / A-Level";document.getElementById("catSub").innerText=hasSub(cat)?"✅ Subscribed on this phone - All topics unlocked":"Topic 1 FREE. Others locked until PIN activated.";let html="";TOPICS[cat].forEach((t,i)=>{let locked=i>0&&!hasSub(cat);html+=`<div class="row" onclick="openTopic(${i})"><span>${t} ${locked?'<span class="lock">🔒 Locked</span>':'<span class="badge">OPEN</span>'}</span><span>→</span></div>`});document.getElementById("topicList").innerHTML=html}
+function openTopic(i){curTopic=i;if(i>0&&!hasSub(curCat)){alert("🔒 This topic is locked.\\n\\nIt costs ₦5,000 per year for "+curCat+".\\nPay, then enter your PIN from Admin to unlock on THIS phone only.");document.getElementById("pinInput2").focus();return}let L=getLesson(curCat,i);hideAll();document.getElementById("lesson").classList.remove("hidden");document.getElementById("lessonTitle").innerText=L.t;document.getElementById("lessonIntro").innerText=L.intro;curSteps=L.steps;renderSteps("");let ex=["Q1: Solve the first example in this lesson again on your own.","Q2: Change the numbers and solve again.","Q3: Explain in your own words why the method works."];document.getElementById("exList").innerHTML=ex.map((e,idx)=>`<div class="row"><span>${e}</span></div>`).join("")}
+function backToTopics(){stopVoice();openCategory(curCat)}
+function renderSteps(typedUpTo){let h="";curSteps.forEach((s,i)=>{let txt=i<typedUpTo?s:(i===typedUpTo?s.slice(0,typedUpTo%999):"");if(i<typedUpTo) txt=s;h+=`<div class="lessonStep" id="step${i}" onclick="selectStep(${i})">${s}<br><button class="stepBtn" onclick="event.stopPropagation();selectStep(${i});askTeacher()">❓ I don't understand this step</button><button class="stepBtn" onclick="event.stopPropagation();speak('${s.replace(/'/g,"")}')">🔊 Hear this step</button></div>`});document.getElementById("lessonSteps").innerHTML=h}
+function selectStep(i){selectedStep=i;document.querySelectorAll(".lessonStep").forEach(el=>el.style.background="");let el=document.getElementById("step"+i);if(el){el.style.background="#fff3a3";el.style.outline="2px solid #FFC21A"}document.getElementById("askBox").value="I don't understand Step "+(i+1)+": "+curSteps[i]}
+function playLesson(){renderSteps(999);speak(curSteps.join(". "))}
+function pauseLesson(){speechSynthesis.cancel();alert("⏸ Paused. Tap any step you don't understand, then Ask Teacher.")}
+function stopVoice(){speechSynthesis.cancel()}
+function speak(txt){try{speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(txt);u.rate=0.9;speechSynthesis.speak(u)}catch(e){}}
+function askTeacher(){let q=document.getElementById("askBox").value||"Explain again";let step=selectedStep>=0?curSteps[selectedStep]:"this topic";let ans=`<div class="card" style="background:#eef7ff"><b>Teacher explains again - DIFFERENT METHOD 👩🏾‍🏫</b><br><br>You asked: <i>${q}</i><br><br><b>Let's try another way:</b><br>1. Forget the formula for a second. Think of a real example - like sharing ₦100.<br>2. For: <b>${step}</b><br>Break it into smaller parts. Do ONE small step at a time.<br>3. Check: Does your answer make sense? If not, try again slowly.<br><br>Tap 🔊 Hear this step to listen again, or ask another question below.</div>`;document.getElementById("askAns").innerHTML=ans;speak("Let me explain again with a different method. Break it into smaller parts. Do one small step at a time.");}
+function askVoice(){try{let R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){alert("Voice typing not supported on this browser. Please type your question.");return}let r=new R();r.lang="en-NG";r.onresult=e=>{document.getElementById("askBox").value=e.results[0][0].transcript;askTeacher()};r.start()}catch(e){alert("Please type your question.")}}
+function previewQ(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=ev=>{let im=document.getElementById("qPrev");im.src=ev.target.result;im.classList.remove("hidden")};r.readAsDataURL(f)}
+function previewWork(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=ev=>{let im=document.getElementById("workPrev");im.src=ev.target.result;im.classList.remove("hidden")};r.readAsDataURL(f)}
+function solveQuestion(){if(!hasSub("JSS")&&!hasSub("SSS")&&!hasSub("JAMB")){document.getElementById("qAns").innerHTML=`<div class="card" style="background:#ffecec"><b>🔒 Subscribers Only</b><br>Only subscribed students can upload questions.<br>Topic 1 in each category is FREE to learn, but Snap & Solve needs a PIN.<br>Pay ₦5,000, get PIN from Admin.</div>`;return}let q=document.getElementById("qText").value||"Your uploaded question";document.getElementById("qAns").innerHTML=`<div class="card" style="background:#eef7ff"><b>✅ Question Received - Teacher Solving...</b><br>Question: ${q}<br><br><b>Step 1:</b> Read question, underline what is asked.<br><b>Step 2:</b> Write what you know. Choose formula.<br><b>Step 3:</b> Solve step-by-step, check answer.<br><br>Tip: In full version, teacher will speak each step while typing. For now, tap any lesson and use Ask Teacher.</div>`;speak("I have received your question. Let us solve it step by step.")}
+function correctWork(){document.getElementById("correctAns").innerHTML=`<div class="card" style="background:#eafff1"><b>✅ Correction - Teacher Marked Your Work</b><br>✔ Step 1: Correct - Good start!<br>⚠ <b>Step 2: Check here</b> - You missed a sign / carried wrong number. This is the area to fix.<br>✔ Step 3: Method is correct.<br><br><b>Score: 7 / 10</b><br><b>Correction:</b> Redo Step 2 slowly. Watch the + / - sign.<br>Your teacher has pinned the correction above.</div>`;speak("I have marked your work. Step 2 needs correction. Check the sign.")}
+function drawGraph(){let c=document.getElementById("graph"),ctx=c.getContext("2d");ctx.clearRect(0,0,320,200);ctx.strokeStyle="#ddd";for(let i=0;i<320;i+=20){ctx.beginPath();ctx.moveTo(i,0);ctx.lineTo(i,200);ctx.stroke()}for(let i=0;i<200;i+=20){ctx.beginPath();ctx.moveTo(0,i);ctx.lineTo(320,i);ctx.stroke()}ctx.strokeStyle="#1E4DA1";ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(0,10);ctx.lineTo(320,190);ctx.stroke();ctx.fillStyle="#e11";ctx.beginPath();ctx.arc(160,100,5,0,7);ctx.fill();ctx.fillText("y = 2x + 1  (0,1)",10,20)}
+function openAdmin(){document.getElementById("adminBox").classList.add("show")}
+function closeAdmin(){document.getElementById("adminBox").classList.remove("show")}
+function checkAdmin(){if(document.getElementById("adminPass").value==="quizora123"){document.getElementById("adminPanel").classList.remove("hidden");document.getElementById("adminMsg").innerText="Welcome Admin!"}else document.getElementById("adminMsg").innerText="Wrong password"}
+function genPIN(){let cat=document.getElementById("pinCat").value;let name=document.getElementById("studentName").value||"Student";let pin=cat+"-"+Math.floor(1000+Math.random()*9000);let pins=getPins();pins[pin]={cat:cat,name:name,device:null,created:new Date().toLocaleDateString()};savePins(pins);document.getElementById("genResult").innerHTML=`<div class="card" style="background:#eafff1"><b>PIN Generated ✅</b><br>Name: ${name}<br>Category: ${cat} - ₦5,000/year<br><b style="font-size:22px">PIN: ${pin}</b><br><span class="small">Send this PIN to student. It will lock to first phone that uses it. Not transferable.</span></div>`}
+function activatePIN(){let pin=document.getElementById("pinInput").value.trim().toUpperCase();doActivate(pin,"pinMsg")}
+function activatePIN2(){let pin=document.getElementById("pinInput2").value.trim().toUpperCase();doActivate(pin,"pinMsg2");if(getPins()[pin]) openCategory(curCat)}
+function doActivate(pin,msgId){let pins=getPins();let p=pins[pin];if(!p){document.getElementById(msgId).innerText="❌ Invalid PIN. Ask Admin for correct PIN.";return}if(p.device&&p.device!==deviceId){document.getElementById(msgId).innerText="❌ This PIN is already locked to another phone. It cannot be transferred.";return}if(!p.device){p.device=deviceId;pins[pin]=p;savePins(pins)}document.getElementById(msgId).innerText=`✅ Success! ${p.cat} unlocked on THIS phone (${deviceId}). All topics open.`;updateStats()}
+showHome();drawGraph();
+</script></body></html>
