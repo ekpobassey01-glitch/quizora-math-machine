@@ -34,6 +34,7 @@ img.prev{width:100%;max-height:240px;object-fit:contain;border-radius:12px;margi
 .assignBox{background:#fef2f2;border:2px solid #dc2626;border-radius:14px;padding:16px}
 .assignItem{background:#fff;border:1px solid #fecaca;border-radius:10px;padding:12px;margin-top:10px}
 .photoBar{background:#f1f5f9;border:1px dashed #94a3b8;border-radius:12px;padding:12px;margin:8px 0}
+.photoLockedBox{background:#fff7ed;border:1.5px solid #f59e0b;border-radius:12px;padding:12px;margin:8px 0}
 .qCell{border:1px solid #cbd5e1;border-radius:12px;padding:12px;margin-bottom:10px;background:#f8fafc}
 .qCellTop{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
 .qCellActions{display:flex;gap:8px;margin-top:10px}
@@ -41,7 +42,7 @@ img.prev{width:100%;max-height:240px;object-fit:contain;border-radius:12px;margi
 <div id="adminBar" class="hidden topBar">👑 ADMIN • <button class="btn yellow" style="padding:4px 12px" onclick="goToAdminDash()">↩ Back to Admin</button> <button class="btn white" style="padding:4px 12px" onclick="adminLogout()">Logout</button></div>
 <header><div class="logo"><div class="m">M</div><div><b>Maths Machine</b><br><small>BECE • WAEC • NECO • JAMB Past Qs</small></div></div><div><button class="btn blue" onclick="showHome()">Home</button> <button class="btn purple" onclick="openAdmin()">Admin</button></div></header>
 
-<div id="home"><div class="hero"><div class="bigM">M</div><h2>Maths Machine</h2><p>Standard mathematical notation across BECE, WAEC, NECO &amp; JAMB past-question patterns, photo/snap solver, custom topic question bank, and admin question editor.</p><br><button class="btn yellow" style="width:100%;padding:14px" onclick="showSections()">Continue as Student →</button><br><br><button class="btn white" style="width:100%;padding:13px" onclick="openAdmin()">Login as Admin 🔐</button></div>
+<div id="home"><div class="hero"><div class="bigM">M</div><h2>Maths Machine</h2><p>Comprehensive step-by-step explanations with standard mathematical notation across BECE, WAEC, NECO &amp; JAMB past-question patterns, subscriber photo/snap solver, custom topic question bank, and admin question editor.</p><br><button class="btn yellow" style="width:100%;padding:14px" onclick="showSections()">Continue as Student →</button><br><br><button class="btn white" style="width:100%;padding:13px" onclick="openAdmin()">Login as Admin 🔐</button></div>
 <div class="wrap"><div class="card"><b>📚 Sections</b><br><br><div class="sec" onclick="openCategory('JSS')">📗 Junior Secondary (JS1–JS3 Terms 1–3 &amp; Junior WAEC / BECE)</div><div class="sec" onclick="openCategory('SSS')">📘 Senior Secondary (SS1–SS3 Terms 1–3 &amp; WAEC/NECO)</div><div class="sec" onclick="openCategory('JAMB')">🎯 JAMB Mathematics (Complete UTME Syllabus)</div></div>
 <div class="card warnBox">🔒 PIN RULE<br><span style="font-weight:400;color:#333;font-size:13px">1 PIN = 1 PHONE ONLY. NOT transferable. Expires after 1 month.</span></div></div><p style="text-align:center;color:#888;font-size:12px;padding:10px">Quizora Maths Machine • © 2026</p></div>
 
@@ -88,8 +89,8 @@ img.prev{width:100%;max-height:240px;object-fit:contain;border-radius:12px;margi
       </div>
 
       <div class="card">
-        <b>✍️ Whiteboard — Parameters → Formula Parts → Arithmetic → WHY Voice</b>
-        <p class="small">Lists parameters first, explains formula symbols before solving, writes arithmetic clearly, and erases side-work cleanly.</p><br>
+        <b>✍️ Whiteboard — Extended Walkthrough: Parameters → Rule &amp; Symbols → Deep Steps → Pitfalls &amp; Check</b>
+        <p class="small">Breaks down every parameter, explains formula symbols before solving, shows complete working &amp; arithmetic, highlights common exam traps, and erases side-work cleanly.</p><br>
         <div class="boardWrap">
           <canvas id="whiteboard" width="560" height="460"></canvas>
           <div class="marker" id="marker">🖊️</div>
@@ -110,22 +111,30 @@ img.prev{width:100%;max-height:240px;object-fit:contain;border-radius:12px;margi
         <p class="small" id="nowReading">Now explaining: —</p>
 
         <div style="margin-top:14px;padding-top:14px;border-top:1px solid #eee">
-          <b>📸 Snap / Upload Photo or Type Any Question to Solve</b>
-          <div class="photoBar">
+          <b>❓ Ask About This Question or Type Your Own Question</b>
+
+          <div id="photoSubscriberControls" class="photoBar">
             <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <button type="button" class="btn blue" style="flex:1" onclick="document.getElementById('snapInput').click()">📷 Snap Question</button>
-              <button type="button" class="btn white" style="flex:1" onclick="document.getElementById('uploadPhotoInput').click()">🖼️ Upload Photo</button>
+              <button type="button" class="btn blue" style="flex:1" onclick="triggerPhotoInput('snapInput')">📷 Snap Question</button>
+              <button type="button" class="btn white" style="flex:1" onclick="triggerPhotoInput('uploadPhotoInput')">🖼️ Upload Photo</button>
               <button type="button" class="btn white" onclick="clearPhotoPreview()">✕ Clear Photo</button>
             </div>
             <input id="snapInput" type="file" accept="image/*" capture="environment" class="hidden" onchange="onPhotoSelected(this)">
             <input id="uploadPhotoInput" type="file" accept="image/*" class="hidden" onchange="onPhotoSelected(this)">
             <img id="photoPreview" class="prev hidden" alt="Uploaded question photo">
-            <p class="small" id="photoStatus" style="margin-top:6px">Snap or upload a question image, then type/edit the question below to solve with full explanation.</p>
+            <p class="small" id="photoStatus" style="margin-top:6px">Subscriber perk: Snap or upload a question image, type/confirm the question below, and solve with an extended step-by-step explanation.</p>
           </div>
-          <textarea id="askBox" placeholder="Type any maths question (or what is on your snapped/uploaded photo) or ask why a step works..."></textarea>
+
+          <div id="photoLockedNotice" class="photoLockedBox hidden">
+            <b>🔒 Photo Snap &amp; Upload — Subscribers Only</b>
+            <p class="small" style="color:#78350f;margin:4px 0 8px">Snapping or uploading photos to solve questions is available only to active monthly subscribers (₦5,000 / month). You can still type questions below.</p>
+            <button type="button" class="btn yellow" style="padding:8px 14px;font-size:13px" onclick="goToSubscribeForPhoto()">🔓 Subscribe / Enter PIN to Unlock Photo Solver</button>
+          </div>
+
+          <textarea id="askBox" placeholder="Type any maths question or ask why a step works..."></textarea>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button class="btn yellow" style="flex:1" onclick="askTeacher()">Ask Teacher — Explain WHY</button>
-            <button class="btn green" style="flex:1" onclick="solveQuestion()">Solve Question + Explanation →</button>
+            <button class="btn yellow" style="flex:1" onclick="askTeacher()">Ask Teacher — Explain WHY &amp; Pitfalls</button>
+            <button class="btn green" style="flex:1" onclick="solveQuestion()">Solve Question + Full Explanation →</button>
             <button class="btn white" onclick="askVoice()">🎙️ Voice</button>
           </div>
           <div id="askAns"></div>
@@ -382,7 +391,6 @@ JAMB:[
 ]
 };
 
-// Custom saved question bank (persisted in localStorage)
 function getCustomBank(){
   try{ return JSON.parse(localStorage.getItem("customQuestionBank_v1") || "[]"); }
   catch(e){ return []; }
@@ -395,28 +403,43 @@ function getTopicCustomList(cat, topic, mode){
 }
 
 function customItemToQuestion(item, idx){
+  const ansText = item.answer || "Apply the topic rule systematically and simplify carefully.";
+  const formText = item.formula || "Identify the relevant mathematical rule or relationship for this topic";
   return {
     title: item.q,
-    params: [{ sym: item.q, meaning: "given problem statement", why: "Extract known values and target quantity from the question." }],
+    params: [
+      { sym: item.q, meaning: "problem statement to solve", why: "Read every word and symbol carefully so no condition or unit is missed." },
+      { sym: `Topic: ${item.topic}`, meaning: "syllabus context", why: "Connecting the question to its topic tells us which rules and standard methods apply." }
+    ],
     formula: {
-      eq: item.formula || "Applicable Topic Rule",
-      parts: [{ part: "Rule", desc: item.formula || "standard mathematical relation for this topic" }]
+      eq: formText,
+      parts: [
+        { part: "Rule / Formula", desc: formText },
+        { part: "Goal", desc: "isolate the unknown or compute the required value cleanly" }
+      ]
     },
     steps: [
       {
-        line: item.answer || "Apply the rule step by step to obtain the answer",
-        why: "Follow standard order of operations and check each calculation.",
-        arith: item.answer || "Verify arithmetic carefully."
+        line: `Set up the problem using: ${formText}`,
+        why: "Writing the governing rule first keeps our working structured and prevents skipped steps.",
+        arith: `Substitute given values into ${formText}.`
+      },
+      {
+        line: `Working & Result: ${ansText}`,
+        why: "Carry out each operation in order and verify signs, brackets, and units.",
+        arith: ansText
       }
     ],
+    pitfall: "Common mistake: rushing through arithmetic or ignoring signs/units. Always re-check each step before writing the final answer.",
+    check: `Re-read the question and verify that ${ansText} satisfies all conditions given.`,
     source: `${item.examTag || "CUSTOM"} (Saved Question) • ${item.topic}`,
     examTag: item.examTag || "CUSTOM",
     key: topicKey(item.topic),
     idx,
     diagram: "none",
     diagramLabel: "",
-    sideWorkLines: [item.formula || "Check working"],
-    sideWorkExpl: "Let me verify the working on the board, then erase it.",
+    sideWorkLines: [formText, ansText],
+    sideWorkExpl: "Let me check the working and verification on the board, then erase them.",
     isCustomSaved: true,
     customId: item.id
   };
@@ -543,9 +566,51 @@ function renderSavedQuestionCells(){
   document.getElementById("savedQuestionsCells").innerHTML = html;
 }
 
-// Photo upload / snap handlers
+// Photo upload / snap handlers (STRICTLY FOR SUBSCRIBERS / ADMIN)
 let attachedPhotoData = "";
+
+function canUsePhotoSolver(){
+  return Boolean(isAdmin() || hasSub(curCat));
+}
+
+function updatePhotoAccessUI(){
+  const unlocked = canUsePhotoSolver();
+  const controls = document.getElementById("photoSubscriberControls");
+  const notice = document.getElementById("photoLockedNotice");
+  if(controls) controls.classList.toggle("hidden", !unlocked);
+  if(notice) notice.classList.toggle("hidden", unlocked);
+  if(!unlocked){
+    clearPhotoPreview();
+  }
+}
+
+function triggerPhotoInput(inputId){
+  if(!canUsePhotoSolver()){
+    updatePhotoAccessUI();
+    alert("🔒 Photo Snap & Upload is only available to active subscribers.\n\nSubscribe for ₦5,000 / MONTH or enter an active PIN to unlock photo snapping & uploading.");
+    return;
+  }
+  const el = document.getElementById(inputId);
+  if(el) el.click();
+}
+
+function goToSubscribeForPhoto(){
+  cancelAllPlayback();
+  openCategory(curCat);
+  setTimeout(()=>{
+    const pc = document.getElementById("payCard");
+    if(pc) pc.scrollIntoView({behavior:"smooth"});
+  }, 80);
+}
+
 function onPhotoSelected(input){
+  if(!canUsePhotoSolver()){
+    input.value = "";
+    clearPhotoPreview();
+    updatePhotoAccessUI();
+    alert("🔒 Photo Snap & Upload is only for subscribed students.");
+    return;
+  }
   const file = input.files && input.files[0];
   if(!file) return;
   const reader = new FileReader();
@@ -554,18 +619,24 @@ function onPhotoSelected(input){
     const img = document.getElementById("photoPreview");
     img.src = attachedPhotoData;
     img.classList.remove("hidden");
-    document.getElementById("photoStatus").innerText = `📷 Photo attached (${file.name}). Type or confirm the question text below, then click "Solve Question + Explanation →".`;
+    document.getElementById("photoStatus").innerText = `📷 Photo attached (${file.name}). Type or confirm the question text below, then click "Solve Question + Full Explanation →".`;
   };
   reader.readAsDataURL(file);
 }
+
 function clearPhotoPreview(){
   attachedPhotoData = "";
-  document.getElementById("snapInput").value = "";
-  document.getElementById("uploadPhotoInput").value = "";
+  const s = document.getElementById("snapInput");
+  const u = document.getElementById("uploadPhotoInput");
+  if(s) s.value = "";
+  if(u) u.value = "";
   const img = document.getElementById("photoPreview");
-  img.src = "";
-  img.classList.add("hidden");
-  document.getElementById("photoStatus").innerText = "Snap or upload a question image, then type/edit the question below to solve with full explanation.";
+  if(img){
+    img.src = "";
+    img.classList.add("hidden");
+  }
+  const st = document.getElementById("photoStatus");
+  if(st) st.innerText = "Subscriber perk: Snap or upload a question image, type/confirm the question below, and solve with an extended step-by-step explanation.";
 }
 
 function toSup(n){
@@ -624,14 +695,16 @@ function pickExamYear(cat, rng, idx){
   return yrs[(idx + Math.floor(rng()*yrs.length)) % yrs.length];
 }
 
-function makeStructuredQ(q, params, formula, steps, diagram, label, sideWorkLines, sideWorkExpl, examTag){
+function makeStructuredQ(q, params, formula, steps, diagram, label, sideWorkLines, sideWorkExpl, examTag, pitfall, check){
   return {
     q, params, formula, steps,
     diagram: diagram || "none",
     label: label || "",
     sideWorkLines: sideWorkLines || null,
     sideWorkExpl: sideWorkExpl || "",
-    examTag: examTag || "WAEC 2023"
+    examTag: examTag || "WAEC 2023",
+    pitfall: pitfall || "Watch out for sign mistakes, wrong order of operations, or forgetting units.",
+    check: check || "Substitute your result back into the rule to confirm it makes mathematical sense."
   };
 }
 
@@ -642,13 +715,18 @@ function genCountingPlaceQ(rng, idx, examTag){
     const numStr = `${b},${String(m).padStart(3,"0")},${String(k).padStart(3,"0")},${String(u).padStart(3,"0")}`;
     return makeStructuredQ(
       `Write in figures: ${b} billion, ${m} million, ${k} thousand and ${u}. State the place value of ${b}.`,
-      [{ sym: `${b} billion = ${b},000,000,000`, meaning: "billions place", why: "1 billion = 10⁹ (9 zeros)." }, { sym: `${m}M, ${k}K, ${u}`, meaning: "millions, thousands, and units groups", why: "Each group fills 3 digits." }],
-      { eq: `Figures = Billions + Millions + Thousands + Units`, parts: [{ part: "Billions", desc: `${b} in the billions position` }, { part: "Place value", desc: `digit × 10⁹` }] },
       [
-        { line: `In figures = ${numStr}`, why: "Combine place groups from left to right.", arith: `${b}000000000 + ${m}000000 + ${k}000 + ${u} = ${numStr}` },
-        { line: `Place value of ${b} = ${b} billion`, why: `There are 9 digits after ${b}.`, arith: `${b} × 10⁹ = ${b},000,000,000` }
+        { sym: `${b} billion = ${b},000,000,000`, meaning: "billions place", why: "In standard place value, 1 billion = 10⁹, which has 9 zeros after the leading digit." },
+        { sym: `${m}M, ${k}K, ${u}`, meaning: "millions, thousands, and units groups", why: "Each group occupies 3 digits; missing hundreds or tens get a 0 placeholder so columns stay aligned." }
       ],
-      "none", "", [`${b} × 10⁹ = ${b},000,000,000`], "Let me check the place value on the board, then erase it.", examTag
+      { eq: `Figures = Billions + Millions + Thousands + Units`, parts: [{ part: "Billions", desc: `${b} in the billions column (× 10⁹)` }, { part: "Place value", desc: `digit × positional value of its column` }] },
+      [
+        { line: `Assemble groups: ${b},000,000,000 + ${m},000,000 + ${k},000 + ${u}`, why: "Line up each group carefully from highest place value on the left to units on the right.", arith: `${b}000000000 + ${m}000000 + ${k}000 + ${u} = ${numStr}` },
+        { line: `In figures = ${numStr};  Place value of ${b} = ${b} billion`, why: `Because ${b} sits in the billions slot (9 digits after it), its place value is ${b} × 10⁹.`, arith: `${b} × 10⁹ = ${b},000,000,000` }
+      ],
+      "none", "", [`${b} × 10⁹ = ${b},000,000,000`, `Sum = ${numStr}`], "Let me verify the place-value columns on the board, then erase them.", examTag,
+      "Students often drop a zero when a number has fewer than 3 digits in the thousands or hundreds group.",
+      `Count the digits in ${numStr}: billions (${b}), millions (${String(m).padStart(3,"0")}), thousands (${String(k).padStart(3,"0")}), units (${String(u).padStart(3,"0")}).`
     );
   }
   if(pat === 1){
@@ -656,10 +734,15 @@ function genCountingPlaceQ(rng, idx, examTag){
     const item = pick(rng, romans);
     return makeStructuredQ(
       `Convert the Roman numeral ${item.r} to Hindu-Arabic numeral.`,
-      [{ sym: `Roman = ${item.r}`, meaning: "Roman numeral value", why: `Split into ${item.br}.` }],
-      { eq: `Value = Sum of Roman groups`, parts: [{ part: "Groups", desc: item.br }] },
-      [{ line: `${item.r} = ${item.br} = ${item.v}`, why: "Add each Roman group together.", arith: `${item.br} = ${item.v}` }],
-      "none", "", [`${item.br} = ${item.v}`], "Let me add the Roman parts on the board, then erase them.", examTag
+      [{ sym: `Roman = ${item.r}`, meaning: "Roman numeral expression", why: `In Roman numerals, a smaller symbol placed before a larger one means subtraction (such as CD = 400, CM = 900, XL = 40), while a smaller symbol after means addition.` }],
+      { eq: `Value = Sum of Roman place groups`, parts: [{ part: "Subtractive/Additive pairs", desc: `broken into ${item.br}` }] },
+      [
+        { line: `Break ${item.r} into parts: ${item.br}`, why: "Separate hundreds, tens, and units groups before adding.", arith: `Parts = ${item.br}` },
+        { line: `${item.r} = ${item.br} = ${item.v}`, why: "Add all parts together to get the Hindu-Arabic value.", arith: `${item.br} = ${item.v}` }
+      ],
+      "none", "", [`${item.br} = ${item.v}`], "Let me add the Roman parts on the board, then erase them.", examTag,
+      "Do not treat every letter independently without checking subtractive pairs like CM (900) or CD (400).",
+      `Converting ${item.v} back into Roman numerals gives ${item.r}.`
     );
   }
   if(pat === 2){
@@ -667,19 +750,32 @@ function genCountingPlaceQ(rng, idx, examTag){
     const d = String(val)[2], z = String(val).length - 3, pv = Number(d) * Math.pow(10, z);
     return makeStructuredQ(
       `Find the place value of the digit ${d} in ${val.toLocaleString()}.`,
-      [{ sym: `Digit = ${d}, n = ${z}`, meaning: "target digit and digits after it", why: `Place multiplier = 10${toSup(z)}.` }],
-      { eq: `Place Value = Digit × 10ⁿ`, parts: [{ part: "Digit", desc: d }, { part: "n", desc: `${z} digits to its right` }] },
-      [{ line: `Place value = ${pv.toLocaleString()}`, why: `Multiply ${d} by 10${toSup(z)}.`, arith: `${d} × 10${toSup(z)} = ${pv.toLocaleString()}` }],
-      "none", "", [`${d} × 10${toSup(z)} = ${pv.toLocaleString()}`], "Let me count the trailing digits on the board, then erase them.", examTag
+      [{ sym: `Digit = ${d}, n = ${z}`, meaning: "target digit and number of digits to its right", why: `Each step to the left multiplies column value by 10, so ${z} digits after ${d} gives multiplier 10${toSup(z)}.` }],
+      { eq: `Place Value = Digit × 10ⁿ`, parts: [{ part: "Digit", desc: `${d} (face value)` }, { part: "n", desc: `${z} digits to the right of ${d}` }] },
+      [
+        { line: `Count ${z} digits after ${d}  ⇒  multiplier = 10${toSup(z)}`, why: "Place value depends on position, not just the face value of the digit.", arith: `10${toSup(z)} = ${Math.pow(10,z).toLocaleString()}` },
+        { line: `Place value = ${d} × 10${toSup(z)} = ${pv.toLocaleString()}`, why: `Multiply the digit ${d} by its column value.`, arith: `${d} × ${Math.pow(10,z).toLocaleString()} = ${pv.toLocaleString()}` }
+      ],
+      "none", "", [`${d} × 10${toSup(z)} = ${pv.toLocaleString()}`], "Let me count the trailing digits on the board, then erase them.", examTag,
+      "Do not confuse face value (the digit itself) with place value (the digit multiplied by its column).",
+      `${pv.toLocaleString()} matches the exact contribution of ${d} in ${val.toLocaleString()}.`
     );
   }
   const a = rInt(rng, 1200000, 4500000), b = rInt(rng, 500000, 1800000);
   return makeStructuredQ(
     `Total funds are ₦${(a+b).toLocaleString()}. If ₦${b.toLocaleString()} is spent, how much remains?`,
-    [{ sym: `Total = ₦${(a+b).toLocaleString()}, Spent = ₦${b.toLocaleString()}`, meaning: "initial total and amount spent", why: "Remaining = Total − Spent." }],
-    { eq: `Remaining = Total − Spent`, parts: [{ part: "Total", desc: "starting sum" }, { part: "Spent", desc: "amount removed" }] },
-    [{ line: `Remaining = ₦${a.toLocaleString()}`, why: "Subtract spent amount from total.", arith: `${a+b} − ${b} = ${a}` }],
-    "none", "", [`${a+b} − ${b} = ${a}`], "Let me subtract on the board, then erase it.", examTag
+    [
+      { sym: `Total = ₦${(a+b).toLocaleString()}`, meaning: "starting amount of money", why: "This is the whole quantity before any deduction." },
+      { sym: `Spent = ₦${b.toLocaleString()}`, meaning: "amount taken away", why: "Spending reduces the available total, so we subtract." }
+    ],
+    { eq: `Remaining = Total − Spent`, parts: [{ part: "Total", desc: "initial amount" }, { part: "Spent", desc: "amount deducted" }] },
+    [
+      { line: `Set up subtraction: ₦${(a+b).toLocaleString()} − ₦${b.toLocaleString()}`, why: "Align digits by place value (units under units, tens under tens, etc.).", arith: `${a+b} − ${b} = ${a}` },
+      { line: `Remaining = ₦${a.toLocaleString()}`, why: "State the final balance clearly with the Naira symbol (₦).", arith: `${a} + ${b} = ${a+b}` }
+    ],
+    "none", "", [`${a+b} − ${b} = ${a}`], "Let me subtract on the board, then erase it.", examTag,
+    "Avoid borrowing errors across zeros when subtracting large multi-digit amounts.",
+    `Adding remaining ₦${a.toLocaleString()} and spent ₦${b.toLocaleString()} returns total ₦${(a+b).toLocaleString()}.`
   );
 }
 
@@ -689,39 +785,59 @@ function genBodmasQ(rng, idx, examTag){
     const a = rInt(rng, 6, 12), b = rInt(rng, 2, 5), c = rInt(rng, 3, 7), d = rInt(rng, 4, 10), mult = a*b;
     return makeStructuredQ(
       `Simplify using BODMAS: ${d} + ${a} × ${b} − ${c}.`,
-      [{ sym: `${a} × ${b}`, meaning: "multiplication done before + and −", why: `${a} × ${b} = ${mult}.` }],
-      { eq: `Brackets → Of → Division/Multiplication → Addition/Subtraction`, parts: [{ part: "×", desc: "before + and −" }, { part: "+ and −", desc: "left to right" }] },
-      [{ line: `= ${d} + ${mult} − ${c} = ${d + mult - c}`, why: `Multiply ${a} × ${b} = ${mult} first, then add and subtract left to right.`, arith: `${a} × ${b} = ${mult};  ${d} + ${mult} = ${d+mult};  ${d+mult} − ${c} = ${d+mult-c}` }],
-      "none", "", [`${a} × ${b} = ${mult}`, `${d+mult} − ${c} = ${d+mult-c}`], "Let me check BODMAS order on the board, then erase it.", examTag
+      [{ sym: `${a} × ${b}`, meaning: "multiplication term", why: "In BODMAS, Multiplication comes before Addition and Subtraction, so we evaluate this product first." }],
+      { eq: `Brackets → Of → Division/Multiplication → Addition/Subtraction`, parts: [{ part: "×", desc: "evaluated before + and −" }, { part: "+ and −", desc: "worked from left to right" }] },
+      [
+        { line: `First multiply: ${a} × ${b} = ${mult}  ⇒  ${d} + ${mult} − ${c}`, why: "Multiplication binds tighter than + or −.", arith: `${a} × ${b} = ${mult}` },
+        { line: `Left to right: ${d} + ${mult} = ${d+mult}, then ${d+mult} − ${c} = ${d+mult-c}`, why: "Once only + and − remain, work cleanly from left to right.", arith: `${d} + ${mult} = ${d+mult};  ${d+mult} − ${c} = ${d+mult-c}` }
+      ],
+      "none", "", [`${a} × ${b} = ${mult}`, `${d+mult} − ${c} = ${d+mult-c}`], "Let me check BODMAS order on the board, then erase it.", examTag,
+      "A common mistake is adding left-to-right first (doing + before ×).",
+      `Working from left to right after × gives ${d + mult - c}.`
     );
   }
   if(pat === 1){
     const x = rInt(rng, 4, 9), y = rInt(rng, 2, 5), dv = rInt(rng, 2, 4), m2 = dv * rInt(rng, 2, 4), br = x + y;
     return makeStructuredQ(
       `Evaluate using BODMAS: (${x} + ${y}) × ${dv} − ${m2} ÷ ${dv}.`,
-      [{ sym: `(${x} + ${y})`, meaning: "bracket evaluated first", why: `${x} + ${y} = ${br}.` }],
-      { eq: `B → D/M → A/S`, parts: [{ part: "B", desc: `bracket (${br})` }, { part: "D/M", desc: "÷ and ×" }] },
-      [{ line: `= ${br*dv} − ${m2/dv} = ${br*dv - m2/dv}`, why: `Bracket first (${br}), then ${br} × ${dv} = ${br*dv} and ${m2} ÷ ${dv} = ${m2/dv}.`, arith: `${br} × ${dv} = ${br*dv};  ${m2} ÷ ${dv} = ${m2/dv};  ${br*dv} − ${m2/dv} = ${br*dv - m2/dv}` }],
-      "none", "", [`${br} × ${dv} = ${br*dv}`, `${m2} ÷ ${dv} = ${m2/dv}`], "Let me compute each BODMAS group on the board, then erase it.", examTag
+      [{ sym: `(${x} + ${y})`, meaning: "expression inside brackets", why: "Brackets (B) always come first so we get a single number before multiplying." }],
+      { eq: `B → D/M → A/S`, parts: [{ part: "B", desc: `bracket (${x} + ${y} = ${br})` }, { part: "D/M", desc: "multiplication and division" }, { part: "A/S", desc: "final subtraction" }] },
+      [
+        { line: `Bracket first: ${x} + ${y} = ${br}  ⇒  ${br} × ${dv} − ${m2} ÷ ${dv}`, why: "Simplify inside parentheses before applying × or ÷.", arith: `${x} + ${y} = ${br}` },
+        { line: `Multiply & divide: (${br} × ${dv}) − (${m2} ÷ ${dv}) = ${br*dv} − ${m2/dv} = ${br*dv - m2/dv}`, why: "Complete × and ÷ before subtracting.", arith: `${br} × ${dv} = ${br*dv};  ${m2} ÷ ${dv} = ${m2/dv};  ${br*dv} − ${m2/dv} = ${br*dv - m2/dv}` }
+      ],
+      "none", "", [`${br} × ${dv} = ${br*dv}`, `${m2} ÷ ${dv} = ${m2/dv}`], "Let me compute each BODMAS group on the board, then erase it.", examTag,
+      "Do not subtract before finishing both the multiplication and division parts.",
+      `${br*dv - m2/dv} + ${m2/dv} = ${br*dv}, which matches ${br} × ${dv}.`
     );
   }
   if(pat === 2){
     const half = rInt(rng, 6, 15) * 2, m1 = rInt(rng, 2, 5), m2 = rInt(rng, 3, 6), ans = half/2 + m1*m2;
     return makeStructuredQ(
       `Calculate using BODMAS: ½ of ${half} + ${m1} × ${m2}.`,
-      [{ sym: `½ of ${half}`, meaning: "½ multiplied by ${half}", why: `${half} ÷ 2 = ${half/2}.` }],
+      [{ sym: `½ of ${half}`, meaning: "fraction 'of' a quantity", why: "In BODMAS, 'Of' means multiplication and comes before ordinary +." }],
       { eq: `Of & Multiplication → Addition`, parts: [{ part: "½ of N", desc: "N ÷ 2" }, { part: "×", desc: `${m1} × ${m2}` }] },
-      [{ line: `= ${half/2} + ${m1*m2} = ${ans}`, why: `Evaluate 'of' (${half/2}) and product (${m1*m2}), then add.`, arith: `${half} ÷ 2 = ${half/2};  ${m1} × ${m2} = ${m1*m2};  sum = ${ans}` }],
-      "none", "", [`${half} ÷ 2 = ${half/2}`, `${m1} × ${m2} = ${m1*m2}`], "Let me evaluate 'of' and multiplication on the board, then erase them.", examTag
+      [
+        { line: `½ of ${half} = ${half} ÷ 2 = ${half/2}`, why: "Taking half of a number divides it by 2.", arith: `${half} ÷ 2 = ${half/2}` },
+        { line: `${m1} × ${m2} = ${m1*m2};  Total = ${half/2} + ${m1*m2} = ${ans}`, why: "Add the two separate results together.", arith: `${m1} × ${m2} = ${m1*m2};  ${half/2} + ${m1*m2} = ${ans}` }
+      ],
+      "none", "", [`${half} ÷ 2 = ${half/2}`, `${m1} × ${m2} = ${m1*m2}`], "Let me evaluate 'of' and multiplication on the board, then erase them.", examTag,
+      "Do not add ½ to the next number before taking half of the given total.",
+      `${ans} − ${m1*m2} = ${half/2}, which is half of ${half}.`
     );
   }
   const d = rInt(rng, 3, 6), q = rInt(rng, 4, 9), a = rInt(rng, 5, 12), s = rInt(rng, 2, 6), divEnd = d*q;
   return makeStructuredQ(
     `Simplify: ${a} + ${divEnd} ÷ ${d} − ${s}.`,
-    [{ sym: `${divEnd} ÷ ${d}`, meaning: "division done before + and −", why: `${divEnd} ÷ ${d} = ${q}.` }],
+    [{ sym: `${divEnd} ÷ ${d}`, meaning: "division expression", why: "Division (D) comes before Addition and Subtraction." }],
     { eq: `Division → Addition → Subtraction`, parts: [{ part: "÷", desc: `${divEnd} ÷ ${d} = ${q}` }] },
-    [{ line: `= ${a + q - s}`, why: `Divide ${divEnd} ÷ ${d} = ${q}, add ${a}, then subtract ${s}.`, arith: `${a} + ${q} = ${a+q};  ${a+q} − ${s} = ${a+q-s}` }],
-    "none", "", [`${divEnd} ÷ ${d} = ${q}`, `${a+q} − ${s} = ${a+q-s}`], "Let me show the division step on the board, then erase it.", examTag
+    [
+      { line: `Divide first: ${divEnd} ÷ ${d} = ${q}  ⇒  ${a} + ${q} − ${s}`, why: "Division is performed ahead of + and −.", arith: `${divEnd} ÷ ${d} = ${q}` },
+      { line: `Simplify: ${a} + ${q} = ${a+q}, then ${a+q} − ${s} = ${a + q - s}`, why: "Add then subtract in order from left to right.", arith: `${a} + ${q} = ${a+q};  ${a+q} − ${s} = ${a+q-s}` }
+    ],
+    "none", "", [`${divEnd} ÷ ${d} = ${q}`, `${a+q} − ${s} = ${a+q-s}`], "Let me show the division step on the board, then erase it.", examTag,
+    "Do not add before dividing.",
+    `${a + q - s} + ${s} − ${a} = ${q}, which equals ${divEnd} ÷ ${d}.`
   );
 }
 
@@ -730,30 +846,48 @@ function genFactorsHcfLcmQ(rng, idx, examTag){
   if(idx % 2 === 0){
     return makeStructuredQ(
       `Two numbers have HCF = ${hcf} and LCM = ${lcm}. If one number is ${a}, find n.`,
-      [{ sym: `HCF = ${hcf}, LCM = ${lcm}, First = ${a}`, meaning: "given HCF, LCM, and first number", why: `${a} × n = ${hcf} × ${lcm}.` }],
-      { eq: `n = (HCF × LCM) ÷ First`, parts: [{ part: "HCF × LCM", desc: "product of both numbers" }] },
-      [{ line: `n = (${hcf} × ${lcm}) ÷ ${a} = ${b}`, why: `Multiply HCF and LCM, then divide by ${a}.`, arith: `${hcf*lcm} ÷ ${a} = ${b}` }],
-      "none", "", [`${hcf*lcm} ÷ ${a} = ${b}`], "Let me solve for n on the board, then erase it.", examTag
+      [{ sym: `HCF = ${hcf}, LCM = ${lcm}, First = ${a}`, meaning: "highest common factor, lowest common multiple, and one number", why: "For any two positive integers, the product of the two numbers equals HCF × LCM." }],
+      { eq: `n = (HCF × LCM) ÷ First`, parts: [{ part: "HCF × LCM", desc: "product of both numbers" }, { part: "÷ First", desc: "divides out the known number" }] },
+      [
+        { line: `Multiply HCF × LCM: ${hcf} × ${lcm} = ${hcf*lcm}`, why: "First find the product of both numbers.", arith: `${hcf} × ${lcm} = ${hcf*lcm}` },
+        { line: `Divide by ${a}: n = ${hcf*lcm} ÷ ${a} = ${b}`, why: "Divide the product by the given number to isolate n.", arith: `${hcf*lcm} ÷ ${a} = ${b}` }
+      ],
+      "none", "", [`${hcf} × ${lcm} = ${hcf*lcm}`, `${hcf*lcm} ÷ ${a} = ${b}`], "Let me solve for n on the board, then erase it.", examTag,
+      "Do not add HCF and LCM; use multiplication (HCF × LCM).",
+      `Check: ${a} × ${b} = ${a*b}, which equals ${hcf} × ${lcm}.`
     );
   }
   return makeStructuredQ(
     `Express ${a*b} as a product of prime factors in index form.`,
-    [{ sym: `Number = ${a*b}`, meaning: "composite integer", why: "Divide repeatedly by prime factors (2, 3, 5...)." }],
-    { eq: `N = p₁ᵃ × p₂ᵇ ...`, parts: [{ part: "p₁, p₂", desc: "prime bases" }, { part: "a, b", desc: "positive integer indices" }] },
-    [{ line: `${a*b} = 2² × 3³ × ...`, why: "Group repeated prime factors using indices.", arith: `2² = 4;  3³ = 27` }],
-    "none", "", ["2² = 4, 3³ = 27"], "Let me write the prime factorisation on the board, then erase it.", examTag
+    [{ sym: `Number = ${a*b}`, meaning: "target integer to factorise", why: "Prime numbers (2, 3, 5, 7, 11...) are numbers with only two factors: 1 and themselves." }],
+    { eq: `N = p₁ᵃ × p₂ᵇ ...`, parts: [{ part: "p₁, p₂", desc: "prime bases" }, { part: "a, b", desc: "indices showing how many times each prime repeats" }] },
+    [
+      { line: `Divide repeatedly by prime factors starting from the smallest prime`, why: "Keep dividing until the quotient is 1.", arith: `2² = 4;  3³ = 27` },
+      { line: `Write repeated factors using powers (indices)`, why: "Index form is compact and makes HCF/LCM easy to spot.", arith: `Product of primes = ${a*b}` }
+    ],
+    "none", "", ["2² = 4, 3³ = 27"], "Let me write the prime factorisation on the board, then erase it.", examTag,
+    "Make sure every base in the final product is prime (for example, use 2 × 2 instead of 4).",
+    `Multiplying out the prime powers gives back ${a*b}.`
   );
 }
 
 function genRatioPropQ(rng, idx, examTag){
   const r1 = rInt(rng, 2, 5), r2 = rInt(rng, 3, 6), totalRatio = r1 + r2, shareUnit = rInt(rng, 200, 600), totalAmt = totalRatio * shareUnit;
-  const hi = Math.max(r1, r2);
+  const hi = Math.max(r1, r2), lo = Math.min(r1, r2);
   return makeStructuredQ(
     `Divide ₦${totalAmt} in the ratio ${r1} : ${r2}. Find the larger share.`,
-    [{ sym: `Ratio = ${r1} : ${r2}, Total = ₦${totalAmt}`, meaning: "ratio parts and total amount", why: `Total parts = ${r1} + ${r2} = ${totalRatio}.` }],
-    { eq: `Share = (Part ÷ Total Parts) × Total Amount`, parts: [{ part: "Part", desc: `${hi} (larger ratio part)` }, { part: "Total Parts", desc: `${totalRatio}` }] },
-    [{ line: `Larger share = (${hi} ÷ ${totalRatio}) × ${totalAmt} = ₦${hi*shareUnit}`, why: `Each part = ₦${shareUnit}; multiply by ${hi}.`, arith: `${totalAmt} ÷ ${totalRatio} = ${shareUnit};  ${shareUnit} × ${hi} = ${hi*shareUnit}` }],
-    "none", "", [`${totalAmt} ÷ ${totalRatio} = ${shareUnit}`], "Let me find one ratio part on the board, then erase it.", examTag
+    [
+      { sym: `Ratio = ${r1} : ${r2}`, meaning: "proportional parts", why: `Adding the parts (${r1} + ${r2} = ${totalRatio}) gives the total number of equal shares.` },
+      { sym: `Total = ₦${totalAmt}`, meaning: "full amount to share", why: "Dividing the total amount by total ratio parts gives the value of 1 share." }
+    ],
+    { eq: `Share = (Part ÷ Total Parts) × Total Amount`, parts: [{ part: "Part", desc: `${hi} (larger ratio share)` }, { part: "Total Parts", desc: `${totalRatio}` }] },
+    [
+      { line: `Total ratio parts = ${r1} + ${r2} = ${totalRatio};  1 share = ₦${totalAmt} ÷ ${totalRatio} = ₦${shareUnit}`, why: "Find the value of one single part first.", arith: `${totalAmt} ÷ ${totalRatio} = ${shareUnit}` },
+      { line: `Larger share = ${hi} × ₦${shareUnit} = ₦${hi*shareUnit}`, why: `Multiply one part by the larger ratio number (${hi}).`, arith: `${shareUnit} × ${hi} = ${hi*shareUnit}` }
+    ],
+    "none", "", [`${totalAmt} ÷ ${totalRatio} = ${shareUnit}`, `${hi*shareUnit} + ${lo*shareUnit} = ${totalAmt}`], "Let me find one ratio part on the board, then erase it.", examTag,
+    "Do not divide by only one part of the ratio—divide by the sum of all ratio parts.",
+    `Larger share (₦${hi*shareUnit}) + smaller share (₦${lo*shareUnit}) = ₦${totalAmt}.`
   );
 }
 
@@ -761,10 +895,15 @@ function genFractionsDecQ(rng, idx, examTag){
   const pct = pick(rng, [15, 20, 25, 40]), amt = rInt(rng, 2, 8) * 100, ans = (pct * amt) / 100;
   return makeStructuredQ(
     `Find ${pct}% of ${amt}.`,
-    [{ sym: `${pct}%, Total = ${amt}`, meaning: "percentage rate and whole amount", why: `${pct}% = ${pct} ÷ 100.` }],
+    [{ sym: `${pct}%, Total = ${amt}`, meaning: "percentage rate and base amount", why: "Percent means 'out of 100', so ${pct}% = ${pct} ÷ 100." }],
     { eq: `Value = (p ÷ 100) × Total`, parts: [{ part: "p", desc: `${pct}` }, { part: "Total", desc: `${amt}` }] },
-    [{ line: `= (${pct} × ${amt}) ÷ 100 = ${ans}`, why: `Multiply ${pct} by ${amt} and divide by 100.`, arith: `${pct} × ${amt} = ${pct*amt};  ${pct*amt} ÷ 100 = ${ans}` }],
-    "none", "", [`${pct} × ${amt} = ${pct*amt}`], "Let me compute that percentage on the board, then erase it.", examTag
+    [
+      { line: `Convert ${pct}% to fraction: ${pct} ÷ 100, then multiply by ${amt}`, why: "Multiplying first and dividing by 100 avoids rounding errors.", arith: `${pct} × ${amt} = ${pct*amt}` },
+      { line: `Result = ${pct*amt} ÷ 100 = ${ans}`, why: "Divide by 100 by shifting two decimal places left.", arith: `${pct*amt} ÷ 100 = ${ans}` }
+    ],
+    "none", "", [`${pct} × ${amt} = ${pct*amt}`, `${pct*amt} ÷ 100 = ${ans}`], "Let me compute that percentage on the board, then erase it.", examTag,
+    "Do not forget to divide by 100 after multiplying by the percentage number.",
+    `${ans} is ${pct}% of ${amt}.`
   );
 }
 
@@ -774,10 +913,15 @@ function genBasesQ(rng, idx, examTag){
   for(let i=0; i<b2.length; i++) dec = dec * 2 + Number(b2[i]);
   return makeStructuredQ(
     `Convert ${b2}₂ to base 10.`,
-    [{ sym: `Binary = ${b2}₂`, meaning: "base-2 numeral", why: "Place weights from right are 2⁰, 2¹, 2², 2³..." }],
-    { eq: `N₁₀ = Σ(dᵢ × 2ⁱ)`, parts: [{ part: "2ⁱ", desc: "powers of 2 from right (i = 0, 1, 2...)" }] },
-    [{ line: `${b2}₂ = ${dec}₁₀`, why: "Sum powers of 2 where bit = 1.", arith: `${b2}₂ = ${dec}₁₀` }],
-    "none", "", [`${b2}₂ ⇒ ${dec}₁₀`], "Let me convert to base 10 on the board, then erase it.", examTag
+    [{ sym: `Binary = ${b2}₂`, meaning: "base-2 numeral", why: "In base 2, each digit position from right to left represents a power of 2: 2⁰ = 1, 2¹ = 2, 2² = 4, 2³ = 8, and so on." }],
+    { eq: `N₁₀ = Σ(dᵢ × 2ⁱ)`, parts: [{ part: "2ⁱ", desc: "place values in base 2 starting from i = 0 on the right" }] },
+    [
+      { line: `Expand ${b2}₂ using powers of 2 from right to left`, why: "Only digits equal to 1 contribute to the sum, though every position has a weight.", arith: `Base-2 weights: 1, 2, 4, 8, 16...` },
+      { line: `Add the active place values  ⇒  ${b2}₂ = ${dec}₁₀`, why: "Sum the weighted digits to get the base-10 equivalent.", arith: `${b2}₂ = ${dec}₁₀` }
+    ],
+    "none", "", [`${b2}₂ ⇒ ${dec}₁₀`], "Let me convert to base 10 on the board, then erase it.", examTag,
+    "Start the exponent at 0 on the rightmost digit, not 1.",
+    `Converting ${dec}₁₀ back to binary gives ${b2}₂.`
   );
 }
 
@@ -785,10 +929,15 @@ function genDirectedQ(rng, idx, examTag){
   const a = rInt(rng, 6, 15), b = rInt(rng, 4, 12);
   return makeStructuredQ(
     `Evaluate: (−${a}) − (−${b}).`,
-    [{ sym: `−(−${b}) = +${b}`, meaning: "subtracting a negative integer", why: "Two minus signs together give +." }],
-    { eq: `(−a) − (−b) = −a + b`, parts: [{ part: "−(−b)", desc: `+${b}` }] },
-    [{ line: `= −${a} + ${b} = ${-a + b}`, why: `Replace −(−${b}) with +${b}, then combine.`, arith: `−${a} + ${b} = ${-a+b}` }],
-    "none", "", [`−${a} + ${b} = ${-a+b}`], "Let me simplify signs on the board, then erase it.", examTag
+    [{ sym: `−(−${b}) = +${b}`, meaning: "subtracting a negative number", why: "Subtracting a negative is the same as adding its positive opposite." }],
+    { eq: `(−a) − (−b) = −a + b`, parts: [{ part: "−(−b)", desc: `simplifies to +${b}` }] },
+    [
+      { line: `Rewrite signs: (−${a}) − (−${b}) = −${a} + ${b}`, why: "Two adjacent minus signs become a plus sign.", arith: `−(−${b}) = +${b}` },
+      { line: `Combine −${a} and +${b}  ⇒  ${-a + b}`, why: "Compare magnitudes: move right on the number line by ${b} from −${a}.", arith: `−${a} + ${b} = ${-a+b}` }
+    ],
+    "none", "", [`−${a} + ${b} = ${-a+b}`], "Let me simplify signs on the board, then erase it.", examTag,
+    "Students frequently turn −(−b) into −b instead of +b.",
+    `(${-a+b}) − (${b}) = ${-a}, confirming the result.`
   );
 }
 
@@ -797,10 +946,15 @@ function genAlgebraQ(rng, idx, examTag){
   const val = rInt(rng, 3, 9), c = rInt(rng, 4, 15), rhs = 4 * val + c;
   return makeStructuredQ(
     `Solve for ${u}: 4${u} + ${c} = ${rhs}.`,
-    [{ sym: `4${u} + ${c} = ${rhs}`, meaning: `linear equation in ${u}`, why: `Subtract ${c} first, then divide by 4.` }],
-    { eq: `${u} = (${rhs} − ${c}) ÷ 4`, parts: [{ part: u, desc: "unknown to isolate" }] },
-    [{ line: `4${u} = ${4*val}  ⇒  ${u} = ${val}`, why: `Subtract ${c} from ${rhs}, then divide by 4.`, arith: `${rhs} − ${c} = ${4*val};  ${4*val} ÷ 4 = ${val}` }],
-    "balance", `⚖️ ${u} = ${val}`, [`${rhs} − ${c} = ${4*val}`, `${4*val} ÷ 4 = ${val}`], `Let me solve for ${u} on the board, then erase it.`, examTag
+    [{ sym: `4${u} + ${c} = ${rhs}`, meaning: `linear equation with unknown ${u}`, why: `To isolate ${u}, undo operations in reverse order: first subtract ${c}, then divide by 4.` }],
+    { eq: `${u} = (${rhs} − ${c}) ÷ 4`, parts: [{ part: u, desc: "unknown variable to find" }, { part: "÷ 4", desc: "undoes multiplication by 4" }] },
+    [
+      { line: `Subtract ${c} from both sides: 4${u} = ${rhs} − ${c} = ${4*val}`, why: "Keep the equation balanced by performing the same operation on both sides.", arith: `${rhs} − ${c} = ${4*val}` },
+      { line: `Divide both sides by 4: ${u} = ${4*val} ÷ 4 = ${val}`, why: "Isolate ${u} completely.", arith: `${4*val} ÷ 4 = ${val}` }
+    ],
+    "balance", `⚖️ ${u} = ${val}`, [`${rhs} − ${c} = ${4*val}`, `${4*val} ÷ 4 = ${val}`], `Let me solve for ${u} on the board, then erase it.`, examTag,
+    "Do not divide by 4 before subtracting the constant term ${c}.",
+    `Substitute ${u} = ${val}: 4(${val}) + ${c} = ${4*val + c} = ${rhs}.`
   );
 }
 
@@ -809,19 +963,29 @@ function genAnglesGeomQ(rng, idx, examTag){
     const ang1 = rInt(rng, 35, 75), ang2 = rInt(rng, 30, 65), ang3 = 180 - ang1 - ang2;
     return makeStructuredQ(
       `In ΔABC, ∠A = ${ang1}° and ∠B = ${ang2}°. Find ∠C (θ).`,
-      [{ sym: `∠A = ${ang1}°, ∠B = ${ang2}°`, meaning: "two interior angles of ΔABC", why: "Sum of angles in a triangle = 180°." }],
-      { eq: `θ = 180° − (∠A + ∠B)`, parts: [{ part: "180°", desc: "interior angle sum of ΔABC" }] },
-      [{ line: `θ = 180° − (${ang1}° + ${ang2}°) = ${ang3}°`, why: `Add ${ang1}° + ${ang2}° = ${ang1+ang2}°, then subtract from 180°.`, arith: `${ang1} + ${ang2} = ${ang1+ang2};  180 − ${ang1+ang2} = ${ang3}` }],
-      "righttriangle", `📐 θ = ${ang3}°`, [`${ang1} + ${ang2} = ${ang1+ang2}`, `180 − ${ang1+ang2} = ${ang3}`], "Let me subtract from 180° on the board, then erase it.", examTag
+      [{ sym: `∠A = ${ang1}°, ∠B = ${ang2}°`, meaning: "two interior angles of triangle ABC", why: "The sum of the three interior angles of any triangle is always 180°." }],
+      { eq: `θ = 180° − (∠A + ∠B)`, parts: [{ part: "180°", desc: "total interior angle sum of a triangle" }] },
+      [
+        { line: `Add the two known angles: ${ang1}° + ${ang2}° = ${ang1+ang2}°`, why: "Find how much of the 180° is already used.", arith: `${ang1} + ${ang2} = ${ang1+ang2}` },
+        { line: `Subtract from 180°: θ = 180° − ${ang1+ang2}° = ${ang3}°`, why: "The remaining angle is ∠C.", arith: `180 − ${ang1+ang2} = ${ang3}` }
+      ],
+      "righttriangle", `📐 θ = ${ang3}°`, [`${ang1} + ${ang2} = ${ang1+ang2}`, `180 − ${ang1+ang2} = ${ang3}`], "Let me subtract from 180° on the board, then erase it.", examTag,
+      "Do not subtract from 90° unless it is a right-angled triangle with one angle already 90°.",
+      `${ang1}° + ${ang2}° + ${ang3}° = 180°.`
     );
   }
   const b = 3, h = 4, hyp = 5;
   return makeStructuredQ(
     `In a right-angled triangle, base = ${b} cm and height = ${h} cm. Find hypotenuse c.`,
-    [{ sym: `Base = ${b} cm, Height = ${h} cm`, meaning: "perpendicular sides (⊥)", why: "By Pythagoras' theorem, c² = a² + b²." }],
-    { eq: `c² = a² + b²`, parts: [{ part: "c", desc: "hypotenuse" }, { part: "a, b", desc: "perpendicular legs" }] },
-    [{ line: `c = √(${b*b} + ${h*h}) = √${b*b+h*h} = ${hyp} cm`, why: "Square both legs, add them, and take √.", arith: `${b*b} + ${h*h} = ${b*b+h*h};  √${b*b+h*h} = ${hyp}` }],
-    "righttriangle", `📐 c = ${hyp} cm`, [`${b*b} + ${h*h} = ${b*b+h*h}`], "Let me apply Pythagoras on the board, then erase it.", examTag
+    [{ sym: `Base = ${b} cm, Height = ${h} cm`, meaning: "two perpendicular legs meeting at 90°", why: "In a right triangle, the square on the hypotenuse equals the sum of the squares on the other two sides." }],
+    { eq: `c² = a² + b²`, parts: [{ part: "c", desc: "hypotenuse (longest side opposite 90°)" }, { part: "a, b", desc: "the two shorter perpendicular sides" }] },
+    [
+      { line: `Square and add the legs: c² = ${b}² + ${h}² = ${b*b} + ${h*h} = ${b*b+h*h}`, why: "Square each side before adding.", arith: `${b*b} + ${h*h} = ${b*b+h*h}` },
+      { line: `Take the positive square root: c = √${b*b+h*h} = ${hyp} cm`, why: "Length is positive, so take +√.", arith: `√${b*b+h*h} = ${hyp}` }
+    ],
+    "righttriangle", `📐 c = ${hyp} cm`, [`${b*b} + ${h*h} = ${b*b+h*h}`], "Let me apply Pythagoras on the board, then erase it.", examTag,
+    "Forgetting to take the square root at the end leaves c² instead of c.",
+    `${b}² + ${h}² = ${b*b+h*h} = ${hyp}².`
   );
 }
 
@@ -829,10 +993,15 @@ function genAreaMensQ(rng, idx, examTag){
   const b = rInt(rng, 6, 14), h = rInt(rng, 5, 12), area = 0.5 * b * h;
   return makeStructuredQ(
     `A triangle has base = ${b} cm and area = ${area} cm². Find height h.`,
-    [{ sym: `b = ${b} cm, Area = ${area} cm²`, meaning: "base and area", why: "Area = ½ × b × h." }],
-    { eq: `h = (2 × Area) ÷ b`, parts: [{ part: "2 × Area", desc: "doubles area" }, { part: "÷ b", desc: "divides by base" }] },
-    [{ line: `h = (2 × ${area}) ÷ ${b} = ${h} cm`, why: `Double area to ${2*area}, then divide by ${b}.`, arith: `2 × ${area} = ${2*area};  ${2*area} ÷ ${b} = ${h}` }],
-    "righttriangle", `📐 h = ${h} cm`, [`2 × ${area} = ${2*area}`], "Let me solve for h on the board, then erase it.", examTag
+    [{ sym: `b = ${b} cm, Area = ${area} cm²`, meaning: "base length and area of the triangle", why: "Because Area = ½ × base × height, multiplying Area by 2 undoes the ½." }],
+    { eq: `h = (2 × Area) ÷ b`, parts: [{ part: "2 × Area", desc: "undoes the ½ factor" }, { part: "÷ b", desc: "isolates height h" }] },
+    [
+      { line: `Multiply area by 2: 2 × ${area} = ${2*area}`, why: "Clearing the ½ makes division straightforward.", arith: `2 × ${area} = ${2*area}` },
+      { line: `Divide by base ${b}: h = ${2*area} ÷ ${b} = ${h} cm`, why: "Include cm because height is a linear length.", arith: `${2*area} ÷ ${b} = ${h}` }
+    ],
+    "righttriangle", `📐 h = ${h} cm`, [`2 × ${area} = ${2*area}`, `${2*area} ÷ ${b} = ${h}`], "Let me solve for h on the board, then erase it.", examTag,
+    "Do not divide area by base without multiplying by 2 first.",
+    `Check area: ½ × ${b} × ${h} = ${area} cm².`
   );
 }
 
@@ -840,64 +1009,69 @@ function genFinanceQ(rng, idx, examTag){
   const cp = rInt(rng, 4, 10) * 1000, pct = pick(rng, [10, 20, 25]), sp = cp + (pct/100)*cp;
   return makeStructuredQ(
     `An item sold for ₦${sp} gave a profit of ${pct}%. Find cost price CP.`,
-    [{ sym: `SP = ₦${sp}, Profit = ${pct}%`, meaning: "selling price and percentage profit", why: `SP = ${100+pct}% of CP.` }],
-    { eq: `CP = (SP × 100) ÷ (100 + p%)`, parts: [{ part: "100 + p%", desc: `${100+pct}%` }] },
-    [{ line: `CP = (${sp} × 100) ÷ ${100+pct} = ₦${cp}`, why: `Multiply SP by 100 and divide by ${100+pct}.`, arith: `${sp*100} ÷ ${100+pct} = ${cp}` }],
-    "none", "", [`100 + ${pct} = ${100+pct}`, `${sp*100} ÷ ${100+pct} = ${cp}`], "Let me find cost price on the board, then erase it.", examTag
+    [{ sym: `SP = ₦${sp}, Profit = ${pct}%`, meaning: "selling price and percentage profit on cost", why: `A ${pct}% profit means SP is (100 + ${pct})% = ${100+pct}% of the cost price CP.` }],
+    { eq: `CP = (SP × 100) ÷ (100 + p%)`, parts: [{ part: "100 + p%", desc: `total percentage representing SP (${100+pct}%)` }] },
+    [
+      { line: `Set up fraction: CP = (${sp} × 100) ÷ ${100+pct}`, why: "100% represents CP, so ${100+pct}% represents SP.", arith: `100 + ${pct} = ${100+pct}` },
+      { line: `Compute: ${sp*100} ÷ ${100+pct} = ₦${cp}`, why: "Divide to get the original cost price.", arith: `${sp*100} ÷ ${100+pct} = ${cp}` }
+    ],
+    "none", "", [`100 + ${pct} = ${100+pct}`, `${sp*100} ÷ ${100+pct} = ${cp}`], "Let me find cost price on the board, then erase it.", examTag,
+    "Percentage profit is calculated on Cost Price (CP), not Selling Price (SP).",
+    `Adding ${pct}% of ₦${cp} (₦${(pct/100)*cp}) to ₦${cp} gives ₦${sp}.`
   );
 }
 
 function genPolynomialsQ(rng, idx, examTag){
   const a = rInt(rng, 2, 4), rem = rInt(rng, 5, 16), a3 = a*a*a, rhs = rem + 2*a*a - 5, kVal = (rhs/a3).toFixed(2).replace(/\.00$/,"");
-  return makeStructuredQ(`P(x) = kx³ − 2x² + 5 leaves remainder ${rem} when divided by (x − ${a}). Find k.`, [{ sym: `x = ${a}, R = ${rem}`, meaning: "root and remainder", why: `P(${a}) = ${rem}.` }], { eq: `P(a) = R`, parts: [{ part: "P(a)", desc: "value at x = a" }] }, [{ line: `${a3}k = ${rhs}  ⇒  k = ${kVal}`, why: `Substitute x = ${a} and divide by ${a3}.`, arith: `${rhs} ÷ ${a3} = ${kVal}` }], "none", "", [`${rhs} ÷ ${a3} = ${kVal}`], "Let me solve for k on the board, then erase it.", examTag);
+  return makeStructuredQ(`P(x) = kx³ − 2x² + 5 leaves remainder ${rem} when divided by (x − ${a}). Find k.`, [{ sym: `x = ${a}, R = ${rem}`, meaning: "value from divisor (x − a) and remainder", why: "By the Remainder Theorem, dividing P(x) by (x − a) gives remainder P(a)." }], { eq: `P(a) = R`, parts: [{ part: "P(a)", desc: "polynomial evaluated at x = a" }, { part: "R", desc: "given remainder" }] }, [{ line: `Substitute x = ${a}: ${a3}k − 2(${a}²) + 5 = ${rem}`, why: "Evaluate each power of ${a} carefully.", arith: `${a}³ = ${a3};  2(${a}²) = ${2*a*a}` }, { line: `Solve for k: ${a3}k = ${rhs}  ⇒  k = ${kVal}`, why: "Move constants to the right-hand side and divide by ${a3}.", arith: `${rhs} ÷ ${a3} = ${kVal}` }], "none", "", [`${rhs} ÷ ${a3} = ${kVal}`], "Let me solve for k on the board, then erase it.", examTag, "For divisor (x − a), substitute x = +a (opposite sign).", `Substituting k = ${kVal} and x = ${a} into P(x) yields ${rem}.`);
 }
 function genProbabilityQ(rng, idx, examTag){
-  return makeStructuredQ(`A bag has 4 red and 3 blue balls. Two are drawn without replacement. Find P(R₁ ∩ B₂).`, [{ sym: `R = 4, B = 3, n(S) = 7`, meaning: "ball counts and sample size", why: "After 1 red ball is drawn, 6 balls remain." }], { eq: `P(R₁ ∩ B₂) = P(R₁) × P(B₂ | R₁)`, parts: [{ part: "P(R₁)", desc: "4 ÷ 7" }, { part: "P(B₂ | R₁)", desc: "3 ÷ 6" }] }, [{ line: `(4 ÷ 7) × (3 ÷ 6) = 12 ÷ 42 = 2 ÷ 7`, why: "Multiply sequential probabilities and reduce.", arith: `12 ÷ 6 = 2;  42 ÷ 6 = 7` }], "none", "", ["12 ÷ 42 = 2 ÷ 7"], "Let me reduce the fraction on the board, then erase it.", examTag);
+  return makeStructuredQ(`A bag has 4 red and 3 blue balls. Two are drawn without replacement. Find P(R₁ ∩ B₂).`, [{ sym: `R = 4, B = 3, Total = 7`, meaning: "counts of red, blue, and total balls", why: "'Without replacement' means the first ball is not put back, reducing total balls to 6 for the second draw." }], { eq: `P(R₁ ∩ B₂) = P(R₁) × P(B₂ | R₁)`, parts: [{ part: "P(R₁)", desc: "probability of red on 1st draw (4 ÷ 7)" }, { part: "P(B₂ | R₁)", desc: "probability of blue on 2nd draw (3 ÷ 6)" }] }, [{ line: `First draw P(R₁) = 4 ÷ 7; second draw P(B₂ | R₁) = 3 ÷ 6`, why: "All 3 blue balls remain among the 6 remaining balls.", arith: `4 × 3 = 12;  7 × 6 = 42` }, { line: `Multiply and simplify: 12 ÷ 42 = 2 ÷ 7`, why: "Divide numerator and denominator by their HCF (6).", arith: `12 ÷ 6 = 2;  42 ÷ 6 = 7` }], "none", "", ["12 ÷ 42 = 2 ÷ 7"], "Let me reduce the fraction on the board, then erase it.", examTag, "Do not keep the denominator at 7 on the second draw when there is no replacement.", `2 ÷ 7 is in lowest terms since HCF(2, 7) = 1.`);
 }
 function genSimultaneousQ(rng, idx, examTag){
   const x = rInt(rng, 2, 6), y = rInt(rng, 1, 5), c1 = 2*x + 3*y, c2 = 3*x - y;
-  return makeStructuredQ(`Solve simultaneously: 2x + 3y = ${c1} and 3x − y = ${c2}.`, [{ sym: `Two linear equations`, meaning: "system in x and y", why: "Multiply second equation by 3 to eliminate y." }], { eq: `Eliminate y by ×3 on Eq 2, then add`, parts: [{ part: "×3", desc: "cancels y" }] }, [{ line: `11x = ${11*x}  ⇒  x = ${x};  y = ${y}`, why: "Add equations to find x, then find y.", arith: `${c1} + ${3*c2} = ${11*x};  ${11*x} ÷ 11 = ${x}` }], "balance", `⚖️ x = ${x}, y = ${y}`, [`${c1} + ${3*c2} = ${11*x}`], "Let me solve on the board, then erase it.", examTag);
+  return makeStructuredQ(`Solve simultaneously: 2x + 3y = ${c1} and 3x − y = ${c2}.`, [{ sym: `Two linear equations in x and y`, meaning: "system of equations", why: "Eliminating one variable reduces two equations to a single equation in one unknown." }], { eq: `Multiply Eq 2 by 3 to match 3y, then add`, parts: [{ part: "×3", desc: "makes y-coefficients opposite (−3y and +3y)" }] }, [{ line: `3 × (3x − y = ${c2})  ⇒  9x − 3y = ${3*c2}`, why: "Multiply every term on both sides of the second equation by 3.", arith: `3 × ${c2} = ${3*c2}` }, { line: `Add to 2x + 3y = ${c1}: 11x = ${11*x}  ⇒  x = ${x};  y = ${y}`, why: "Substitute x back into an original equation to find y.", arith: `${c1} + ${3*c2} = ${11*x};  ${11*x} ÷ 11 = ${x}` }], "balance", `⚖️ x = ${x}, y = ${y}`, [`${c1} + ${3*c2} = ${11*x}`], "Let me solve on the board, then erase it.", examTag, "Multiply the entire equation—including the right-hand side—by the multiplier.", `Check: 2(${x}) + 3(${y}) = ${c1} and 3(${x}) − (${y}) = ${c2}.`);
 }
 function genSetsQ(rng, idx, examTag){
   const onlyA = rInt(rng, 6, 12), both = rInt(rng, 3, 7), onlyB = rInt(rng, 5, 11), neither = rInt(rng, 2, 5);
   const nA = onlyA + both, nB = onlyB + both, total = onlyA + both + onlyB + neither;
-  return makeStructuredQ(`In a universal set U of ${total} students, n(P) = ${nA}, n(C) = ${nB}, and n(P ∩ C) = ${both}. Find n(P ∪ C)′.`, [{ sym: `n(U) = ${total}, n(P) = ${nA}, n(C) = ${nB}, n(P ∩ C) = ${both}`, meaning: "set cardinalities", why: `n(P ∪ C) = ${nA} + ${nB} − ${both} = ${nA+nB-both}.` }], { eq: `n(P ∪ C)′ = n(U) − n(P ∪ C)`, parts: [{ part: "n(P ∪ C)", desc: "students offering P or C" }] }, [{ line: `n(P ∪ C)′ = ${total} − ${nA+nB-both} = ${neither}`, why: "Subtract union from universal set.", arith: `${total} − ${nA+nB-both} = ${neither}` }], "none", "", [`${total} − ${nA+nB-both} = ${neither}`], "Let me compute the complement on the board, then erase it.", examTag);
+  return makeStructuredQ(`In a universal set U of ${total} students, n(P) = ${nA}, n(C) = ${nB}, and n(P ∩ C) = ${both}. Find n(P ∪ C)′.`, [{ sym: `n(U) = ${total}, n(P) = ${nA}, n(C) = ${nB}, n(P ∩ C) = ${both}`, meaning: "set sizes and intersection", why: "Adding n(P) + n(C) counts the intersection twice, so subtract n(P ∩ C) once to get n(P ∪ C)." }], { eq: `n(P ∪ C)′ = n(U) − [n(P) + n(C) − n(P ∩ C)]`, parts: [{ part: "n(P ∪ C)", desc: "students in P or C or both" }, { part: "′ (complement)", desc: "students outside P ∪ C" }] }, [{ line: `n(P ∪ C) = ${nA} + ${nB} − ${both} = ${nA+nB-both}`, why: "Remove double-counted overlap first.", arith: `${nA} + ${nB} − ${both} = ${nA+nB-both}` }, { line: `n(P ∪ C)′ = ${total} − ${nA+nB-both} = ${neither}`, why: "Subtract the union from the universal set.", arith: `${total} − ${nA+nB-both} = ${neither}` }], "none", "", [`${total} − ${nA+nB-both} = ${neither}`], "Let me compute the complement on the board, then erase it.", examTag, "Do not add n(P) + n(C) without subtracting n(P ∩ C).", `All four disjoint regions add up: ${onlyA} + ${both} + ${onlyB} + ${neither} = ${total}.`);
 }
 function genMatricesQ(rng, idx, examTag){
   const a = rInt(rng, 2, 5), b = rInt(rng, 1, 3), c = rInt(rng, 1, 3);
-  return makeStructuredQ(`Find k if [[${a}, ${b}], [${c}, k]] is singular (det = 0).`, [{ sym: `det = 0`, meaning: "singular 2×2 matrix", why: `${a}k − ${b}×${c} = 0.` }], { eq: `ad − bc = 0`, parts: [{ part: "ad − bc", desc: "2×2 determinant" }] }, [{ line: `${a}k = ${b*c}  ⇒  k = ${(b*c/a).toFixed(2).replace(/\.00$/,"")}`, why: `Equate determinant to 0 and divide by ${a}.`, arith: `${b} × ${c} = ${b*c};  ${b*c} ÷ ${a} = ${(b*c/a).toFixed(2).replace(/\.00$/,"")}` }], "none", "", [`${b} × ${c} = ${b*c}`], "Let me solve for k on the board, then erase it.", examTag);
+  return makeStructuredQ(`Find k if [[${a}, ${b}], [${c}, k]] is singular (det = 0).`, [{ sym: `det = 0`, meaning: "condition for a singular matrix", why: "A matrix has no inverse and is called singular when its determinant equals zero." }], { eq: `ad − bc = 0`, parts: [{ part: "ad", desc: "product of main diagonal (${a} × k)" }, { part: "bc", desc: "product of other diagonal (${b} × ${c})" }] }, [{ line: `${a}k − (${b} × ${c}) = 0  ⇒  ${a}k = ${b*c}`, why: "Subtract the secondary diagonal product from the main diagonal product.", arith: `${b} × ${c} = ${b*c}` }, { line: `Divide by ${a}: k = ${(b*c/a).toFixed(2).replace(/\.00$/,"")}`, why: "Isolate k.", arith: `${b*c} ÷ ${a} = ${(b*c/a).toFixed(2).replace(/\.00$/,"")}` }], "none", "", [`${b} × ${c} = ${b*c}`], "Let me solve for k on the board, then erase it.", examTag, "Remember the minus sign in ad − bc; do not add ad + bc.", `Substituting k back into ad − bc gives 0.`);
 }
 function genCoordVecQ(rng, idx, examTag){
   const ax = rInt(rng, 1, 4), ay = rInt(rng, 2, 5), bx = rInt(rng, 5, 8), by = rInt(rng, 6, 9), dx = bx-ax, dy = by-ay, mag = Math.hypot(dx,dy).toFixed(2);
-  return makeStructuredQ(`Given A(${ax}, ${ay}) and B(${bx}, ${by}), find AB and |AB|.`, [{ sym: `A(${ax}, ${ay}), B(${bx}, ${by})`, meaning: "coordinates of A and B", why: "AB = B − A." }], { eq: `AB = (x₂ − x₁, y₂ − y₁);  |AB| = √(x² + y²)`, parts: [{ part: "x₂ − x₁, y₂ − y₁", desc: "vector components" }] }, [{ line: `AB = (${dx}, ${dy}),  |AB| ≈ ${mag}`, why: "Subtract coordinates and apply Pythagoras.", arith: `${dx}² + ${dy}² = ${dx*dx+dy*dy}` }], "arrow", `➡️ (${dx}, ${dy}), |AB| ≈ ${mag}`, [`${dx}² + ${dy}² = ${dx*dx+dy*dy}`], "Let me compute on the board, then erase it.", examTag);
+  return makeStructuredQ(`Given A(${ax}, ${ay}) and B(${bx}, ${by}), find AB and |AB|.`, [{ sym: `A(${ax}, ${ay}), B(${bx}, ${by})`, meaning: "start point A and end point B", why: "Displacement vector AB goes from A to B, so subtract coordinates of A from B." }], { eq: `AB = (x₂ − x₁, y₂ − y₁);  |AB| = √(x² + y²)`, parts: [{ part: "AB", desc: "column/ordered displacement vector" }, { part: "|AB|", desc: "magnitude (length) of vector AB" }] }, [{ line: `AB = (${bx} − ${ax}, ${by} − ${ay}) = (${dx}, ${dy})`, why: "Subtract x-coordinates and y-coordinates separately.", arith: `${bx} − ${ax} = ${dx};  ${by} − ${ay} = ${dy}` }, { line: `|AB| = √(${dx}² + ${dy}²) = √${dx*dx+dy*dy} ≈ ${mag}`, why: "Apply Pythagoras' theorem to the components.", arith: `${dx}² + ${dy}² = ${dx*dx+dy*dy}` }], "arrow", `➡️ (${dx}, ${dy}), |AB| ≈ ${mag}`, [`${dx}² + ${dy}² = ${dx*dx+dy*dy}`], "Let me compute on the board, then erase it.", examTag, "Do not do A − B when asked for AB; AB always means B − A.", `Vector components (${dx}, ${dy}) and length ${mag} match distance between A and B.`);
 }
 function genStatsQ(rng, idx, examTag){
   const n = 5, mean = rInt(rng, 8, 14), total = n*mean, firstFour = [mean-2, mean+1, mean-1, mean+2], sum4 = firstFour.reduce((a,b)=>a+b,0);
-  return makeStructuredQ(`Mean (x̄) of 5 numbers is ${mean}. Four numbers are ${firstFour.join(", ")}. Find the 5th number.`, [{ sym: `x̄ = ${mean}, n = 5`, meaning: "mean and count", why: `Σx = 5 × ${mean} = ${total}.` }], { eq: `x₅ = (x̄ × n) − Σx₄`, parts: [{ part: "x̄ × n", desc: "total sum of all 5" }] }, [{ line: `x₅ = ${total} − ${sum4} = ${total-sum4}`, why: "Subtract sum of first 4 from total.", arith: `${total} − ${sum4} = ${total-sum4}` }], "none", "", [`${total} − ${sum4} = ${total-sum4}`], "Let me solve on the board, then erase it.", examTag);
+  return makeStructuredQ(`Mean (x̄) of 5 numbers is ${mean}. Four numbers are ${firstFour.join(", ")}. Find the 5th number.`, [{ sym: `x̄ = ${mean}, n = 5`, meaning: "arithmetic mean and total count of items", why: "Since Mean = Sum ÷ n, the total sum of all 5 numbers is Mean × 5." }], { eq: `x₅ = (x̄ × n) − Σx₄`, parts: [{ part: "x̄ × n", desc: "total sum of all 5 numbers" }, { part: "Σx₄", desc: "sum of the 4 known numbers" }] }, [{ line: `Total sum of 5 numbers = ${mean} × 5 = ${total};  Sum of first 4 = ${sum4}`, why: "Find both totals before subtracting.", arith: `${mean} × 5 = ${total};  sum4 = ${sum4}` }, { line: `5th number = ${total} − ${sum4} = ${total-sum4}`, why: "The difference gives the missing value.", arith: `${total} − ${sum4} = ${total-sum4}` }], "none", "", [`${total} − ${sum4} = ${total-sum4}`], "Let me solve on the board, then erase it.", examTag, "Do not divide by 4 when finding the total sum of 5 numbers.", `Sum of all 5 numbers (${sum4} + ${total-sum4}) = ${total}, so mean = ${total} ÷ 5 = ${mean}.`);
 }
 function genLogIndicesQ(rng, idx, examTag){
   const base = pick(rng, [2, 3, 5]), exp = rInt(rng, 3, 5), val = Math.pow(base, exp), xAns = (exp + 1) / 2;
-  return makeStructuredQ(`Solve for x: ${base}²ˣ⁻¹ = ${val}.`, [{ sym: `Base = ${base}, ${val} = ${base}${toSup(exp)}`, meaning: "matching bases", why: `Equate exponents: 2x − 1 = ${exp}.` }], { eq: `aᵐ = aⁿ  ⇒  m = n`, parts: [{ part: "m", desc: "2x − 1" }, { part: "n", desc: `${exp}` }] }, [{ line: `2x − 1 = ${exp}  ⇒  x = ${xAns}`, why: `Add 1 to ${exp} and divide by 2.`, arith: `${exp} + 1 = ${exp+1};  ${exp+1} ÷ 2 = ${xAns}` }], "none", "", [`${exp+1} ÷ 2 = ${xAns}`], "Let me solve for x on the board, then erase it.", examTag);
+  return makeStructuredQ(`Solve for x: ${base}²ˣ⁻¹ = ${val}.`, [{ sym: `Base = ${base}, ${val} = ${base}${toSup(exp)}`, meaning: "exponential equation with expressible common base", why: "When both sides are written with the same positive base (≠ 1), their exponents must be equal." }], { eq: `aᵐ = aⁿ  ⇒  m = n`, parts: [{ part: "m", desc: "exponent on left (2x − 1)" }, { part: "n", desc: `exponent on right (${exp})` }] }, [{ line: `Rewrite ${val} as ${base}${toSup(exp)}:  ${base}²ˣ⁻¹ = ${base}${toSup(exp)}`, why: "Matching bases lets us equate the powers.", arith: `${base}${toSup(exp)} = ${val}` }, { line: `Equate powers: 2x − 1 = ${exp}  ⇒  2x = ${exp+1}  ⇒  x = ${xAns}`, why: "Add 1 to both sides, then divide by 2.", arith: `${exp} + 1 = ${exp+1};  ${exp+1} ÷ 2 = ${xAns}` }], "none", "", [`${exp+1} ÷ 2 = ${xAns}`], "Let me solve for x on the board, then erase it.", examTag, "Do not forget to add 1 to ${exp} before dividing by 2.", `Check: ${base}^(2(${xAns}) − 1) = ${base}${toSup(exp)} = ${val}.`);
 }
 function genBearingsQ(rng, idx, examTag){
   const b = rInt(rng, 25, 145), pad = String(b).padStart(3, "0");
-  return makeStructuredQ(`Bearing of B from A is ${pad}°. Find the back bearing of A from B.`, [{ sym: `Forward = ${pad}°`, meaning: "clockwise angle from North", why: "Less than 180°, so add 180°." }], { eq: `Back bearing = Forward + 180°`, parts: [{ part: "+ 180°", desc: "opposite direction" }] }, [{ line: `Back bearing = ${b + 180}°`, why: "Add 180° to forward bearing.", arith: `${b} + 180 = ${b+180}` }], "compass", `🧭 Back = ${b+180}°`, [`${b} + 180 = ${b+180}`], "Let me add 180° on the board, then erase it.", examTag);
+  return makeStructuredQ(`Bearing of B from A is ${pad}°. Find the back bearing of A from B.`, [{ sym: `Forward = ${pad}°`, meaning: "three-figure clockwise angle measured from North", why: "Because ${b}° is less than 180°, the exact opposite direction is obtained by adding 180°." }], { eq: `Back bearing = Forward + 180°  (if Forward < 180°)`, parts: [{ part: "+ 180°", desc: "half-turn to the opposite direction" }] }, [{ line: `Check angle: ${b}° < 180°`, why: "If a bearing is over 180°, we subtract 180° instead.", arith: `${b} < 180` }, { line: `Back bearing = ${b}° + 180° = ${b + 180}°`, why: "Add 180° for the reverse bearing.", arith: `${b} + 180 = ${b+180}` }], "compass", `🧭 Back = ${b+180}°`, [`${b} + 180 = ${b+180}`], "Let me add 180° on the board, then erase it.", examTag, "Always measure bearings clockwise from North, and check whether to +180° or −180°.", `The difference between ${b+180}° and ${b}° is 180° (a straight line).`);
 }
 function genCirclesQ(rng, idx, examTag){
   const ang = rInt(rng, 35, 65);
-  return makeStructuredQ(`Angle at centre O on arc AB is ∠AOB = ${2*ang}°. Find ∠ACB at circumference.`, [{ sym: `∠AOB = ${2*ang}°`, meaning: "angle at centre", why: "Angle at circumference = ½ × angle at centre." }], { eq: `∠ACB = ½ × ∠AOB`, parts: [{ part: "½", desc: "half multiplier" }] }, [{ line: `∠ACB = ${ang}°`, why: `Divide ${2*ang}° by 2.`, arith: `${2*ang} ÷ 2 = ${ang}` }], "circle", `⭕ ∠ACB = ${ang}°`, [`${2*ang} ÷ 2 = ${ang}`], "Let me divide by 2 on the board, then erase it.", examTag);
+  return makeStructuredQ(`Angle at centre O on arc AB is ∠AOB = ${2*ang}°. Find ∠ACB at circumference.`, [{ sym: `∠AOB = ${2*ang}°`, meaning: "central angle subtended by arc AB", why: "By the circle theorem, the angle subtended by an arc at the centre is twice the angle at the circumference on the same arc." }], { eq: `∠ACB = ½ × ∠AOB`, parts: [{ part: "½", desc: "circumference angle is half the central angle" }] }, [{ line: `Apply circle theorem: ∠ACB = ½ × ${2*ang}°`, why: "Both angles stand on the same arc AB.", arith: `${2*ang} ÷ 2 = ${ang}` }, { line: `∠ACB = ${ang}°`, why: "State the angle clearly in degrees.", arith: `${ang} × 2 = ${2*ang}` }], "circle", `⭕ ∠ACB = ${ang}°`, [`${2*ang} ÷ 2 = ${ang}`], "Let me divide by 2 on the board, then erase it.", examTag, "Do not double the central angle; halve it to get the angle at the circumference.", `Doubling ${ang}° gives ${2*ang}°, matching ∠AOB.`);
 }
 function genTrigQ(rng, idx, examTag){
   const opp = 3, adj = 4, hyp = 5;
-  return makeStructuredQ(`In a right triangle, opposite = ${opp}, adjacent = ${adj}, hypotenuse = ${hyp}. Find sin θ + cos θ.`, [{ sym: `Opp = ${opp}, Adj = ${adj}, Hyp = ${hyp}`, meaning: "triangle sides", why: "sin θ = Opp ÷ Hyp, cos θ = Adj ÷ Hyp." }], { eq: `sin θ + cos θ = (Opp + Adj) ÷ Hyp`, parts: [{ part: "sin θ", desc: "Opp ÷ Hyp" }, { part: "cos θ", desc: "Adj ÷ Hyp" }] }, [{ line: `(${opp} + ${adj}) ÷ ${hyp} = ${opp+adj} ÷ ${hyp}`, why: `Add numerators over common denominator ${hyp}.`, arith: `${opp} + ${adj} = ${opp+adj}` }], "righttriangle", `📐 sin θ + cos θ = ${opp+adj} ÷ ${hyp}`, [`${opp} + ${adj} = ${opp+adj}`], "Let me add the trig ratios on the board, then erase it.", examTag);
+  return makeStructuredQ(`In a right triangle, opposite = ${opp}, adjacent = ${adj}, hypotenuse = ${hyp}. Find sin θ + cos θ.`, [{ sym: `Opp = ${opp}, Adj = ${adj}, Hyp = ${hyp}`, meaning: "sides relative to angle θ in a right triangle", why: "SOH-CAH-TOA gives sin θ = Opposite ÷ Hypotenuse and cos θ = Adjacent ÷ Hypotenuse." }], { eq: `sin θ + cos θ = (Opp + Adj) ÷ Hyp`, parts: [{ part: "sin θ", desc: `Opp ÷ Hyp = ${opp} ÷ ${hyp}` }, { part: "cos θ", desc: `Adj ÷ Hyp = ${adj} ÷ ${hyp}` }] }, [{ line: `Write ratios: sin θ = ${opp}÷${hyp}, cos θ = ${adj}÷${hyp}`, why: "Both fractions already share the same denominator (${hyp}).", arith: `${opp} + ${adj} = ${opp+adj}` }, { line: `Add ratios: (${opp} + ${adj}) ÷ ${hyp} = ${opp+adj} ÷ ${hyp}`, why: "Add numerators directly when denominators are equal.", arith: `${opp} + ${adj} = ${opp+adj}` }], "righttriangle", `📐 sin θ + cos θ = ${opp+adj} ÷ ${hyp}`, [`${opp} + ${adj} = ${opp+adj}`], "Let me add the trig ratios on the board, then erase it.", examTag, "Do not confuse Opposite with Adjacent relative to the angle θ being examined.", `${opp}÷${hyp} + ${adj}÷${hyp} = (${opp}+${adj})÷${hyp}.`);
 }
 function genCalculusQ(rng, idx, examTag){
   const n = rInt(rng, 3, 6), c = rInt(rng, 2, 7), xVal = 2, deriv = n * Math.pow(xVal, n - 1);
-  return makeStructuredQ(`Differentiate y = x${toSup(n)} + ${c}x with respect to x, and find dy/dx at x = ${xVal}.`, [{ sym: `y = x${toSup(n)} + ${c}x`, meaning: "polynomial function", why: "Power rule: d/dx(xⁿ) = nxⁿ⁻¹." }], { eq: `dy/dx = nxⁿ⁻¹ + c`, parts: [{ part: "nxⁿ⁻¹", desc: "power rule derivative" }] }, [{ line: `dy/dx = ${n}x${toSup(n-1)} + ${c};  at x = ${xVal}  ⇒  ${deriv + c}`, why: `Differentiate each term, then substitute x = ${xVal}.`, arith: `${n} × ${Math.pow(xVal,n-1)} + ${c} = ${deriv+c}` }], "none", "", [`${deriv} + ${c} = ${deriv+c}`], "Let me evaluate dy/dx on the board, then erase it.", examTag);
+  return makeStructuredQ(`Differentiate y = x${toSup(n)} + ${c}x with respect to x, and find dy/dx at x = ${xVal}.`, [{ sym: `y = x${toSup(n)} + ${c}x`, meaning: "polynomial expression in x", why: "Differentiating term by term finds the rate of change (gradient function) dy/dx." }], { eq: `dy/dx = nxⁿ⁻¹ + c`, parts: [{ part: "nxⁿ⁻¹", desc: "power rule: bring power down and subtract 1 from exponent" }, { part: "c", desc: "derivative of cx with respect to x is c" }] }, [{ line: `Differentiate term by term: dy/dx = ${n}x${toSup(n-1)} + ${c}`, why: "Apply the power rule to x^n and differentiate ${c}x to ${c}.", arith: `Power ${n} ⇒ ${n}x${toSup(n-1)}` }, { line: `Substitute x = ${xVal}: ${n}(${xVal}${toSup(n-1)}) + ${c} = ${deriv + c}`, why: "Evaluate the power first before multiplying by ${n} and adding ${c}.", arith: `${n} × ${Math.pow(xVal,n-1)} + ${c} = ${deriv+c}` }], "none", "", [`${deriv} + ${c} = ${deriv+c}`], "Let me evaluate dy/dx on the board, then erase it.", examTag, "Do not forget to reduce the power by 1 (n − 1) when differentiating.", `At x = ${xVal}, ${n}×${Math.pow(xVal,n-1)} + ${c} = ${deriv+c}.`);
 }
 function genSequencesQ(rng, idx, examTag){
   const a = rInt(rng, 3, 8), d = rInt(rng, 2, 5), t3 = a+2*d, t7 = a+6*d;
-  return makeStructuredQ(`In an A.P., T₃ = ${t3} and T₇ = ${t7}. Find common difference d and first term a.`, [{ sym: `T₃ = ${t3}, T₇ = ${t7}`, meaning: "3rd and 7th terms", why: "T₇ − T₃ = 4d." }], { eq: `Tₙ = a + (n − 1)d`, parts: [{ part: "a", desc: "first term" }, { part: "d", desc: "common difference" }] }, [{ line: `4d = ${t7-t3}  ⇒  d = ${d};  a = ${a}`, why: "Subtract T₃ from T₇ to find d, then find a.", arith: `${t7-t3} ÷ 4 = ${d}` }], "none", "", [`${t7} − ${t3} = ${t7-t3}`], "Let me solve for d and a on the board, then erase it.", examTag);
+  return makeStructuredQ(`In an A.P., T₃ = ${t3} and T₇ = ${t7}. Find common difference d and first term a.`, [{ sym: `T₃ = ${t3}, T₇ = ${t7}`, meaning: "3rd and 7th terms of an Arithmetic Progression", why: "In an A.P., each step adds d, so moving from T₃ to T₇ adds (7 − 3)d = 4d." }], { eq: `Tₙ = a + (n − 1)d`, parts: [{ part: "a", desc: "first term (T₁)" }, { part: "d", desc: "constant common difference" }] }, [{ line: `Subtract terms: T₇ − T₃ = ${t7} − ${t3} = ${t7-t3}  ⇒  4d = ${t7-t3}`, why: "Eliminate 'a' by subtracting the two term equations.", arith: `${t7} − ${t3} = ${t7-t3}` }, { line: `Find d = ${t7-t3} ÷ 4 = ${d}; then a = ${t3} − 2(${d}) = ${a}`, why: "Substitute d back into T₃ = a + 2d to get first term a.", arith: `${t7-t3} ÷ 4 = ${d};  ${t3} − ${2*d} = ${a}` }], "none", "", [`${t7} − ${t3} = ${t7-t3}`, `${t3} − ${2*d} = ${a}`], "Let me solve for d and a on the board, then erase it.", examTag, "For the nth term, use (n − 1)d, not nd (so T₃ = a + 2d, not a + 3d).", `Check T₇ = ${a} + 6(${d}) = ${t7}.`);
 }
 
 function generateGeneratedQuestion(topic, idx, mode){
@@ -950,6 +1124,8 @@ function generateGeneratedQuestion(topic, idx, mode){
     params: built.params,
     formula: built.formula,
     steps: built.steps,
+    pitfall: built.pitfall,
+    check: built.check,
     source: `${built.examTag} (${labelType}) • ${topic}`,
     examTag: built.examTag,
     key, idx,
@@ -1069,7 +1245,7 @@ let deviceId=localStorage.getItem("deviceId");
 if(!deviceId){ deviceId="PHONE-"+Math.random().toString(36).slice(2,8).toUpperCase()+"-"+Date.now().toString().slice(-4); localStorage.setItem("deviceId",deviceId); }
 
 function cancelAllPlayback(){ activeRunId++; isPlaying = false; clearInterval(boardTimer); try{ speechSynthesis.cancel(); }catch(e){} }
-function testVoiceVolume(){ cancelAllPlayback(); const myRun = activeRunId; document.getElementById("penStatus").innerText = "🔊 Testing teacher voice..."; speakSlow("Hello! I list given parameters first, explain every formula symbol before solving, and write out clear arithmetic.", ()=>{ if(myRun === activeRunId) document.getElementById("penStatus").innerText = "✅ Voice ready."; }, myRun); }
+function testVoiceVolume(){ cancelAllPlayback(); const myRun = activeRunId; document.getElementById("penStatus").innerText = "🔊 Testing teacher voice..."; speakSlow("Hello! I walk through every parameter, explain each formula symbol, show clear step-by-step arithmetic, warn you about common exam traps, and check the final answer.", ()=>{ if(myRun === activeRunId) document.getElementById("penStatus").innerText = "✅ Voice ready."; }, myRun); }
 function setSpeed(r){ voiceRate=r; document.getElementById("penStatus").innerText="Pace updated."; }
 function initBoard(){ const c=document.getElementById("whiteboard"); boardCtx=c.getContext("2d"); boardCtx.clearRect(0,0,c.width,c.height); boardCtx.font="bold 16px Arial"; boardCtx.fillStyle="#111"; }
 function clearBoard(){ cancelAllPlayback(); initBoard(); document.getElementById("penStatus").innerText="Marker ready."; document.getElementById("marker").style.display="none"; document.getElementById("nowReading").innerText="Now explaining: —"; }
@@ -1125,24 +1301,36 @@ function drawFittedText(ctx, text, x, y, maxW, baseSize, color){
 
 function buildBoardSequence(qObj){
   const items = [
-    { stage: "PARAMETERS", boardText: `📌 STEP 1: GIVEN PARAMETERS (${qObj.examTag || "EXAM"})`, color: "#b45309", voice: `Modeled on ${qObj.examTag || "exam"} past questions. First, let us list and explain every given parameter.` }
+    { stage: "PARAMETERS", boardText: `📌 STEP 1: GIVEN PARAMETERS (${qObj.examTag || "EXAM"})`, color: "#b45309", voice: `Let us take a thorough, step-by-step look at this ${qObj.examTag || "exam"} question. First, let us examine every given piece of information and understand what it means.` }
   ];
   (qObj.params || []).forEach(p=>{
-    items.push({ stage: "PARAMETERS", boardText: `• ${p.sym} → ${p.meaning}`, color: "#111", voice: `Parameter ${expandForVoice(p.sym)} means ${p.meaning}. ${expandForVoice(p.why)}` });
+    items.push({ stage: "PARAMETERS", boardText: `• ${p.sym} → ${p.meaning}`, color: "#111", voice: `Here ${expandForVoice(p.sym)} represents ${p.meaning}. Why does this matter? ${expandForVoice(p.why)}` });
   });
-  items.push({ stage: "FORMULA", boardText: `📐 STEP 2: RULE / FORMULA → ${qObj.formula.eq}`, color: "#1E4DA1", voice: `Before solving starts, here is the rule: ${expandForVoice(qObj.formula.eq)}.` });
+  items.push({ stage: "FORMULA", boardText: `📐 STEP 2: RULE / FORMULA → ${qObj.formula.eq}`, color: "#1E4DA1", voice: `Before calculating, let us state the rule or formula that connects what we know to what we need: ${expandForVoice(qObj.formula.eq)}.` });
   (qObj.formula.parts || []).forEach(pt=>{
-    items.push({ stage: "FORMULA", boardText: `  ◦ ${pt.part}: ${pt.desc}`, color: "#1E4DA1", voice: `${expandForVoice(pt.part)} stands for ${expandForVoice(pt.desc)}.` });
+    items.push({ stage: "FORMULA", boardText: `  ◦ ${pt.part}: ${pt.desc}`, color: "#1E4DA1", voice: `Looking closely at the rule, ${expandForVoice(pt.part)} means ${expandForVoice(pt.desc)}.` });
   });
-  items.push({ stage: "SOLUTION", boardText: "✍️ STEP 3: SOLVING & ARITHMETIC", color: "#0a9d5c", voice: "Now let us solve step by step with clear arithmetic." });
+  items.push({ stage: "SOLUTION", boardText: "✍️ STEP 3: FULL WORKING & ARITHMETIC", color: "#0a9d5c", voice: "Now let us work through the solution carefully, explaining each step and checking the arithmetic as we go." });
   (qObj.steps || []).forEach((st, i)=>{
     items.push({
       stage: "SOLUTION", boardText: `Step ${i+1}: ${st.line}`, color: "#111",
-      voice: `${expandForVoice(st.line)}. ${expandForVoice(st.why)}`,
+      voice: `In step ${i+1}, we write ${expandForVoice(st.line)}. We do this because ${expandForVoice(st.why)}`,
       arithLine: st.arith ? `Arithmetic: ${st.arith}` : null,
-      arithVoice: st.arith ? `Arithmetic: ${expandForVoice(st.arith)}` : null
+      arithVoice: st.arith ? `Let us verify the arithmetic: ${expandForVoice(st.arith)}.` : null
     });
   });
+  if(qObj.pitfall){
+    items.push({
+      stage: "PITFALL", boardText: `⚠️ WATCH OUT: ${qObj.pitfall}`, color: "#b91c1c",
+      voice: `Important exam warning: ${expandForVoice(qObj.pitfall)}`
+    });
+  }
+  if(qObj.check){
+    items.push({
+      stage: "CHECK", boardText: `✅ FINAL CHECK: ${qObj.check}`, color: "#047857",
+      voice: `Finally, let us verify our answer: ${expandForVoice(qObj.check)}`
+    });
+  }
   return items;
 }
 
@@ -1156,7 +1344,7 @@ function writeStructuredLesson(qObj, done){
   const seq = buildBoardSequence(qObj);
   const completedLines = [];
   let tempSideBox = null, sideUsed = false;
-  const sideTriggerIdx = Math.max(2, seq.length - 2);
+  const sideTriggerIdx = Math.max(2, seq.length - 3);
 
   function renderBoard(currentText, currentChars, currentColor){
     boardCtx.clearRect(0, 0, 560, 460);
@@ -1197,7 +1385,7 @@ function writeStructuredLesson(qObj, done){
     if(!isPlaying || myRun !== activeRunId) return;
     if(idx >= seq.length){
       isPlaying = false; marker.style.display = "none";
-      document.getElementById("penStatus").innerText = "✅ Done.";
+      document.getElementById("penStatus").innerText = "✅ Full explanation complete.";
       document.getElementById("nowReading").innerText = "Now explaining: —";
       if(done) done();
       return;
@@ -1281,11 +1469,12 @@ function renderTopicList(filter){
 
 function filterTopics(){ renderTopicList(document.getElementById("topicSearch").value); }
 function onTick(i,cb){ if(i>0&&!hasSub(curCat)){cb.checked=false;alert("🔒 Locked.\n\nPay ₦5,000 / MONTH to:\n8147699555 - Ekpo Bassey\n\nPIN = 1 PHONE ONLY. NOT transferable.");document.getElementById("payCard").scrollIntoView({behavior:"smooth"});return} openTopic(i); }
-function openTopic(i){ cancelAllPlayback(); curTopic=i; if(i>0&&!hasSub(curCat)){alert("🔒 Locked");return} const title=TOPICS[curCat][i]; hideAll(); document.getElementById("lesson").classList.remove("hidden"); updateAdminUI(); document.getElementById("lessonTitle").innerText=title; document.getElementById("lessonPill").innerText=getGroupHeader(title); document.getElementById("lessonIntro").innerText="Standard mathematical symbols with topic-matched past-question practice, photo/snap solver, and custom saved questions."; renderAssignmentForTopic(title); setMode("learn"); }
+function openTopic(i){ cancelAllPlayback(); curTopic=i; if(i>0&&!hasSub(curCat)){alert("🔒 Locked");return} const title=TOPICS[curCat][i]; hideAll(); document.getElementById("lesson").classList.remove("hidden"); updateAdminUI(); updatePhotoAccessUI(); document.getElementById("lessonTitle").innerText=title; document.getElementById("lessonPill").innerText=getGroupHeader(title); document.getElementById("lessonIntro").innerText="Extended step-by-step explanations with standard mathematical symbols, common exam pitfalls, verification checks, subscriber photo/snap solver, and custom saved questions."; renderAssignmentForTopic(title); setMode("learn"); }
 function setMode(mode){ cancelAllPlayback(); curMode=mode; curIdx=0; document.getElementById("modeLearnBtn").className=mode==="learn"?"btn blue":"btn white"; document.getElementById("modeExamBtn").className=mode==="exam"?"btn blue":"btn white"; document.getElementById("modeExBtn").className=mode==="exercise"?"btn blue":"btn white"; document.getElementById("qModePill").innerText=mode==="learn"?"📖 LEARN":mode==="exam"?"🎯 PAST Q":"✏️ EXERCISE"; updateModeCounts(); renderCurrent(); renderSideQuestionBoxes(); clearBoard(); }
 
 function renderCurrent(){
   updateModeCounts();
+  updatePhotoAccessUI();
   const title=TOPICS[curCat][curTopic];
   curQuestion=generateTopicQuestion(title,curIdx,curMode);
   const total=getTotal();
@@ -1312,9 +1501,17 @@ function stopVoice(){ cancelAllPlayback(); document.getElementById("penStatus").
 function askTeacher(){
   if(!curQuestion) return;
   const typed = document.getElementById("askBox").value.trim();
-  const pHtml = (curQuestion.params||[]).map(p=>`• <b>${p.sym}</b>: ${p.why}`).join("<br>");
+  const pHtml = (curQuestion.params||[]).map(p=>`• <b>${p.sym}</b> (${p.meaning}): ${p.why}`).join("<br>");
   const fHtml = (curQuestion.formula.parts||[]).map(pt=>`• <b>${pt.part}</b>: ${pt.desc}`).join("<br>");
-  document.getElementById("askAns").innerHTML=`<div class="card" style="background:#eef7ff;margin-top:10px"><b>Why This Works${typed ? " ("+typed+")" : ""}:</b><br>${pHtml}<br><br><b>Formula Parts (${curQuestion.formula.eq}):</b><br>${fHtml}</div>`;
+  const sHtml = (curQuestion.steps||[]).map((st,i)=>`• <b>Step ${i+1}:</b> ${st.line} — <i>${st.why}</i>${st.arith ? ` <span style="color:#0f766e">[${st.arith}]</span>` : ""}`).join("<br>");
+  document.getElementById("askAns").innerHTML=`<div class="card" style="background:#eef7ff;margin-top:10px">
+    <b>Detailed Breakdown${typed ? " — Your Note: "+typed : ""}:</b><br><br>
+    <b>1. Given Parameters &amp; Why They Matter:</b><br>${pHtml}<br><br>
+    <b>2. Formula &amp; Meaning of Parts (${curQuestion.formula.eq}):</b><br>${fHtml}<br><br>
+    <b>3. Step-by-Step Reasoning:</b><br>${sHtml}<br><br>
+    <b>4. Common Trap:</b> ${curQuestion.pitfall || ""}<br>
+    <b>5. Final Check:</b> ${curQuestion.check || ""}
+  </div>`;
   writeStructuredLesson(curQuestion, null);
 }
 
@@ -1322,7 +1519,7 @@ function askVoice(){ try{const R=window.SpeechRecognition||window.webkitSpeechRe
 
 function solveQuestion(){
   const typedQ = document.getElementById("askBox").value.trim();
-  const hasPhoto = Boolean(attachedPhotoData);
+  const hasPhoto = Boolean(attachedPhotoData && canUsePhotoSolver());
   const q = typedQ || (hasPhoto ? "Question from snapped/uploaded photo" : (curQuestion ? curQuestion.title : "Custom question"));
   const title = TOPICS[curCat] && TOPICS[curCat][curTopic] ? TOPICS[curCat][curTopic] : "Mathematics";
   const tag = hasPhoto ? "PHOTO / SNAP Q" : "TYPED Q";
@@ -1331,30 +1528,42 @@ function solveQuestion(){
     examTag: tag,
     source: `${hasPhoto ? "Photo/Snap Solver" : "Typed Question"} • ${title}`,
     params: [
-      { sym: q, meaning: hasPhoto ? "problem from uploaded/snapped image" : "given question statement", why: "Identify all given numbers, symbols, and unknown values." }
+      { sym: q, meaning: hasPhoto ? "problem captured from photo" : "given problem statement", why: "Reading every condition and symbol carefully prevents misinterpreting what is asked." },
+      { sym: `Topic: ${title}`, meaning: "mathematical context", why: "Identifying the topic helps select the right formula, theorem, or standard procedure." }
     ],
     formula: {
-      eq: "Identify Topic Rule → Substitute Knowns → Simplify Step-by-Step",
+      eq: "1. Extract Given & Unknown → 2. Apply Governing Rule → 3. Simplify & Verify",
       parts: [
-        { part: "Known values", desc: "quantities given in the problem" },
-        { part: "Target", desc: "value or expression to find" }
+        { part: "Given values/conditions", desc: "known numbers, angles, expressions, or constraints in the problem" },
+        { part: "Target quantity", desc: "what the question asks us to find, prove, or simplify" },
+        { part: "Applicable rule", desc: "the formula, identity, or arithmetic law linking given values to the answer" }
       ]
     },
     steps: [
       {
-        line: `Set up the expression/equation for: ${q}`,
-        why: "Write down the applicable mathematical rule clearly before calculating.",
-        arith: "Perform arithmetic operations step by step and check signs/units."
+        line: `Identify known quantities and target in: ${q}`,
+        why: "Separating what is given from what is required avoids confusion on multi-part questions.",
+        arith: "List each value and its unit or sign clearly."
+      },
+      {
+        line: `Substitute into the appropriate rule and simplify step by step`,
+        why: "Working one operation at a time in proper order keeps calculations accurate and easy to trace.",
+        arith: "Check every multiplication, division, addition, subtraction, and sign change."
       }
     ],
-    sideWorkLines: ["Check arithmetic & units", "Verify final value"],
-    sideWorkExpl: "Let me check the working on the board, then erase it."
+    pitfall: "Rushing through signs (+ / −), order of operations (BODMAS), or forgetting to answer the exact question asked (e.g., finding x instead of 2x).",
+    check: "Re-read the original question from start to finish and verify that the steps and final answer match all conditions.",
+    sideWorkLines: ["List given vs. required", "Check signs, powers & units", "Verify final answer"],
+    sideWorkExpl: "Let me write out the structured check on the board, then erase it."
   };
   document.getElementById("qExamTag").innerText = tag;
   document.getElementById("qSavedBadge").innerHTML = "";
   document.getElementById("qTitle").innerText = curQuestion.title;
   document.getElementById("qSource").innerText = curQuestion.source;
-  document.getElementById("qAns").innerHTML = `<div class="card" style="background:#eafff1;margin-top:10px"><b>✅ Solving ${hasPhoto ? "photo/typed" : "typed"} question with explanation on the whiteboard...</b></div>`;
+  document.getElementById("qAns").innerHTML = `<div class="card" style="background:#eafff1;margin-top:10px">
+    <b>✅ Extended Explanation Loaded on Whiteboard:</b><br>
+    <span class="small">Includes parameters, rule &amp; parts, multi-step working, common pitfalls, and final verification check.</span>
+  </div>`;
   drawDiagram("none", "");
   writeStructuredLesson(curQuestion, null);
 }
@@ -1370,8 +1579,8 @@ function changeAdminPass(){ const np=document.getElementById("newAdminPass").val
 function genPIN(){ const cat=document.getElementById("pinCat").value; const name=document.getElementById("studentName").value||"Student"; const pin=cat+"-"+Math.floor(1000+Math.random()*9000); const pins=getPins(); pins[pin]={cat,name,device:null,created:new Date().toLocaleDateString(),start:null}; savePins(pins); document.getElementById("genResult").innerHTML=`<div class="card" style="background:#eafff1"><b>PIN ✅ - Valid 1 MONTH - NOT Transferable</b><br>${name} • ${cat} • ₦5,000<br><b style="font-size:22px">PIN: ${pin}</b></div>`; renderPinList(); }
 function renderPinList(){ const pins=getPins(); let html=""; for(let k in pins){const p=pins[k];const st=!p.device?"🟢 NOT USED":isExpired(p)?"⏰ EXPIRED":"✅ ACTIVE - "+daysLeft(p)+" days left";const dev=p.device?`<br><span class="small">🔒 Locked to: ${p.device}</span>`:"";html+=`<div class="row"><span><b>${k}</b><br><span class="small">${p.name} • ${p.cat} • ${st}</span>${dev}</span></div>`} document.getElementById("pinList").innerHTML=html||"<p class='small'>No PINs yet.</p>"; }
 function activatePIN(){ const pin=document.getElementById("pinInput").value.trim().toUpperCase(); doActivate(pin,"pinMsg"); }
-function activatePIN2(){ const pin=document.getElementById("pinInput2").value.trim().toUpperCase(); doActivate(pin,"pinMsg2"); if(getPins()[pin]&&getPins()[pin].device===deviceId&&!isExpired(getPins()[pin]))openCategory(curCat); }
-function doActivate(pin,msgId){ const pins=getPins(); const p=pins[pin]; if(!p){document.getElementById(msgId).innerText="❌ Invalid PIN.";return} if(p.device&&p.device!==deviceId){document.getElementById(msgId).innerText="❌ BLOCKED: PIN locked to another phone. NOT transferable.";alert("❌ PIN NOT TRANSFERABLE");return} if(!p.device){p.device=deviceId;p.start=Date.now();pins[pin]=p;savePins(pins);document.getElementById(msgId).innerText="✅ Success! PIN locked to THIS phone. NOT transferable. 1 MONTH started.";updateStats();return} if(isExpired(p)){document.getElementById(msgId).innerText="⏰ EXPIRED after 1 month. Renew.";return} document.getElementById(msgId).innerText=`✅ Welcome back! ${p.cat} unlocked. ${daysLeft(p)} days left.`; updateStats(); }
+function activatePIN2(){ const pin=document.getElementById("pinInput2").value.trim().toUpperCase(); doActivate(pin,"pinMsg2"); if(getPins()[pin]&&getPins()[pin].device===deviceId&&!isExpired(getPins()[pin])){ updatePhotoAccessUI(); openCategory(curCat); } }
+function doActivate(pin,msgId){ const pins=getPins(); const p=pins[pin]; if(!p){document.getElementById(msgId).innerText="❌ Invalid PIN.";return} if(p.device&&p.device!==deviceId){document.getElementById(msgId).innerText="❌ BLOCKED: PIN locked to another phone. NOT transferable.";alert("❌ PIN NOT TRANSFERABLE");return} if(!p.device){p.device=deviceId;p.start=Date.now();pins[pin]=p;savePins(pins);document.getElementById(msgId).innerText="✅ Success! PIN locked to THIS phone. NOT transferable. 1 MONTH started.";updateStats();updatePhotoAccessUI();return} if(isExpired(p)){document.getElementById(msgId).innerText="⏰ EXPIRED after 1 month. Renew.";return} document.getElementById(msgId).innerText=`✅ Welcome back! ${p.cat} unlocked. ${daysLeft(p)} days left.`; updateStats(); updatePhotoAccessUI(); }
 
 showHome(); initBoard(); updateAdminUI();
 </script></body></html>
