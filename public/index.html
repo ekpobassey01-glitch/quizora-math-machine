@@ -1,151 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maths Machine — Learn Maths Like A Real Teacher</title>
-<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Maths Machine - Quizora</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif}
-:root{--blue:#1E40AF;--yellow:#FACC15;--white:#fff;--black:#111111;--border:#E2E8F0;--text2:#64748B}
-body{background:var(--white);color:var(--black)}
-.wrap{max-width:480px;margin:0 auto;padding:0 14px 28px}
-.topbar{max-width:480px;margin:0 auto;padding:14px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--white);z-index:10;border-bottom:1px solid var(--border)}
-.logo{display:flex;align-items:center;gap:10px}
-.logoIcon{width:44px;height:44px;background:var(--blue);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--yellow);font-size:24px;font-weight:900;position:relative}
-.logoIcon span{position:absolute;font-size:10px;color:var(--yellow)}
-.logo b{font-size:19px;line-height:1}
-.logo span{font-size:11px;color:var(--text2)}
-.btn{width:100%;padding:14px;border-radius:13px;border:none;font-weight:800;font-size:14px;cursor:pointer;margin-top:10px}
-.btn-blue{background:var(--blue);color:#fff}
-.btn-yellow{background:var(--yellow);color:#111}
-.hero{background:var(--blue);border-radius:22px;padding:26px 18px;text-align:center;color:#fff;margin:12px 0 14px}
-.heroIcon{width:64px;height:64px;background:var(--yellow);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 10px;color:#111;font-weight:900}
-.hero h1{font-size:26px;line-height:1.15}
-.hero h1 em{color:var(--yellow);font-style:normal}
-.hero p{color:#DBEAFE;font-size:13px;margin-top:8px;line-height:1.6}
-.pill{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);padding:6px 10px;border-radius:20px;font-size:11px;font-weight:700;margin:3px;color:#fff}
-.card{background:var(--white);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px}
-.card h2{font-size:16px}
-.card p{font-size:13px;color:var(--text2);line-height:1.6;margin-top:4px}
-.loginRow{display:flex;gap:10px;margin-top:12px}
-.loginRow button{flex:1;margin-top:0}
-.snapBox{background:#EFF6FF;border:2px dashed var(--blue);border-radius:14px;padding:14px;margin-top:12px;text-align:left}
-.snapBox b{font-size:14px}
-.snapBox p{font-size:12px;color:var(--text2);line-height:1.5;margin-top:4px}
-.catCard{display:flex;gap:12px;align-items:center;background:var(--white);border:1px solid var(--border);border-left:6px solid var(--blue);border-radius:16px;padding:14px;margin-top:10px;cursor:pointer}
-.catIcon{width:52px;height:52px;background:var(--yellow);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0}
-.catCard b{font-size:15px}
-.catCard span{font-size:12px;color:var(--text2);display:block;margin-top:3px;line-height:1.4}
-.freeBadge{background:#FEF9C3;color:#854D0E;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:800;border:1px solid var(--yellow)}
-.lock{font-size:11px;font-weight:800;color:var(--blue)}
-.mathDemo{background:#FEF9C3;border:1px solid var(--yellow);border-radius:12px;padding:12px;margin-top:10px;text-align:center;font-size:15px;color:var(--black)}
-.step{display:flex;gap:10px;margin-top:12px}
-.stepNum{width:32px;height:32px;flex-shrink:0;background:var(--blue);color:var(--yellow);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:14px}
-.step b{font-size:14px}
-.step span{font-size:12px;color:var(--text2);display:block;line-height:1.5}
-.subBar{background:var(--yellow);border-radius:16px;padding:16px;text-align:center;color:#111}
-.subBar p{color:#444}
-.small{font-size:11px;color:#94A3B8;text-align:center;margin-top:8px}
-</style>
-</head>
-<body>
-
-<div class="topbar">
-  <div class="logo"><div class="logoIcon">M<span style="top:4px;right:5px">π</span><span style="bottom:4px;left:5px">√</span></div><div><b>Maths Machine</b><br><span>Learn Maths Like A Real Teacher</span></div></div>
-  <button onclick="goLogin()" style="background:var(--blue);color:#fff;border:none;padding:9px 14px;border-radius:20px;font-weight:800">Login</button>
-</div>
-
+*{box-sizing:border-box;margin:0;font-family:system-ui,Arial}body{background:#f6f7fb;color:#111}
+header{background:#fff;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;position:sticky;top:0;box-shadow:0 1px 8px rgba(0,0,0,.06)}
+.logo{display:flex;gap:10px;align-items:center}.m{width:42px;height:42px;border-radius:10px;background:#FFC21A;display:grid;place-items:center;font-size:26px;font-weight:900;border:3px solid #1E4DA1;color:#1E4DA1}
+.logo b{font-size:19px;line-height:1}.logo span{font-size:12px;color:#666;font-weight:600}
+.btn{border:0;border-radius:999px;padding:10px 18px;font-weight:800;cursor:pointer}
+.btn-blue{background:#1E4DA1;color:#fff}.btn-yellow{background:#FFC21A;color:#111}.btn-white{background:#fff;color:#1E4DA1;border:1px solid #ddd}
+.hero{background:#1E4DA1;color:#fff;text-align:center;padding:28px 16px 22px;border-radius:0 0 28px 28px}
+.hero .bigM{width:86px;height:86px;margin:0 auto 10px;border-radius:50%;background:#FFC21A;display:grid;place-items:center;font-size:52px;font-weight:900;color:#1E4DA1;border:5px solid #fff}
+.hero h1{font-size:28px;line-height:1.1}.hero h1 em{color:#FFC21A;font-style:normal}.hero p{opacity:.9;margin:10px 0 14px;font-size:14px}
+.pills{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:12px}.pill{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.25);padding:6px 12px;border-radius:999px;font-size:12px;font-weight:700}
+.wrap{padding:16px;max-width:520px;margin:0 auto}
+.card{background:#fff;border-radius:18px;padding:16px;box-shadow:0 2px 12px rgba(0,0,0,.06);margin-bottom:14px}
+.card h2{font-size:16px;margin-bottom:10px}
+.feature{display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid #f0f0f0;font-size:14px;font-weight:600}.feature:last-child{border:0}.ic{width:34px;height:34px;border-radius:10px;background:#FFF3C4;display:grid;place-items:center;font-size:18px;flex-shrink:0}
+.section{display:flex;gap:12px;align-items:center;padding:12px;border-radius:14px;background:#f8f9ff;margin-bottom:10px}.section:last-child{margin:0}.s-ic{width:46px;height:46px;border-radius:12px;background:#fff;display:grid;place-items:center;font-size:24px;border:1px solid #eee}.section b{font-size:15px}.section small{color:#666}.tag{display:inline-block;background:#FFC21A;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:800;margin-top:4px}
+.stack{display:flex;flex-direction:column;gap:10px}.footer{text-align:center;color:#888;font-size:12px;padding:6px 0 20px}
+</style></head><body>
+<header><div class="logo"><div class="m">M</div><div><b>Maths Machine</b><br><span>Learn Maths Like A Real Teacher</span></div></div><button class="btn btn-blue" onclick="goStudent()">Login</button></header>
+<div class="hero"><div class="bigM">M</div><h1>Snap / Type Your Question<br><em>Get Audio + Visual Explanation</em></h1><p>Learn Maths Like A Real Teacher</p>
+<button class="btn btn-yellow" style="width:100%;padding:14px;font-size:16px" onclick="goStudent()">Continue as Student →</button><br><br>
+<button class="btn btn-white" style="width:100%;padding:13px;font-size:15px" onclick="goAdmin()">Login as Admin 🔐</button>
+<div class="pills"><span class="pill">📸 Snap & Solve</span><span class="pill">🎙️ Voice + Typing</span><span class="pill">🎧 Audio + Visual</span></div></div>
 <div class="wrap">
-
-  <div class="hero">
-    <div class="heroIcon">M</div>
-    <h1>Snap / Type Your Question<br><em>Get Audio + Visual Explanation</em></h1>
-    <p>The teacher that types, talks, and solves every step with real maths symbols.</p>
-    <div style="margin-top:12px">
-      <span class="pill">📸 Snap &amp; Solve</span>
-      <span class="pill">🎙️ Voice + Typing</span>
-      <span class="pill">▶️ Audio + Visual</span>
-    </div>
-    <button class="btn btn-yellow" onclick="goLogin()">Continue as Student →</button>
-    <button class="btn" style="background:#fff;color:var(--blue)" onclick="goAdmin()">Login as Admin 👑</button>
-    <p style="font-size:11px;color:#DBEAFE;margin-top:10px">Only 1st topic in each section is FREE</p>
-  </div>
-
-  <div class="card">
-    <h2>🔐 Login</h2>
-    <p>Login to see all topics. Topics display only after login.</p>
-    <div class="loginRow">
-      <button class="btn btn-blue" onclick="goLogin()">User Login</button>
-      <button class="btn btn-yellow" onclick="goAdmin()">Admin Login</button>
-    </div>
-    <div class="snapBox">
-      <b>📸 Snap / Type Your Question</b>
-      <p>After login, snap a photo of any question from textbook / exam / board, or type it. System reads it and explains with <b>audio + visual</b> step-by-step.</p>
-      <button class="btn btn-blue" onclick="goLogin()">📸 Snap / Type Question →</button>
-    </div>
-  </div>
-
-  <div class="card" style="text-align:center">
-    <h2>Real Maths Symbols, Not Computer Code</h2>
-    <div class="mathDemo">\(x^2 + 5x + 6 = 0\) &nbsp; → &nbsp; \(x = \frac{-b \pm \sqrt{b^2-4ac}}{2a}\) &nbsp; • &nbsp; \(\frac{1}{2}\) • \(\sqrt{x}\) • \(\frac{dy}{dx}\) • \(\pi\) • \(\log_{10}\)</div>
-    <p>Every solution uses standard symbols + voice + typing.</p>
-  </div>
-
-  <div class="card">
-    <h2>📂 Sections</h2>
-    <p>Login to view topics in each section. No topics shown here.</p>
-
-    <div class="catCard" onclick="goLogin()">
-      <div class="catIcon">📗</div>
-      <div style="flex:1"><b>Junior Secondary Maths</b><span>Login to view topics • <span class="freeBadge">1st Topic FREE</span></span><span class="lock">🔒 Locked — Subscribe to unlock all</span></div>
-      <div>›</div>
-    </div>
-
-    <div class="catCard" onclick="goLogin()">
-      <div class="catIcon">📘</div>
-      <div style="flex:1"><b>Senior Secondary Maths</b><span>Login to view topics • <span class="freeBadge">1st Topic FREE</span></span><span class="lock">🔒 Locked — Subscribe to unlock all</span></div>
-      <div>›</div>
-    </div>
-
-    <div class="catCard" onclick="goLogin()">
-      <div class="catIcon">🎯</div>
-      <div style="flex:1"><b>JAMB Maths</b><span>Login to view topics • <span class="freeBadge">1st Topic FREE</span></span><span class="lock">🔒 Locked — Subscribe to unlock all</span></div>
-      <div>›</div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>📖 Login for Topic-by-Topic Teaching</h2>
-    <p>After login, all topics display. You learn one topic at a time — step-by-step.</p>
-    <div class="step"><div class="stepNum">1</div><div><b>Login</b><span>All topics display in your section.</span></div></div>
-    <div class="step"><div class="stepNum">2</div><div><b>Open 1st Topic — FREE</b><span>Try it. No payment needed.</span></div></div>
-    <div class="step"><div class="stepNum">3</div><div><b>Remaining Topics — Locked 🔒</b><span>Based on syllabus. Unlock with subscription.</span></div></div>
-    <div class="step"><div class="stepNum">4</div><div><b>Learn with Audio + Visual</b><span>Pause, underline step you don't understand, ask teacher, snap your working for correction.</span></div></div>
-    <button class="btn btn-blue" onclick="goLogin()">Login to See Topics →</button>
-  </div>
-
-  <div class="card">
-    <h2>✨ How It Works</h2>
-    <div class="step"><div class="stepNum">1</div><div><b>📸 Snap / Type Question</b><span>From textbook, exam, or board. No need to type long question.</span></div></div>
-    <div class="step"><div class="stepNum">2</div><div><b>🤖 AI Reads &amp; Solves</b><span>With standard symbols: \(x^2\), \(\frac{1}{2}\), \(\sqrt{x}\), \(\frac{dy}{dx}\). Voice + typing + graph.</span></div></div>
-    <div class="step"><div class="stepNum">3</div><div><b>⏸️ Pause &amp; Underline</b><span>Tap step you don't understand. Teacher re-explains with different method.</span></div></div>
-    <div class="step"><div class="stepNum">4</div><div><b>✍️ Snap Your Working</b><span>System corrects it and pins mistakes with 📌.</span></div></div>
-  </div>
-
-  <div class="subBar">
-    <h2>💳 Subscribe — ₦5,000 / Section / Month</h2>
-    <p>Pay, get PIN from Admin. PIN works on <b>ONE phone only</b> for <b>1 MONTH</b>. Cannot be transferred.</p>
-    <button class="btn btn-blue" onclick="goLogin()" style="margin-top:12px">Subscribe — ₦5,000 / Month →</button>
-    <p style="font-size:11px;margin-top:8px">Admin: username <b>admin</b> — creates password first time — FREE forever, unlimited.</p>
-  </div>
-
-  <p class="small">Quizora Math Machine • Junior Secondary Maths • Senior Secondary Maths • JAMB Maths • © 2026<br>Blue #1E40AF + Yellow #FACC15 + White</p>
+<div class="card"><h2>✨ Features</h2>
+<div class="feature"><div class="ic">📸</div> Snap / Type Your Question</div>
+<div class="feature"><div class="ic">🧮</div> Real Maths Symbols</div>
+<div class="feature"><div class="ic">🎧</div> Audio + Visual Step-by-Step</div>
+<div class="feature"><div class="ic">✏️</div> Snap Your Working for Correction</div>
 </div>
-
-<script>
-function goLogin(){ alert('Step 2: User Login — coming next. This frontpage is locked.'); }
-function goAdmin(){ alert('Step 2: Admin Login — username: admin — coming next.'); }
-</script>
-</body>
-    </html>
+<div class="card"><h2>📚 Sections</h2>
+<div class="section" onclick="goStudent()"><div class="s-ic">📗</div><div><b>Junior Secondary Maths</b><br><small>Login to view topics</small><br><span class="tag">1st Topic FREE</span></div></div>
+<div class="section" onclick="goStudent()"><div class="s-ic">📘</div><div><b>Senior Secondary Maths</b><br><small>Login to view topics</small><br><span class="tag">1st Topic FREE</span></div></div>
+<div class="section" onclick="goStudent()"><div class="s-ic">🎯</div><div><b>JAMB Maths</b><br><small>Login to view topics</small><br><span class="tag">1st Topic FREE</span></div></div>
+</div>
+<div class="stack"><button class="btn btn-yellow" style="padding:14px" onclick="goStudent()">Login as Student →</button><button class="btn btn-blue" style="padding:13px" onclick="goAdmin()">Login as Admin 🔐</button></div>
+</div><div class="footer">Quizora Maths Machine • © 2026</div>
+<script>function goStudent(){location.href='student.html'}function goAdmin(){location.href='admin.html'}</script>
+</body></html>
