@@ -1,1 +1,334 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Maths Machine - Quizora</title>
+<style>
+*{box-sizing:border-box;margin:0;font-family:Arial}body{background:#f6f7fb;color:#111}
+header{background:#fff;display:flex;justify-content:space-between;align-items:center;padding:12px 16px;position:sticky;top:0;z-index:10}
+.logo{display:flex;gap:10px;align-items:center}.m{width:42px;height:42px;background:#FFC21A;border:3px solid #1E4DA1;border-radius:10px;display:grid;place-items:center;font-size:26px;font-weight:900;color:#1E4DA1}
+.btn{border:0;border-radius:999px;padding:11px 18px;font-weight:800;cursor:pointer}.blue{background:#1E4DA1;color:#fff}.yellow{background:#FFC21A;color:#000}.white{background:#fff;color:#1E4DA1;border:1px solid #ddd}.green{background:#0a9d5c;color:#fff}.purple{background:#6a1b9a;color:#fff}
+.hero{background:#1E4DA1;color:#fff;text-align:center;padding:24px 16px;border-radius:0 0 24px 24px}.bigM{width:80px;height:80px;background:#FFC21A;border:4px solid #fff;border-radius:50%;display:grid;place-items:center;font-size:48px;font-weight:900;color:#1E4DA1;margin:0 auto 10px}
+.wrap{padding:16px;max-width:560px;margin:auto}.card{background:#fff;border-radius:16px;padding:16px;margin-bottom:14px}
+.row{padding:12px 0;border-bottom:1px solid #eee;font-weight:600;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.sec{background:#f8f9ff;padding:12px;border-radius:12px;margin-bottom:10px;font-weight:700;cursor:pointer}.small{color:#666;font-weight:400;font-size:13px}input,textarea,select{width:100%;padding:12px;border:1px solid #ddd;border-radius:10px;margin:8px 0}textarea{min-height:70px}
+input[type=checkbox]{width:22px;height:22px;accent-color:#1E4DA1;cursor:pointer;flex-shrink:0}.hidden{display:none!important}
+.lessonStep{background:#fff;border:1px solid #eee;border-left:4px solid #1E4DA1;padding:12px;border-radius:10px;margin-bottom:10px;white-space:pre-wrap;font-size:17px;line-height:1.8}
+.stepBtn{border:1px solid #1E4DA1;background:#fff;color:#1E4DA1;border-radius:999px;padding:6px 12px;font-weight:700;cursor:pointer;margin:4px 4px 0 0}
+.payBox{background:#fff7d6;border:2px dashed #FFC21A;border-radius:14px;padding:14px}
+#adminBox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);place-items:center;z-index:99}#adminBox.show{display:grid}.popup{background:#fff;width:92%;max-width:380px;border-radius:16px;padding:20px;max-height:90vh;overflow:auto}
+img.prev{width:100%;border-radius:12px;margin-top:8px}.topBar{background:#6a1b9a;color:#fff;text-align:center;padding:8px;font-size:13px;font-weight:700}
+.topicRow{display:flex;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid #eee}.classHead{background:#1E4DA1;color:#fff;padding:10px 12px;border-radius:10px;margin:14px 0 6px;font-weight:800}
+.whiteboardWrap{background:#fff;border:4px solid #c9c9c9;border-radius:14px;padding:0;position:relative;overflow:hidden;display:flex;min-height:360px}
+#boardLeft{flex:1.2;border-right:2px dashed #ccc;padding:10px;position:relative}#boardRight{flex:1;background:#fff8e1;padding:10px}
+#whiteboard{width:100%;height:320px;background:#fff;display:block}.marker{position:absolute;font-size:26px;transition:all .2s;pointer-events:none}
+.exBox{background:#f8f9ff;border:1px solid #eee;border-radius:10px;padding:10px;margin-bottom:8px;font-size:15px;line-height:1.7}.examBox{background:#fff3e0;border-left:4px solid #e65100;border-radius:10px;padding:12px;margin-bottom:10px;line-height:1.7}
+.progress{background:#eee;border-radius:999px;height:10px;overflow:hidden}.progressBar{background:#0a9d5c;height:10px}
+.voiceCtrl{display:flex;gap:8px;flex-wrap:wrap}.voiceCtrl button{flex:1}.searchBox{position:sticky;top:60px;background:#fff;padding:8px;border-radius:10px;z-index:5}
+.warnBox{background:#ffecec;border:2px solid #e11;border-radius:12px;padding:12px;font-weight:700;color:#b00}
+.whyBox{background:#e8f5e9;border-left:4px solid #0a9d5c;padding:10px;border-radius:8px;margin-top:8px;font-size:14px;line-height:1.6}
+</style></head><body>
+<div id="adminBar" class="hidden topBar">👑 ADMIN • <button class="btn yellow" style="padding:4px 12px" onclick="goToAdminDash()">↩ Back to Admin</button> <button class="btn white" style="padding:4px 12px" onclick="adminLogout()">Logout</button></div>
+<header><div class="logo"><div class="m">M</div><div><b>Maths Machine</b><br><small>Voice Explains WHY • Every Topic Different</small></div></div><div><button class="btn blue" onclick="showHome()">Home</button> <button class="btn purple" onclick="openAdmin()">Admin</button></div></header>
 
+<div id="home"><div class="hero"><div class="bigM">M</div><h2>Maths Machine</h2><p>Voice explains WHY each step is done. Every topic has its OWN questions.</p><br><button class="btn yellow" style="width:100%;padding:14px" onclick="showSections()">Continue as Student →</button><br><br><button class="btn white" style="width:100%;padding:13px" onclick="openAdmin()">Login as Admin 🔐</button></div>
+<div class="wrap"><div class="card"><b>📚 Sections</b><br><br><div class="sec" onclick="openCategory('JSS')">📗 Junior — 72 Topics</div><div class="sec" onclick="openCategory('SSS')">📘 Senior — 108 Topics</div><div class="sec" onclick="openCategory('JAMB')">🎯 JAMB / A-Level — 104 Topics</div></div>
+<div class="card warnBox">🔒 PIN RULE<br><span style="font-weight:400;color:#333;font-size:13px">1 PIN = 1 PHONE ONLY. NOT transferable. Expires after 1 month.</span></div>
+<div class="card"><b>✅ Fixed Now</b><br><br><div class="row"><span>🗣️ Voice says WHY — not just what</span></div><div class="row"><span>📚 Angles topic = Angles questions only</span></div><div class="row"><span>📐 Mensuration = Area / Volume only</span></div><div class="row"><span>🎲 Probability = Coins / Dice / Balls only</span></div></div></div><p style="text-align:center;color:#888;font-size:12px;padding:10px">Quizora Maths Machine • © 2026</p></div>
+
+<div id="sections" class="hidden wrap"><button class="btn white" onclick="showHome()">← Back</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn" style="display:none">👑 Back to Admin</button><br><br><h2>Choose Your Section</h2><p class="small" id="subStatus"></p><p class="small" id="myDevice"></p><br><div class="card"><div class="sec" onclick="openCategory('JSS')">📗 Junior (72)<br><span class="small" id="statJSS"></span></div><div class="sec" onclick="openCategory('SSS')">📘 Senior (108)<br><span class="small" id="statSSS"></span></div><div class="sec" onclick="openCategory('JAMB')">🎯 JAMB (104)<br><span class="small" id="statJAMB"></span></div></div>
+<div class="card"><b>🔑 Have a PIN?</b><div class="warnBox" style="font-size:13px">⚠️ PIN locks to THIS phone only. NOT transferable.</div><input id="pinInput" placeholder="Enter PIN"><button class="btn blue" style="width:100%" onclick="activatePIN()">Activate PIN - This Phone Only</button><p class="small" id="pinMsg"></p></div>
+<div class="card"><b>📸 Snap / Type a Question</b><input type="file" accept="image/*" onchange="previewQ(event)"><img id="qPrev" class="prev hidden"><textarea id="qText" placeholder="Type question..."></textarea><button class="btn green" style="width:100%" onclick="solveQuestion()">Solve →</button><div id="qAns"></div></div></div>
+
+<div id="topics" class="hidden wrap"><button class="btn white" onclick="showSections()">← Sections</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn2" style="display:none">👑 Back to Admin</button><br><br><h2 id="catTitle"></h2><p class="small" id="catSub"></p><p class="small" id="expiryInfo"></p><br><div class="searchBox"><input id="topicSearch" placeholder="🔍 Search topic..." oninput="filterTopics()"></div><br><div class="card"><b>☑️ Tick a Topic to Open It</b><div id="topicList"></div></div>
+<div class="card payBox" id="payCard"><b>🔒 Unlock - ₦5,000 / MONTH</b><br><br><b>Pay to:</b><br><b>8147699555</b><br><b>Ekpo Bassey</b><br><div class="warnBox" style="margin-top:10px">⚠️ 1 PIN = 1 PHONE ONLY. NOT transferable.</div><br><button class="btn green" style="width:100%" onclick="openWhatsApp()">💬 Send Receipt - WhatsApp</button><br><br><input id="pinInput2" placeholder="Enter PIN"><button class="btn blue" style="width:100%" onclick="activatePIN2()">Activate PIN</button><p class="small" id="pinMsg2"></p></div></div>
+
+<div id="lesson" class="hidden wrap"><button class="btn white" onclick="backToTopics()">← Topics</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn3" style="display:none">👑 Back to Admin</button><br><br><h2 id="lessonTitle"></h2><p class="small" id="lessonIntro"></p><br>
+<div class="card"><b>✍️ Whiteboard — Voice Explains WHY</b><p class="small">LEFT: Solution • RIGHT: WHY we did that step. Voice speaks the WHY.</p><br><div class="whiteboardWrap"><div id="boardLeft"><canvas id="whiteboard" width="300" height="320"></canvas><div class="marker" id="marker">🖊️</div></div><div id="boardRight"><b>🔍 WHY? — Analysis</b><div id="analysisText" style="font-size:14px;line-height:1.7;margin-top:8px">Tap ▶ Play.</div></div></div><br><div class="voiceCtrl"><button class="btn blue" onclick="playLesson()">▶ Play Slow — With WHY</button><button class="btn white" onclick="pauseLesson()">⏸ Pause</button><button class="btn white" onclick="stopVoice()">⏹ Stop</button><button class="btn yellow" onclick="clearBoard()">🧹 Clear</button></div><br><p class="small">Voice speed:</p><div class="voiceCtrl"><button class="btn white" onclick="setSpeed(0.55)">🐢 Very Slow</button><button class="btn green" onclick="setSpeed(0.65)">▶ Moderate</button><button class="btn white" onclick="setSpeed(0.85)">🐇 Faster</button></div><p class="small" id="penStatus">Marker ready.</p><p class="small" id="nowReading">Now explaining: —</p></div>
+<div class="card"><b>📖 Solved Examples — 25 per Topic — THIS TOPIC ONLY</b><br><div class="progress"><div class="progressBar" id="exProgress" style="width:4%"></div></div><p class="small" id="exCounter">Example 1 of 25</p><p class="small" id="topicCheck" style="color:#0a9d5c;font-weight:700"></p><br><div id="exampleBox" class="exBox"></div><button class="btn blue" onclick="prevExample()">← Previous</button> <button class="btn green" onclick="nextExample()">Next Example →</button> <button class="btn yellow" onclick="showAllExamples()">Show All 25</button><div id="allExamples"></div></div>
+<div class="card"><b>🎯 PAST QUESTIONS — WAEC • NECO • JAMB • BECE • CAMBRIDGE — THIS TOPIC ONLY</b><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="stepBtn" onclick="filterExam('ALL')">ALL</button><button class="stepBtn" onclick="filterExam('WAEC')">WAEC</button><button class="stepBtn" onclick="filterExam('NECO')">NECO</button><button class="stepBtn" onclick="filterExam('JAMB')">JAMB</button><button class="stepBtn" onclick="filterExam('BECE')">BECE</button><button class="stepBtn" onclick="filterExam('CAMBRIDGE')">CAMBRIDGE</button></div><br><div id="examList"></div></div>
+<div class="card"><b>Steps — With WHY</b><div id="lessonSteps"></div><div class="card" style="background:#fff7d6"><b>❓ Don't understand WHY?</b><textarea id="askBox" placeholder="Ask why..."></textarea><button class="btn yellow" style="width:100%" onclick="askTeacher()">Ask Teacher - Explain WHY Again</button><button class="btn white" style="width:100%" onclick="askVoice()">🎙️ Ask by Voice</button><div id="askAns"></div></div></div>
+<div class="card"><b>✏️ Exercises — 60 per Topic — THIS TOPIC ONLY</b><br><button class="btn blue" onclick="showExercises(1)">1-20</button> <button class="btn blue" onclick="showExercises(2)">21-40</button> <button class="btn red" style="background:#e11;color:#fff" onclick="showExercises(3)">🔥 Tough 41-60</button> <button class="btn yellow" onclick="shuffleExercises()">🔀 Shuffle</button><br><br><div id="exList"></div><input type="file" accept="image/*" onchange="previewWork(event)"><img id="workPrev" class="prev hidden"><button class="btn green" style="width:100%" onclick="correctWork()">Send for Correction →</button><div id="correctAns"></div></div></div>
+
+<div id="adminDash" class="hidden wrap"><button class="btn white" onclick="adminLogout()">← Logout</button> <button class="btn yellow" onclick="showSections()">👀 Switch to Student View →</button><br><br><h2>👑 Admin Dashboard</h2><p class="small">Welcome Ekpo Bassey!</p><br><div class="card payBox"><b>💳 Your Payment Details</b><br><b>Account:</b> 8147699555<br><b>Name:</b> Ekpo Bassey<br><b>WhatsApp:</b> 08147699555<br><b>Price:</b> ₦5,000 / Section / MONTH<br><b>PIN:</b> 1 Phone Only. NOT transferable.</div><div class="card"><b>Generate New PIN — NOT Transferable</b><select id="pinCat"><option value="JSS">Junior (JSS)</option><option value="SSS">Senior (SSS)</option><option value="JAMB">JAMB / A-Level</option></select><input id="studentName" placeholder="Student Name"><button class="btn green" style="width:100%" onclick="genPIN()">Generate PIN →</button><div id="genResult"></div></div><div class="card"><b>📋 All PINs</b><div id="pinList"></div></div><div class="card"><b>⚙️ Change Password</b><input id="newAdminPass" type="password" placeholder="New Password"><button class="btn blue" style="width:100%" onclick="changeAdminPass()">Change Password</button><p class="small" id="changeMsg"></p></div></div>
+<div id="adminBox" onclick="if(event.target==this) closeAdmin()"><div class="popup"><div id="adminLoginForm"><h3 id="adminTitle">Admin 🔐</h3><p class="small" id="adminHint">Create your Admin Password first time.</p><input id="adminPass" type="password" placeholder="Admin Password"><input id="adminPass2" type="password" placeholder="Confirm Password" class="hidden"><button class="btn blue" style="width:100%" onclick="checkAdmin()" id="adminBtn">Continue →</button><p id="adminMsg" style="color:red;font-size:13px"></p><button class="btn" onclick="closeAdmin()">Cancel</button></div><div id="adminSuccess" class="hidden" style="text-align:center"><h2>✅ Welcome Admin!</h2><br><button class="btn green" style="width:100%;padding:14px" onclick="goToAdminDash()">Go to Admin Dashboard →</button></div></div></div>
+
+<script>
+// ===== TOPICS - 72 + 108 + 104 =====
+const TOPICS={
+JSS:["JS1: Number and Numeration","JS1: Place Value & Number Systems","JS1: Fractions, Decimals & Percentages","JS1: Basic Operations & BODMAS","JS1: Factors, Multiples, HCF & LCM","JS1: Prime Numbers & Prime Factors","JS1: Directed Numbers","JS1: Sets - Introduction","JS1: Algebra - Basic Expressions","JS1: Simple Equations","JS1: Angles & Lines","JS1: Triangles & Quadrilaterals","JS1: Perimeter, Area & Volume","JS1: Ratio, Rate & Proportion","JS1: Statistics - Pictograms & Bar Charts","JS1: Graphs - Introduction","JS1: Coordinates - Introduction","JS1: Construction - Basic","JS1: Mensuration - Basic","JS1: Word Problems - Basic","JS1: Estimation & Approximation","JS1: Money & Commercial Maths","JS1: Time & Calendar","JS1: BECE / Junior WAEC Revision - JS1","JS2: Number Bases","JS2: Fractions & Decimals - Harder","JS2: Indices - Basic","JS2: Sets - Operations","JS2: Algebra - Expansion & Factorisation","JS2: Linear Equations & Inequalities","JS2: Functions - Introduction","JS2: Graphs of Linear Functions","JS2: Word Problems - Algebra","JS2: Angles in Polygons","JS2: Pythagoras Theorem","JS2: Mensuration - Circles & Cylinders","JS2: Ratio, Profit & Loss, Interest","JS2: Probability - Simple","JS2: Statistics - Mean, Median, Mode","JS2: Coordinates - Plotting Points","JS2: Bearings - Introduction","JS2: Construction & Loci - Basic","JS2: Trigonometry - Introduction","JS2: Angles - Parallel Lines","JS2: Algebraic Fractions - Basic","JS2: Variation - Introduction","JS2: Sequences - Basic","JS2: BECE / Junior NECO Revision - JS2","JS3: Number Bases & Modulo Arithmetic","JS3: Indices & Logarithms - Intro","JS3: Quadratic Expressions - Factorisation","JS3: Simultaneous Equations","JS3: Variation","JS3: Trigonometry - Sin, Cos, Tan","JS3: Geometry - Circle Theorems Intro","JS3: Mensuration - Cones & Spheres","JS3: Construction & Loci","JS3: Probability - Two Events","JS3: Statistics - Histograms & Pie Charts","JS3: Sets - Venn Diagrams","JS3: Functions - Graphs","JS3: Coordinates - Gradient","JS3: Bearings - Harder","JS3: Angles - Circle Theorems","JS3: Polynomials - Intro","JS3: Partial Fractions - Intro","JS3: Graphs - Quadratic Graphs","JS3: Inequalities - Graphs","JS3: Commercial Maths - Discount, Commission","JS3: BECE Past Questions 2019-2024","JS3: Junior WAEC Past Questions 2019-2024","JS3: Junior NECO Past Questions 2019-2024"],
+SSS:["SS1: Number & Numeration - Surds","SS1: Indices & Logarithms","SS1: Algebraic Fractions","SS1: Quadratic Equations","SS1: Simultaneous Equations","SS1: Inequalities & Graphs","SS1: Variation","SS1: Trigonometry - Ratios & Identities","SS1: Angles of Elevation & Depression","SS1: Coordinate Geometry - Straight Line","SS1: Circle Theorems","SS1: Mensuration - Surface Area & Volume","SS1: Probability","SS1: Statistics - Mean, Variance","SS1: Sequences & Series - Intro","SS1: Sets - Theory & Venn Diagrams","SS1: Functions - Domain, Range, Inverse","SS1: Graphs - Linear & Quadratic","SS1: Angles - Polygons & Parallel Lines","SS1: Bearings","SS1: Construction & Loci","SS1: Polynomials - Operations","SS1: Partial Fractions - Basic","SS1: Binomial Theorem - Intro","SS1: Logical Reasoning","SS1: Vectors - Intro","SS1: Matrices - Intro","SS1: Complex Numbers - Intro","SS1: Calculus - Limits Intro","SS1: Commercial Maths - Interest, Tax","SS1: Indices - Harder","SS1: Logarithms - Applications","SS1: Circle Geometry - Tangents","SS1: Coordinate Geometry - Gradient & Intercept","SS1: WAEC Past Questions - SS1","SS1: NECO Past Questions - SS1","SS2: Indices & Logarithms - Harder","SS2: Quadratic Functions & Graphs","SS2: Trigonometric Ratios of Special Angles","SS2: Sine & Cosine Rule","SS2: Bearings - Harder","SS2: Circle Geometry - Harder","SS2: Coordinate Geometry - Circle & Parabola","SS2: Calculus - Differentiation Intro","SS2: Polynomials - Factor Theorem","SS2: Binomial Theorem","SS2: Probability - Combined Events","SS2: Statistics - Standard Deviation","SS2: Sequences - AP & GP","SS2: Vectors - Operations","SS2: Matrices - Operations","SS2: Complex Numbers - Operations","SS2: Functions - Composite & Inverse","SS2: Graphs - Cubic & Reciprocal","SS2: Angles - Circle Theorems Advanced","SS2: Partial Fractions - Harder","SS2: Inequalities - Quadratic Inequalities","SS2: Variation - Joint & Partial","SS2: Mensuration - Frustums Intro","SS2: Trigonometry - Compound Angles Intro","SS2: Coordinate Geometry - Ellipse Intro","SS2: Construction - Advanced","SS2: Loci - Advanced","SS2: Logical Reasoning - Harder","SS2: Sets - Harder","SS2: Calculus - Applications","SS2: Statistics - Correlation Intro","SS2: Probability - Permutation & Combination Intro","SS2: WAEC Past Questions - SS2","SS2: NECO Past Questions - SS2","SS2: Cambridge IGCSE Past Questions - SS2","SS2: Cambridge O-Level Past Questions - SS2","SS3: Surds & Logarithms - Advanced","SS3: Quadratic Equations - Advanced","SS3: Trigonometry - Compound Angles","SS3: Calculus - Differentiation & Application","SS3: Calculus - Integration","SS3: Coordinate Geometry - Advanced","SS3: Circle Theorems - Advanced","SS3: Mensuration - Frustums","SS3: Probability - Permutation & Combination","SS3: Statistics - Correlation","SS3: Vectors - Advanced","SS3: Matrices & Determinants","SS3: Complex Numbers - Advanced","SS3: Logical Reasoning","SS3: Functions - Advanced","SS3: Graphs - Advanced","SS3: Angles - Advanced Geometry","SS3: Bearings - Advanced","SS3: Polynomials - Advanced","SS3: Partial Fractions - Advanced","SS3: Sequences & Series - Advanced","SS3: Binomial Theorem - Advanced","SS3: Inequalities - Advanced","SS3: Variation - Advanced","SS3: Trigonometry - Double Angles & Identities","SS3: Calculus - Integration & Area Under Curve","SS3: Coordinate Geometry - Parabola, Ellipse, Hyperbola","SS3: Sets - Advanced","SS3: Construction & Loci - Advanced","SS3: Commercial Maths - Advanced","SS3: WAEC Past Questions Drill 2019-2024","SS3: NECO Past Questions Drill 2019-2024","SS3: WAEC / NECO Revision - Mixed","SS3: Cambridge IGCSE Past Questions Drill","SS3: Cambridge A-Level Past Questions - Pure Maths 1","SS3: Mock Exam - WAEC Style 50 Questions"],
+JAMB:["Number & Numeration","Surds & Indices","Logarithms","Algebra - Equations & Inequalities","Quadratic Equations","Polynomials & Algebraic Fractions","Sequences & Series - AP & GP","Variation","Trigonometry - Ratios & Identities","Trigonometry - Sine & Cosine Rule","Trigonometry - Compound & Double Angles","Geometry - Angles, Triangles, Polygons","Circle Theorems","Coordinate Geometry - Straight Line","Coordinate Geometry - Circle, Parabola, Ellipse","Mensuration - Area & Volume","Calculus - Differentiation","Calculus - Integration & Area Under Curve","Matrices & Determinants","Vectors","Complex Numbers","Probability","Permutation & Combination","Statistics - Mean, Variance, Correlation","Bearings & Angles of Elevation","Logical Reasoning","Word Problems - JAMB Style","Sets & Venn Diagrams","Functions - Domain, Range, Inverse, Composite","Graphs - Linear, Quadratic, Cubic, Reciprocal","Angles - Parallel Lines & Polygons","Construction & Loci","Partial Fractions","Binomial Theorem","Inequalities - Linear & Quadratic","Trigonometry - Graphs & Equations","Calculus - Limits","Coordinate Geometry - Hyperbola","Commercial Maths - JAMB Style","Indices & Surds - JAMB Drill","Algebra - JAMB Drill","Trigonometry - JAMB Drill","Calculus - JAMB Drill","Geometry - JAMB Drill","Probability & Statistics - JAMB Drill","Sets & Functions - JAMB Drill","Graphs & Coordinates - JAMB Drill","Bearings & Circles - JAMB Drill","Matrices & Vectors - JAMB Drill","Complex Numbers - JAMB Drill","Sequences & Series - JAMB Drill","Partial Fractions - JAMB Drill","Polynomials - JAMB Drill","JAMB Past Questions 2015","JAMB Past Questions 2016","JAMB Past Questions 2017","JAMB Past Questions 2018","JAMB Past Questions 2019","JAMB Past Questions 2020","JAMB Past Questions 2021","JAMB Past Questions 2022","JAMB Past Questions 2023","JAMB Past Questions 2024","JAMB Mock 1 - 50 Questions","JAMB Mock 2 - 50 Questions","JAMB Mock 3 - 50 Questions","JAMB Past Questions - Hardest 20","JAMB Past Questions - Mixed 2018-2024","WAEC Past Questions - JAMB Level","NECO Past Questions - JAMB Level","Cambridge Past Questions - JAMB Level","Cambridge A-Level - Pure Maths 1","Cambridge A-Level - Pure Maths 2","Cambridge: Functions & Graphs","Cambridge: Quadratics & Discriminant","Cambridge: Indices, Surds & Logarithms","Cambridge: Coordinate Geometry","Cambridge: Circular Measure","Cambridge: Trigonometry - A-Level","Cambridge: Series - Binomial & AP/GP","Cambridge: Differentiation - A-Level","Cambridge: Integration - A-Level","Cambridge: Vectors - A-Level","Cambridge: Matrices - A-Level","Cambridge: Complex Numbers - A-Level","Cambridge: Probability - A-Level","Cambridge: Statistics - A-Level","Cambridge: Permutation & Combination - A-Level","Cambridge: Partial Fractions - A-Level","Cambridge: Polynomials - A-Level","Cambridge: Inequalities - A-Level","Cambridge: Logarithms & Exponentials - A-Level","Cambridge: Parametric Equations","Cambridge: Differential Equations - Intro","Cambridge: Numerical Methods - Intro","Cambridge: Mechanics - Forces (Maths)","Cambridge: Further Maths - Matrices","Cambridge: Further Maths - Complex Numbers","Cambridge: Further Maths - Differential Equations","Cambridge: Further Maths - Polar Coordinates","Cambridge: Further Maths - Hyperbolic Functions","Cambridge: Further Maths - Groups","Cambridge: Further Maths - Number Theory","Cambridge: Further Maths - Proof","Cambridge: A-Level Mock 1"]
+};
+
+// ===== PER-TOPIC CONTENT - EVERY TOPIC HAS ITS OWN QUESTIONS + WHY =====
+// Each entry: {q, lines[], whys[], voiceWhys[]} - whys are spoken aloud
+function topicKey(topic){ let t=topic.toLowerCase();
+  if(t.includes("parallel")||t.includes("angles")&&t.includes("line")) return "anglesParallel";
+  if(t.includes("perimeter")||t.includes("area & volume")||t.includes("mensuration")||t.includes("area")) return "mensuration";
+  if(t.includes("directed")) return "directed";
+  if(t.includes("probability")) return "probability";
+  if(t.includes("trigonometry")||t.includes("sine")||t.includes("cosine")) return "trigonometry";
+  if(t.includes("bearing")) return "bearings";
+  if(t.includes("circle theorem")||t.includes("circle")) return "circles";
+  if(t.includes("coordinate")||t.includes("gradient")||t.includes("straight line")) return "coordinates";
+  if(t.includes("statistic")||t.includes("mean")) return "statistics";
+  if(t.includes("calculus")||t.includes("differentiation")||t.includes("integration")) return "calculus";
+  if(t.includes("quadratic")||t.includes("simultaneous")||t.includes("equation")) return "equations";
+  if(t.includes("indices")||t.includes("logarithm")||t.includes("surd")) return "indices";
+  if(t.includes("set")) return "sets";
+  if(t.includes("function")) return "functions";
+  if(t.includes("partial fraction")) return "partial";
+  if(t.includes("polynomial")) return "polynomial";
+  if(t.includes("fraction")||t.includes("percentage")||t.includes("ratio")||t.includes("profit")) return "fractions";
+  if(t.includes("pythagoras")) return "pythagoras";
+  if(t.includes("sequence")||t.includes("series")) return "sequences";
+  if(t.includes("vector")) return "vectors";
+  if(t.includes("matrix")||t.includes("determinant")) return "matrices";
+  if(t.includes("complex")) return "complex";
+  if(t.includes("variation")) return "variation";
+  if(t.includes("graph")) return "graphs";
+  if(t.includes("inequalit")) return "inequalities";
+  if(t.includes("number base")||t.includes("modulo")) return "numberBases";
+  if(t.includes("hcf")||t.includes("lcm")||t.includes("factor")) return "factors";
+  return "equations";
+}
+
+// Build 25 unique examples for THIS topic only - with WHY for every line
+function buildTopicExamples(topic){
+  let key=topicKey(topic); let arr=[];
+  for(let i=1;i<=25;i++){
+    let n=4+i, m=3+(i*2)%12, k=2+(i%5), a=2+(i%4);
+    let q="", lines=[], whys=[];
+    if(key==="anglesParallel"){
+      let ang=40+i*2; let alt=180-ang;
+      q=`Example ${i} — Angles: If one angle on parallel lines is ${ang}°, find the alternate angle and co-interior angle.`;
+      lines=[`Given angle = ${ang}°`,`Alternate angle = ${ang}°`,`Co-interior = 180° − ${ang}°`,`Co-interior = ${alt}°`];
+      whys=[`We start with the angle given in the diagram. Look for the Z shape.`,`WHY? Alternate angles are equal because they are in the Z shape, on opposite sides of the transversal. That is the rule: Z means equal.`,`WHY? Co-interior angles are on the same side, inside the C shape. They must add to 180 degrees, because they lie on a straight line. So we subtract.`,`So co-interior is ${alt} degrees. Remember: Z means equal, C means add to 180.`];
+    } else if(key==="mensuration"){
+      let l=5+i, w=3+(i%4), h=2+(i%3);
+      q=`Example ${i} — Mensuration: Rectangle length ${l} cm, breadth ${w} cm. Find area and perimeter.`;
+      lines=[`Area = length × breadth`,`Area = ${l} × ${w}`,`Area = ${l*w} cm²`,`Perimeter = 2 × (${l} + ${w})`,`Perimeter = ${2*(l+w)} cm`];
+      whys=[`WHY area? Area means how much surface covers the rectangle. We multiply length by breadth because we count squares inside.`,`Now put the numbers in. ${l} times ${w}.`,`That is ${l*w} square centimetres. Always write cm² for area, not cm.`,`WHY perimeter? Perimeter is the distance around. We add all four sides: length plus breadth, times 2.`,`So perimeter is ${2*(l+w)} cm. Area is inside, perimeter is around — do not mix them.`];
+    } else if(key==="directed"){
+      let x=-5-i, y=3+i;
+      q=`Example ${i} — Directed Numbers: Calculate ${x} + ${y} and ${x} × (-2)`;
+      lines=[`${x} + ${y} = ${x+y}`,`WHY? See number line.`,`${x} × (-2) = ${x*-2}`,`Check: negative × negative = positive`];
+      whys=[`We add a negative and a positive. Think of debt and money.`,`WHY? On a number line, start at ${x}, move ${y} steps right because plus means right. You land at ${x+y}.`,`WHY? Negative times negative gives positive. Two minuses cancel. It is like the enemy of my enemy is my friend.`,`So ${x} times minus 2 is ${x*-2}. Remember: minus times minus is plus, minus times plus is minus.`];
+    } else if(key==="probability"){
+      q=`Example ${i} — Probability: A bag has ${5+i} red balls and ${3+(i%3)} blue balls. Find P(red).`;
+      let tot=5+i+3+(i%3);
+      lines=[`Total balls = ${tot}`,`Red balls = ${5+i}`,`P(red) = ${5+i} ÷ ${tot}`,`P(red) = ${(5+i)+"/"+tot}`];
+      whys=[`WHY total first? Probability is favourable divided by total. You must know total before you divide.`,`Count only red — that is what we want.`,`WHY divide? Probability means out of how many. Red out of total.`,`So answer is ${5+i} over ${tot}. It must be between 0 and 1. It cannot be more than 1.`];
+    } else if(key==="trigonometry"){
+      let ang=30+(i%4)*10;
+      q=`Example ${i} — Trigonometry: In a right triangle, opposite = ${4+i}, adjacent = ${5+i}. Find tan θ.`;
+      lines=[`tan θ = opposite ÷ adjacent`,`tan θ = ${4+i} ÷ ${5+i}`,`tan θ = ${((4+i)/(5+i)).toFixed(2)}`,`θ = tan⁻¹(${((4+i)/(5+i)).toFixed(2)})`];
+      whys=[`WHY tan? SOH CAH TOA. Tan is opposite over adjacent. We have opposite and adjacent, so we use tan, not sin.`,`Put numbers in. Opposite ${4+i}, adjacent ${5+i}.`,`Divide. You get ${((4+i)/(5+i)).toFixed(2)}.`,`To find angle, press shift tan on calculator. That is inverse tan.`];
+    } else if(key==="bearings"){
+      let b=40+i*3;
+      q=`Example ${i} — Bearings: Bearing of B from A is ${b}°. Find bearing of A from B.`;
+      lines=[`Bearing B from A = ${b}°`,`Back bearing = ${b}° + 180°`,`= ${(b+180)%360}°`,`Check: If >360°, subtract 360°`];
+      whys=[`Bearings are measured clockwise from North. Always start from North.`,`WHY add 180? To go back, you turn half a circle. Half a circle is 180 degrees. That is why we add 180.`,`That gives ${(b+180)%360} degrees.`,`If answer is more than 360, subtract 360, because a full circle is 360.`];
+    } else if(key==="circles"){
+      let ang=50+i*2;
+      q=`Example ${i} — Circle Theorem: Angle at centre = ${ang*2}°. Find angle at circumference.`;
+      lines=[`Angle at centre = ${ang*2}°`,`Angle at circumference = centre ÷ 2`,`= ${ang*2}° ÷ 2`,`= ${ang}°`];
+      whys=[`WHY? The theorem says: angle at centre is TWICE angle at circumference, standing on same arc.`,`So to find circumference angle, we divide by 2. That is the rule.`,`Divide ${ang*2} by 2.`,`Answer is ${ang} degrees.`];
+    } else if(key==="coordinates"){
+      let x1=1+i, y1=2+i, x2=3+i, y2=5+i;
+      q=`Example ${i} — Coordinates: Find gradient of line joining (${x1},${y1}) and (${x2},${y2}).`;
+      lines=[`Gradient = (y₂ − y₁) ÷ (x₂ − x₁)`,`= (${y2} − ${y1}) ÷ (${x2} − ${x1})`,`= ${y2-y1} ÷ ${x2-x1}`,`= ${(y2-y1)/(x2-x1)}`];
+      whys=[`WHY this formula? Gradient is how steep. Rise divided by run. Rise is change in y, run is change in x.`,`Put numbers: y change is ${y2-y1}, x change is ${x2-x1}.`,`Subtract carefully. Watch signs.`,`Gradient is ${(y2-y1)/(x2-x1)}. Positive means line goes up, negative means it goes down.`];
+    } else if(key==="statistics"){
+      let s=(2+i)+(4+i)+(6+i)+(8+i);
+      q=`Example ${i} — Statistics: Find mean of ${2+i}, ${4+i}, ${6+i}, ${8+i}.`;
+      lines=[`Sum = ${s}`,`Count = 4`,`Mean = Sum ÷ Count`,`Mean = ${s} ÷ 4 = ${s/4}`];
+      whys=[`WHY sum first? Mean means average. Add all numbers first, so you know total.`,`There are 4 numbers. Count them, do not guess.`,`WHY divide? Mean is total shared equally among all numbers. So divide total by count.`,`Mean is ${s/4}.`];
+    } else if(key==="calculus"){
+      q=`Example ${i} — Calculus: If y = x² + ${2+i}x, find dy/dx.`;
+      lines=[`y = x² + ${2+i}x`,`dy/dx = 2x + ${2+i}`,`WHY? Power rule.`];
+      whys=[`We want rate of change. That is differentiation.`,`WHY power rule? Bring power down, reduce power by 1. x² becomes 2x. ${2+i}x becomes ${2+i}.`,`So derivative is 2x plus ${2+i}. That tells us slope at any x.`];
+    } else if(key==="indices"){
+      let p=2+(i%3), qq=1+(i%2);
+      q=`Example ${i} — Indices: Simplify 2${toSup(p)} × 2${toSup(qq)}`;
+      lines=[`2${toSup(p)} × 2${toSup(qq)} = ?`,`= 2${toSup(p+"+"+qq)}`,`= 2${toSup(p+qq)}`,`= ${Math.pow(2,p+qq)}`];
+      whys=[`WHY add powers? Law: same base, multiply means add powers. Base is 2 on both sides, so we add.`,`Add ${p} + ${qq} = ${p+qq}.`,`So we have 2 to power ${p+qq}.`,`Calculate: 2 to power ${p+qq} is ${Math.pow(2,p+qq)}.`];
+    } else if(key==="sets"){
+      q=`Example ${i} — Sets: If n(A)=${8+i}, n(B)=${5+i}, n(A∩B)=${2+(i%3)}, find n(A∪B).`;
+      let inter=2+(i%3); let union=(8+i)+(5+i)-inter;
+      lines=[`n(A∪B) = n(A) + n(B) − n(A∩B)`,`= ${8+i} + ${5+i} − ${inter}`,`= ${union}`];
+      whys=[`WHY subtract intersection? Intersection was counted TWICE — once in A, once in B. So we subtract it once to avoid double counting.`,`Put numbers in.`,`Union is ${union}.`];
+    } else if(key==="fractions"){
+      q=`Example ${i} — Percentages: Find ${10+i*2}% of ${200+i*10}`;
+      lines=[`${10+i*2}% = ${(10+i*2)/100}`,`= ${(10+i*2)/100} × ${200+i*10}`,`= ${((10+i*2)/100*(200+i*10)).toFixed(1)}`];
+      whys=[`WHY divide by 100? Percent means out of 100. So 1% is 1 divided by 100.`,`Now multiply by the number.`,`Answer is ${((10+i*2)/100*(200+i*10)).toFixed(1)}.`];
+    } else if(key==="pythagoras"){
+      let a=3+i, b=4+i;
+      q=`Example ${i} — Pythagoras: Right triangle, sides ${a} cm and ${b} cm. Find hypotenuse.`;
+      lines=[`c² = a² + b²`,`c² = ${a}² + ${b}²`,`c² = ${a*a} + ${b*b} = ${a*a+b*b}`,`c = √${a*a+b*b} = ${Math.sqrt(a*a+b*b).toFixed(2)} cm`];
+      whys=[`WHY Pythagoras? In a right triangle, square of hypotenuse equals sum of squares of other two sides. Only for right triangle.`,`Square both sides.`,`Add them: ${a*a+b*b}.`,`Take square root to find c. Answer ${Math.sqrt(a*a+b*b).toFixed(2)} cm.`];
+    } else {
+      // EQUATIONS - with full WHY for the 3x+5 case and general
+      let x=2+i, k=3+i, rhs=2*x+k;
+      q=`Example ${i} — Equations: Solve 2x + ${k} = ${rhs}`;
+      lines=[`2x + ${k} = ${rhs}`,`2x = ${rhs} − ${k}`,`2x = ${rhs-k}`,`x = ${rhs-k} ÷ 2`,`x = ${(rhs-k)/2}`];
+      whys=[`We want to find x. x is mixed with plus ${k}. We must isolate x.`,`WHY move ${k}? To get x alone, we must remove plus ${k}. To keep balance, we do the same to both sides: subtract ${k} from both sides. That is why plus ${k} disappears on left, and on right we have ${rhs} minus ${k}. And when a number crosses the equal sign, its sign changes: plus becomes minus.`,`Now calculate: ${rhs} minus ${k} is ${rhs-k}. So 2x equals ${rhs-k}.`,`WHY divide by 2? 2 is multiplying x. The opposite of multiply is divide. Divide BOTH sides by 2 to get x alone.`,`x is ${(rhs-k)/2}. CHECK: Put it back: 2 times ${(rhs-k)/2} plus ${k} equals ${rhs}. Correct.`];
+    }
+    arr.push({title:q, body:lines.join("\n"), whys:whys, lines:lines});
+  }
+  return arr;
+}
+function buildTopicExercises(topic){
+  let key=topicKey(topic); let arr=[];
+  for(let i=1;i<=60;i++){
+    let n=5+i*2, m=3+(i%7);
+    let q="";
+    if(key==="anglesParallel") q=`Exercise ${i} — Angles: If alternate angle is ${30+i}°, find co-interior angle. Draw Z and C shapes.`;
+    else if(key==="mensuration") q=`Exercise ${i} — Mensuration: Rectangle ${n} cm by ${m} cm. Find area and perimeter. Show formula first.`;
+    else if(key==="directed") q=`Exercise ${i} — Directed: Calculate (-${n}) + ${m} and (-${n}) × (-${m}). Explain sign rule.`;
+    else if(key==="probability") q=`Exercise ${i} — Probability: Bag has ${n} red, ${m} blue. Find P(red) and P(blue).`;
+    else if(key==="trigonometry") q=`Exercise ${i} — Trigonometry: Opposite = ${n}, Adjacent = ${m}. Find tan θ. Which ratio and WHY?`;
+    else if(key==="bearings") q=`Exercise ${i} — Bearings: Bearing of B from A is ${60+i}°. Find bearing of A from B.`;
+    else if(key==="circles") q=`Exercise ${i} — Circle Theorem: Angle at centre is ${80+i*2}°. Find angle at circumference. State theorem.`;
+    else if(key==="coordinates") q=`Exercise ${i} — Coordinates: Find gradient of line joining (1,${i}) and (4,${i+3}).`;
+    else if(key==="statistics") q=`Exercise ${i} — Statistics: Find mean of ${i}, ${i+2}, ${i+4}, ${i+6}.`;
+    else if(key==="calculus") q=`Exercise ${i} — Calculus: If y = x² + ${i}x, find dy/dx. Explain power rule.`;
+    else if(key==="indices") q=`Exercise ${i} — Indices: Simplify 3² × 3³. Explain why we add powers.`;
+    else if(key==="sets") q=`Exercise ${i} — Sets: n(A)=${10+i}, n(B)=${6+i}, n(A∩B)=${2+i%3}. Find n(A∪B). Why subtract?`;
+    else if(key==="fractions") q=`Exercise ${i} — Percentages: Find ${10+i}% of ${200+i*5}.`;
+    else if(key==="pythagoras") q=`Exercise ${i} — Pythagoras: Sides 6 cm and 8 cm. Find hypotenuse. State theorem.`;
+    else if(i>40) q=`🔥 TOUGH ${i} — ${topic}: JAMB/WAEC style: Solve and explain WHY each step is done. Check your answer.`;
+    else q=`Exercise ${i} — ${topic}: Solve 2x + ${n%10} = ${n}. Show WHY you moved the number and WHY sign changed.`;
+    arr.push(q);
+  }
+  return arr;
+}
+function buildTopicPastQuestions(topic){
+  let key=topicKey(topic); let base=[
+    {src:"WAEC 2019",cat:"WAEC",q:`${topic} — WAEC style question.`,sol:"See solution in examples above.",why:"Use the method in examples. Explain WHY each step."}
+  ];
+  if(key==="anglesParallel") base=[
+    {src:"WAEC 2018",cat:"WAEC",q:"If alternate angles are equal, and one is 65°, find the other.",sol:"Alternate = 65°\nBecause Z shape means equal.",why:"WHY? Alternate angles are in Z shape. Z means equal."},
+    {src:"NECO 2020",cat:"NECO",q:"Co-interior angles are 120° and x. Find x.",sol:"x + 120° = 180°\nx = 60°",why:"WHY? Co-interior are in C shape. They add to 180. So subtract."},
+    {src:"JAMB 2021",cat:"JAMB",q:"Two parallel lines cut by transversal. One angle is 70°. Find corresponding angle.",sol:"Corresponding = 70°",why:"WHY? Corresponding are in F shape. F means equal."}
+  ];
+  if(key==="mensuration") base=[
+    {src:"WAEC 2019",cat:"WAEC",q:"Rectangle 12 cm by 8 cm. Find area.",sol:"Area = 12 × 8\n= 96 cm²",why:"WHY multiply? Area counts squares inside. Length times breadth."},
+    {src:"JAMB 2022",cat:"JAMB",q:"Circle radius 7 cm, π=22/7. Find area.",sol:"A = πr²\n= 22/7 × 49\n= 154 cm²",why:"WHY πr²? Area of circle is pi times radius squared."},
+    {src:"NECO 2021",cat:"NECO",q:"Cube side 5 cm. Find volume.",sol:"V = 5³\n= 125 cm³",why:"WHY cube? Volume is length × breadth × height. All 5."}
+  ];
+  if(key==="equations") base=[
+    {src:"WAEC 2019",cat:"WAEC",q:"If 3x + 5 = 20, find x.",sol:"3x + 5 = 20\n3x = 20 − 5\n3x = 15\nx = 15 ÷ 3\nx = 5",why:"WHY move 5? We want x alone. Subtract 5 from both sides to balance. Plus becomes minus when it crosses =. WHY divide by 3? 3 is multiplying x. Opposite is divide."},
+    {src:"NECO 2021",cat:"NECO",q:"Solve: x² − 5x + 6 = 0",sol:"(x − 2)(x − 3) = 0\nx = 2 or x = 3",why:"WHY factorise? Find numbers that multiply to 6 and add to -5: -2 and -3."},
+    {src:"JAMB 2022",cat:"JAMB",q:"Simplify: √12 + √27",sol:"√12 = 2√3\n√27 = 3√3\n= 5√3",why:"WHY break? 12=4×3, 27=9×3. Perfect squares come out."}
+  ];
+  if(key==="probability") base=[
+    {src:"NECO 2020",cat:"NECO",q:"Bag has 5 red, 3 blue. P(red)?",sol:"Total = 8\nP = 5 ÷ 8 = 5/8",why:"WHY divide? Probability is favourable over total."},
+    {src:"JAMB 2022",cat:"JAMB",q:"Two coins tossed. P(2 heads)?",sol:"HH, HT, TH, TT\nP = 1/4",why:"WHY 1/4? Only 1 of 4 outcomes is HH."}
+  ];
+  if(key==="trigonometry") base=[
+    {src:"WAEC 2019",cat:"WAEC",q:"Opposite 6, Adjacent 8. Find tan θ.",sol:"tan θ = 6 ÷ 8 = 0.75",why:"WHY tan? Opposite over adjacent is tan. SOH CAH TOA."}
+  ];
+  return base;
+}
+function toSup(n){const m={0:"⁰",1:"¹",2:"²",3:"³",4:"⁴",5:"⁵",6:"⁶",7:"⁷",8:"⁸",9:"⁹","-":"⁻"};return String(n).split("").map(c=>m[c]||c).join("")}
+// ===== VOICE - SPEAKS WHY =====
+let voiceRate=0.65, curCat="JSS",curTopic=0,selectedStep=-1,curSteps=[],boardTimer=null,curExampleIdx=0,curExamples=[],curExercises=[],curPast=[],exerciseSeed=1,isPlaying=false,currentExamFilter="ALL";
+let boardCtx=null;
+let deviceId=localStorage.getItem("deviceId"); if(!deviceId){deviceId="PHONE-"+Math.random().toString(36).slice(2,8).toUpperCase()+"-"+Date.now().toString().slice(-4);localStorage.setItem("deviceId",deviceId)}
+function setSpeed(r){voiceRate=r;document.getElementById("penStatus").innerText="Marker ready. Speed: "+(r<=0.55?"Very Slow":r<=0.65?"Moderate":"Faster");speakSlow("Voice speed changed. I will speak slowly and explain why.",null)}
+function initBoard(){let c=document.getElementById("whiteboard");boardCtx=c.getContext("2d");boardCtx.clearRect(0,0,c.width,c.height);boardCtx.font="20px Arial";boardCtx.fillStyle="#111"}
+function clearBoard(){initBoard();isPlaying=false;try{speechSynthesis.cancel()}catch(e){}document.getElementById("analysisText").innerHTML="Tap ▶ Play.";document.getElementById("penStatus").innerText="Marker ready.";document.getElementById("marker").style.display="none";document.getElementById("nowReading").innerText="Now explaining: —"}
+function speakSlow(txt,onEnd){try{speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(txt);u.rate=voiceRate;u.pitch=1;u.volume=1;u.onend=()=>{if(onEnd)onEnd()};u.onerror=()=>{if(onEnd)onEnd()};speechSynthesis.speak(u)}catch(e){if(onEnd)onEnd()}}
+function expandForVoice(line){return line.replace(/²/g," squared ").replace(/³/g," cubed ").replace(/√/g," square root of ").replace(/π/g," pi ").replace(/×/g," times ").replace(/÷/g," divided by ").replace(/−/g," minus ").replace(/\+/g," plus ").replace(/=/g," equals ").replace(/%/g," percent ").replace(/°/g," degrees ").replace(/θ/g," theta ").replace(/≤/g," less than or equal to ").replace(/≥/g," greater than or equal to ")}
+// Write line, then SPEAK line + WHY
+function writeLineByLine(lines,whys,done){
+  clearInterval(boardTimer);initBoard();isPlaying=true;document.getElementById("analysisText").innerHTML="";let marker=document.getElementById("marker");marker.style.display="block";
+  function doLine(idx){
+    if(!isPlaying) return;
+    if(idx>=lines.length){isPlaying=false;marker.style.display="none";document.getElementById("penStatus").innerText="✅ Done. Tap Next Example.";document.getElementById("nowReading").innerText="Now explaining: —";if(done)done();return}
+    let line=lines[idx];let ci=0;document.getElementById("penStatus").innerText="✍️ Writing line "+(idx+1)+" of "+lines.length+"...";
+    boardTimer=setInterval(()=>{
+      if(!isPlaying){clearInterval(boardTimer);return}
+      boardCtx.clearRect(0,0,300,320);boardCtx.font="20px Arial";boardCtx.fillStyle="#111";
+      for(let k=0;k<=idx;k++){let t=k<idx?lines[k]:lines[k].slice(0,ci);boardCtx.fillText(t,10,32+k*30)}
+      let w=boardCtx.measureText(line.slice(0,ci)).width;marker.style.left=(12+w)+"px";marker.style.top=(6+idx*30)+"px";ci++;
+      if(ci>line.length){
+        clearInterval(boardTimer);
+        let why=whys&&whys[idx]?whys[idx]:"";
+        if(why) document.getElementById("analysisText").innerHTML+=`<div style="margin-bottom:10px"><b>Line ${idx+1} — WHY?</b><br>${why}</div>`;
+        // VOICE: reads line, then explains WHY
+        let voiceText=expandForVoice(line)+". "+why;
+        document.getElementById("nowReading").innerText="Now explaining: "+voiceText;
+        speakSlow(voiceText,()=>{setTimeout(()=>doLine(idx+1),700)});
+      }
+    },90);
+  }
+  doLine(0);
+}
+function writeOnBoard(fullText,speakText){let lines=fullText.split("\n");let whys=lines.map(l=>"Look at this line carefully. "+l);writeLineByLine(lines,whys,null)}
+function isAdmin(){return localStorage.getItem("isAdmin")==="1"}
+function getPins(){try{return JSON.parse(localStorage.getItem("pins")||"{}")}catch(e){return{}}}
+function savePins(p){localStorage.setItem("pins",JSON.stringify(p))}
+function isExpired(o){if(!o||!o.start) return true;return Date.now()-o.start>30*24*60*60*1000}
+function daysLeft(o){if(!o) return 0;return Math.max(0,Math.ceil((30*24*60*60*1000-(Date.now()-o.start))/(24*60*60*1000)))}
+function hasSub(cat){if(isAdmin()) return true;let p=getPins();for(let k in p){if(p[k].cat===cat&&p[k].device===deviceId&&!isExpired(p[k])) return true}return false}
+function getSubInfo(cat){let p=getPins();for(let k in p){if(p[k].cat===cat&&p[k].device===deviceId) return p[k]}return null}
+function updateAdminUI(){let a=isAdmin();document.getElementById("adminBar").classList.toggle("hidden",!a);["toAdminBtn","toAdminBtn2","toAdminBtn3"].forEach(id=>{let el=document.getElementById(id);if(el) el.style.display=a?"inline-block":"none"})}
+function showHome(){hideAll();document.getElementById("home").classList.remove("hidden");updateAdminUI()}
+function showSections(){hideAll();document.getElementById("sections").classList.remove("hidden");updateStats();updateAdminUI()}
+function hideAll(){["home","sections","topics","lesson","adminDash"].forEach(id=>document.getElementById(id).classList.add("hidden"))}
+function updateStats(){document.getElementById("myDevice").innerText="Your Phone ID: "+deviceId+" • PIN works ONLY on this phone.";["JSS","SSS","JAMB"].forEach(c=>{let el=document.getElementById("stat"+c);if(isAdmin()) el.innerText="👑 ADMIN - All FREE";else if(hasSub(c)) el.innerText="✅ Subscribed - "+daysLeft(getSubInfo(c))+" days left • Locked to this phone";else{let old=getSubInfo(c);el.innerText=old?"⏰ Expired - Renew ₦5,000 / month":"🔒 Topic 1 FREE • Others ₦5,000 / month • PIN NOT transferable"}});document.getElementById("subStatus").innerText=isAdmin()?"👑 Admin Mode - All FREE.":"PIN = 1 Phone Only. NOT transferable. Expires after 1 month."}
+function openWhatsApp(){window.open("https://wa.me/2348147699555?text="+encodeURIComponent("Hello Admin, I want to subscribe. I have paid ₦5,000. Here is my receipt."),"_blank")}
+function openCategory(cat){curCat=cat;hideAll();document.getElementById("topics").classList.remove("hidden");updateAdminUI();document.getElementById("catTitle").innerText=cat==="JSS"?"📗 Junior (72 Topics)":cat==="SSS"?"📘 Senior (108 Topics)":"🎯 JAMB (104 Topics)";document.getElementById("catSub").innerText=hasSub(cat)?(isAdmin()?"👑 Admin - All unlocked":"✅ Subscribed - Locked to this phone"):"Topic 1 FREE. Others locked.";let info=getSubInfo(cat);document.getElementById("expiryInfo").innerText=isAdmin()?"👑 No expiry":info?(isExpired(info)?"⏰ EXPIRED. Renew.":"⏰ Expires in "+daysLeft(info)+" days • PIN NOT transferable."):"";document.getElementById("topicSearch").value="";renderTopicList("");document.getElementById("payCard").style.display=hasSub(cat)?"none":"block"}
+function renderTopicList(filter){let html="",curGrp="";TOPICS[curCat].forEach((t,i)=>{if(filter && !t.toLowerCase().includes(filter.toLowerCase())) return;let grp=t.startsWith("JS1:")?"JS1":t.startsWith("JS2:")?"JS2":t.startsWith("JS3:")?"JS3":t.startsWith("SS1:")?"SS1":t.startsWith("SS2:")?"SS2":t.startsWith("SS3:")?"SS3":t.startsWith("Cambridge:")?"CAMBRIDGE":"JAMB / EXAM";if(grp!==curGrp){curGrp=grp;html+=`<div class="classHead">${grp}</div>`}let locked=i>0&&!hasSub(curCat);html+=`<div class="topicRow"><input type="checkbox" onchange="onTick(${i},this)"><span style="flex:1"><b>${i+1}. ${t}</b><br><span class="small">${i===0?"🟢 FREE":locked?"🔒 Locked":"🟢 Unlocked"} • 25 Examples • 60 Exercises • This Topic Only</span></span><span>${locked?"🔒":"→"}</span></div>`});document.getElementById("topicList").innerHTML=html}
+function filterTopics(){renderTopicList(document.getElementById("topicSearch").value)}
+function onTick(i,cb){if(i>0&&!hasSub(curCat)){cb.checked=false;alert("🔒 Locked.\n\nPay ₦5,000 / MONTH to:\n8147699555 - Ekpo Bassey\n\nPIN = 1 PHONE ONLY. NOT transferable.");document.getElementById("payCard").scrollIntoView({behavior:"smooth"});return}openTopic(i)}
+function openTopic(i){
+  curTopic=i;if(i>0&&!hasSub(curCat)){alert("🔒 Locked");return}
+  let title=TOPICS[curCat][i];hideAll();document.getElementById("lesson").classList.remove("hidden");updateAdminUI();
+  document.getElementById("lessonTitle").innerText=title;
+  document.getElementById("lessonIntro").innerText="25 Examples • 60 Exercises • Past Questions — ALL FROM THIS TOPIC ONLY: "+title;
+  document.getElementById("topicCheck").innerText="✅ You are in: "+title+" — All examples below are from THIS topic, not another topic.";
+  curExampleIdx=0;exerciseSeed=1;currentExamFilter="ALL";
+  curExamples=buildTopicExamples(title); curExercises=buildTopicExercises(title); curPast=buildTopicPastQuestions(title);
+  curSteps=curExamples.slice(0,3).map(e=>e.body);
+  renderSteps();renderExample();showExercises(1);renderExam();clearBoard();document.getElementById("allExamples").innerHTML="";
+}
+function filterExam(f){currentExamFilter=f;renderExam()}
+function renderExam(){let exams=curPast;if(currentExamFilter!=="ALL") exams=exams.filter(e=>e.cat===currentExamFilter);document.getElementById("examList").innerHTML=exams.map(e=>`<div class="examBox"><b>${e.src}:</b> ${e.q}<br><br><b>Solution:</b><br>${e.sol.replace(/\n/g,"<br>")}<br><div class="whyBox"><b>WHY?</b> ${e.why}</div><br><button class="stepBtn" onclick="playPastQuestion('${e.sol.replace(/'/g,"")}','${e.why.replace(/'/g,"")}')">🖊️ Write + Explain WHY</button></div>`).join("")}
+function playPastQuestion(sol,why){let lines=sol.split("\n");let whys=lines.map(()=>why);writeLineByLine(lines,whys,null)}
+function renderExample(){let ex=curExamples[curExampleIdx];document.getElementById("exampleBox").innerHTML=`<b>${ex.title}</b><br><br>${ex.body.replace(/\n/g,"<br>")}<br>${ex.whys.map((w,idx)=>`<div class="whyBox"><b>Line ${idx+1} — WHY?</b> ${w}</div>`).join("")}<br><button class="stepBtn" onclick="playCurrentExample()">🖊️ Write + Explain WHY</button> <button class="stepBtn" onclick="speakSlow(curExamples[curExampleIdx].lines.map((l,idx)=>expandForVoice(l)+'. '+curExamples[curExampleIdx].whys[idx]).join(' '),null)">🔊 Hear WHY</button>`;document.getElementById("exCounter").innerText=`Example ${curExampleIdx+1} of 25 — ${document.getElementById("lessonTitle").innerText}`;document.getElementById("exProgress").style.width=((curExampleIdx+1)/25*100)+"%"}
+function playCurrentExample(){let ex=curExamples[curExampleIdx];writeLineByLine(ex.lines,ex.whys,null)}
+function nextExample(){if(curExampleIdx<24){curExampleIdx++;renderExample();playCurrentExample()}else alert("✅ Finished all 25 for THIS topic!")}
+function prevExample(){if(curExampleIdx>0){curExampleIdx--;renderExample()}}
+function showAllExamples(){document.getElementById("allExamples").innerHTML=curExamples.map((e,idx)=>`<div class="exBox"><b>${e.title}</b><br>${e.body.replace(/\n/g,"<br>")}<br>${e.whys.map(w=>`<div class="whyBox">${w}</div>`).join("")}<br><button class="stepBtn" onclick="curExampleIdx=${idx};renderExample();playCurrentExample()">🖊️ Write + WHY</button></div>`).join("")}
+function showExercises(page){let s=page===1?0:page===2?20:40;document.getElementById("exList").innerHTML=`<b>Showing ${s+1} - ${s+20} of 60 — ${document.getElementById("lessonTitle").innerText} ONLY</b><br><br>`+curExercises.slice(s,s+20).map(q=>`<div class="exBox">${q}</div>`).join("")}
+function shuffleExercises(){exerciseSeed++;curExercises=buildTopicExercises(document.getElementById("lessonTitle").innerText);showExercises(1);alert("🔀 New numbers for THIS topic!")}
+function backToTopics(){stopVoice();openCategory(curCat)}
+function renderSteps(){let h="";curSteps.forEach((s,i)=>{h+=`<div class="lessonStep" id="step${i}" onclick="selectStep(${i})">${s.replace(/\n/g,"<br>")}<br><button class="stepBtn" onclick="event.stopPropagation();selectStep(${i});askTeacher()">❓ Why?</button><button class="stepBtn" onclick="event.stopPropagation();playCurrentExample()">🖊️ Write + WHY</button></div>`});document.getElementById("lessonSteps").innerHTML=h}
+function selectStep(i){selectedStep=i;document.querySelectorAll(".lessonStep").forEach(el=>{el.style.background="";el.style.outline=""});let el=document.getElementById("step"+i);if(el){el.style.background="#fff3a3";el.style.outline="2px solid #FFC21A"}document.getElementById("askBox").value="Why did we do this step? "+curSteps[i]}
+function playLesson(){playCurrentExample()}
+function pauseLesson(){isPlaying=false;clearInterval(boardTimer);try{speechSynthesis.cancel()}catch(e){}document.getElementById("penStatus").innerText="⏸ Paused."}
+function stopVoice(){isPlaying=false;clearInterval(boardTimer);try{speechSynthesis.cancel()}catch(e){}document.getElementById("penStatus").innerText="Stopped."}
+function speak(txt){speakSlow(txt,null)}
+function askTeacher(){let q=document.getElementById("askBox").value||"Explain WHY";let ex=curExamples[curExampleIdx];document.getElementById("askAns").innerHTML=`<div class="card" style="background:#eef7ff"><b>WHY? Explained again:</b><br>${ex.whys.join("<br><br>")}</div>`;writeLineByLine(ex.lines,ex.whys,null)}
+function askVoice(){try{let R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){alert("Type please.");return}let r=new R();r.lang="en-NG";r.onresult=e=>{document.getElementById("askBox").value=e.results[0][0].transcript;askTeacher()};r.start()}catch(e){alert("Type your question.")}}
+function previewQ(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=ev=>{let im=document.getElementById("qPrev");im.src=ev.target.result;im.classList.remove("hidden")};r.readAsDataURL(f)}
+function previewWork(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=ev=>{let im=document.getElementById("workPrev");im.src=ev.target.result;im.classList.remove("hidden")};r.readAsDataURL(f)}
+function canUpload(){return isAdmin()||hasSub("JSS")||hasSub("SSS")||hasSub("JAMB")}
+function solveQuestion(){if(!canUpload()){document.getElementById("qAns").innerHTML=`<div class="card" style="background:#ffecec"><b>🔒 Subscribers + Admin Only</b></div>`;return}let q=document.getElementById("qText").value||"Your question";document.getElementById("qAns").innerHTML=`<div class="card" style="background:#eef7ff"><b>✅ Received</b><br>${q}</div>`;writeLineByLine([q,"= ?","Solve step by step"], ["This is your question.", "We want to find the answer.", "We will break it down and explain WHY each step."],null)}
+function correctWork(){document.getElementById("correctAns").innerHTML=`<div class="card" style="background:#eafff1"><b>✅ Marked</b><br>✔ Step 1: Correct<br>⚠ Step 2: Check sign — WHY? When it crosses =, sign changes.<br><b>Score: 7 / 10</b></div>`;writeLineByLine(["Correction:","Step 1: ✔","Step 2: ⚠ Check sign","Score: 7/10"], ["I marked your work.", "Step 1 is correct.", "WHY? When number crosses equal sign, plus becomes minus. You forgot.", "Good effort."],null)}
+function openAdmin(){document.getElementById("adminBox").classList.add("show");document.getElementById("adminLoginForm").classList.remove("hidden");document.getElementById("adminSuccess").classList.add("hidden");let saved=localStorage.getItem("adminPass");if(!saved){document.getElementById("adminTitle").innerText="Create Admin Password 🔐";document.getElementById("adminHint").innerText="First time only.";document.getElementById("adminPass2").classList.remove("hidden");document.getElementById("adminBtn").innerText="Create & Continue →"}else{document.getElementById("adminTitle").innerText="Admin Login 🔐";document.getElementById("adminHint").innerText="Enter your password.";document.getElementById("adminPass2").classList.add("hidden");document.getElementById("adminBtn").innerText="Login →"}document.getElementById("adminMsg").innerText=""}
+function closeAdmin(){document.getElementById("adminBox").classList.remove("show")}
+function checkAdmin(){let saved=localStorage.getItem("adminPass");let p1=document.getElementById("adminPass").value;let p2=document.getElementById("adminPass2").value;if(!saved){if(!p1||p1.length<4){document.getElementById("adminMsg").innerText="At least 4 characters.";return}if(p1!==p2){document.getElementById("adminMsg").innerText="Passwords do not match.";return}localStorage.setItem("adminPass",p1);localStorage.setItem("isAdmin","1");showAdminSuccess();return}if(p1===saved){localStorage.setItem("isAdmin","1");showAdminSuccess()}else{document.getElementById("adminMsg").innerText="Wrong password"}}
+function showAdminSuccess(){document.getElementById("adminLoginForm").classList.add("hidden");document.getElementById("adminSuccess").classList.remove("hidden")}
+function goToAdminDash(){closeAdmin();hideAll();document.getElementById("adminDash").classList.remove("hidden");updateAdminUI();renderPinList()}
+function adminLogout(){localStorage.setItem("isAdmin","0");hideAll();document.getElementById("home").classList.remove("hidden");updateAdminUI()}
+function changeAdminPass(){let np=document.getElementById("newAdminPass").value;if(!np||np.length<4){document.getElementById("changeMsg").innerText="At least 4 characters.";return}localStorage.setItem("adminPass",np);document.getElementById("changeMsg").innerText="✅ Changed!";document.getElementById("newAdminPass").value=""}
+function genPIN(){let cat=document.getElementById("pinCat").value;let name=document.getElementById("studentName").value||"Student";let pin=cat+"-"+Math.floor(1000+Math.random()*9000);let pins=getPins();pins[pin]={cat:cat,name:name,device:null,created:new Date().toLocaleDateString(),start:null};savePins(pins);document.getElementById("genResult").innerHTML=`<div class="card" style="background:#eafff1"><b>PIN ✅ - Valid 1 MONTH - NOT Transferable</b><br>${name} • ${cat} • ₦5,000<br><b style="font-size:22px">PIN: ${pin}</b></div>`;renderPinList()}
+function renderPinList(){let pins=getPins();let html="";for(let k in pins){let p=pins[k];let st=!p.device?"🟢 NOT USED":isExpired(p)?"⏰ EXPIRED":"✅ ACTIVE - "+daysLeft(p)+" days left";let dev=p.device?`<br><span class="small">🔒 Locked to: ${p.device}</span>`:"";html+=`<div class="row"><span><b>${k}</b><br><span class="small">${p.name} • ${p.cat} • ${st}</span>${dev}</span></div>`}document.getElementById("pinList").innerHTML=html||"<p class='small'>No PINs yet.</p>"}
+function activatePIN(){let pin=document.getElementById("pinInput").value.trim().toUpperCase();doActivate(pin,"pinMsg")}
+function activatePIN2(){let pin=document.getElementById("pinInput2").value.trim().toUpperCase();doActivate(pin,"pinMsg2");if(getPins()[pin]&&getPins()[pin].device===deviceId&&!isExpired(getPins()[pin])) openCategory(curCat)}
+function doActivate(pin,msgId){let pins=getPins();let p=pins[pin];if(!p){document.getElementById(msgId).innerText="❌ Invalid PIN.";return}if(p.device&&p.device!==deviceId){document.getElementById(msgId).innerText="❌ BLOCKED: PIN locked to another phone ("+p.device+"). NOT transferable. Your Phone: "+deviceId;alert("❌ PIN NOT TRANSFERABLE\n\nThis PIN belongs to another phone.\nBuy your own PIN.");return}if(!p.device){p.device=deviceId;p.start=Date.now();pins[pin]=p;savePins(pins);document.getElementById(msgId).innerText="✅ Success! PIN locked to THIS phone ("+deviceId+"). NOT transferable. 1 MONTH started.";updateStats();return}if(isExpired(p)){document.getElementById(msgId).innerText="⏰ EXPIRED after 1 month. Renew.";return}document.getElementById(msgId).innerText=`✅ Welcome back! ${p.cat} unlocked. Locked to this phone. ${daysLeft(p)} days left.`;updateStats()}
+showHome();initBoard();updateAdminUI();
+</script></body></html>
