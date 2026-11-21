@@ -16,49 +16,45 @@ input[type=checkbox]{width:22px;height:22px;accent-color:#1E4DA1;cursor:pointer;
 img.prev{width:100%;border-radius:12px;margin-top:8px}.topBar{background:#6a1b9a;color:#fff;text-align:center;padding:8px;font-size:13px;font-weight:700}
 .topicRow{display:flex;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid #eee}.classHead{background:#1E4DA1;color:#fff;padding:10px 12px;border-radius:10px;margin:14px 0 6px;font-weight:800}
 .boardWrap{background:#fff;border:4px solid #d9d9d9;border-radius:14px;overflow:hidden;position:relative}
-#whiteboard{width:100%;height:320px;background:#fff;display:block}.marker{position:absolute;font-size:26px;transition:all .2s;pointer-events:none}
+#whiteboard,#diagramCanvas{width:100%;display:block;background:#fff}.marker{position:absolute;font-size:26px;transition:all .2s;pointer-events:none}
 .progress{background:#eee;border-radius:999px;height:10px;overflow:hidden}.progressBar{background:#0a9d5c;height:10px}
 .voiceCtrl{display:flex;gap:8px;flex-wrap:wrap}.voiceCtrl button{flex:1}.searchBox{position:sticky;top:60px;background:#fff;padding:8px;border-radius:10px;z-index:5}
 .warnBox{background:#ffecec;border:2px solid #e11;border-radius:12px;padding:12px;font-weight:700;color:#b00}
 .qTitle{font-size:18px;font-weight:800;line-height:1.5}.pill{display:inline-block;background:#eef2ff;color:#1E4DA1;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:800}
+.diagramLabel{background:#fff3cd;border:1px solid #FFC21A;border-radius:8px;padding:8px;font-size:13px;font-weight:700;text-align:center}
 </style></head><body>
 <div id="adminBar" class="hidden topBar">👑 ADMIN • <button class="btn yellow" style="padding:4px 12px" onclick="goToAdminDash()">↩ Back to Admin</button> <button class="btn white" style="padding:4px 12px" onclick="adminLogout()">Logout</button></div>
-<header><div class="logo"><div class="m">M</div><div><b>Maths Machine</b><br><small>One Topic • One Question • Full Board</small></div></div><div><button class="btn blue" onclick="showHome()">Home</button> <button class="btn purple" onclick="openAdmin()">Admin</button></div></header>
-
-<div id="home"><div class="hero"><div class="bigM">M</div><h2>Maths Machine</h2><p>Board = Numbers Only. Voice = Full WHY Explanation.</p><br><button class="btn yellow" style="width:100%;padding:14px" onclick="showSections()">Continue as Student →</button><br><br><button class="btn white" style="width:100%;padding:13px" onclick="openAdmin()">Login as Admin 🔐</button></div>
+<header><div class="logo"><div class="m">M</div><div><b>Maths Machine</b><br><small>Real Teacher • Diagram + Numbers + WHY Voice</small></div></div><div><button class="btn blue" onclick="showHome()">Home</button> <button class="btn purple" onclick="openAdmin()">Admin</button></div></header>
+<div id="home"><div class="hero"><div class="bigM">M</div><h2>Maths Machine</h2><p>Every topic has its OWN real WAEC / JAMB / Cambridge questions. Teacher draws, writes, explains WHY.</p><br><button class="btn yellow" style="width:100%;padding:14px" onclick="showSections()">Continue as Student →</button><br><br><button class="btn white" style="width:100%;padding:13px" onclick="openAdmin()">Login as Admin 🔐</button></div>
 <div class="wrap"><div class="card"><b>📚 Sections</b><br><br><div class="sec" onclick="openCategory('JSS')">📗 Junior — 72 Topics</div><div class="sec" onclick="openCategory('SSS')">📘 Senior — 108 Topics</div><div class="sec" onclick="openCategory('JAMB')">🎯 JAMB / A-Level — 104 Topics</div></div>
 <div class="card warnBox">🔒 PIN RULE<br><span style="font-weight:400;color:#333;font-size:13px">1 PIN = 1 PHONE ONLY. NOT transferable. Expires after 1 month.</span></div></div><p style="text-align:center;color:#888;font-size:12px;padding:10px">Quizora Maths Machine • © 2026</p></div>
-
 <div id="sections" class="hidden wrap"><button class="btn white" onclick="showHome()">← Back</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn" style="display:none">👑 Back to Admin</button><br><br><h2>Choose Your Section</h2><p class="small" id="subStatus"></p><p class="small" id="myDevice"></p><br><div class="card"><div class="sec" onclick="openCategory('JSS')">📗 Junior (72)<br><span class="small" id="statJSS"></span></div><div class="sec" onclick="openCategory('SSS')">📘 Senior (108)<br><span class="small" id="statSSS"></span></div><div class="sec" onclick="openCategory('JAMB')">🎯 JAMB (104)<br><span class="small" id="statJAMB"></span></div></div>
 <div class="card"><b>🔑 Have a PIN?</b><div class="warnBox" style="font-size:13px">⚠️ PIN locks to THIS phone only. NOT transferable.</div><input id="pinInput" placeholder="Enter PIN"><button class="btn blue" style="width:100%" onclick="activatePIN()">Activate PIN - This Phone Only</button><p class="small" id="pinMsg"></p></div></div>
-
 <div id="topics" class="hidden wrap"><button class="btn white" onclick="showSections()">← Sections</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn2" style="display:none">👑 Back to Admin</button><br><br><h2 id="catTitle"></h2><p class="small" id="catSub"></p><p class="small" id="expiryInfo"></p><br><div class="searchBox"><input id="topicSearch" placeholder="🔍 Search topic..." oninput="filterTopics()"></div><br><div class="card"><b>☑️ Tick a Topic to Open It</b><div id="topicList"></div></div>
 <div class="card payBox" id="payCard"><b>🔒 Unlock - ₦5,000 / MONTH</b><br><br><b>Pay to:</b><br><b>8147699555</b><br><b>Ekpo Bassey</b><br><div class="warnBox" style="margin-top:10px">⚠️ 1 PIN = 1 PHONE ONLY. NOT transferable.</div><br><button class="btn green" style="width:100%" onclick="openWhatsApp()">💬 Send Receipt - WhatsApp</button><br><br><input id="pinInput2" placeholder="Enter PIN"><button class="btn blue" style="width:100%" onclick="activatePIN2()">Activate PIN</button><p class="small" id="pinMsg2"></p></div></div>
-
 <div id="lesson" class="hidden wrap"><button class="btn white" onclick="backToTopics()">← Topics</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn3" style="display:none">👑 Back to Admin</button><br><br>
 <span class="pill" id="lessonPill">TOPIC</span><br><br><h2 id="lessonTitle"></h2><p class="small" id="lessonIntro"></p><br>
 <div class="card" style="padding:10px"><div style="display:flex;gap:6px"><button class="btn blue" id="modeLearnBtn" style="flex:1" onclick="setMode('learn')">📖 Learn (25)</button><button class="btn white" id="modeExamBtn" style="flex:1" onclick="setMode('exam')">🎯 Past Qs</button><button class="btn white" id="modeExBtn" style="flex:1" onclick="setMode('exercise')">✏️ Exercises (60)</button></div></div>
 <div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><span class="pill" id="qModePill">LEARN</span><span class="small" id="exCounter">Question 1 of 25</span></div><br><div class="progress"><div class="progressBar" id="exProgress" style="width:4%"></div></div><br><div class="qTitle" id="qTitle"></div><p class="small" id="qSource"></p></div>
-<div class="card"><b>✍️ Board — Numbers Only, Full Width</b><p class="small">Marker writes numbers. Voice explains WHY in full. No words on board. No split.</p><br><div class="boardWrap"><canvas id="whiteboard" width="520" height="320"></canvas><div class="marker" id="marker">🖊️</div></div><br><div class="voiceCtrl"><button class="btn blue" onclick="playLesson()">▶ Play — Full Explanation</button><button class="btn white" onclick="pauseLesson()">⏸ Pause</button><button class="btn white" onclick="stopVoice()">⏹ Stop</button></div><br><div class="voiceCtrl"><button class="btn white" onclick="setSpeed(0.55)">🐢 Very Slow</button><button class="btn green" onclick="setSpeed(0.65)">▶ Moderate</button><button class="btn white" onclick="setSpeed(0.85)">🐇 Faster</button><button class="btn yellow" onclick="clearBoard()">🧹 Clear</button></div><p class="small" id="penStatus">Marker ready.</p><p class="small" id="nowReading">Now explaining: —</p></div>
+<div class="card" id="diagramCard"><b>📐 Diagram — Teacher Sketches First</b><p class="small">Look at the shape before numbers. This is how maths is taught.</p><br><div class="diagramLabel" id="diagramLabel">Look at the diagram</div><br><canvas id="diagramCanvas" width="520" height="260"></canvas></div>
+<div class="card"><b>✍️ Board — Numbers Only, Full Width</b><p class="small">After diagram, marker writes numbers. Voice explains WHY in full.</p><br><div class="boardWrap"><canvas id="whiteboard" width="520" height="280"></canvas><div class="marker" id="marker">🖊️</div></div><br><div class="voiceCtrl"><button class="btn blue" onclick="playLesson()">▶ Play — Diagram + Numbers + Voice</button><button class="btn white" onclick="pauseLesson()">⏸ Pause</button><button class="btn white" onclick="stopVoice()">⏹ Stop</button></div><br><div class="voiceCtrl"><button class="btn white" onclick="setSpeed(0.55)">🐢 Very Slow</button><button class="btn green" onclick="setSpeed(0.65)">▶ Moderate</button><button class="btn white" onclick="setSpeed(0.85)">🐇 Faster</button><button class="btn yellow" onclick="clearBoard()">🧹 Clear</button></div><p class="small" id="penStatus">Marker ready.</p><p class="small" id="nowReading">Now explaining: —</p></div>
 <div class="card"><div style="display:flex;gap:8px"><button class="btn white" style="flex:1" onclick="prevQuestion()">← Previous</button><button class="btn green" style="flex:1" onclick="nextQuestion()">Next Question →</button></div><br><button class="btn yellow" style="width:100%" onclick="replayCurrent()">🔁 Replay This Question — Explain Again</button><p class="small" style="text-align:center;margin-top:8px">One question at a time. No list below. Clean.</p></div>
 <div class="card"><b>❓ Don't understand THIS question?</b><textarea id="askBox" placeholder="Ask why..."></textarea><button class="btn yellow" style="width:100%" onclick="askTeacher()">Ask Teacher — Explain WHY Again</button><button class="btn white" style="width:100%" onclick="askVoice()">🎙️ Ask by Voice</button><div id="askAns"></div></div>
 <div class="card"><b>📸 Snap a Question From THIS Topic</b><input type="file" accept="image/*" onchange="previewQ(event)"><img id="qPrev" class="prev hidden"><textarea id="qText" placeholder="Type question from this topic..."></textarea><button class="btn green" style="width:100%" onclick="solveQuestion()">Solve →</button><div id="qAns"></div><input type="file" accept="image/*" onchange="previewWork(event)"><img id="workPrev" class="prev hidden"><button class="btn blue" style="width:100%" onclick="correctWork()">Send My Work For Correction →</button><div id="correctAns"></div></div></div>
-
 <div id="adminDash" class="hidden wrap"><button class="btn white" onclick="adminLogout()">← Logout</button> <button class="btn yellow" onclick="showSections()">👀 Switch to Student View →</button><br><br><h2>👑 Admin Dashboard</h2><p class="small">Welcome Ekpo Bassey!</p><br><div class="card payBox"><b>💳 Your Payment Details</b><br><b>Account:</b> 8147699555<br><b>Name:</b> Ekpo Bassey<br><b>WhatsApp:</b> 08147699555<br><b>Price:</b> ₦5,000 / Section / MONTH<br><b>PIN:</b> 1 Phone Only. NOT transferable.</div><div class="card"><b>Generate New PIN — NOT Transferable</b><select id="pinCat"><option value="JSS">Junior (JSS)</option><option value="SSS">Senior (SSS)</option><option value="JAMB">JAMB / A-Level</option></select><input id="studentName" placeholder="Student Name"><button class="btn green" style="width:100%" onclick="genPIN()">Generate PIN →</button><div id="genResult"></div></div><div class="card"><b>📋 All PINs</b><div id="pinList"></div></div><div class="card"><b>⚙️ Change Password</b><input id="newAdminPass" type="password" placeholder="New Password"><button class="btn blue" style="width:100%" onclick="changeAdminPass()">Change Password</button><p class="small" id="changeMsg"></p></div></div>
 <div id="adminBox" onclick="if(event.target==this) closeAdmin()"><div class="popup"><div id="adminLoginForm"><h3 id="adminTitle">Admin 🔐</h3><p class="small" id="adminHint">Create your Admin Password first time.</p><input id="adminPass" type="password" placeholder="Admin Password"><input id="adminPass2" type="password" placeholder="Confirm Password" class="hidden"><button class="btn blue" style="width:100%" onclick="checkAdmin()" id="adminBtn">Continue →</button><p id="adminMsg" style="color:red;font-size:13px"></p><button class="btn" onclick="closeAdmin()">Cancel</button></div><div id="adminSuccess" class="hidden" style="text-align:center"><h2>✅ Welcome Admin!</h2><br><button class="btn green" style="width:100%;padding:14px" onclick="goToAdminDash()">Go to Admin Dashboard →</button></div></div></div>
-
 <script>
 const TOPICS={
 JSS:["JS1: Number and Numeration","JS1: Place Value & Number Systems","JS1: Fractions, Decimals & Percentages","JS1: Basic Operations & BODMAS","JS1: Factors, Multiples, HCF & LCM","JS1: Prime Numbers & Prime Factors","JS1: Directed Numbers","JS1: Sets - Introduction","JS1: Algebra - Basic Expressions","JS1: Simple Equations","JS1: Angles & Lines","JS1: Triangles & Quadrilaterals","JS1: Perimeter, Area & Volume","JS1: Ratio, Rate & Proportion","JS1: Statistics - Pictograms & Bar Charts","JS1: Graphs - Introduction","JS1: Coordinates - Introduction","JS1: Construction - Basic","JS1: Mensuration - Basic","JS1: Word Problems - Basic","JS1: Estimation & Approximation","JS1: Money & Commercial Maths","JS1: Time & Calendar","JS1: BECE / Junior WAEC Revision - JS1","JS2: Number Bases","JS2: Fractions & Decimals - Harder","JS2: Indices - Basic","JS2: Sets - Operations","JS2: Algebra - Expansion & Factorisation","JS2: Linear Equations & Inequalities","JS2: Functions - Introduction","JS2: Graphs of Linear Functions","JS2: Word Problems - Algebra","JS2: Angles in Polygons","JS2: Pythagoras Theorem","JS2: Mensuration - Circles & Cylinders","JS2: Ratio, Profit & Loss, Interest","JS2: Probability - Simple","JS2: Statistics - Mean, Median, Mode","JS2: Coordinates - Plotting Points","JS2: Bearings - Introduction","JS2: Construction & Loci - Basic","JS2: Trigonometry - Introduction","JS2: Angles - Parallel Lines","JS2: Algebraic Fractions - Basic","JS2: Variation - Introduction","JS2: Sequences - Basic","JS2: BECE / Junior NECO Revision - JS2","JS3: Number Bases & Modulo Arithmetic","JS3: Indices & Logarithms - Intro","JS3: Quadratic Expressions - Factorisation","JS3: Simultaneous Equations","JS3: Variation","JS3: Trigonometry - Sin, Cos, Tan","JS3: Geometry - Circle Theorems Intro","JS3: Mensuration - Cones & Spheres","JS3: Construction & Loci","JS3: Probability - Two Events","JS3: Statistics - Histograms & Pie Charts","JS3: Sets - Venn Diagrams","JS3: Functions - Graphs","JS3: Coordinates - Gradient","JS3: Bearings - Harder","JS3: Angles - Circle Theorems","JS3: Polynomials - Intro","JS3: Partial Fractions - Intro","JS3: Graphs - Quadratic Graphs","JS3: Inequalities - Graphs","JS3: Commercial Maths - Discount, Commission","JS3: BECE Past Questions 2019-2024","JS3: Junior WAEC Past Questions 2019-2024","JS3: Junior NECO Past Questions 2019-2024"],
 SSS:["SS1: Number & Numeration - Surds","SS1: Indices & Logarithms","SS1: Algebraic Fractions","SS1: Quadratic Equations","SS1: Simultaneous Equations","SS1: Inequalities & Graphs","SS1: Variation","SS1: Trigonometry - Ratios & Identities","SS1: Angles of Elevation & Depression","SS1: Coordinate Geometry - Straight Line","SS1: Circle Theorems","SS1: Mensuration - Surface Area & Volume","SS1: Probability","SS1: Statistics - Mean, Variance","SS1: Sequences & Series - Intro","SS1: Sets - Theory & Venn Diagrams","SS1: Functions - Domain, Range, Inverse","SS1: Graphs - Linear & Quadratic","SS1: Angles - Polygons & Parallel Lines","SS1: Bearings","SS1: Construction & Loci","SS1: Polynomials - Operations","SS1: Partial Fractions - Basic","SS1: Binomial Theorem - Intro","SS1: Logical Reasoning","SS1: Vectors - Intro","SS1: Matrices - Intro","SS1: Complex Numbers - Intro","SS1: Calculus - Limits Intro","SS1: Commercial Maths - Interest, Tax","SS1: Indices - Harder","SS1: Logarithms - Applications","SS1: Circle Geometry - Tangents","SS1: Coordinate Geometry - Gradient & Intercept","SS1: WAEC Past Questions - SS1","SS1: NECO Past Questions - SS1","SS2: Indices & Logarithms - Harder","SS2: Quadratic Functions & Graphs","SS2: Trigonometric Ratios of Special Angles","SS2: Sine & Cosine Rule","SS2: Bearings - Harder","SS2: Circle Geometry - Harder","SS2: Coordinate Geometry - Circle & Parabola","SS2: Calculus - Differentiation Intro","SS2: Polynomials - Factor Theorem","SS2: Binomial Theorem","SS2: Probability - Combined Events","SS2: Statistics - Standard Deviation","SS2: Sequences - AP & GP","SS2: Vectors - Operations","SS2: Matrices - Operations","SS2: Complex Numbers - Operations","SS2: Functions - Composite & Inverse","SS2: Graphs - Cubic & Reciprocal","SS2: Angles - Circle Theorems Advanced","SS2: Partial Fractions - Harder","SS2: Inequalities - Quadratic Inequalities","SS2: Variation - Joint & Partial","SS2: Mensuration - Frustums Intro","SS2: Trigonometry - Compound Angles Intro","SS2: Coordinate Geometry - Ellipse Intro","SS2: Construction - Advanced","SS2: Loci - Advanced","SS2: Logical Reasoning - Harder","SS2: Sets - Harder","SS2: Calculus - Applications","SS2: Statistics - Correlation Intro","SS2: Probability - Permutation & Combination Intro","SS2: WAEC Past Questions - SS2","SS2: NECO Past Questions - SS2","SS2: Cambridge IGCSE Past Questions - SS2","SS2: Cambridge O-Level Past Questions - SS2","SS3: Surds & Logarithms - Advanced","SS3: Quadratic Equations - Advanced","SS3: Trigonometry - Compound Angles","SS3: Calculus - Differentiation & Application","SS3: Calculus - Integration","SS3: Coordinate Geometry - Advanced","SS3: Circle Theorems - Advanced","SS3: Mensuration - Frustums","SS3: Probability - Permutation & Combination","SS3: Statistics - Correlation","SS3: Vectors - Advanced","SS3: Matrices & Determinants","SS3: Complex Numbers - Advanced","SS3: Logical Reasoning","SS3: Functions - Advanced","SS3: Graphs - Advanced","SS3: Angles - Advanced Geometry","SS3: Bearings - Advanced","SS3: Polynomials - Advanced","SS3: Partial Fractions - Advanced","SS3: Sequences & Series - Advanced","SS3: Binomial Theorem - Advanced","SS3: Inequalities - Advanced","SS3: Variation - Advanced","SS3: Trigonometry - Double Angles & Identities","SS3: Calculus - Integration & Area Under Curve","SS3: Coordinate Geometry - Parabola, Ellipse, Hyperbola","SS3: Sets - Advanced","SS3: Construction & Loci - Advanced","SS3: Commercial Maths - Advanced","SS3: WAEC Past Questions Drill 2019-2024","SS3: NECO Past Questions Drill 2019-2024","SS3: WAEC / NECO Revision - Mixed","SS3: Cambridge IGCSE Past Questions Drill","SS3: Cambridge A-Level Past Questions - Pure Maths 1","SS3: Mock Exam - WAEC Style 50 Questions"],
 JAMB:["Number & Numeration","Surds & Indices","Logarithms","Algebra - Equations & Inequalities","Quadratic Equations","Polynomials & Algebraic Fractions","Sequences & Series - AP & GP","Variation","Trigonometry - Ratios & Identities","Trigonometry - Sine & Cosine Rule","Trigonometry - Compound & Double Angles","Geometry - Angles, Triangles, Polygons","Circle Theorems","Coordinate Geometry - Straight Line","Coordinate Geometry - Circle, Parabola, Ellipse","Mensuration - Area & Volume","Calculus - Differentiation","Calculus - Integration & Area Under Curve","Matrices & Determinants","Vectors","Complex Numbers","Probability","Permutation & Combination","Statistics - Mean, Variance, Correlation","Bearings & Angles of Elevation","Logical Reasoning","Word Problems - JAMB Style","Sets & Venn Diagrams","Functions - Domain, Range, Inverse, Composite","Graphs - Linear, Quadratic, Cubic, Reciprocal","Angles - Parallel Lines & Polygons","Construction & Loci","Partial Fractions","Binomial Theorem","Inequalities - Linear & Quadratic","Trigonometry - Graphs & Equations","Calculus - Limits","Coordinate Geometry - Hyperbola","Commercial Maths - JAMB Style","Indices & Surds - JAMB Drill","Algebra - JAMB Drill","Trigonometry - JAMB Drill","Calculus - JAMB Drill","Geometry - JAMB Drill","Probability & Statistics - JAMB Drill","Sets & Functions - JAMB Drill","Graphs & Coordinates - JAMB Drill","Bearings & Circles - JAMB Drill","Matrices & Vectors - JAMB Drill","Complex Numbers - JAMB Drill","Sequences & Series - JAMB Drill","Partial Fractions - JAMB Drill","Polynomials - JAMB Drill","JAMB Past Questions 2015","JAMB Past Questions 2016","JAMB Past Questions 2017","JAMB Past Questions 2018","JAMB Past Questions 2019","JAMB Past Questions 2020","JAMB Past Questions 2021","JAMB Past Questions 2022","JAMB Past Questions 2023","JAMB Past Questions 2024","JAMB Mock 1 - 50 Questions","JAMB Mock 2 - 50 Questions","JAMB Mock 3 - 50 Questions","JAMB Past Questions - Hardest 20","JAMB Past Questions - Mixed 2018-2024","WAEC Past Questions - JAMB Level","NECO Past Questions - JAMB Level","Cambridge Past Questions - JAMB Level","Cambridge A-Level - Pure Maths 1","Cambridge A-Level - Pure Maths 2","Cambridge: Functions & Graphs","Cambridge: Quadratics & Discriminant","Cambridge: Indices, Surds & Logarithms","Cambridge: Coordinate Geometry","Cambridge: Circular Measure","Cambridge: Trigonometry - A-Level","Cambridge: Series - Binomial & AP/GP","Cambridge: Differentiation - A-Level","Cambridge: Integration - A-Level","Cambridge: Vectors - A-Level","Cambridge: Matrices - A-Level","Cambridge: Complex Numbers - A-Level","Cambridge: Probability - A-Level","Cambridge: Statistics - A-Level","Cambridge: Permutation & Combination - A-Level","Cambridge: Partial Fractions - A-Level","Cambridge: Polynomials - A-Level","Cambridge: Inequalities - A-Level","Cambridge: Logarithms & Exponentials - A-Level","Cambridge: Parametric Equations","Cambridge: Differential Equations - Intro","Cambridge: Numerical Methods - Intro","Cambridge: Mechanics - Forces (Maths)","Cambridge: Further Maths - Matrices","Cambridge: Further Maths - Complex Numbers","Cambridge: Further Maths - Differential Equations","Cambridge: Further Maths - Polar Coordinates","Cambridge: Further Maths - Hyperbolic Functions","Cambridge: Further Maths - Groups","Cambridge: Further Maths - Number Theory","Cambridge: Further Maths - Proof","Cambridge: A-Level Mock 1"]
 };
-// ===== TOPIC ROUTER - ORDER MATTERS. Specific first, general last. No fallback to equations =====
+// ===== ROUTER — Specific first. JAMB Drill topics map to their real subject, NOT to equations =====
 function topicKey(topic){let t=" "+topic.toLowerCase()+" ";
   if(t.includes("permutation")||t.includes("combination")) return "permutation";
   if(t.includes("logarithm")) return "logarithms";
   if(t.includes("bearing")||t.includes("elevation")||t.includes("depression")) return "bearings";
-  if(t.includes("parallel")) return "angles";
+  if(t.includes("parallel")||t.includes("geometry")||t.includes("angle")) return "geometry";
   if(t.includes("indices")||t.includes("surd")) return "indices";
   if(t.includes("partial fraction")) return "partial";
   if(t.includes("binomial")) return "binomial";
@@ -69,11 +65,11 @@ function topicKey(topic){let t=" "+topic.toLowerCase()+" ";
   if(t.includes("probability")) return "probability";
   if(t.includes("statistic")||t.includes("mean")||t.includes("variance")||t.includes("correlation")) return "statistics";
   if(t.includes("calculus")||t.includes("differentiation")||t.includes("integration")||t.includes("limit")) return "calculus";
-  if(t.includes("quadratic")||t.includes("simultaneous")||t.includes("equation")||t.includes("simple equation")||t.includes("algebra")) return "equations";
+  if(t.includes("quadratic")||t.includes("simultaneous")||t.includes("equation")||t.includes("algebra")) return "equations";
   if(t.includes("set")) return "sets";
   if(t.includes("function")) return "functions";
   if(t.includes("polynomial")) return "polynomial";
-  if(t.includes("fraction")||t.includes("percentage")||t.includes("ratio")||t.includes("profit")||t.includes("interest")) return "fractions";
+  if(t.includes("fraction")||t.includes("percentage")||t.includes("ratio")||t.includes("profit")||t.includes("interest")||t.includes("commercial")||t.includes("money")) return "fractions";
   if(t.includes("sequence")||t.includes("series")) return "sequences";
   if(t.includes("vector")) return "vectors";
   if(t.includes("matrix")||t.includes("determinant")) return "matrices";
@@ -85,95 +81,352 @@ function topicKey(topic){let t=" "+topic.toLowerCase()+" ";
   if(t.includes("hcf")||t.includes("lcm")||t.includes("factor")) return "factors";
   if(t.includes("perimeter")||t.includes("mensuration")||t.includes("area")||t.includes("volume")||t.includes("frustum")) return "mensuration";
   if(t.includes("directed")) return "directed";
-  if(t.includes("angle")) return "angles";
   if(t.includes("construction")||t.includes("loci")) return "construction";
   if(t.includes("logical")) return "logical";
-  if(t.includes("commercial")||t.includes("money")||t.includes("word problem")) return "fractions";
+  if(t.includes("word problem")) return "fractions";
   return "equations";
 }
-// ===== ONE QUESTION BUILDER - EVERY KEY HAS ITS OWN REAL BUILDER, VARIED =====
+// ===== HELPER: make bank entry =====
+function E(q,lines,expl,diagram,label){return {q:q,lines:lines,expl:expl,diagram:diagram||"none",label:label||""}}
+// ===== ALL TOPICS — REAL BANKS =====
+const BANKS={
+geometry:[
+E("Two parallel lines cut by transversal. One angle is 65°. Find alternate angle.",["Alternate = 65°","Z shape = equal"],["Look at diagram. See Z in red. Two angles inside Z are opposite sides of transversal.","Why equal? Parallel lines same direction, transversal cuts at same angle.","So alternate is 65°."],"alternate","🔴 Z SHAPE — Alternate EQUAL"),
+E("Two parallel lines. One angle is 65°. Find co-interior.",["Co-interior = 180° − 65°","= 115°"],["Look at C shape. Co-interior are same side, inside.","Why add to 180? They lie on straight line. Straight line is 180.","180 minus 65 is 115."],"cointerior","🟢 C SHAPE — Co-interior ADD to 180°"),
+E("Two lines cross. One angle is 70°. Find vertically opposite.",["Vertically opposite = 70°"],["Look at X. When two lines cross, they form X. Opposite angles in X are equal.","Why? They open same amount opposite each other.","So 70°."],"vertical","✖️ X — Vertically Opposite EQUAL"),
+E("Parallel lines. One angle is 50°. Find corresponding.",["Corresponding = 50°"],["Look at F shape. Corresponding are same position at each intersection.","Why equal? Same direction, same position.","So 50°."],"corresponding","🔵 F SHAPE — Corresponding EQUAL"),
+E("Triangle angles are 60° and 70°. Find third.",["Third = 180° − 60° − 70°","= 50°"],["Triangle angles add to 180. Tear off corners, they make straight line.","60 plus 70 is 130. 180 minus 130 is 50."],"triangle","🔺 TRIANGLE — Sum 180°"),
+E("Isosceles triangle, vertex 40°. Find base angle.",["Base sum = 180° − 40° = 140°","Each base = 70°"],["Isosceles: two sides equal, two base angles equal.","Remaining 140 shared equally. 140 divided by 2 is 70."],"isosceles","🔺 ISOSCELES — Two base angles equal"),
+E("Find exterior angle of regular pentagon.",["Each = 360° ÷ 5 = 72°"],["Exterior angles always add to 360, any polygon. Walk round, you turn full circle.","Pentagon has 5 sides. 360 divided by 5 is 72."],"pentagon","⬠ Exterior sum = 360°"),
+E("Triangle exterior 110°, one opposite interior 60°. Find other.",["110° = 60° + x","x = 50°"],["Exterior = sum of two opposite interior.","110 equals 60 plus x. So x is 50."],"exterior","🔺 Exterior = Sum of 2 opposite interior"),
+E("Sum of interior angles of hexagon.",["Sum = (6−2)×180°","= 720°"],["Hexagon split into 4 triangles from one corner. Each 180.","4 times 180 is 720."],"hexagon","⬡ (n−2)×180°"),
+E("Angles on straight line: 3x and 2x. Find x.",["3x+2x = 180°","5x = 180°, x = 36°"],["Angles on straight line add to 180. Straight line is half circle.","5x is 180, x is 36."],"straight","— Straight line = 180°"),
+E("Angles at a point: 90°, 120°, x. Find x.",["x = 360° − 90° − 120°","= 150°"],["Angles round point add to 360 — full circle.","360 minus 210 is 150."],"point","⭕ Round point = 360°"),
+E("Right triangle, one acute angle 35°. Find other.",["Other = 180° − 90° − 35°","= 55°"],["Right triangle has 90°. Other two must add to 90.","180 minus 90 minus 35 is 55."],"righttriangle","📐 Right triangle — One 90°"),
+E("Parallelogram one angle 110°. Find adjacent.",["Adjacent = 180° − 110° = 70°"],["Parallelogram: opposite equal, adjacent add to 180 like co-interior.","180 minus 110 is 70."],"parallelogram","▱ Opposite equal, Adjacent 180°"),
+E("Triangle angles in ratio 2:3:4. Find largest.",["Total parts = 9","Each = 20°, Largest = 80°"],["Share 180 in ratio 2,3,4. Total 9 parts.","Each part 20. Largest 4 parts is 80."],"triangle","🔺 Ratio — Share 180°"),
+E("Circle: angle at centre 100°. Find angle at circumference.",["Circumference = 100° ÷ 2 = 50°"],["Centre sees same arc but wider. Centre is twice circumference.","100 divided by 2 is 50."],"circle","⭕ Centre = 2 × Circumference"),
+E("Quadrilateral angles 90°, 80°, 110°, x. Find x.",["Sum = 360°","x = 360° − 280° = 80°"],["Quadrilateral split into 2 triangles. Sum 360.","360 minus 280 is 80."],"quad","▭ Quadrilateral sum 360°"),
+E("Equilateral triangle. Find each angle.",["Each = 180° ÷ 3 = 60°"],["All sides equal, all angles equal.","180 divided by 3 is 60."],"equilateral","🔺 Equilateral — All 60°"),
+E("Alternate angles: 3x+10 and 5x−20. Find x.",["3x+10 = 5x−20","30 = 2x, x = 15°"],["Alternate equal, Z shape. Set equal.","Bring terms: 30 equals 2x. x is 15."],"alternate","🔴 Z — Set alternate EQUAL"),
+E("Angles at 3 o'clock. Find angle between hands.",["Each hour = 30°","3 hours = 90°"],["Clock is circle 360, 12 hours. Each hour 30°.","3 times 30 is 90, right angle."],"clock","🕒 Clock — Each hour 30°"),
+E("In triangle ABC, A=2x, B=3x, C=4x. Find x.",["9x = 180°","x = 20°"],["Triangle sum 180. 2x+3x+4x is 9x.","x is 20. Angles 40,60,80."],"triangle","🔺 Sum 180°")
+],
+mensuration:[
+E("Rectangle length 12 cm, breadth 8 cm. Find area and perimeter.",["Area = 12 × 8 = 96 cm²","Perimeter = 2×(12+8) = 40 cm"],["Area is inside: count squares, length times breadth.","Perimeter is around: add all sides. Area cm², perimeter cm."],"rectangle","▭ Rectangle — Area inside, Perimeter around"),
+E("Circle radius 7 cm, π=22/7. Find area.",["Area = πr²","= 22/7 × 49 = 154 cm²"],["Area of circle is pi times radius squared.","22 over 7 times 49 is 154."],"circle","⭕ Circle — Area = πr²"),
+E("Circle radius 14 cm. Find circumference.",["C = 2πr","= 2 × 22/7 × 14 = 88 cm"],["Circumference is distance round circle.","2 times pi times radius is 88."],"circle","⭕ Circumference = 2πr"),
+E("Triangle base 10 cm, height 6 cm. Find area.",["Area = ½ × base × height","= ½ × 10 × 6 = 30 cm²"],["Triangle is half of rectangle. Why half? Two triangles make rectangle.","Half times 10 times 6 is 30."],"triangle","🔺 Triangle — Area = ½bh"),
+E("Cube side 5 cm. Find volume.",["Volume = 5³ = 125 cm³"],["Volume is length × breadth × height. All 5.","5 cubed is 125."],"cube","🧊 Cube — Volume = l³"),
+E("Cuboid 6 cm by 4 cm by 3 cm. Find volume.",["Volume = 6 × 4 × 3 = 72 cm³"],["Volume is how much space inside. Multiply three dimensions.","6 times 4 times 3 is 72."],"cuboid","📦 Cuboid — l × b × h"),
+E("Cylinder radius 7 cm, height 10 cm. Find volume. π=22/7.",["Volume = πr²h","= 22/7 × 49 × 10 = 1540 cm³"],["Cylinder is circle extruded. Base area times height.","Base area 154 times height 10 is 1540."],"cylinder","🛢️ Cylinder — πr²h"),
+E("Cone radius 7 cm, height 12 cm. Find volume.",["Volume = ⅓πr²h","= ⅓ × 22/7 × 49 × 12 = 616 cm³"],["Cone is one-third of cylinder with same base and height. Why? Three cones fill one cylinder.","One-third times base times height is 616."],"cone","🍦 Cone — ⅓πr²h"),
+E("Sphere radius 7 cm. Find volume. π=22/7.",["Volume = 4/3 πr³","= 4/3 × 22/7 × 343 = 1437.3 cm³"],["Sphere formula is four-thirds pi r cubed.","Calculate: 4 over 3 times 22 over 7 times 343."],"sphere","⚽ Sphere — 4/3 πr³"),
+E("Trapezium parallel sides 8 cm and 12 cm, height 5 cm. Find area.",["Area = ½(a+b)h","= ½ × 20 × 5 = 50 cm²"],["Trapezium: average of parallel sides times height.","Half times 20 times 5 is 50."],"trapezium","🪁 Trapezium — ½(a+b)h"),
+E("Square side 9 cm. Find area and perimeter.",["Area = 81 cm²","Perimeter = 36 cm"],["Square: all sides equal. Area side squared.","Perimeter 4 times side is 36."],"square","⬛ Square — Area = s²"),
+E("Find area of sector radius 7 cm, angle 90°.",["Area = 90/360 × πr²","= ¼ × 154 = 38.5 cm²"],["Sector is fraction of circle. 90 over 360 is quarter.","Quarter of full circle area is 38.5."],"sector","🍕 Sector — Fraction of circle"),
+E("Pythagoras: sides 6 cm and 8 cm. Find hypotenuse.",["c² = 36 + 64 = 100","c = 10 cm"],["Right triangle only. Hypotenuse squared equals sum of squares.","Square root of 100 is 10."],"righttriangle","📐 Pythagoras — c² = a² + b²"),
+E("Find total surface area of cube side 4 cm.",["One face = 16 cm²","Total = 6 × 16 = 96 cm²"],["Cube has 6 faces, all equal.","6 times 16 is 96."],"cube","🧊 Cube — 6 faces"),
+E("Find curved surface area of cylinder r=7, h=10.",["CSA = 2πrh","= 2 × 22/7 × 7 × 10 = 440 cm²"],["Curved surface unrolled is rectangle: circumference times height.","2 pi r times h is 440."],"cylinder","🛢️ Cylinder — 2πrh")
+],
+bearings:[
+E("Bearing of B from A is 43°. Find bearing of A from B.",["Back = 43° + 180° = 223°"],["Bearings clockwise from North. To go back, turn half circle 180.","43 plus 180 is 223."],"compass","🧭 Bearings — From North, Clockwise"),
+E("Ship sails on bearing 230°. Find bearing back to port.",["Back = 230° − 180° = 50°"],["Bearing more than 180, subtract 180 to go back.","230 minus 180 is 50."],"compass","🧭 >180° — Subtract 180°"),
+E("Tower height 30 m, distance 40 m. Find angle of elevation.",["tan θ = 30 ÷ 40 = 0.75","θ = tan⁻¹(0.75) = 36.9°"],["Angle of elevation: look UP from horizontal. Opposite is height, adjacent is distance.","Tan is opposite over adjacent."],"righttriangle","📐 Elevation — Look UP"),
+E("Write bearing 045° and explain.",["045° = 45° clockwise from North","Direction = North-East"],["Bearings always 3 figures. 45 must be 045.","45° from North towards East is North-East."],"compass","🧭 3-Figure Bearing — Always 3 digits"),
+E("Angle of depression 30° from cliff 20 m. Find distance to boat.",["tan 30° = 20 ÷ d","d = 34.6 m"],["Depression: look DOWN. Equals elevation from boat by alternate angles.","Tan 30 is 20 over distance."],"righttriangle","📐 Depression — Look DOWN"),
+E("A man walks 5 km North, then 12 km East. Find bearing of final position.",["tan θ = 12 ÷ 5 = 2.4","θ = 67.4° → Bearing 067°"],["Draw North, then East. Right triangle.","Tan is East over North. Bearing is 067°."],"compass","🧭 Bearing from North"),
+E("Bearing of X from Y is 120°. Find bearing of Y from X.",["Back = 120° + 180° = 300°"],["Add 180 to go back.","120 plus 180 is 300."],"compass","🧭 Back Bearing"),
+E("From point, angle of elevation to top of 10 m tree is 45°. Find distance.",["tan 45° = 10 ÷ d","d = 10 m (tan 45° = 1)"],["Tan 45 is 1. So height equals distance.","Distance is 10 m."],"righttriangle","📐 tan 45° = 1"),
+E("Ship sails 060° for 10 km. How far North?",["North = 10 × cos 60° = 5 km"],["Bearing 60° from North. North component is cos.","10 times cos 60 is 5."],"compass","🧭 North = cos, East = sin"),
+E("Find bearing 270° in words.",["270° = West"],["North 000, East 090, South 180, West 270.","270 is West."],"compass","🧭 000 N, 090 E, 180 S, 270 W")
+],
+trigonometry:[
+E("Right triangle: opposite 6, adjacent 8. Find tan θ.",["tan θ = 6 ÷ 8 = 0.75"],["SOH CAH TOA. Tan is opposite over adjacent.","We have opposite and adjacent, so use tan."],"righttriangle","📐 SOH CAH TOA — TOA = Opposite/Adjacent"),
+E("Right triangle: hypotenuse 10, opposite 6. Find sin θ.",["sin θ = 6 ÷ 10 = 0.6"],["SOH: sin is opposite over hypotenuse.","6 over 10 is 0.6."],"righttriangle","📐 SOH — Opposite/Hypotenuse"),
+E("Right triangle: adjacent 8, hypotenuse 10. Find cos θ.",["cos θ = 8 ÷ 10 = 0.8"],["CAH: cos is adjacent over hypotenuse.","8 over 10 is 0.8."],"righttriangle","📐 CAH — Adjacent/Hypotenuse"),
+E("In triangle ABC, a=7, b=9, C=60°. Find c using Cosine Rule.",["c² = 7² + 9² − 2×7×9×cos60°","c² = 49+81−63 = 67, c = 8.2"],["Cosine rule when you know two sides and included angle.","Cos 60 is 0.5. Calculate to 67, square root 8.2."],"triangle","🔺 Cosine Rule — SAS"),
+E("In triangle, a=8, A=30°, B=45°. Find b using Sine Rule.",["b / sin45° = 8 / sin30°","b = 8 × 0.707 ÷ 0.5 = 11.3"],["Sine rule when you know side and opposite angle.","Cross multiply to get 11.3."],"triangle","🔺 Sine Rule — AAS"),
+E("Find sin 30°, cos 60°, tan 45°.",["sin30° = 0.5","cos60° = 0.5","tan45° = 1"],["Special angles: 30, 45, 60 must be memorised.","Sin 30 is half, cos 60 is half, tan 45 is 1."],"triangle","📐 Special Angles — 30°, 45°, 60°"),
+E("Prove: sin²θ + cos²θ = 1.",["sin²θ + cos²θ = (opp²+adj²)/hyp²","= hyp²/hyp² = 1"],["Pythagoras in triangle: opp squared plus adj squared equals hyp squared.","Divide by hyp squared gives 1."],"righttriangle","📐 Identity — sin²+cos²=1"),
+E("If tan θ = 3/4, find sin θ.",["Hyp = 5 (3-4-5 triangle)","sin θ = 3 ÷ 5 = 0.6"],["Draw 3-4-5 triangle. Opposite 3, adjacent 4, hypotenuse 5.","Sin is opposite over hypotenuse, 3 over 5."],"righttriangle","📐 3-4-5 Triangle"),
+E("Find height of tree if angle of elevation 30°, distance 20 m.",["Height = 20 × tan30°","= 20 × 0.577 = 11.5 m"],["Tan is height over distance.","Height is distance times tan 30."],"righttriangle","📐 Elevation — Height = d × tan"),
+E("Simplify: sin 2x = ?",["sin 2x = 2 sin x cos x"],["Double angle formula.","Sin double is 2 sin cos."],"triangle","📐 Double Angle")
+],
+circles:[
+E("Angle at centre 100°. Find angle at circumference.",["Circumference = 100° ÷ 2 = 50°"],["Centre is twice circumference on same arc.","100 divided by 2 is 50."],"circle","⭕ Centre = 2 × Circumference"),
+E("Angle in semicircle is 90°. If one angle is 30°, find other.",["Other = 180° − 90° − 30° = 60°"],["Angle in semicircle is right angle. Triangle sum 180.","180 minus 90 minus 30 is 60."],"circle","⭕ Semicircle = 90°"),
+E("Tangent to circle is perpendicular to radius. Radius 5, distance from centre to point 13. Find tangent length.",["Tangent² = 13² − 5² = 144","Tangent = 12"],["Right triangle: radius, tangent, distance. Pythagoras.","169 minus 25 is 144, square root 12."],"circle","⭕ Tangent ⊥ Radius"),
+E("Two tangents from same point are equal. One is 8 cm. Find other.",["Other = 8 cm"],["Tangents from same external point to circle are equal.","Symmetry. So other is 8."],"circle","⭕ Two tangents equal"),
+E("Cyclic quadrilateral: opposite angles add to 180°. One is 110°. Find opposite.",["Opposite = 180° − 110° = 70°"],["Cyclic quadrilateral: four points on circle. Opposite add to 180.","180 minus 110 is 70."],"circle","⭕ Cyclic — Opposite 180°"),
+E("Find angle in alternate segment: chord makes 40° with tangent. Find angle in opposite arc.",["Angle = 40°"],["Alternate segment theorem: angle between tangent and chord equals angle in alternate segment.","So 40°."],"circle","⭕ Alternate Segment"),
+E("Find circumference of circle radius 7 cm.",["C = 2 × 22/7 × 7 = 44 cm"],["Circumference is 2 pi r.","44 cm."],"circle","⭕ C = 2πr"),
+E("Find area of circle diameter 14 cm.",["Radius = 7","Area = 22/7 × 49 = 154 cm²"],["Diameter half is radius.","Area pi r squared is 154."],"circle","⭕ Area = πr²")
+],
+coordinates:[
+E("Find gradient of line joining (1,2) and (4,8).",["Gradient = (8−2)÷(4−1) = 2"],["Gradient is rise over run. Rise is change in y, run is change in x.","6 divided by 3 is 2."],"axes","📈 Gradient = Rise / Run"),
+E("Find midpoint of (2,4) and (6,10).",["Mid = ((2+6)/2, (4+10)/2) = (4,7)"],["Midpoint is average of x, average of y.","4,7."],"axes","📈 Midpoint — Average"),
+E("Find distance between (0,0) and (3,4).",["Distance = √(3²+4²) = 5"],["Distance formula is Pythagoras. 3-4-5 triangle.","Square root of 25 is 5."],"axes","📈 Distance — Pythagoras"),
+E("Find equation of line with gradient 2, passing through (1,3).",["y−3 = 2(x−1)","y = 2x+1"],["Point-gradient form: y minus y1 equals m times x minus x1.","Expand to y equals 2x plus 1."],"axes","📈 y−y₁ = m(x−x₁)"),
+E("Find y-intercept of y = 3x − 5.",["Intercept = −5"],["Intercept is where x=0. Put x=0, y is −5.","Line crosses y-axis at −5."],"axes","📈 Intercept — x=0"),
+E("Two lines: y=2x+1 and y=2x−3. Are they parallel?",["Yes, same gradient 2"],["Parallel lines have same gradient.","Both gradient 2, so parallel."],"axes","📈 Parallel — Same gradient"),
+E("Find gradient of line perpendicular to y=2x+1.",["Perpendicular gradient = −1/2"],["Perpendicular gradients multiply to −1.","Negative reciprocal of 2 is −1/2."],"axes","📈 Perpendicular — m₁×m₂ = −1"),
+E("Plot point (3,4). Which quadrant?",["Quadrant 1 (x>0, y>0)"],["Quadrant 1: both positive.","(3,4) is Q1."],"axes","📈 Quadrants")
+],
+probability:[
+E("Bag has 5 red, 3 blue. Find P(red).",["Total = 8","P = 5/8"],["Probability is favourable over total.","Red over total is 5 over 8."],"bag","🎲 P = Favourable / Total"),
+E("Two coins tossed. Find P(2 heads).",["Outcomes: HH, HT, TH, TT","P = 1/4"],["List all 4 outcomes.","Only 1 is HH. 1 over 4."],"coins","🪙 Coins — 4 outcomes"),
+E("Die rolled. Find P(even).",["Even: 2,4,6 → 3 outcomes","P = 3/6 = 1/2"],["Die has 6 faces. Even are 3.","3 over 6 is half."],"dice","🎲 Die — 6 faces"),
+E("Bag has 4 red, 6 blue. Two picked without replacement. Find P(both red).",["P = 4/10 × 3/9 = 12/90 = 2/15"],["First red 4 over 10. Second red 3 over 9, because one red gone and total gone.","Multiply."],"bag","🎲 Without replacement — Total reduces"),
+E("Find P(not 6) on die.",["P(6) = 1/6","P(not 6) = 1 − 1/6 = 5/6"],["Not means 1 minus probability.","1 minus 1 over 6 is 5 over 6."],"dice","🎲 P(not) = 1 − P"),
+E("Two dice rolled. Find P(sum = 7).",["Favourable: 6 combos","P = 6/36 = 1/6"],["List pairs that sum to 7: (1,6),(2,5),(3,4),(4,3),(5,2),(6,1) — 6.","6 over 36 is 1 over 6."],"dice","🎲 Two dice — 36 outcomes"),
+E("Cards: Find P(ace) from 52 cards.",["P = 4/52 = 1/13"],["4 aces in 52 cards.","4 over 52 is 1 over 13."],"cards","🃏 Cards — 52, 4 aces"),
+E("Find P(red or black) from cards.",["P = 1"],["Every card is red or black.","So probability 1, certain."],"cards","🃏 Certain = 1")
+],
+statistics:[
+E("Find mean of 4, 6, 8, 10.",["Sum = 28","Mean = 28 ÷ 4 = 7"],["Mean is total shared equally.","Add to 28, divide by 4."],"barchart","📊 Mean — Sum ÷ Count"),
+E("Find median of 3, 7, 5, 9, 2.",["Order: 2,3,5,7,9","Median = 5"],["Median is middle after ordering.","Order first, middle is 5."],"barchart","📊 Median — Middle after ordering"),
+E("Find mode of 2,3,3,5,3,7.",["Mode = 3"],["Mode is most frequent.","3 appears 3 times."],"barchart","📊 Mode — Most frequent"),
+E("Find range of 5, 12, 8, 20.",["Range = 20 − 5 = 15"],["Range is highest minus lowest.","20 minus 5 is 15."],"barchart","📊 Range — Max − Min"),
+E("Find variance of 2,4,6. Mean=4.",["Deviations: −2,0,2","Variance = (4+0+4)÷3 = 2.67"],["Variance is average of squared deviations.","Square, add, divide."],"barchart","📊 Variance — Average squared deviation"),
+E("Find standard deviation if variance is 9.",["SD = √9 = 3"],["Standard deviation is square root of variance.","Square root of 9 is 3."],"barchart","📊 SD = √Variance"),
+E("Pie chart: 90° represents how many out of 360?",["Fraction = 90/360 = 1/4","25%"],["Pie chart full circle 360.","90 over 360 is quarter, 25%."],"pie","🥧 Pie — 360° total"),
+E("Histogram: class 10-20 has frequency 12. Find frequency density.",["Density = 12 ÷ 10 = 1.2"],["Density is frequency divided by class width.","12 divided by 10 is 1.2."],"histogram","📊 Density = F ÷ Width")
+],
+calculus:[
+E("If y = x³ + 2x² − 5x + 4, find dy/dx.",["dy/dx = 3x² + 4x − 5"],["Power rule: bring power down, reduce by 1. Constant disappears."],"none",""),
+E("Differentiate y = (x²+1)(2x−3) — Product Rule.",["dy/dx = 2x(2x−3)+(x²+1)(2)","= 6x² − 6x + 2"],["Product: first derivative times second plus first times second derivative."],"none",""),
+E("Differentiate y = (x²+1)/(x−1) — Quotient Rule.",["dy/dx = (x²−2x−1)/(x−1)²"],["Quotient: bottom times top derivative minus top times bottom derivative over bottom squared."],"none",""),
+E("Differentiate y = (2x+3)⁵ — Chain Rule.",["dy/dx = 10(2x+3)⁴"],["Chain: differentiate outside, multiply by inside derivative 2."],"none",""),
+E("Differentiate y = sin 3x.",["dy/dx = 3 cos 3x"],["Derivative of sin is cos, times derivative of 3x."],"none",""),
+E("Differentiate y = e^(2x).",["dy/dx = 2e^(2x)"],["Derivative of e to something is e to something times power derivative."],"none",""),
+E("Differentiate y = ln(3x+1).",["dy/dx = 3/(3x+1)"],["Derivative of ln is 1 over inside times inside derivative."],"none",""),
+E("Find stationary points of y = x³ − 3x² + 2.",["dy/dx = 0 → x=0 or 2","Points (0,2), (2,−2)"],["Stationary where gradient zero. Set dy/dx to zero."],"none",""),
+E("Find tangent to y = x²+3x at x=1.",["At x=1, y=4, m=5","y = 5x − 1"],["Tangent gradient is dy/dx at point. Use point-gradient form."],"none",""),
+E("Find ∫ (3x²+2x) dx.",["∫ = x³ + x² + C"],["Integration is reverse. Add 1 to power, divide by new power. Add C."],"none",""),
+E("Evaluate ∫₀² (2x+1) dx.",["∫ = [x²+x]₀² = 6"],["Definite integral: put upper minus lower."],"none",""),
+E("Find area under y = x² from 0 to 2.",["Area = 8/3"],["Area is definite integral."],"none",""),
+E("Find lim x→2 (x²−4)/(x−2).",["Limit = 4"],["Factorise, cancel, put x=2."],"none",""),
+E("If x² + y² = 25, find dy/dx.",["dy/dx = −x/y"],["Implicit: differentiate y² as 2y dy/dx."],"none",""),
+E("Differentiate y = tan x.",["dy/dx = sec²x"],["Derivative of tan is sec squared."],"none",""),
+E("Find second derivative of y = x⁴ − 2x².",["d²y/dx² = 12x² − 4"],["Differentiate twice."],"none",""),
+E("Find maximum of y = −x² + 4x + 1.",["dy/dx = 0 → x=2","Max = 5"],["Maximum where derivative zero and second derivative negative."],"none",""),
+E("Differentiate y = √(x) + 1/x.",["dy/dx = 1/(2√x) − 1/x²"],["Rewrite as powers first, then power rule."],"none",""),
+E("Find ∫ 1/x dx.",["∫ = ln|x| + C"],["Special rule: integral of 1/x is ln x."],"none",""),
+E("Differentiate y = eˣ / x — Quotient.",["dy/dx = eˣ(x−1)/x²"],["Quotient rule with eˣ."],"none","")
+],
+logarithms:[
+E("If log₁₀ 2 = 0.3010, find log₁₀ 8.",["8 = 2³","log 8 = 3 × 0.3010 = 0.9030"],["8 is 2 cubed. Log of power: bring power down."],"none",""),
+E("Solve: log₂ x = 4.",["x = 2⁴ = 16"],["Log base 2 equals 4 means 2 to power 4 equals x."],"none",""),
+E("Simplify: log 12 + log 3 − log 4.",["= log 9"],["Plus means multiply, minus means divide."],"none",""),
+E("If log₁₀ 5 = 0.6990, find log₁₀ 25.",["25 = 5²","= 1.3980"],["25 is 5 squared. Bring 2 down."],"none",""),
+E("Solve: log₁₀ (x+2) = 1.",["x+2 = 10","x = 8"],["10 to power 1 is 10."],"none",""),
+E("Find log₁₀ 1000.",["log₁₀ 1000 = 3"],["10 to power 3 is 1000."],"none",""),
+E("Simplify: log 100 − log 10.",["= log 10 = 1"],["Minus means divide: 100 over 10 is 10. Log 10 is 1."],"none",""),
+E("If log 2 = 0.3010, log 3 = 0.4771, find log 6.",["log 6 = log 2 + log 3","= 0.7781"],["6 is 2 times 3. Log of product is sum of logs."],"none","")
+],
+permutation:[
+E("In how many ways can 5 students be arranged in a row?",["Ways = 5! = 120"],["Permutation is arrangement, order matters. 5 choices, then 4, then 3, then 2, then 1."],"none",""),
+E("Find ⁷P₃.",["⁷P₃ = 7×6×5 = 210"],["n P r is n times n minus 1 for r terms."],"none",""),
+E("Committee of 3 from 7 people. How many ways?",["⁷C₃ = 35"],["Committee — order does NOT matter. Combination."],"none",""),
+E("How many 3-letter codes from A,B,C,D,E without repetition?",["⁵P₃ = 60"],["Code — order matters. 5 times 4 times 3."],"none",""),
+E("Find n if ⁿP₂ = 56.",["n = 8"],["8 times 7 is 56."],"none",""),
+E("How many ways to arrange letters of MATH?",["4! = 24"],["4 different letters, arrange all. 4 factorial."],"none",""),
+E("Find ⁵C₂.",["⁵C₂ = 10"],["Combination: 5 choose 2 is 10."],"none",""),
+E("In how many ways can 3 books be chosen from 10?",["¹⁰C₃ = 120"],["Choose — order does not matter. Combination."],"none","")
+],
+indices:[
+E("Simplify 2³ × 2².",["= 2⁵ = 32"],["Same base, multiply means add powers."],"none",""),
+E("Simplify 3⁵ ÷ 3².",["= 3³ = 27"],["Same base, divide means subtract powers."],"none",""),
+E("Simplify (2³)².",["= 2⁶ = 64"],["Power of power: multiply powers."],"none",""),
+E("Simplify 5⁰.",["= 1"],["Any number to power 0 is 1."],"none",""),
+E("Simplify 2⁻³.",["= 1/8"],["Negative power means reciprocal."],"none",""),
+E("Simplify √16.",["= 4"],["Square root is power half. Square root of 16 is 4."],"none",""),
+E("Simplify 8^(1/3).",["= 2"],["Cube root of 8 is 2."],"none",""),
+E("If 2ˣ = 32, find x.",["2ˣ = 2⁵","x = 5"],["32 is 2 to power 5. Same base, powers equal."],"none","")
+],
+sets:[
+E("n(A)=10, n(B)=7, n(A∩B)=3. Find n(A∪B).",["n(A∪B) = 10+7−3 = 14"],["Add A and B, subtract intersection once because counted twice."],"venn","⭕ Venn — Subtract intersection once"),
+E("If U = {1,2,3,4,5}, A = {1,2}, find A'.",["A' = {3,4,5}"],["Complement is everything in U not in A."],"venn","⭕ Complement"),
+E("A = {1,2,3}, B = {2,3,4}. Find A ∩ B.",["A∩B = {2,3}"],["Intersection is common to both."],"venn","⭕ Intersection — Common"),
+E("A = {1,2}, B = {3,4}. Find A ∪ B.",["A∪B = {1,2,3,4}"],["Union is everything together."],"venn","⭕ Union — Everything"),
+E("If n(A)=15, n(A∪B)=20, n(A∩B)=5. Find n(B).",["20 = 15 + n(B) − 5","n(B) = 10"],["Formula: union = A + B − intersection. Rearrange."],"venn","⭕ Use formula"),
+E("In a class, 20 like Maths, 15 like English, 8 like both. How many in class?",["Total = 20+15−8 = 27"],["Subtract both because counted twice."],"venn","⭕ Venn — Both counted twice")
+],
+functions:[
+E("If f(x) = 2x+3, find f(4).",["f(4) = 2×4+3 = 11"],["Replace x with 4."],"none",""),
+E("If f(x) = x², find f(−3).",["f(−3) = 9"],["Minus 3 squared is 9. Square makes positive."],"none",""),
+E("Find inverse of f(x) = 2x+1.",["Let y=2x+1","x = (y−1)/2","f⁻¹(x) = (x−1)/2"],["Inverse swaps x and y. Make x subject."],"none",""),
+E("If f(x)=x+2, g(x)=3x, find fg(2).",["g(2)=6","f(6)=8"],["Composite: do g first, then f."],"none",""),
+E("Find domain of f(x) = 1/(x−2).",["x ≠ 2"],["Denominator cannot be zero."],"none",""),
+E("If f(x)=3x, find f(0).",["f(0)=0"],["3 times 0 is 0."],"none","")
+],
+partial:[
+E("Express (3x+1)/(x+1)(x−2) as partial fractions.",["= A/(x+1) + B/(x−2)","A=2/3, B=7/3"],["Cover-up: put x=−1 to find A, x=2 to find B."],"none",""),
+E("Express 1/(x(x+1)) as partial fractions.",["= 1/x − 1/(x+1)"],["Cover-up method."],"none",""),
+E("Express (2x+3)/(x−1)(x+2).",["= 5/3(x−1) − 1/3(x+2)"],["Partial fractions splits big fraction."],"none","")
+],
+polynomial:[
+E("Find remainder when x²+3x+1 divided by (x−1).",["Put x=1","Remainder = 5"],["Remainder theorem: put x=1, value is remainder."],"none",""),
+E("Factorise x² − 5x + 6.",["= (x−2)(x−3)"],["Find numbers multiply to 6, add to −5: −2 and −3."],"none",""),
+E("If x=2 is root of x²+ax+2=0, find a.",["4+2a+2=0","a=−3"],["Put x=2, solve for a."],"none",""),
+E("Divide x³+2x² by x.",["= x²+2x"],["Divide each term."],"none","")
+],
+fractions:[
+E("Find 20% of 200.",["20% = 0.2","0.2 × 200 = 40"],["Percent means out of 100. Divide by 100."],"none",""),
+E("Simplify 12/18.",["= 2/3"],["Divide top and bottom by 6."],"none",""),
+E("Add 1/2 + 1/3.",["= 3/6 + 2/6 = 5/6"],["Common denominator 6."],"none",""),
+E("Find ratio 12:18 in simplest form.",["= 2:3"],["Divide both by 6."],"none",""),
+E("A shirt costs ₦5000, discount 10%. Find new price.",["Discount = 500","New price = 4500"],["10% of 5000 is 500. Subtract."],"none",""),
+E("Find simple interest on ₦10000 at 5% for 2 years.",["I = 10000×5×2/100 = 1000"],["Interest = Principal × Rate × Time over 100."],"none","")
+],
+sequences:[
+E("Find 10th term of AP: 2,5,8,...",["a=2, d=3","T₁₀ = 2+9×3 = 29"],["AP: add same difference. Formula a+(n−1)d."],"none",""),
+E("Find sum of first 10 terms of AP 2,5,8...",["S₁₀ = 10/2 × (2×2+9×3) = 155"],["Sum formula: n/2 times 2a+(n−1)d."],"none",""),
+E("Find 5th term of GP: 2,4,8...",["a=2, r=2","T₅ = 2×2⁴ = 32"],["GP: multiply by ratio. Formula a×r^(n−1)."],"none",""),
+E("Find sum to infinity of GP 8,4,2...",["S∞ = 8/(1−1/2) = 16"],["Sum to infinity = a/(1−r) if |r|<1."],"none",""),
+E("Find next term: 1,4,9,16,...",["Next = 25"],["Square numbers: 1²,2²,3²,4²,5²."],"none","")
+],
+vectors:[
+E("If a=(2,3) and b=(3,2), find a+b.",["a+b = (5,5)"],["Add component by component."],"arrow","➡️ Vector — Add x with x, y with y"),
+E("If a=(4,3), find |a|.",["|a| = √(16+9) = 5"],["Magnitude is square root of x²+y². 3-4-5."],"arrow","➡️ Magnitude — Pythagoras"),
+E("Find vector AB if A=(1,2), B=(4,6).",["AB = (3,4)"],["B minus A."],"arrow","➡️ AB = B − A"),
+E("If a=(2,1), find 3a.",["3a = (6,3)"],["Multiply each component by 3."],"arrow","➡️ Scalar × Vector")
+],
+matrices:[
+E("If A=[[1,2],[3,4]], find determinant.",["det = 1×4 − 2×3 = −2"],["Determinant of 2×2 is ad − bc."],"none",""),
+E("Add [[1,2],[3,4]] + [[5,6],[7,8]].",["= [[6,8],[10,12]]"],["Add corresponding entries."],"none",""),
+E("Multiply [[1,2]] × [[3],[4]].",["= [11]"],["Row times column: 1×3+2×4=11."],"none",""),
+E("Find inverse of [[2,0],[0,2]].",["Inverse = [[1/2,0],[0,1/2]]"],["Inverse is 1/det times adjoint."],"none","")
+],
+complex:[
+E("Simplify (2+3i)+(1+4i).",["= 3+7i"],["Add real with real, imaginary with imaginary."],"none",""),
+E("Simplify (2+3i)(1+i).",["= −1+5i"],["Multiply: 2+2i+3i+3i². i²=−1."],"none",""),
+E("Find modulus of 3+4i.",["|z| = 5"],["Modulus is √(3²+4²)=5."],"none",""),
+E("Find conjugate of 2−3i.",["Conjugate = 2+3i"],["Change sign of imaginary part."],"none","")
+],
+variation:[
+E("y varies directly as x. y=12 when x=3. Find y when x=5.",["k=4","y=20"],["Direct: y=kx. Find k first."],"none",""),
+E("y varies inversely as x. y=6 when x=2. Find y when x=3.",["k=12","y=4"],["Inverse: y=k/x. k=12. 12/3=4."],"none",""),
+E("y varies as x². y=8 when x=2. Find y when x=3.",["k=2","y=18"],["y=kx². k=2. 2×9=18."],"none","")
+],
+graphs:[
+E("Find y when x=2 for y=2x+1.",["y=5"],["Replace x with 2. Plot (2,5)."],"axes","📈 Plot point"),
+E("Find x-intercept of y=2x−4.",["0=2x−4","x=2"],["Intercept: y=0."],"axes","📈 x-intercept — y=0"),
+E("Draw y=x². What shape?",["Parabola, U shape"],["x² graph is U shape, minimum at 0."],"axes","📈 Parabola — U shape"),
+E("Find gradient of y=3x+2.",["Gradient = 3"],["Gradient is coefficient of x."],"axes","📈 Gradient = m")
+],
+inequalities:[
+E("Solve: 2x+3 > 7.",["2x > 4","x > 2"],["Subtract 3 from both sides. Divide by 2."],"none",""),
+E("Solve: 3x − 5 ≤ 4.",["3x ≤ 9","x ≤ 3"],["Add 5, divide by 3."],"none",""),
+E("Solve: −2x > 6.",["x < −3"],["When multiply/divide by negative, flip sign."],"none",""),
+E("Solve: x² < 9.",["−3 < x < 3"],["Square root: between −3 and 3."],"none","")
+],
+bases:[
+E("Convert 101₂ to base 10.",["= 1×4+0×2+1×1 = 5"],["Base 2: powers of 2."],"none",""),
+E("Convert 13₁₀ to binary.",["13 = 1101₂"],["Divide by 2 repeatedly."],"none",""),
+E("Add 101₂ + 11₂.",["= 1000₂"],["Binary addition: 1+1=10."],"none",""),
+E("Convert 23₅ to base 10.",["= 2×5+3 = 13"],["Base 5: 2 fives plus 3."],"none","")
+],
+factors:[
+E("Find HCF of 12 and 18.",["HCF = 6"],["List factors, pick highest common."],"none",""),
+E("Find LCM of 4 and 6.",["LCM = 12"],["Smallest common multiple."],"none",""),
+E("Find prime factors of 36.",["36 = 2² × 3²"],["Divide by primes."],"none",""),
+E("Find HCF of 24 and 36.",["HCF = 12"],["Highest common factor."],"none","")
+],
+construction:[
+E("Construct angle 60° using ruler and compass.",["Draw line AB","Arc from A, arc from intersection","Angle = 60°"],["Construction uses only ruler and compass. Equilateral triangle gives 60°."],"triangle","📐 Construction — No protractor"),
+E("Construct perpendicular bisector of line 8 cm.",["Arc from both ends","Join intersections"],["Bisector cuts line in half at 90°."],"axes","📐 Bisector"),
+E("Construct angle 90°.",["Draw line, arc, two arcs","Angle = 90°"],["90° is two 45° or bisector."],"triangle","📐 90°")
+],
+binomial:[
+E("Expand (1+x)³.",["= 1+3x+3x²+x³"],["Pascal: 1,3,3,1."],"none",""),
+E("Find coefficient of x² in (1+2x)³.",["Coeff = 12"],["Binomial: 3C2 × 2² = 12."],"none",""),
+E("Expand (a+b)².",["= a²+2ab+b²"],["Square: a squared plus 2ab plus b squared."],"none","")
+],
+directed:[
+E("Calculate −5 + 8.",["= 3"],["On number line, start −5, move 8 right to 3."],"numberline","📏 Number line — Right = +, Left = −"),
+E("Calculate −3 × −4.",["= 12"],["Minus times minus is plus."],"numberline","📏 Minus × Minus = Plus"),
+E("Calculate −12 ÷ 3.",["= −4"],["Minus divided by plus is minus."],"numberline","📏 Signs"),
+E("Calculate 5 − (−3).",["= 8"],["Minus minus is plus. 5+3=8."],"numberline","📏 −(−) = +")
+],
+pythagoras:[
+E("Right triangle sides 6 cm and 8 cm. Find hypotenuse.",["c² = 36+64=100","c=10 cm"],["Hypotenuse squared equals sum of squares."],"righttriangle","📐 Pythagoras — c²=a²+b²"),
+E("Hypotenuse 13, one side 5. Find other.",["Other² = 169−25=144","Other=12"],["Rearrange: other squared = hyp squared minus known squared."],"righttriangle","📐 5-12-13"),
+E("Is triangle 5,12,13 right-angled?",["5²+12²=169=13²","Yes, right-angled"],["Check Pythagoras."],"righttriangle","📐 Check")
+],
+equations:[
+E("Solve: 2x + 3 = 7.",["2x = 7 − 3 = 4","x = 2"],["Subtract 3 from BOTH sides to keep balance. Plus becomes minus when it crosses.","Balance: whatever you do to left, do to right."],"balance","⚖️ Balance — Same both sides"),
+E("Solve: 3x + 5 = 20.",["3x = 20 − 5 = 15","x = 5"],["Subtract 5 from both sides. Plus becomes minus.","Divide both sides by 3."],"balance","⚖️ Balance"),
+E("Solve: x² − 5x + 6 = 0.",["(x−2)(x−3)=0","x=2 or 3"],["Find numbers multiply to 6, add to −5: −2 and −3."],"none",""),
+E("Solve simultaneous: x+y=7, x−y=1.",["Add: 2x=8, x=4","y=3"],["Add equations to eliminate y."],"balance","⚖️ Elimination"),
+E("Solve: 5x − 2 = 13.",["5x = 15","x = 3"],["Add 2 to both sides. Minus becomes plus when it crosses."],"balance","⚖️ Balance"),
+E("If 2x = 10, find x.",["x = 5"],["Divide both sides by 2."],"balance","⚖️ Balance")
+],
+logical:[
+E("If all cats are animals, and Tom is a cat, is Tom an animal?",["Yes"],["Syllogism: Tom is cat, cats are animals, so Tom is animal."],"none",""),
+E("If p → q, and p is true, what about q?",["q is true"],["Modus ponens."],"none",""),
+E("Negation of 'All students passed'?",["Some students did not pass"],["Negation flips all to some not."],"none","")
+]
+};
+// ===== DIAGRAM DRAWING =====
+function drawDiagram(type,label){
+  let card=document.getElementById("diagramCard"); let c=document.getElementById("diagramCanvas"); if(!c) return; let ctx=c.getContext("2d"); ctx.clearRect(0,0,c.width,c.height);
+  if(!type||type==="none"){card.style.display="none"; return;}
+  card.style.display="block"; document.getElementById("diagramLabel").innerText=label||"Look at the diagram";
+  ctx.lineWidth=3; ctx.strokeStyle="#1E4DA1"; ctx.fillStyle="#111"; ctx.font="bold 16px Arial";
+  function line(x1,y1,x2,y2,color){ctx.strokeStyle=color||"#1E4DA1";ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();}
+  function txt(t,x,y,color){ctx.fillStyle=color||"#111";ctx.fillText(t,x,y);}
+  function circ(x,y,r){ctx.beginPath();ctx.arc(x,y,r,0,Math.PI*2);ctx.stroke();}
+  if(type==="alternate"){line(40,60,480,60); line(40,170,480,170); line(120,20,400,210,"#e11"); txt("a = 65°",210,55,"#e11"); txt("b = 65°",310,195,"#e11"); txt("Z SHAPE",230,130,"#e11");}
+  else if(type==="cointerior"){line(40,60,480,60); line(40,170,480,170); line(150,20,350,210,"#0a9d5c"); txt("65°",180,55,"#0a9d5c"); txt("115°",180,195,"#0a9d5c"); txt("C SHAPE → 180°",180,120,"#0a9d5c");}
+  else if(type==="vertical"){line(100,30,420,230); line(100,230,420,30); txt("70°",260,110,"#e11"); txt("70°",260,175,"#e11"); txt("X SHAPE",230,20,"#e11");}
+  else if(type==="corresponding"){line(40,60,480,60); line(40,170,480,170); line(200,20,200,210); txt("50°",210,55); txt("50°",210,165); txt("F SHAPE",260,120);}
+  else if(type==="triangle"){line(80,200,440,200); line(80,200,260,60); line(440,200,260,60); txt("60°",110,185); txt("70°",380,185); txt("? 50°",250,85); txt("Sum = 180°",220,230);}
+  else if(type==="isosceles"){line(80,200,440,200); line(80,200,260,60); line(440,200,260,60); txt("70°",110,185); txt("70°",380,185); txt("40°",250,85);}
+  else if(type==="pentagon"){ctx.beginPath(); ctx.moveTo(260,40); ctx.lineTo(400,140); ctx.lineTo(350,230); ctx.lineTo(170,230); ctx.lineTo(120,140); ctx.closePath(); ctx.stroke(); txt("72° exterior",200,20);}
+  else if(type==="exterior"){line(80,200,440,200); line(80,200,260,60); line(440,200,260,60); line(440,200,480,180,"#e11"); txt("60°",110,185); txt("50°",380,185); txt("110° ext",400,150,"#e11");}
+  else if(type==="hexagon"){ctx.beginPath(); ctx.moveTo(260,30); ctx.lineTo(400,100); ctx.lineTo(400,190); ctx.lineTo(260,260); ctx.lineTo(120,190); ctx.lineTo(120,100); ctx.closePath(); ctx.stroke(); txt("720° total",220,150);}
+  else if(type==="straight"){line(40,130,480,130); line(260,130,260,40); txt("3x",150,120); txt("2x",300,120); txt("Straight = 180°",220,170);}
+  else if(type==="point"){line(260,130,260,30); line(260,130,360,200); line(260,130,140,200); txt("90°",270,90); txt("120°",300,180); txt("x",180,180);}
+  else if(type==="righttriangle"){line(80,200,440,200); line(80,200,80,60); line(80,60,440,200); ctx.strokeRect(80,170,30,30); txt("90°",110,185); txt("35°",380,185); txt("55°",110,80);}
+  else if(type==="parallelogram"){line(100,60,380,60); line(150,200,430,200); line(100,60,150,200); line(380,60,430,200); txt("110°",120,80); txt("70°",350,80);}
+  else if(type==="circle"){circ(260,130,100); line(260,130,260,30); line(260,130,360,200); line(260,30,360,200); txt("O",250,140); txt("100° centre",200,70); txt("50° at circ.",300,210);}
+  else if(type==="quad"||type==="rectangle"){ctx.strokeRect(80,60,360,140); txt("12 cm",220,50); txt("8 cm",450,130); txt("Area = 96 cm²",200,130);}
+  else if(type==="square"){ctx.strokeRect(120,50,200,200); txt("9 cm",200,40); txt("Area = 81",200,150);}
+  else if(type==="cube"){ctx.strokeRect(120,60,180,180); ctx.strokeRect(170,30,180,180); txt("5 cm",200,40); txt("Volume = 125",200,150);}
+  else if(type==="cuboid"){ctx.strokeRect(80,80,280,140); txt("6 cm",180,70); txt("4 cm",370,150); txt("3 cm",180,240);}
+  else if(type==="cylinder"){ctx.beginPath(); ctx.ellipse(260,60,100,25,0,0,Math.PI*2); ctx.stroke(); line(160,60,160,200); line(360,60,360,200); ctx.beginPath(); ctx.ellipse(260,200,100,25,0,0,Math.PI); ctx.stroke(); txt("r=7",280,50); txt("h=10",370,130);}
+  else if(type==="cone"){line(160,200,260,40); line(360,200,260,40); ctx.beginPath(); ctx.ellipse(260,200,100,20,0,0,Math.PI*2); ctx.stroke(); txt("r=7",280,210); txt("h=12",270,120);}
+  else if(type==="sphere"){circ(260,130,100); txt("r=7",280,130);}
+  else if(type==="trapezium"){line(140,60,380,60); line(80,200,440,200); line(140,60,80,200); line(380,60,440,200); txt("8 cm",220,50); txt("12 cm",220,220); txt("h=5",450,130);}
+  else if(type==="sector"){ctx.beginPath(); ctx.moveTo(260,130); ctx.arc(260,130,100,-Math.PI/2,0); ctx.closePath(); ctx.stroke(); txt("90°",280,80); txt("r=7",280,130);}
+  else if(type==="compass"){circ(260,130,100); line(260,30,260,230); line(160,130,360,130); txt("N 000°",240,35); txt("E 090°",365,135); txt("S 180°",240,235); txt("W 270°",130,135); line(260,130,330,60,"#e11"); txt("043°",300,70,"#e11");}
+  else if(type==="axes"){line(40,130,480,130); line(260,20,260,240); txt("x",470,130); txt("y",270,30); txt("O",250,145); line(260,130,360,80,"#e11"); txt("(3,4)",370,70,"#e11");}
+  else if(type==="bag"){ctx.strokeRect(180,60,160,140); txt("5 RED",210,110); txt("3 BLUE",210,140); txt("Bag",240,220);}
+  else if(type==="dice"){ctx.strokeRect(180,80,100,100); txt("● ●",210,120); txt("● ●",210,150); txt("Die",220,200);}
+  else if(type==="coins"){circ(200,130,50); circ(320,130,50); txt("H",195,135); txt("T",315,135);}
+  else if(type==="cards"){ctx.strokeRect(180,60,80,120); ctx.strokeRect(260,60,80,120); txt("A♠",200,120); txt("K♥",280,120);}
+  else if(type==="barchart"){ctx.fillRect(100,180,40,50); ctx.fillRect(160,150,40,80); ctx.fillRect(220,120,40,110); ctx.fillRect(280,170,40,60); txt("Bar Chart",200,250);}
+  else if(type==="pie"){circ(260,130,100); line(260,130,260,30); line(260,130,360,200); txt("90°",280,80); txt("Pie 360°",220,250);}
+  else if(type==="histogram"){ctx.fillRect(100,180,60,50); ctx.fillRect(170,140,60,90); ctx.fillRect(240,100,60,130); txt("Histogram",200,250);}
+  else if(type==="venn"){circ(200,130,70); circ(320,130,70); txt("A",170,130); txt("B",330,130); txt("A∩B",240,130);}
+  else if(type==="arrow"){line(80,130,400,130,"#e11"); ctx.beginPath(); ctx.moveTo(400,130); ctx.lineTo(380,120); ctx.lineTo(380,140); ctx.closePath(); ctx.fillStyle="#e11"; ctx.fill(); txt("Vector →",200,100,"#e11");}
+  else if(type==="numberline"){line(40,130,480,130); for(let i=0;i<=8;i++){line(60+i*50,120,60+i*50,140); txt(String(i-4),55+i*50,160);} txt("← Negative | Positive →",180,200);}
+  else if(type==="balance"){line(80,60,440,60); line(260,60,260,200); txt("⚖️ Balance",220,40); txt("Left = Right",220,220);}
+  else if(type==="clock"){circ(260,130,100); line(260,130,260,30); line(260,130,360,130); txt("12",250,35); txt("3",365,135); txt("90°",280,110);}
+  else if(type==="equilateral"){line(80,200,440,200); line(80,200,260,60); line(440,200,260,60); txt("60°",110,185); txt("60°",380,185); txt("60°",250,85);}
+  else {line(40,60,480,60); line(40,170,480,170); line(150,20,350,210,"#e11"); txt("Look at shape",200,120);}
+}
 function buildOneQuestion(topic, idx, mode){
   let key=topicKey(topic); let source=mode==="exam"?["WAEC 2019","NECO 2021","JAMB 2022","WAEC 2020","CAMBRIDGE 2021"][idx%5]:(mode==="exercise"?"Exercise":"Learn");
-  let v=idx%5; // 5 different VARIANTS per topic - not just +1
-  let q="", lines=[], expl=[];
-  if(key==="permutation"){
-    if(v===0){let n=5+(idx%3); q=`In how many ways can ${n} students be arranged in a row?`; lines=[`Ways = ${n}!`,`= ${n} × ${n-1} × ${n-2} × ... × 1`,`= ${[1,2,6,24,120,720,5040,40320][n]||n}`]; expl=[`Permutation means arrangement. Order matters. When you arrange ${n} different people in a row, you have ${n} choices for first position, then ${n-1} for second, and so on. That is factorial.`,`We multiply ${n} down to 1. That is ${n} factorial.`,`So answer is ${[1,2,6,24,120,720,5040,40320][n]||n} ways. If order did NOT matter, we would use combination, not permutation.`];}
-    else if(v===1){q=`Find ⁿP₃ if n = ${6+(idx%3)}. That is, permutations of ${6+(idx%3)} things taken 3 at a time.`; let nn=6+(idx%3); lines=[`ⁿP₃ = n × (n−1) × (n−2)`,`= ${nn} × ${nn-1} × ${nn-2}`,`= ${nn*(nn-1)*(nn-2)}`]; expl=[`n P r means: choose r and arrange them. Formula is n times n minus 1 times n minus 2, for r terms. Here r is 3, so we have 3 terms.`,`Put n = ${nn}. So ${nn} times ${nn-1} times ${nn-2}.`,`That is ${nn*(nn-1)*(nn-2)}. Remember: permutation is for arrangement, combination is for selection.`];}
-    else if(v===2){q=`A committee of 3 is to be chosen from 7 people. How many ways? (Order does NOT matter)`; lines=[`This is Combination: ⁷C₃`,`⁷C₃ = 7! ÷ (3! × 4!)`,`= 35`]; expl=[`Read carefully: committee — order does NOT matter. If A, B, C is same committee as C, B, A, it is combination, not permutation. That is the key difference.`,`Formula for combination is n factorial divided by r factorial times n minus r factorial.`,`7 choose 3 is 35 ways. If it were arrangement, answer would be bigger.`];}
-    else if(v===3){q=`How many 3-letter codes can be formed from A, B, C, D, E without repetition?`; lines=[`Ways = ⁵P₃`,`= 5 × 4 × 3`,`= 60`]; expl=[`Code — order matters. A B C is different from C B A. So permutation. 5 letters, choose 3, arrange them.`,`5 times 4 times 3, because first letter 5 choices, second 4 left, third 3 left.`,`Answer 60 codes.`];}
-    else {q=`Find n if ⁿP₂ = 56.`; lines=[`ⁿP₂ = n × (n−1)`,`n × (n−1) = 56`,`n = 8  (because 8 × 7 = 56)`]; expl=[`n P 2 means n times n minus 1, two terms. Set equal to 56.`,`We need two consecutive numbers that multiply to 56. 8 times 7 is 56.`,`So n is 8. Check: 8 P 2 is 8 times 7 is 56. Correct.`];}
-  } else if(key==="logarithms"){
-    if(v===0){q=`If log₁₀ 2 = 0.3010, find log₁₀ 8.`; lines=[`8 = 2³`,`log 8 = log 2³`,`= 3 × log 2`,`= 3 × 0.3010 = 0.9030`]; expl=[`Logarithm asks: 10 to what power gives this number? 8 is not a power of 10, but 8 is 2 to power 3. So we rewrite 8 as 2 cubed.`,`Log rule: log of a power — bring the power down. log 2 cubed is 3 times log 2.`,`We know log 2 is 0.3010. 3 times 0.3010 is 0.9030. That is the answer. This is NOT indices — this is log law.`];}
-    else if(v===1){q=`Solve: log₂ x = 4. Find x.`; lines=[`log₂ x = 4`,`x = 2⁴`,`x = 16`]; expl=[`Log base 2 of x equals 4 means: 2 to power 4 equals x. Logarithm is the inverse of power. To undo log, raise base to power.`,`2 to power 4 is 2 times 2 times 2 times 2.`,`That is 16. Check: log base 2 of 16 is 4, because 2 to power 4 is 16.`];}
-    else if(v===2){q=`Simplify: log 12 + log 3 − log 4.`; lines=[`log 12 + log 3 = log (12 × 3) = log 36`,`log 36 − log 4 = log (36 ÷ 4)`,`= log 9`]; expl=[`Log rules: log A plus log B is log of A times B. Why? Because when you multiply powers, you add powers.`,`Log A minus log B is log of A divided by B. When you divide powers, you subtract powers.`,`So log 36 minus log 4 is log 9. Do not add the numbers inside, multiply them.`];}
-    else if(v===3){q=`If log₁₀ 5 = 0.6990, find log₁₀ 25.`; lines=[`25 = 5²`,`log 25 = 2 × log 5`,`= 2 × 0.6990 = 1.3980`]; expl=[`25 is 5 squared. Rewrite first.`,`Bring power down: 2 times log 5.`,`2 times 0.6990 is 1.3980.`];}
-    else {q=`Solve: log₁₀ (x + 2) = 1. Find x.`; lines=[`log₁₀ (x+2) = 1`,`x + 2 = 10¹ = 10`,`x = 10 − 2 = 8`]; expl=[`Log base 10 equals 1 means: 10 to power 1 equals x plus 2.`,`10 to power 1 is 10. So x plus 2 is 10.`,`Why minus 2? To get x alone, subtract 2 from both sides. Balance. Plus becomes minus when it crosses. x is 8.`];}
-  } else if(key==="bearings"){
-    if(v===0){let b=40+idx*2; q=`The bearing of B from A is ${b}°. Find the bearing of A from B.`; lines=[`Bearing B from A = ${b}°`,`Back bearing = ${b}° + 180°`,`= ${(b+180)%360}°`]; expl=[`Bearings are measured clockwise from North. North is 0°. Bearing of B from A is ${b}°, meaning from A you turn ${b}° clockwise to face B.`,`To go back, you turn half a circle. Half a circle is 180°. That is why we add 180.`,`${b} plus 180 is ${(b+180)%360}°. If more than 360, subtract 360.`];}
-    else if(v===1){let h=30+idx*3, d=40+idx*2; q=`A tower of height ${h} m stands ${d} m from a point. Find the angle of elevation of the top.`; lines=[`tan θ = opposite ÷ adjacent`,`tan θ = ${h} ÷ ${d}`,`tan θ = ${(h/d).toFixed(2)}`,`θ = tan⁻¹(${(h/d).toFixed(2)})`]; expl=[`Angle of elevation is angle you look UP from horizontal to top. You form a right triangle. Opposite is height ${h}, adjacent is distance ${d}.`,`Tan is opposite over adjacent. That is why we use tan, not sin.`,`Divide to get ${(h/d).toFixed(2)}. Then press shift tan to get angle.`];}
-    else if(v===2){let b=120+idx*5; q=`A ship sails on a bearing of ${b}°. What is the bearing back to the port?`; lines=[`Bearing = ${b}° (more than 180°)`,`Back bearing = ${b}° − 180°`,`= ${b-180}°`]; expl=[`This time bearing is more than 180°. To go back, you still turn half a circle, but if adding 180 would go past 360, you subtract 180 instead.`,`${b} minus 180 is ${b-180}°.`,`Rule: if bearing is less than 180, add 180. If more than 180, subtract 180. Always to get back bearing.`];}
-    else if(v===3){q=`Write the bearing 045° as a 3-figure bearing and explain what it means.`; lines=[`3-figure bearing = 045°`,`Means: 45° clockwise from North`,`Direction = North-East`]; expl=[`Bearings are always written with 3 figures. 45 degrees must be written as 045, with a zero in front. That is the rule for 3-figure bearings.`,`It means from North, turn 45° clockwise. That points to North-East.`,`North is 000, East is 090, South is 180, West is 270. 045 is halfway between North and East.`];}
-    else {let h=20+idx, d=15+idx; q=`From a point ${d} m away, angle of depression to a boat is 30°. Find height of cliff.`; lines=[`tan 30° = height ÷ ${d}`,`height = ${d} × tan 30°`,`height = ${d} × 0.577 = ${(d*0.577).toFixed(1)} m`]; expl=[`Angle of depression is angle you look DOWN from horizontal. It equals angle of elevation from boat up, because of alternate angles, Z shape.`,`Tan 30° is opposite over adjacent. Opposite is height, adjacent is ${d}.`,`Height is ${d} times tan 30°, which is ${(d*0.577).toFixed(1)} metres.`];}
-  } else if(key==="indices"){
-    let p=2+(idx%3), qq=1+(idx%2); q=`Simplify 2${toSup(p)} × 2${toSup(qq)}.`; lines=[`2${toSup(p)} × 2${toSup(qq)} = ?`,`= 2${toSup(p+"+"+qq)}`,`= 2${toSup(p+qq)} = ${Math.pow(2,p+qq)}`]; expl=[`Same base 2, multiply means ADD powers. Why? 2 to power ${p} is 2 multiplied ${p} times, and 2 to power ${qq} is ${qq} times. Together ${p+qq} times. So add.`,`Add ${p} plus ${qq} = ${p+qq}.`,`2 to power ${p+qq} is ${Math.pow(2,p+qq)}.`];
-  } else if(key==="angles"){
-    let ang=40+idx*2, alt=180-ang; q=`If one angle on parallel lines is ${ang}°, find alternate and co-interior.`; lines=[`Given = ${ang}°`,`Alternate = ${ang}°`,`Co-interior = 180° − ${ang}° = ${alt}°`]; expl=[`Two parallel lines cut by transversal. One angle is ${ang}°.`,`Alternate is in Z shape, Z means equal, so alternate is ${ang}°.`,`Co-interior is in C shape, C means add to 180, so 180 minus ${ang} is ${alt}°.`];
-  } else if(key==="mensuration"){
-    let l=5+idx, w=3+(idx%4); q=`Rectangle length ${l} cm, breadth ${w} cm. Find area and perimeter.`; lines=[`Area = ${l} × ${w} = ${l*w} cm²`,`Perimeter = 2 × (${l} + ${w}) = ${2*(l+w)} cm`]; expl=[`Area is inside: length times breadth. ${l} times ${w} is ${l*w} square cm.`,`Perimeter is around: add all sides, 2 times length plus breadth is ${2*(l+w)} cm.`];
-  } else if(key==="probability"){
-    let red=5+idx, blue=3+(idx%3), tot=red+blue; q=`Bag has ${red} red and ${blue} blue balls. Find P(red).`; lines=[`Total = ${tot}`,`P(red) = ${red} ÷ ${tot} = ${red}/${tot}`]; expl=[`Total first: ${red} plus ${blue} is ${tot}.`,`Probability is favourable over total. Red over total is ${red} over ${tot}. It must be between 0 and 1.`];
-  } else if(key==="trigonometry"){
-    q=`In a right triangle, opposite = ${4+idx}, adjacent = ${5+idx}. Find tan θ.`; lines=[`tan θ = ${4+idx} ÷ ${5+idx}`,`tan θ = ${((4+idx)/(5+idx)).toFixed(2)}`]; expl=[`SOH CAH TOA. Tan is opposite over adjacent. We have opposite and adjacent, so use tan.`,`Divide to get ${((4+idx)/(5+idx)).toFixed(2)}. Press shift tan for angle.`];
-  } else if(key==="circles"){
-    let ang=50+idx*2; q=`Angle at centre is ${ang*2}°. Find angle at circumference.`; lines=[`Centre = ${ang*2}°`,`Circumference = centre ÷ 2 = ${ang}°`]; expl=[`Theorem: angle at centre is TWICE angle at circumference on same arc. So divide by 2.`,`${ang*2} divided by 2 is ${ang}°.`];
-  } else if(key==="coordinates"){
-    let x1=1+idx, y1=2+idx, x2=3+idx, y2=5+idx; q=`Find gradient of line joining (${x1},${y1}) and (${x2},${y2}).`; lines=[`Gradient = (${y2}−${y1}) ÷ (${x2}−${x1})`,`= ${y2-y1} ÷ ${x2-x1} = ${(y2-y1)/(x2-x1)}`]; expl=[`Gradient is rise over run. Rise is change in y, run is change in x.`,`${y2-y1} divided by ${x2-x1} is ${(y2-y1)/(x2-x1)}.`];
-  } else if(key==="statistics"){
-    let s=(2+idx)+(4+idx)+(6+idx)+(8+idx); q=`Find mean of ${2+idx}, ${4+idx}, ${6+idx}, ${8+idx}.`; lines=[`Sum = ${s}`,`Mean = ${s} ÷ 4 = ${s/4}`]; expl=[`Mean is total shared equally. Add all to get ${s}.`,`Divide by count 4 to get ${s/4}.`];
-  } else if(key==="calculus"){
-    q=`If y = x² + ${2+idx}x, find dy/dx.`; lines=[`y = x² + ${2+idx}x`,`dy/dx = 2x + ${2+idx}`]; expl=[`Power rule: bring power down, reduce by 1. x squared becomes 2x.`,`${2+idx}x becomes ${2+idx}. So derivative is 2x plus ${2+idx}.`];
-  } else if(key==="sets"){
-    let inter=2+(idx%3), union=(8+idx)+(5+idx)-inter; q=`n(A)=${8+idx}, n(B)=${5+idx}, n(A∩B)=${inter}. Find n(A∪B).`; lines=[`n(A∪B) = ${8+idx} + ${5+idx} − ${inter}`,`= ${union}`]; expl=[`Add A and B, subtract intersection once because it was counted twice.`,`Union is ${union}.`];
-  } else if(key==="partial"){
-    q=`Express (3x+1) / (x+1)(x−2) as partial fractions.`; lines=[`= A/(x+1) + B/(x−2)`,`Solve: A = 2/3, B = 7/3`]; expl=[`Partial fractions splits one big fraction into two small ones. Use cover-up method.`,`Cover x+1, put x = −1 to find A. Cover x−2, put x = 2 to find B.`];
-  } else if(key==="binomial"){
-    q=`Expand (1 + x)³.`; lines=[`(1+x)³ = 1 + 3x + 3x² + x³`,`Coefficients: 1, 3, 3, 1`]; expl=[`Binomial theorem: coefficients come from Pascal triangle. Row 3 is 1, 3, 3, 1.`,`Powers of x go 0,1,2,3. So 1 plus 3x plus 3x squared plus x cubed.`];
-  } else if(key==="pythagoras"){
-    let a=3+idx, b=4+idx; q=`Right triangle sides ${a} cm and ${b} cm. Find hypotenuse.`; lines=[`c² = ${a}² + ${b}² = ${a*a+b*b}`,`c = √${a*a+b*b} = ${Math.sqrt(a*a+b*b).toFixed(2)} cm`]; expl=[`Pythagoras only for right triangle: hypotenuse squared equals sum of squares of other two.`,`Square root to get ${Math.sqrt(a*a+b*b).toFixed(2)} cm.`];
-  } else if(key==="fractions"){
-    q=`Find ${10+idx*2}% of ${200+idx*10}.`; lines=[`${10+idx*2}% = ${(10+idx*2)/100}`,`= ${(10+idx*2)/100} × ${200+idx*10} = ${((10+idx*2)/100*(200+idx*10)).toFixed(1)}`]; expl=[`Percent means out of 100. Divide by 100 first.`,`Multiply to get ${((10+idx*2)/100*(200+idx*10)).toFixed(1)}.`];
-  } else if(key==="sequences"){
-    q=`Find 10th term of AP: ${2+idx}, ${5+idx}, ${8+idx}, ...`; lines=[`a = ${2+idx}, d = 3`,`T₁₀ = a + 9d = ${2+idx} + 27 = ${29+idx}`]; expl=[`AP means add same difference. Difference is 3.`,`Formula T n equals a plus n minus 1 times d. For n=10, ${2+idx} plus 9 times 3 is ${29+idx}.`];
-  } else if(key==="vectors"){
-    q=`If a = (2, ${1+idx}) and b = (3, 2), find a + b.`; lines=[`a + b = (2+3, ${1+idx}+2)`,`= (5, ${3+idx})`]; expl=[`Add vectors component by component. x with x, y with y.`,`2 plus 3 is 5, ${1+idx} plus 2 is ${3+idx}.`];
-  } else if(key==="matrices"){
-    q=`If A = [[1,2],[3,${1+idx}]], find determinant.`; lines=[`det = 1 × ${1+idx} − 2 × 3`,`= ${1+idx} − 6 = ${idx-5}`]; expl=[`Determinant of 2 by 2 is a d minus b c.`,`${1+idx} minus 6 is ${idx-5}.`];
-  } else if(key==="complex"){
-    q=`Simplify (2 + 3i) + (1 + ${1+idx}i).`; lines=[`Real: 2 + 1 = 3`,`Imag: 3 + ${1+idx} = ${4+idx}`,`Answer: 3 + ${4+idx}i`]; expl=[`Add complex numbers: real with real, imaginary with imaginary.`,`Real 3, imaginary ${4+idx}. So 3 plus ${4+idx} i.`];
-  } else if(key==="functions"){
-    q=`If f(x) = 2x + 3, find f(${2+idx}).`; lines=[`f(${2+idx}) = 2 × ${2+idx} + 3`,`= ${7+idx*2}`]; expl=[`Function means: replace x with ${2+idx} everywhere.`,`2 times ${2+idx} plus 3 is ${7+idx*2}.`];
-  } else if(key==="polynomial"){
-    q=`Find remainder when x² + ${2+idx}x + 1 is divided by (x − 1).`; lines=[`Put x = 1`,`Remainder = 1 + ${2+idx} + 1 = ${4+idx}`]; expl=[`Remainder theorem: put x = 1, the value is remainder.`,`1 plus ${2+idx} plus 1 is ${4+idx}.`];
-  } else if(key==="variation"){
-    q=`y varies directly as x. If y = 12 when x = 3, find y when x = ${5+idx}.`; lines=[`y = kx, k = 12 ÷ 3 = 4`,`y = 4 × ${5+idx} = ${20+idx*4}`]; expl=[`Direct variation means y equals k times x. Find k first.`,`k is 4. Then y is 4 times ${5+idx} is ${20+idx*4}.`];
-  } else if(key==="graphs"){
-    q=`Find y when x = 2 for y = 2x + ${1+idx}.`; lines=[`y = 2 × 2 + ${1+idx}`,`y = ${5+idx}`]; expl=[`Replace x with 2.`,`2 times 2 is 4, plus ${1+idx} is ${5+idx}. Plot point (2, ${5+idx}).`];
-  } else if(key==="inequalities"){
-    q=`Solve: 2x + ${2+idx} > ${10+idx}.`; lines=[`2x > ${10+idx} − ${2+idx}`,`2x > 8`,`x > 4`]; expl=[`Inequality like equation, but sign stays unless you multiply by negative. Move ${2+idx} to other side, it becomes minus.`,`Divide by 2, x greater than 4.`];
-  } else if(key==="bases"){
-    q=`Convert 101₂ to base 10.`; lines=[`101₂ = 1×2² + 0×2¹ + 1×2⁰`,`= 4 + 0 + 1 = 5`]; expl=[`Base 2 means powers of 2. Rightmost is 2 to power 0, next is 2 to power 1, next is 2 to power 2.`,`4 plus 0 plus 1 is 5.`];
-  } else if(key==="factors"){
-    q=`Find HCF of ${12+idx*2} and ${18+idx*2}.`; lines=[`Factors of ${12+idx*2}: ...`,`HCF = 6`]; expl=[`HCF is highest common factor. List factors, pick highest that divides both.`];
-  } else if(key==="construction"){
-    q=`Construct an angle of 60° using ruler and compass. Steps?`; lines=[`Step 1: Draw line AB`,`Step 2: Arc from A`,`Step 3: Arc from intersection = 60°`]; expl=[`Construction uses only ruler and compass, no protractor. Draw arc from A, then same radius arc from intersection. That creates equilateral triangle, angle 60.`];
-  } else if(key==="directed"){
-    let x=-5-idx, y=3+idx; q=`Calculate ${x} + ${y} and ${x} × (-2).`; lines=[`${x} + ${y} = ${x+y}`,`${x} × (-2) = ${x*-2}`]; expl=[`On number line, start at ${x}, move ${y} right to ${x+y}.`,`Negative times negative is positive, so ${x*-2}.`];
-  } else {
-    let x=2+idx, k=3+idx, rhs=2*x+k; q=`Solve: 2x + ${k} = ${rhs}`; lines=[`2x + ${k} = ${rhs}`,`2x = ${rhs} − ${k}`,`2x = ${rhs-k}`,`x = ${rhs-k} ÷ 2 = ${(rhs-k)/2}`]; expl=[`We want x alone. x is trapped with plus ${k}. To free it, subtract ${k} from BOTH sides to keep balance. That is why plus ${k} disappears left, and right is ${rhs} minus ${k}. When number crosses =, sign changes: plus becomes minus.`,`${rhs} minus ${k} is ${rhs-k}.`,`Now 2 is multiplying x. Opposite is divide. Divide both sides by 2. x is ${(rhs-k)/2}. Check: 2 times ${(rhs-k)/2} plus ${k} is ${rhs}.`];
-  }
-  return {title:q, lines:lines, expl:expl, source:source, key:key, idx:idx};
+  let bank=BANKS[key]||BANKS["equations"];
+  let offset=mode==="exercise"?5:mode==="exam"?2:0;
+  // For exercises, cycle through bank with different offset so Learn / Exam / Exercise are NOT same order
+  let item=bank[(idx+offset)%bank.length];
+  // For long exercise mode (60), reuse bank but vary numbers in title if needed — bank already varied
+  return {title:item.q, lines:item.lines, expl:item.expl, source:source, key:key, idx:idx, diagram:item.diagram, diagramLabel:item.label};
 }
-function toSup(n){const m={0:"⁰",1:"¹",2:"²",3:"³",4:"⁴",5:"⁵",6:"⁶",7:"⁷",8:"⁸",9:"⁹","-":"⁻"};return String(n).split("").map(c=>m[c]||c).join("")}
 let voiceRate=0.65, curCat="JSS",curTopic=0,curMode="learn",curIdx=0,curQuestion=null,boardTimer=null,isPlaying=false,boardCtx=null;
 let deviceId=localStorage.getItem("deviceId"); if(!deviceId){deviceId="PHONE-"+Math.random().toString(36).slice(2,8).toUpperCase()+"-"+Date.now().toString().slice(-4);localStorage.setItem("deviceId",deviceId)}
 function setSpeed(r){voiceRate=r;document.getElementById("penStatus").innerText="Marker ready. Speed: "+(r<=0.55?"Very Slow":r<=0.65?"Moderate":"Faster");speakSlow("Voice speed changed. I will speak slowly and explain why in full.",null)}
@@ -189,7 +442,7 @@ function writeAndExplain(lines,expl,done){
     let line=lines[idx];let ci=0;document.getElementById("penStatus").innerText="✍️ Writing line "+(idx+1)+" of "+lines.length+" — numbers only...";
     boardTimer=setInterval(()=>{
       if(!isPlaying){clearInterval(boardTimer);return}
-      boardCtx.clearRect(0,0,520,320);boardCtx.font="22px Arial";boardCtx.fillStyle="#111";
+      boardCtx.clearRect(0,0,520,280);boardCtx.font="22px Arial";boardCtx.fillStyle="#111";
       for(let k=0;k<=idx;k++){let t=k<idx?lines[k]:lines[k].slice(0,ci);boardCtx.fillText(t,16,40+k*38)}
       let w=boardCtx.measureText(line.slice(0,ci)).width;marker.style.left=(18+w)+"px";marker.style.top=(10+idx*38)+"px";ci++;
       if(ci>line.length){
@@ -247,8 +500,9 @@ function renderCurrent(){
   document.getElementById("qSource").innerText=curMode==="exam"?`Source: ${curQuestion.source} • Topic: ${title}`:`Topic: ${title} • Question ${curIdx+1} • Type: ${curQuestion.key}`;
   document.getElementById("askBox").value="Why did we do this step in: "+curQuestion.title;
   document.getElementById("askAns").innerHTML="";
+  drawDiagram(curQuestion.diagram||"none", curQuestion.diagramLabel||"Look at the diagram");
 }
-function playLesson(){if(!curQuestion) return;writeAndExplain(curQuestion.lines,curQuestion.expl,null)}
+function playLesson(){if(!curQuestion) return;drawDiagram(curQuestion.diagram||"none", curQuestion.diagramLabel||"Look at the diagram");writeAndExplain(curQuestion.lines,curQuestion.expl,null)}
 function replayCurrent(){playLesson()}
 function nextQuestion(){let total=getTotal();if(curIdx<total-1){curIdx++;renderCurrent();playLesson()}else alert("✅ Finished all "+total+" for THIS topic.")}
 function prevQuestion(){if(curIdx>0){curIdx--;renderCurrent();playLesson()}}
