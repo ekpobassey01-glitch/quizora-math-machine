@@ -16,7 +16,7 @@ input[type=checkbox]{width:22px;height:22px;accent-color:#1E4DA1;cursor:pointer;
 img.prev{width:100%;border-radius:12px;margin-top:8px}.topBar{background:#6a1b9a;color:#fff;text-align:center;padding:8px;font-size:13px;font-weight:700}
 .topicRow{display:flex;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid #eee}.classHead{background:#1E4DA1;color:#fff;padding:10px 12px;border-radius:10px;margin:14px 0 6px;font-weight:800}
 .boardWrap{background:#fff;border:4px solid #d9d9d9;border-radius:14px;overflow:hidden;position:relative}
-#whiteboard,#diagramCanvas{width:100%;display:block;background:#fff}.marker{position:absolute;font-size:26px;transition:all .16s;pointer-events:none}
+#whiteboard,#diagramCanvas{width:100%;display:block;background:#fff}.marker{position:absolute;font-size:26px;transition:all .14s;pointer-events:none}
 .progress{background:#eee;border-radius:999px;height:10px;overflow:hidden}.progressBar{background:#0a9d5c;height:10px}
 .voiceCtrl{display:flex;gap:8px;flex-wrap:wrap}.voiceCtrl button{flex:1}.searchBox{position:sticky;top:60px;background:#fff;padding:8px;border-radius:10px;z-index:5}
 .warnBox{background:#ffecec;border:2px solid #e11;border-radius:12px;padding:12px;font-weight:700;color:#b00}
@@ -25,8 +25,8 @@ img.prev{width:100%;border-radius:12px;margin-top:8px}.topBar{background:#6a1b9a
 </style></head><body>
 <div id="adminBar" class="hidden topBar">👑 ADMIN • <button class="btn yellow" style="padding:4px 12px" onclick="goToAdminDash()">↩ Back to Admin</button> <button class="btn white" style="padding:4px 12px" onclick="adminLogout()">Logout</button></div>
 <header><div class="logo"><div class="m">M</div><div><b>Maths Machine</b><br><small>Real Teacher • Diagram + Numbers + WHY Voice</small></div></div><div><button class="btn blue" onclick="showHome()">Home</button> <button class="btn purple" onclick="openAdmin()">Admin</button></div></header>
-<div id="home"><div class="hero"><div class="bigM">M</div><h2>Maths Machine</h2><p>Every topic has its OWN real WAEC / NECO / JAMB / Cambridge questions. Teacher draws, writes, explains WHY.</p><br><button class="btn yellow" style="width:100%;padding:14px" onclick="showSections()">Continue as Student →</button><br><br><button class="btn white" style="width:100%;padding:13px" onclick="openAdmin()">Login as Admin 🔐</button></div>
-<div class="wrap"><div class="card"><b>📚 Sections</b><br><br><div class="sec" onclick="openCategory('JSS')">📗 Junior Secondary (JS1–JS3 & Junior WAEC/BECE)</div><div class="sec" onclick="openCategory('SSS')">📘 Senior Secondary (SS1–SS3 & WAEC/NECO)</div><div class="sec" onclick="openCategory('JAMB')">🎯 JAMB Mathematics & Exam Prep</div></div>
+<div id="home"><div class="hero"><div class="bigM">M</div><h2>Maths Machine</h2><p>Every topic has its OWN real WAEC / NECO / JAMB / BECE questions. Teacher draws, writes full-width, pauses to explain WHY.</p><br><button class="btn yellow" style="width:100%;padding:14px" onclick="showSections()">Continue as Student →</button><br><br><button class="btn white" style="width:100%;padding:13px" onclick="openAdmin()">Login as Admin 🔐</button></div>
+<div class="wrap"><div class="card"><b>📚 Sections</b><br><br><div class="sec" onclick="openCategory('JSS')">📗 Junior Secondary (JS1–JS3 Terms 1–3 & Junior WAEC)</div><div class="sec" onclick="openCategory('SSS')">📘 Senior Secondary (SS1–SS3 Terms 1–3 & WAEC/NECO)</div><div class="sec" onclick="openCategory('JAMB')">🎯 JAMB Mathematics (Complete UTME Syllabus)</div></div>
 <div class="card warnBox">🔒 PIN RULE<br><span style="font-weight:400;color:#333;font-size:13px">1 PIN = 1 PHONE ONLY. NOT transferable. Expires after 1 month.</span></div></div><p style="text-align:center;color:#888;font-size:12px;padding:10px">Quizora Maths Machine • © 2026</p></div>
 <div id="sections" class="hidden wrap"><button class="btn white" onclick="showHome()">← Back</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn" style="display:none">👑 Back to Admin</button><br><br><h2>Choose Your Section</h2><p class="small" id="subStatus"></p><p class="small" id="myDevice"></p><br><div class="card"><div class="sec" onclick="openCategory('JSS')">📗 Junior Secondary (JS1–JS3 & Junior WAEC)<br><span class="small" id="statJSS"></span></div><div class="sec" onclick="openCategory('SSS')">📘 Senior Secondary (SS1–SS3 & WAEC/NECO)<br><span class="small" id="statSSS"></span></div><div class="sec" onclick="openCategory('JAMB')">🎯 JAMB Mathematics<br><span class="small" id="statJAMB"></span></div></div>
 <div class="card"><b>🔑 Have a PIN?</b><div class="warnBox" style="font-size:13px">⚠️ PIN locks to THIS phone only. NOT transferable.</div><input id="pinInput" placeholder="Enter PIN"><button class="btn blue" style="width:100%" onclick="activatePIN()">Activate PIN - This Phone Only</button><p class="small" id="pinMsg"></p></div></div>
@@ -36,185 +36,242 @@ img.prev{width:100%;border-radius:12px;margin-top:8px}.topBar{background:#6a1b9a
 <span class="pill" id="lessonPill">TOPIC</span><br><br><h2 id="lessonTitle"></h2><p class="small" id="lessonIntro"></p><br>
 <div class="card" style="padding:10px"><div style="display:flex;gap:6px"><button class="btn blue" id="modeLearnBtn" style="flex:1" onclick="setMode('learn')">📖 Learn (25)</button><button class="btn white" id="modeExamBtn" style="flex:1" onclick="setMode('exam')">🎯 Past Qs</button><button class="btn white" id="modeExBtn" style="flex:1" onclick="setMode('exercise')">✏️ Exercises (60)</button></div></div>
 <div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><span class="pill" id="qModePill">LEARN</span><span class="small" id="exCounter">Question 1 of 25</span></div><br><div class="progress"><div class="progressBar" id="exProgress" style="width:4%"></div></div><br><div class="qTitle" id="qTitle"></div><p class="small" id="qSource"></p></div>
-<div class="card" id="diagramCard"><b>📐 Diagram — Teacher Sketches First</b><p class="small">Look at the shape before numbers. This is how maths is taught.</p><br><div class="diagramLabel" id="diagramLabel">Look at the diagram</div><br><canvas id="diagramCanvas" width="520" height="270"></canvas></div>
-<div class="card"><b>✍️ Board — Step-by-Step + Side Proof & Wipe</b><p class="small">Marker tracks every step, proves/explains on the side board, wipes the side clean, then finishes.</p><br><div class="boardWrap"><canvas id="whiteboard" width="520" height="310"></canvas><div class="marker" id="marker">🖊️</div></div><br><div class="voiceCtrl"><button class="btn blue" onclick="playLesson()">▶ Play — Diagram + Numbers + Voice</button><button class="btn white" onclick="pauseLesson()">⏸ Pause</button><button class="btn white" onclick="stopVoice()">⏹ Stop</button></div><br><div class="voiceCtrl"><button class="btn white" onclick="setSpeed(0.55)">🐢 Very Slow</button><button class="btn green" onclick="setSpeed(0.65)">▶ Moderate</button><button class="btn white" onclick="setSpeed(0.85)">🐇 Faster</button><button class="btn yellow" onclick="clearBoard()">🧹 Clear</button></div><p class="small" id="penStatus">Marker ready.</p><p class="small" id="nowReading">Now explaining: —</p></div>
-<div class="card"><div style="display:flex;gap:8px"><button class="btn white" style="flex:1" onclick="prevQuestion()">← Previous</button><button class="btn green" style="flex:1" onclick="nextQuestion()">Next Question →</button></div><br><button class="btn yellow" style="width:100%" onclick="replayCurrent()">🔁 Replay This Question — Explain Again</button><p class="small" style="text-align:center;margin-top:8px">One question at a time. No list below. Clean.</p></div>
+<div class="card" id="diagramCard"><b>📐 Diagram — Teacher Sketches First</b><p class="small">Study the diagram before solving. Every angle, line, and set is labelled.</p><br><div class="diagramLabel" id="diagramLabel">Look at the diagram</div><br><canvas id="diagramCanvas" width="520" height="270"></canvas></div>
+<div class="card"><b>✍️ Full-Width Board — Pen Writes & Pauses to Explain WHY</b><p class="small">Full open board space. Pen writes each step, pauses to explain thoroughly (and clears temporary side notes), then continues.</p><br><div class="boardWrap"><canvas id="whiteboard" width="520" height="340"></canvas><div class="marker" id="marker">🖊️</div></div><br><div class="voiceCtrl"><button class="btn blue" onclick="playLesson()">▶ Play — Diagram + Steps + Voice</button><button class="btn white" onclick="pauseLesson()">⏸ Pause</button><button class="btn white" onclick="stopVoice()">⏹ Stop</button></div><br><div class="voiceCtrl"><button class="btn white" onclick="setSpeed(0.55)">🐢 Very Slow</button><button class="btn green" onclick="setSpeed(0.68)">▶ Moderate</button><button class="btn white" onclick="setSpeed(0.88)">🐇 Faster</button><button class="btn yellow" onclick="clearBoard()">🧹 Clear</button></div><p class="small" id="penStatus">Marker ready.</p><p class="small" id="nowReading">Now explaining: —</p></div>
+<div class="card"><div style="display:flex;gap:8px"><button class="btn white" style="flex:1" onclick="prevQuestion()">← Previous</button><button class="btn green" style="flex:1" onclick="nextQuestion()">Next Question →</button></div><br><button class="btn yellow" style="width:100%" onclick="replayCurrent()">🔁 Replay This Question — Explain Again</button><p class="small" style="text-align:center;margin-top:8px">One question at a time. Clean and focused.</p></div>
 <div class="card"><b>❓ Don't understand THIS question?</b><textarea id="askBox" placeholder="Ask why..."></textarea><button class="btn yellow" style="width:100%" onclick="askTeacher()">Ask Teacher — Explain WHY Again</button><button class="btn white" style="width:100%" onclick="askVoice()">🎙️ Ask by Voice</button><div id="askAns"></div></div>
 <div class="card"><b>📸 Snap a Question From THIS Topic</b><input type="file" accept="image/*" onchange="previewQ(event)"><img id="qPrev" class="prev hidden"><textarea id="qText" placeholder="Type question from this topic..."></textarea><button class="btn green" style="width:100%" onclick="solveQuestion()">Solve →</button><div id="qAns"></div><input type="file" accept="image/*" onchange="previewWork(event)"><img id="workPrev" class="prev hidden"><button class="btn blue" style="width:100%" onclick="correctWork()">Send My Work For Correction →</button><div id="correctAns"></div></div></div>
 <div id="adminDash" class="hidden wrap"><button class="btn white" onclick="adminLogout()">← Logout</button> <button class="btn yellow" onclick="showSections()">👀 Switch to Student View →</button><br><br><h2>👑 Admin Dashboard</h2><p class="small">Welcome Ekpo Bassey!</p><br><div class="card payBox"><b>💳 Your Payment Details</b><br><b>Account:</b> 8147699555<br><b>Name:</b> Ekpo Bassey<br><b>WhatsApp:</b> 08147699555<br><b>Price:</b> ₦5,000 / Section / MONTH<br><b>PIN:</b> 1 Phone Only. NOT transferable.</div><div class="card"><b>Generate New PIN — NOT Transferable</b><select id="pinCat"><option value="JSS">Junior (JSS)</option><option value="SSS">Senior (SSS)</option><option value="JAMB">JAMB Mathematics</option></select><input id="studentName" placeholder="Student Name"><button class="btn green" style="width:100%" onclick="genPIN()">Generate PIN →</button><div id="genResult"></div></div><div class="card"><b>📋 All PINs</b><div id="pinList"></div></div><div class="card"><b>⚙️ Change Password</b><input id="newAdminPass" type="password" placeholder="New Password"><button class="btn blue" style="width:100%" onclick="changeAdminPass()">Change Password</button><p class="small" id="changeMsg"></p></div></div>
 <div id="adminBox" onclick="if(event.target==this) closeAdmin()"><div class="popup"><div id="adminLoginForm"><h3 id="adminTitle">Admin 🔐</h3><p class="small" id="adminHint">Create your Admin Password first time.</p><input id="adminPass" type="password" placeholder="Admin Password"><input id="adminPass2" type="password" placeholder="Confirm Password" class="hidden"><button class="btn blue" style="width:100%" onclick="checkAdmin()" id="adminBtn">Continue →</button><p id="adminMsg" style="color:red;font-size:13px"></p><button class="btn" onclick="closeAdmin()">Cancel</button></div><div id="adminSuccess" class="hidden" style="text-align:center"><h2>✅ Welcome Admin!</h2><br><button class="btn green" style="width:100%;padding:14px" onclick="goToAdminDash()">Go to Admin Dashboard →</button></div></div></div>
 <script>
-// ===== TERM-BY-TERM & EXAM SYLLABUS ARRANGEMENT =====
+// ===== EXTENSIVE NERDC / WAEC / NECO / JAMB SYLLABUS TOPICS =====
 const TOPICS={
 JSS:[
-  // JS1 — First Term, Second Term, Third Term
-  "JS1 | First Term: Number and Numeration",
-  "JS1 | First Term: Place Value & Number Systems",
-  "JS1 | First Term: Basic Operations & BODMAS",
-  "JS1 | First Term: Factors, Multiples, HCF & LCM",
-  "JS1 | First Term: Prime Numbers & Prime Factors",
-  "JS1 | Second Term: Fractions, Decimals & Percentages",
-  "JS1 | Second Term: Directed Numbers",
-  "JS1 | Second Term: Ratio, Rate & Proportion",
-  "JS1 | Second Term: Estimation & Approximation",
-  "JS1 | Second Term: Money & Commercial Maths",
-  "JS1 | Third Term: Sets - Introduction",
-  "JS1 | Third Term: Algebra - Basic Expressions & Simple Equations",
-  "JS1 | Third Term: Angles, Lines, Triangles & Quadrilaterals",
-  "JS1 | Third Term: Perimeter, Area & Volume",
-  "JS1 | Third Term: Statistics, Graphs, Coordinates & Construction",
+  // JS1 — First Term
+  "JS1 | First Term: Whole Numbers — Counting, Reading & Writing up to Billions",
+  "JS1 | First Term: Place Value, Roman Numerals & Ordering of Numbers",
+  "JS1 | First Term: Factors, Multiples, Prime Numbers & Prime Factorisation",
+  "JS1 | First Term: Highest Common Factor (HCF) & Lowest Common Multiple (LCM)",
+  "JS1 | First Term: Fractions — Proper, Improper, Mixed & Equivalent Fractions",
+  "JS1 | First Term: Operations on Fractions (Addition, Subtraction, Multiplication & Division)",
+  "JS1 | First Term: Decimals & Conversion between Fractions, Decimals & Percentages",
+  "JS1 | First Term: Estimation, Rounding Off & Approximation",
+  // JS1 — Second Term
+  "JS1 | Second Term: Binary Numbers (Base 2) — Conversion & Basic Operations",
+  "JS1 | Second Term: Directed Numbers — Number Line, Addition & Subtraction",
+  "JS1 | Second Term: Multiplication & Division of Directed Numbers",
+  "JS1 | Second Term: Order of Operations (BODMAS) with Fractions & Integers",
+  "JS1 | Second Term: Use of Symbols & Open Sentences",
+  "JS1 | Second Term: Algebraic Expressions — Collecting Like Terms & Simplification",
+  "JS1 | Second Term: Simple Linear Equations in One Variable",
+  "JS1 | Second Term: Word Problems Leading to Simple Equations",
+  // JS1 — Third Term
+  "JS1 | Third Term: Plane Shapes — Properties of Triangles, Quadrilaterals & Circles",
+  "JS1 | Third Term: Perimeter of Rectangles, Squares, Triangles & Compound Shapes",
+  "JS1 | Third Term: Area of Rectangles, Squares, Parallelograms & Triangles",
+  "JS1 | Third Term: Three-Dimensional Shapes — Properties & Volume of Cubes & Cuboids",
+  "JS1 | Third Term: Angles — Identification, Measurement & Angles on a Straight Line / Point",
+  "JS1 | Third Term: Construction of Parallel & Perpendicular Lines",
+  "JS1 | Third Term: Statistics — Data Collection, Frequency Tables, Pictograms & Bar Charts",
+  "JS1 | Third Term: Averages — Mean, Median & Mode of Ungrouped Data",
 
-  // JS2 — First Term, Second Term, Third Term
-  "JS2 | First Term: Number Bases",
-  "JS2 | First Term: Indices - Basic",
-  "JS2 | First Term: Fractions, Decimals & Algebraic Fractions",
-  "JS2 | First Term: Ratio, Profit, Loss, Interest & Variation",
-  "JS2 | First Term: Sequences - Basic",
-  "JS2 | Second Term: Algebra - Expansion & Factorisation",
-  "JS2 | Second Term: Linear Equations & Inequalities",
-  "JS2 | Second Term: Functions & Graphs of Linear Functions",
-  "JS2 | Second Term: Word Problems - Algebra",
-  "JS2 | Third Term: Angles in Polygons & Parallel Lines",
-  "JS2 | Third Term: Pythagoras Theorem & Trigonometry Intro",
-  "JS2 | Third Term: Mensuration - Circles & Cylinders",
-  "JS2 | Third Term: Coordinates, Bearings & Construction/Loci",
-  "JS2 | Third Term: Probability & Statistics (Mean, Median, Mode)",
+  // JS2 — First Term
+  "JS2 | First Term: Standard Form (Scientific Notation) & Large/Small Numbers",
+  "JS2 | First Term: Squares, Square Roots, Cubes & Cube Roots by Factorisation",
+  "JS2 | First Term: Ratio, Rate & Direct/Inverse Proportion",
+  "JS2 | First Term: Commercial Arithmetic — Profit, Loss, Discount & Commission",
+  "JS2 | First Term: Simple Interest, Principal, Rate & Time",
+  "JS2 | First Term: Number Bases — Conversion between Base 2, 5, 8 & Base 10",
+  "JS2 | First Term: Laws of Indices (Positive & Zero Indices)",
+  // JS2 — Second Term
+  "JS2 | Second Term: Expansion of Algebraic Expressions & Brackets",
+  "JS2 | Second Term: Factorisation of Algebraic Expressions (Common Factors & Grouping)",
+  "JS2 | Second Term: Algebraic Fractions — Simplification & LCM of Denominators",
+  "JS2 | Second Term: Linear Equations with Brackets & Fractions",
+  "JS2 | Second Term: Linear Inequalities in One Variable & Number Line Graphs",
+  "JS2 | Second Term: Cartesian Plane — Plotting Points & Graphs of Linear Equations",
+  "JS2 | Second Term: Distance-Time & Conversion Graphs",
+  // JS2 — Third Term
+  "JS2 | Third Term: Angles in Parallel Lines (Alternate, Corresponding & Co-interior)",
+  "JS2 | Third Term: Angles in Triangles & Polygons (Interior & Exterior Angle Sums)",
+  "JS2 | Third Term: Pythagoras' Theorem & Pythagorean Triples",
+  "JS2 | Third Term: Mensuration of Cylinders & Cones (Curved Surface Area & Volume)",
+  "JS2 | Third Term: Scale Drawing, Bearings & Distances",
+  "JS2 | Third Term: Geometric Construction of Special Angles (90°, 60°, 45°, 30°)",
+  "JS2 | Third Term: Probability — Experimental & Theoretical Probability of Single Events",
 
-  // JS3 — First Term, Second Term, Third Term
-  "JS3 | First Term: Number Bases & Modulo Arithmetic",
-  "JS3 | First Term: Indices & Logarithms - Intro",
-  "JS3 | First Term: Quadratic Expressions & Simultaneous Equations",
-  "JS3 | First Term: Variation",
-  "JS3 | Second Term: Trigonometry - Sin, Cos, Tan",
-  "JS3 | Second Term: Geometry - Circle Theorems & Angles",
-  "JS3 | Second Term: Mensuration - Cones, Spheres & Construction/Loci",
-  "JS3 | Second Term: Coordinates, Gradient & Bearings",
-  "JS3 | Third Term: Sets, Venn Diagrams & Probability",
-  "JS3 | Third Term: Statistics - Histograms & Pie Charts",
-  "JS3 | Third Term: Polynomials, Partial Fractions & Quadratic/Inequality Graphs",
-  "JS3 | Third Term: Commercial Maths - Discount & Commission",
+  // JS3 — First Term
+  "JS3 | First Term: Binary Number System — Addition, Subtraction & Multiplication in Base 2",
+  "JS3 | First Term: Rational & Irrational Numbers, Surds & Number Line",
+  "JS3 | First Term: Direct, Inverse, Joint & Partial Variation",
+  "JS3 | First Term: Compound Interest, Depreciation & Hire Purchase",
+  "JS3 | First Term: Factorisation of Quadratic Expressions (ax² + bx + c)",
+  "JS3 | First Term: Equations Involving Algebraic Fractions",
+  // JS3 — Second Term
+  "JS3 | Second Term: Simultaneous Linear Equations — Substitution & Elimination Methods",
+  "JS3 | Second Term: Graphical Solution of Simultaneous Linear Equations",
+  "JS3 | Second Term: Similar Shapes — Length, Area & Volume Scale Factors",
+  "JS3 | Second Term: Trigonometry — Sine, Cosine & Tangent of Acute Angles",
+  "JS3 | Second Term: Applications of Trigonometry to Right-Angled Triangles",
+  "JS3 | Second Term: Area of Sector, Segment & Length of Arc of a Circle",
+  // JS3 — Third Term
+  "JS3 | Third Term: Construction of Triangles, Quadrilaterals & Loci",
+  "JS3 | Third Term: Statistics — Pie Charts, Histograms & Frequency Polygons",
+  "JS3 | Third Term: Measures of Dispersion — Range, Mean Deviation & Variance Intro",
+  "JS3 | Third Term: Sets & Two-Set Venn Diagrams",
+  "JS3 | Third Term: Functions, Mapping & Coordinate Gradient",
 
   // Junior WAEC / BECE
-  "Junior WAEC / BECE: Number & Numeration Past Questions",
-  "Junior WAEC / BECE: Algebra & Equations Past Questions",
-  "Junior WAEC / BECE: Geometry & Mensuration Past Questions",
-  "Junior WAEC / BECE: Statistics & Probability Past Questions",
-  "Junior WAEC / BECE: Full Mock Revision Drill"
+  "Junior WAEC / BECE: Number, Bases, Indices & Commercial Maths Past Questions",
+  "Junior WAEC / BECE: Algebraic Processes, Equations & Variation Past Questions",
+  "Junior WAEC / BECE: Geometry, Trigonometry & Mensuration Past Questions",
+  "Junior WAEC / BECE: Statistics, Probability & Sets Past Questions",
+  "Junior WAEC / BECE: Full 50-Question Exam Simulation Drill"
 ],
 SSS:[
-  // SS1 — First Term, Second Term, Third Term
-  "SS1 | First Term: Number & Numeration - Surds",
-  "SS1 | First Term: Indices & Logarithms",
-  "SS1 | First Term: Algebraic Fractions & Variation",
-  "SS1 | First Term: Quadratic & Simultaneous Equations",
-  "SS1 | First Term: Inequalities & Graphs",
-  "SS1 | Second Term: Trigonometry - Ratios, Identities & Elevation/Depression",
-  "SS1 | Second Term: Coordinate Geometry - Straight Line & Gradient",
-  "SS1 | Second Term: Circle Theorems & Tangents",
-  "SS1 | Second Term: Angles, Polygons, Bearings & Construction/Loci",
-  "SS1 | Third Term: Mensuration - Surface Area & Volume",
-  "SS1 | Third Term: Sets, Functions, Polynomials & Partial Fractions",
-  "SS1 | Third Term: Binomial Theorem, Logical Reasoning & Calculus Limits",
-  "SS1 | Third Term: Vectors, Matrices, Complex Numbers & Commercial Maths",
-  "SS1 | Third Term: Probability, Statistics & Sequences Intro",
+  // SS1 — First Term
+  "SS1 | First Term: Number Bases — Conversion & Arithmetic in All Bases",
+  "SS1 | First Term: Modular Arithmetic — Operations & Equations in Modulo m",
+  "SS1 | First Term: Indices — Fractional, Negative & Exponential Equations",
+  "SS1 | First Term: Logarithms — Laws, Tables & Antilogarithms in Calculations",
+  "SS1 | First Term: Sets — Set Builder Notation, Operations & Two/Three-Set Venn Diagrams",
+  "SS1 | First Term: Change of Subject of Formulae & Substitution",
+  "SS1 | First Term: Direct, Inverse, Joint & Partial Variation",
+  // SS1 — Second Term
+  "SS1 | Second Term: Quadratic Equations — Factorisation, Completing Square & Formula",
+  "SS1 | Second Term: Construction of Quadratic Equations from Given Roots",
+  "SS1 | Second Term: Logical Reasoning — Statements, Negation, Implication & Truth Tables",
+  "SS1 | Second Term: Trigonometry — Sine, Cosine & Tangent for Angles 0° to 360°",
+  "SS1 | Second Term: Special Angles (30°, 45°, 60°) & Trigonometric Graphs",
+  "SS1 | Second Term: Mensuration — Lengths of Arcs, Perimeters of Sectors & Segments",
+  "SS1 | Second Term: Surface Area & Volume of Cones, Pyramids, Prisms & Frustums",
+  // SS1 — Third Term
+  "SS1 | Third Term: Deductive Proofs — Triangles, Parallelograms & Intercept Theorem",
+  "SS1 | Third Term: Circle Theorems — Chord Properties, Centre & Circumference Angles",
+  "SS1 | Third Term: Cyclic Quadrilaterals & Tangent-Chord (Alternate Segment) Theorems",
+  "SS1 | Third Term: Geometric Construction & Loci in Two Dimensions",
+  "SS1 | Third Term: Statistics — Grouped Frequency Distribution, Histograms & Ogive",
+  "SS1 | Third Term: Measures of Central Tendency for Grouped Data (Mean, Median, Mode)",
 
-  // SS2 — First Term, Second Term, Third Term
-  "SS2 | First Term: Indices & Logarithms - Harder",
-  "SS2 | First Term: Quadratic Functions & Graphs",
-  "SS2 | First Term: Sequences & Series - AP & GP",
-  "SS2 | First Term: Variation - Joint & Partial",
-  "SS2 | Second Term: Trigonometric Ratios of Special Angles, Sine & Cosine Rule",
-  "SS2 | Second Term: Bearings & Circle Geometry - Harder",
-  "SS2 | Second Term: Coordinate Geometry - Circle, Parabola & Ellipse",
-  "SS2 | Second Term: Calculus - Differentiation Intro & Applications",
-  "SS2 | Third Term: Polynomials (Factor Theorem) & Partial Fractions",
-  "SS2 | Third Term: Binomial Theorem & Quadratic Inequalities",
-  "SS2 | Third Term: Vectors, Matrices & Complex Numbers",
-  "SS2 | Third Term: Functions, Graphs (Cubic/Reciprocal) & Sets/Logic",
-  "SS2 | Third Term: Probability, Permutation/Combination & Statistics (SD/Correlation)",
+  // SS2 — First Term
+  "SS2 | First Term: Logarithms of Numbers Less Than 1 & Logarithmic Equations",
+  "SS2 | First Term: Approximations, Percentage Error & Significant Figures",
+  "SS2 | First Term: Sequences & Series — Arithmetic Progression (AP)",
+  "SS2 | First Term: Geometric Progression (GP) & Sum to Infinity",
+  "SS2 | First Term: Simultaneous Linear & Quadratic Equations",
+  "SS2 | First Term: Quadratic Graphs — Turning Points, Roots & Line of Symmetry",
+  // SS2 — Second Term
+  "SS2 | Second Term: Linear & Quadratic Inequalities in One and Two Variables",
+  "SS2 | Second Term: Algebraic Fractions — Simplification & Undefined Values",
+  "SS2 | Second Term: Circle Geometry — Tangents from an External Point & Intersecting Chords",
+  "SS2 | Second Term: Trigonometry — Sine Rule & Cosine Rule Applications",
+  "SS2 | Second Term: Bearings, Angles of Elevation & Depression in 2D and 3D",
+  // SS2 — Third Term
+  "SS2 | Third Term: Measures of Dispersion — Range, Quartiles, Variance & Standard Deviation",
+  "SS2 | Third Term: Cumulative Frequency Curve (Ogive) & Percentiles",
+  "SS2 | Third Term: Probability — Addition & Multiplication Laws, Tree Diagrams",
+  "SS2 | Third Term: Permutations & Combinations",
+  "SS2 | Third Term: Coordinate Geometry — Distance, Midpoint, Gradient & Equation of Line",
 
-  // SS3 — First Term, Second Term, Third Term
-  "SS3 | First Term: Surds, Logarithms & Advanced Quadratic Equations",
-  "SS3 | First Term: Trigonometry - Compound & Double Angles",
-  "SS3 | First Term: Calculus - Differentiation & Integration",
-  "SS3 | First Term: Coordinate Geometry & Circle Theorems - Advanced",
-  "SS3 | Second Term: Mensuration - Frustums & Area Under Curve",
-  "SS3 | Second Term: Probability, Permutation & Combination",
-  "SS3 | Second Term: Statistics - Correlation & Regression",
-  "SS3 | Second Term: Vectors, Matrices, Determinants & Complex Numbers",
-  "SS3 | Third Term: Functions, Graphs, Bearings & Advanced Geometry",
-  "SS3 | Third Term: Polynomials, Partial Fractions, Sequences & Binomial Theorem",
-  "SS3 | Third Term: Inequalities, Variation & Commercial Maths",
-  "SS3 | Third Term: Logical Reasoning & Sets - Advanced",
+  // SS3 — First Term
+  "SS3 | First Term: Surds — Simplification, Rationalising Denominators & Surd Equations",
+  "SS3 | First Term: Matrices & Determinants (2×2 and 3×3) & Simultaneous Equations",
+  "SS3 | First Term: Arithmetic of Finance — Compound Interest, Annuities & Amortisation",
+  "SS3 | First Term: Longitude & Latitude — Distance Along Great & Small Circles",
+  "SS3 | First Term: Mensuration of Earth as a Sphere & Time Differences",
+  // SS3 — Second Term
+  "SS3 | Second Term: Differentiation — Limits, First Principles & Standard Derivatives",
+  "SS3 | Second Term: Applications of Differentiation — Tangents, Normals & Maxima/Minima",
+  "SS3 | Second Term: Integration — Indefinite & Definite Integrals, Area Under Curves",
+  "SS3 | Second Term: Vectors in 2D — Position Vectors, Dot Product & Magnitude",
+  "SS3 | Second Term: Transformations — Translation, Reflection, Rotation & Enlargement",
+  // SS3 — Third Term
+  "SS3 | Third Term: Polynomials — Remainder Theorem, Factor Theorem & Cubic Equations",
+  "SS3 | Third Term: Partial Fractions & Binomial Expansion",
+  "SS3 | Third Term: Trigonometry — Compound Angles, Double Angles & Identities",
+  "SS3 | Third Term: Conic Sections — Equation of Circle, Parabola & Ellipse",
 
   // Senior WAEC & NECO
-  "WAEC & NECO: Number, Indices, Surds & Logarithms Drill",
-  "WAEC & NECO: Algebra, Equations, Inequalities & Variation Drill",
-  "WAEC & NECO: Geometry, Trigonometry & Bearings Drill",
-  "WAEC & NECO: Mensuration & Coordinate Geometry Drill",
-  "WAEC & NECO: Calculus, Sequences, Vectors & Matrices Drill",
-  "WAEC & NECO: Statistics & Probability Drill",
-  "WAEC & NECO: Past Questions 2019–2024 & Mock Exam"
+  "WAEC & NECO: Number Bases, Modular Arithmetic, Indices, Surds & Logarithms",
+  "WAEC & NECO: Algebra, Quadratics, Inequalities, Sequences & Variation",
+  "WAEC & NECO: Plane Geometry, Circle Theorems, Construction & Mensuration",
+  "WAEC & NECO: Trigonometry, Bearings, Elevation/Depression & Longitude/Latitude",
+  "WAEC & NECO: Coordinate Geometry, Calculus, Vectors & Matrices",
+  "WAEC & NECO: Statistics, Cumulative Frequency & Probability",
+  "WAEC & NECO: Theory & Objective Past Questions Drill (2018–2025)"
 ],
 JAMB:[
-  "JAMB: Number & Numeration, Bases & Fractions",
-  "JAMB: Surds, Indices & Logarithms",
-  "JAMB: Equations, Inequalities & Variation",
-  "JAMB: Quadratic Equations, Polynomials & Partial Fractions",
-  "JAMB: Sequences & Series - AP & GP",
-  "JAMB: Binomial Theorem",
-  "JAMB: Trigonometry - Ratios, Identities, Sine/Cosine & Compound/Double Angles",
-  "JAMB: Geometry - Angles, Triangles, Polygons, Circles & Construction",
-  "JAMB: Bearings & Angles of Elevation/Depression",
-  "JAMB: Coordinate Geometry - Straight Line, Circle, Parabola, Ellipse & Hyperbola",
-  "JAMB: Mensuration - Area & Volume",
-  "JAMB: Calculus - Limits, Differentiation & Integration",
-  "JAMB: Matrices, Determinants & Vectors",
-  "JAMB: Complex Numbers",
-  "JAMB: Probability, Permutation & Combination",
-  "JAMB: Statistics - Mean, Variance & Correlation",
-  "JAMB: Sets, Venn Diagrams & Functions",
-  "JAMB: Graphs - Linear, Quadratic, Cubic & Reciprocal",
-  "JAMB: Logical Reasoning & Commercial Word Problems",
-  "JAMB: Past Questions Drill (2015–2024) & Mock Exams",
-  "Cambridge / A-Level: Pure Maths, Further Maths & Mechanics"
+  "JAMB: Number Bases & Modular Arithmetic",
+  "JAMB: Fractions, Decimals, Approximations & Percentage Error",
+  "JAMB: Indices, Logarithms & Surds",
+  "JAMB: Sets & Three-Set Venn Diagrams",
+  "JAMB: Polynomials — Remainder & Factor Theorems",
+  "JAMB: Partial Fractions",
+  "JAMB: Change of Subject of Formulae & Variation",
+  "JAMB: Quadratic Equations — Roots, Discriminant & Symmetric Functions",
+  "JAMB: Simultaneous Equations (Linear & Quadratic)",
+  "JAMB: Linear & Quadratic Inequalities",
+  "JAMB: Sequences & Series — AP, GP & Sum to Infinity",
+  "JAMB: Binomial Theorem & Expansions",
+  "JAMB: Binary Operations & Algebraic Structures",
+  "JAMB: Matrices & Determinants (2×2 and 3×3) & Inverse Matrix",
+  "JAMB: Euclidean Geometry — Angles, Triangles & Polygons",
+  "JAMB: Circle Theorems & Tangent Properties",
+  "JAMB: Mensuration — Plane Figures, Sectors, Segments & 3D Solids",
+  "JAMB: Loci & Geometric Constructions",
+  "JAMB: Coordinate Geometry — Straight Lines, Parallel & Perpendicular Lines",
+  "JAMB: Coordinate Geometry — Equation of a Circle & Conics",
+  "JAMB: Trigonometry — Ratios, Special Angles & Identities",
+  "JAMB: Trigonometry — Sine & Cosine Rules, Compound & Double Angles",
+  "JAMB: Bearings, Angles of Elevation & Depression",
+  "JAMB: Limits & Differentiation of Algebraic and Trigonometric Functions",
+  "JAMB: Applications of Differentiation — Rate of Change, Tangents & Turning Points",
+  "JAMB: Integration — Indefinite, Definite & Area Bounded by Curves",
+  "JAMB: Vectors in Two Dimensions",
+  "JAMB: Representation of Data — Histograms, Bar & Pie Charts",
+  "JAMB: Measures of Location — Mean, Median & Mode (Grouped & Ungrouped)",
+  "JAMB: Measures of Dispersion — Range, Mean Deviation, Variance & Standard Deviation",
+  "JAMB: Permutations & Combinations",
+  "JAMB: Probability — Mutually Exclusive, Independent & Conditional Events",
+  "JAMB: Commercial Mathematics — Profit/Loss, Simple & Compound Interest",
+  "JAMB: Past Questions 2016–2019 Intensive Drill",
+  "JAMB: Past Questions 2020–2024 Intensive Drill",
+  "JAMB: Full 40-Question UTME Mock Simulation"
 ]
 };
 
 // ===== STRICT TOPIC ROUTER =====
 function topicKey(topic){
   const t = (" " + topic.toLowerCase() + " ");
-  if(t.includes("cambridge") || t.includes("further maths") || t.includes("mechanics")) return "cambridge_further";
-  if(t.includes("logical") || t.includes("logic")) return "logical";
-  if(t.includes("mock") || t.includes("past questions") || t.includes("drill")) return "past_drill";
+  if(t.includes("mock") || t.includes("simulation") || t.includes("past questions")) return "past_drill";
+  if(t.includes("logical") || t.includes("truth table") || t.includes("deductive")) return "logical";
   if(t.includes("permutation") || t.includes("combination")) return "permutation";
   if(t.includes("logarithm")) return "logarithms";
-  if(t.includes("bearing") || t.includes("elevation") || t.includes("depression")) return "bearings";
+  if(t.includes("bearing") || t.includes("elevation") || t.includes("depression") || t.includes("longitude") || t.includes("latitude")) return "bearings";
   if(t.includes("pythagoras")) return "pythagoras";
-  if(t.includes("circle")) return "circles";
-  if(t.includes("parallel") || t.includes("geometry") || t.includes("angle") || t.includes("triangle") || t.includes("polygon")) return "geometry";
-  if(t.includes("indices") || t.includes("surd")) return "indices";
+  if(t.includes("circle") || t.includes("cyclic") || t.includes("chord") || t.includes("tangent")) return "circles";
+  if(t.includes("parallel") || t.includes("geometry") || t.includes("angle") || t.includes("triangle") || t.includes("polygon") || t.includes("similar")) return "geometry";
+  if(t.includes("indices") || t.includes("surd") || t.includes("standard form") || t.includes("square root")) return "indices";
   if(t.includes("partial fraction")) return "partial";
   if(t.includes("binomial")) return "binomial";
-  if(t.includes("coordinate") || t.includes("gradient") || t.includes("straight line")) return "coordinates";
+  if(t.includes("coordinate") || t.includes("gradient") || t.includes("straight line") || t.includes("conic") || t.includes("parabola") || t.includes("ellipse")) return "coordinates";
   if(t.includes("trigonometry") || t.includes("sine") || t.includes("cosine") || t.includes("sin, cos")) return "trigonometry";
   if(t.includes("probability")) return "probability";
-  if(t.includes("statistic") || t.includes("mean") || t.includes("variance") || t.includes("correlation") || t.includes("histogram") || t.includes("pie")) return "statistics";
-  if(t.includes("calculus") || t.includes("differentiation") || t.includes("integration") || t.includes("limit")) return "calculus";
-  if(t.includes("set")) return "sets";
-  if(t.includes("function")) return "functions";
-  if(t.includes("polynomial")) return "polynomial";
-  if(t.includes("fraction") || t.includes("percentage") || t.includes("ratio") || t.includes("profit") || t.includes("interest") || t.includes("commercial") || t.includes("money") || t.includes("estimation") || t.includes("word problem")) return "fractions";
-  if(t.includes("sequence") || t.includes("series")) return "sequences";
-  if(t.includes("vector")) return "vectors";
-  if(t.includes("matrix") || t.includes("determinant")) return "matrices";
-  if(t.includes("complex")) return "complex";
+  if(t.includes("statistic") || t.includes("mean") || t.includes("variance") || t.includes("dispersion") || t.includes("histogram") || t.includes("pie") || t.includes("ogive") || t.includes("frequency")) return "statistics";
+  if(t.includes("calculus") || t.includes("differentiation") || t.includes("integration") || t.includes("limit") || t.includes("turning point")) return "calculus";
+  if(t.includes("set") || t.includes("venn")) return "sets";
+  if(t.includes("function") || t.includes("mapping") || t.includes("binary operation")) return "functions";
+  if(t.includes("polynomial") || t.includes("remainder") || t.includes("factor theorem")) return "polynomial";
+  if(t.includes("fraction") || t.includes("percentage") || t.includes("ratio") || t.includes("profit") || t.includes("interest") || t.includes("commercial") || t.includes("money") || t.includes("estimation") || t.includes("approximation") || t.includes("error")) return "fractions";
+  if(t.includes("sequence") || t.includes("series") || t.includes("progression")) return "sequences";
+  if(t.includes("vector") || t.includes("transformation")) return "vectors";
+  if(t.includes("matrix") || t.includes("matrices") || t.includes("determinant")) return "matrices";
   if(t.includes("variation")) return "variation";
   if(t.includes("graph")) return "graphs";
   if(t.includes("inequalit")) return "inequalities";
-  if(t.includes("number base") || t.includes("modulo") || t.includes("place value") || t.includes("number and numeration")) return "bases";
+  if(t.includes("number base") || t.includes("binary number") || t.includes("modulo") || t.includes("modular") || t.includes("place value") || t.includes("whole number")) return "bases";
   if(t.includes("hcf") || t.includes("lcm") || t.includes("factor") || t.includes("prime")) return "factors";
-  if(t.includes("perimeter") || t.includes("mensuration") || t.includes("area") || t.includes("volume") || t.includes("frustum")) return "mensuration";
+  if(t.includes("perimeter") || t.includes("mensuration") || t.includes("area") || t.includes("volume") || t.includes("frustum") || t.includes("cylinder") || t.includes("cone") || t.includes("sector")) return "mensuration";
   if(t.includes("directed")) return "directed";
   if(t.includes("construction") || t.includes("loci")) return "construction";
   return "equations";
@@ -232,322 +289,1015 @@ function makeQ(q, lines, expl, diagram, label, sideProof, sideExpl){
   return { q, lines, expl, diagram: diagram || "none", label: label || "", sideProof: sideProof || null, sideExpl: sideExpl || "" };
 }
 
+// ===== EXAM-GRADE MULTI-STEP QUESTION GENERATORS WITH DEEP PEDAGOGICAL VOICE =====
 function genSequences(rng, variant){
   const kind = variant % 4;
   if(kind === 0){
-    const a = rInt(rng, 2, 12), d = rInt(rng, 2, 9), n = rInt(rng, 6, 15);
-    const ans = a + (n - 1) * d;
-    return makeQ(`Find the ${n}th term of the AP: ${a}, ${a+d}, ${a+2*d}, ...`, [`a = ${a}, d = ${a+d} − ${a} = ${d}`, `T_${n} = ${a} + (${n} − 1)×${d}`, `T_${n} = ${a} + ${(n-1)*d} = ${ans}`], [`First term a is ${a}, and common difference d is ${d}.`, `To reach term ${n} from term 1, we add d a total of ${n-1} times.`, `Multiply ${n-1} by ${d} to get ${(n-1)*d}, then add ${a} to get ${ans}.`], "none", "", [`AP Rule:`, `T_n = a+(n−1)d`, `Step ${n-1}d`], `Side check: ${n-1} steps of +${d} from ${a} gives ${ans}.`);
+    const a = rInt(rng, 3, 14), d = rInt(rng, 3, 8), n1 = rInt(rng, 3, 5), n2 = rInt(rng, 8, 12);
+    const t1 = a + (n1 - 1) * d, t2 = a + (n2 - 1) * d, targetN = rInt(rng, 15, 22);
+    const ans = a + (targetN - 1) * d;
+    return makeQ(
+      `The ${n1}th term of an AP is ${t1} and the ${n2}th term is ${t2}. Find the first term (a), common difference (d), and the ${targetN}th term.`,
+      [
+        `T_${n1}: a + ${n1-1}d = ${t1}  ...(i)  |  T_${n2}: a + ${n2-1}d = ${t2}  ...(ii)`,
+        `Subtract (i) from (ii): (${n2-n1})d = ${t2 - t1}  ⇒  d = ${d}`,
+        `Sub d = ${d} in (i): a = ${t1} − ${n1-1}(${d}) = ${a}`,
+        `T_${targetN} = ${a} + ${targetN-1}(${d}) = ${a + (targetN-1)*d}`
+      ],
+      [
+        `Recall the general nth term of an Arithmetic Progression is T_n = a + (n − 1)d. Writing this for term ${n1} and term ${n2} gives two simultaneous linear equations in a and d.`,
+        `Because both equations have 'a' with coefficient 1, subtracting equation 1 from equation 2 eliminates 'a' immediately, leaving ${n2-n1}d = ${t2-t1}, so d equals ${d}.`,
+        `Now substitute d = ${d} back into equation 1 to recover the first term: a = ${t1} minus ${(n1-1)*d}, which gives a = ${a}.`,
+        `Finally, to reach the ${targetN}th term from the 1st term, we add d a total of ${targetN-1} times: ${a} + ${(targetN-1)*d} = ${ans}.`
+      ],
+      "none", "",
+      [`General AP: T_n = a + (n−1)d`, `Gap between T_${n1} and T_${n2} is ${n2-n1} steps of d`],
+      `Pause and note why: moving from term ${n1} to term ${n2} requires ${n2-n1} equal jumps of d.`
+    );
   }
   if(kind === 1){
-    const a = rInt(rng, 1, 8), d = rInt(rng, 2, 6), n = rInt(rng, 6, 12);
+    const a = rInt(rng, 2, 10), d = rInt(rng, 2, 6), n = rInt(rng, 8, 16);
     const sum = (n / 2) * (2 * a + (n - 1) * d);
-    return makeQ(`Find the sum of the first ${n} terms of the AP: ${a}, ${a+d}, ${a+2*d}, ...`, [`a = ${a}, d = ${d}, n = ${n}`, `S_${n} = ${n}/2 × [2(${a}) + (${n}−1)×${d}]`, `S_${n} = ${n/2} × ${2*a + (n-1)*d} = ${sum}`], [`We have a = ${a} and common difference d = ${d}.`, `Sum of n terms uses n/2 × [2a + (n−1)d].`, `Simplifying gives ${sum}.`], "none", "", [`Sum Rule:`, `S_n=n/2[2a+(n−1)d]`, `Pair sums`], `Side proof: pairing opposite terms gives equal totals.`);
+    return makeQ(
+      `Find the sum of the first ${n} terms of the Arithmetic Progression: ${a}, ${a+d}, ${a+2*d}, ...`,
+      [
+        `Identify a = ${a}, d = (${a+d}) − ${a} = ${d}, n = ${n}`,
+        `S_${n} = (${n}/2) × [2(${a}) + (${n} − 1)×${d}]`,
+        `S_${n} = ${n/2} × [${2*a} + ${(n-1)*d}] = ${n/2} × ${2*a + (n-1)*d}`,
+        `S_${n} = ${sum}`
+      ],
+      [
+        `First verify it is an AP by checking that consecutive terms increase by a constant difference d = ${d}.`,
+        `We use the sum formula S_n = n/2 [2a + (n − 1)d], which comes from pairing the first and last terms of the series.`,
+        `Evaluate inside the bracket carefully using BODMAS: 2 times ${a} is ${2*a}, plus ${n-1} times ${d} (${(n-1)*d}) equals ${2*a + (n-1)*d}.`,
+        `Multiplying ${n/2} by ${2*a + (n-1)*d} gives the exact total sum ${sum}.`
+      ],
+      "none", "",
+      [`Proof idea: First + Last = a + l`, `Number of pairs = n / 2`],
+      `Pause to understand why: pairing the 1st and ${n}th terms gives the same total as pairing the 2nd and ${n-1}th terms.`
+    );
   }
   if(kind === 2){
-    const a = rInt(rng, 2, 6), r = rInt(rng, 2, 3), n = rInt(rng, 4, 6);
-    const term = a * Math.pow(r, n - 1);
-    return makeQ(`Find the ${n}th term of the GP: ${a}, ${a*r}, ${a*r*r}, ...`, [`a = ${a}, r = ${a*r} ÷ ${a} = ${r}`, `T_${n} = ${a} × ${r}^${n-1}`, `T_${n} = ${a} × ${Math.pow(r, n-1)} = ${term}`], [`Divide consecutive terms to get common ratio r = ${r}.`, `General GP term is a × r^(n−1).`, `${r}^${n-1} × ${a} = ${term}.`], "none", "", [`GP Rule:`, `T_n = a·r^(n−1)`, `r = ${r}`], `Side note: GP multiplies by ${r} each step.`);
+    const a = rInt(rng, 2, 5), r = rInt(rng, 2, 3), n1 = 2, n2 = 5;
+    const t2 = a * r, t5 = a * Math.pow(r, 4), t7 = a * Math.pow(r, 6);
+    return makeQ(
+      `The 2nd term of a Geometric Progression is ${t2} and the 5th term is ${t5}. Find the common ratio (r), first term (a), and 7th term.`,
+      [
+        `T₂ = ar = ${t2}  ...(i)   |   T₅ = ar⁴ = ${t5}  ...(ii)`,
+        `Divide (ii) by (i): (ar⁴) ÷ (ar) = ${t5} ÷ ${t2}  ⇒  r³ = ${Math.pow(r,3)}  ⇒  r = ${r}`,
+        `Sub r = ${r} in (i): a(${r}) = ${t2}  ⇒  a = ${a}`,
+        `T₇ = ar⁶ = ${a} × ${r}⁶ = ${a} × ${Math.pow(r,6)} = ${t7}`
+      ],
+      [
+        `In a Geometric Progression, each term is multiplied by a constant ratio r, so T_n = a r^(n − 1).`,
+        `Dividing the 5th term by the 2nd term cancels 'a' cleanly and leaves r³ = ${Math.pow(r,3)}; taking the cube root gives r = ${r}.`,
+        `Substitute r = ${r} back into ar = ${t2} and divide by ${r} to obtain the first term a = ${a}.`,
+        `For the 7th term, raise ${r} to power 6 (${Math.pow(r,6)}) and multiply by ${a} to get ${t7}.`
+      ],
+      "none", "",
+      [`GP Division Trick: T_m / T_k = r^(m−k)`],
+      `Pause and see why we divide instead of subtract: in a GP, terms are linked by multiplication, so division eliminates 'a'.`
+    );
   }
-  const a = rInt(rng, 6, 18), rDen = rInt(rng, 2, 4);
-  const sInf = (a / (1 - 1 / rDen)).toFixed(1).replace(/\.0$/, "");
-  return makeQ(`Find the sum to infinity of the GP: ${a}, ${(a/rDen).toFixed(1).replace(/\.0$/,"")}, ...`, [`a = ${a}, r = 1/${rDen}`, `|r| = 1/${rDen} < 1 (converges)`, `S∞ = ${a} ÷ (1 − 1/${rDen}) = ${sInf}`], [`First term a is ${a} and common ratio r is 1/${rDen}.`, `Since |r| < 1, the infinite sum converges.`, `Divide ${a} by ${rDen-1}/${rDen} to get ${sInf}.`], "none", "", [`S∞ = a/(1−r)`, `|r| < 1`, `Converges`], `Side check: terms shrink toward zero.`);
+  const a = rInt(rng, 12, 36), rDen = pick(rng, [2, 3, 4]);
+  const sInf = (a / (1 - 1 / rDen)).toFixed(2).replace(/\.00$/, "");
+  return makeQ(
+    `A geometric series is given by ${a} + ${(a/rDen).toFixed(2).replace(/\.00$/,"")} + ${(a/(rDen*rDen)).toFixed(2).replace(/\.00$/,"")} + ... Find its sum to infinity.`,
+    [
+      `a = ${a},   r = T₂ ÷ T₁ = 1/${rDen}`,
+      `Check convergence: |r| = 1/${rDen} < 1 (Valid!)`,
+      `S∞ = a ÷ (1 − r) = ${a} ÷ (1 − 1/${rDen}) = ${a} ÷ (${rDen-1}/${rDen})`,
+      `S∞ = ${a} × (${rDen}/${rDen-1}) = ${sInf}`
+    ],
+    [
+      `Find the common ratio r by dividing the second term by the first term, giving r = 1/${rDen}.`,
+      `A sum to infinity only exists when |r| < 1 so that r^n shrinks to zero as n grows large.`,
+      `Apply S∞ = a / (1 − r): 1 minus 1/${rDen} equals ${rDen-1}/${rDen}.`,
+      `Dividing by a fraction means multiplying by its reciprocal ${rDen}/${rDen-1}, giving ${sInf}.`
+    ],
+    "none", "",
+    [`As n → ∞, (1/${rDen})^n → 0`],
+    `Pause to see why: because 1/${rDen} is less than 1, raising it to high powers makes the remaining terms vanish.`
+  );
 }
 
 function genPermutation(rng, variant){
-  const mode = variant % 4;
+  const mode = variant % 3;
   if(mode === 0){
-    const n = rInt(rng, 4, 7);
-    let fact = 1; for(let i=2;i<=n;i++) fact *= i;
-    const slots = Array.from({length:n}, (_,i)=>n-i).join(" × ");
-    return makeQ(`In how many ways can ${n} students be seated in a row of ${n} chairs?`, [`Slot 1: ${n} choices`, `Remaining: ${slots}`, `Total = ${n}! = ${fact}`], [`Order matters because different seats give different arrangements.`, `Each chair filled reduces available students by 1.`, `Multiplying gives ${fact} ways.`], "none", "", [`Order Matters`, `Slot method:`, `${n}! = ${fact}`], `Side proof: choices decrease from ${n} down to 1.`);
+    const n = rInt(rng, 5, 7), r = rInt(rng, 3, 4);
+    let p = 1; for(let i=0;i<r;i++) p *= (n - i);
+    return makeQ(
+      `How many ${r}-digit even or distinct codes can be formed from ${n} distinct non-zero digits if no digit may be repeated?`,
+      [
+        `Order matters (e.g. 123 ≠ 321) → Permutation`,
+        `Slots to fill: ${r} positions from ${n} available digits`,
+        `${n}P${r} = ${Array.from({length:r},(_,i)=>n-i).join(" × ")} = ${p} ways`
+      ],
+      [
+        `Whenever arrangement or sequence changes the outcome (like PIN codes or seating), order matters, so we use Permutations.`,
+        `The first slot has ${n} choices; once one digit is placed, only ${n-1} remain for the second slot, and so on.`,
+        `Multiplying the available choices across all ${r} slots gives ${p} distinct arrangements.`
+      ],
+      "none", "",
+      [`nPr = n! / (n − r)!`],
+      `Pause and note: without repetition, each chosen item reduces the remaining pool by 1.`
+    );
   }
   if(mode === 1){
-    const n = rInt(rng, 6, 9), r = rInt(rng, 2, 3);
-    let p = 1; for(let i=0;i<r;i++) p *= (n - i);
-    return makeQ(`Evaluate ${n}P${r} (ordered arrangement of ${r} items from ${n}).`, [`${n}P${r} = ${n}! ÷ (${n}−${r})!`, `= ${Array.from({length:r},(_,i)=>n-i).join(" × ")}`, `= ${p}`], [`Permutations count ordered selections.`, `Multiply ${r} decreasing factors starting from ${n}.`, `Result is ${p}.`], "none", "", [`nPr = n!/(n−r)!`, `${r} factors`, `Order counts`], `Side check: ${r} slots without repetition.`);
+    const men = rInt(rng, 4, 6), women = rInt(rng, 3, 5), rM = 2, rW = 2;
+    const cM = (men * (men - 1)) / 2, cW = (women * (women - 1)) / 2;
+    return makeQ(
+      `A committee of 4 is to be formed from ${men} men and ${women} women. In how many ways can this be done if it must include 2 men and 2 women?`,
+      [
+        `Committee selection → Order does NOT matter (Combination)`,
+        `Choose 2 men from ${men}: ${men}C₂ = (${men}×${men-1}) ÷ 2! = ${cM}`,
+        `Choose 2 women from ${women}: ${women}C₂ = (${women}×${women-1}) ÷ 2! = ${cW}`,
+        `By Multiplication Principle: Total = ${cM} × ${cW} = ${cM * cW} ways`
+      ],
+      [
+        `In a committee, all members hold equal status, so order of selection does not matter—use Combinations.`,
+        `First find the number of ways to pick 2 men out of ${men}, which is ${cM}.`,
+        `Next find the number of ways to pick 2 women out of ${women}, which is ${cW}.`,
+        `Because we need BOTH men AND women together, multiply the two counts: ${cM} × ${cW} = ${cM * cW}.`
+      ],
+      "none", "",
+      [`AND → Multiply (nCr × mCk)`],
+      `Pause to understand why we multiply: every pair of men can be combined with every pair of women.`
+    );
   }
-  if(mode === 2){
-    const n = rInt(rng, 6, 10), r = rInt(rng, 2, 3);
-    let p = 1, f = 1; for(let i=0;i<r;i++){ p *= (n-i); f *= (i+1); }
-    return makeQ(`How many different committees of ${r} can be chosen from ${n} people?`, [`Order does NOT matter → Combination`, `${n}C${r} = ${n}P${r} ÷ ${r}!`, `= ${p} ÷ ${f} = ${p/f}`], [`A committee group is the same regardless of selection order.`, `Find ${n}P${r} = ${p}, then divide by ${r}! = ${f}.`, `Result is ${p/f}.`], "none", "", [`nCr = nPr/r!`, `Divide out`, `order repeats`], `Side proof: ${r} members can be ordered in ${f} ways.`);
-  }
-  const n = rInt(rng, 5, 8), k = rInt(rng, 3, 4);
-  let codeWays = 1; for(let i=0;i<k;i++) codeWays *= (n - i);
-  return makeQ(`How many ${k}-digit codes can be formed from ${n} distinct digits without repetition?`, [`Digits: ${n}, length: ${k}`, `Choices: ${Array.from({length:k},(_,i)=>n-i).join(" × ")}`, `Total codes = ${codeWays}`], [`No repetition shrinks available digits by 1 per slot.`, `Digit order matters, so multiply choices.`, `Total is ${codeWays}.`], "none", "", [`No repeat`, `Slots = ${k}`, `Multiply`], `Side note: repetition allowed would give ${n}^${k}.`);
+  const word = pick(rng, [["LEVEL", 5, "L:2, E:2", 30], ["STATISTICS", 10, "S:3, T:3, I:2", 50400], ["BANANA", 6, "A:3, N:2", 60]]);
+  return makeQ(
+    `In how many distinguishable ways can all the letters of the word "${word[0]}" be arranged?`,
+    [
+      `Total letters n = ${word[1]}`,
+      `Repeated letters: ${word[2]}`,
+      `Arrangements = ${word[1]}! ÷ (product of factorials of repeats)`,
+      `Distinct ways = ${word[3]}`
+    ],
+    [
+      `If all ${word[1]} letters were distinct, there would be ${word[1]}! arrangements.`,
+      `However, swapping identical letters (like two E's or three A's) produces the exact same word.`,
+      `We divide ${word[1]}! by the factorial of each repeated letter's count to eliminate duplicate arrangements, leaving ${word[3]}.`
+    ],
+    "none", "",
+    [`Permutations with repeats = n! / (p! q! ...)`],
+    `Pause to see why: identical letters can permute among themselves in p! invisible ways.`
+  );
 }
 
 function genSets(rng, variant){
-  const kind = variant % 3;
-  if(kind === 0){
-    const inter = rInt(rng, 2, 6), aOnly = rInt(rng, 4, 12), bOnly = rInt(rng, 3, 10);
-    const nA = aOnly + inter, nB = bOnly + inter, nUnion = aOnly + inter + bOnly;
-    return makeQ(`Given n(A) = ${nA}, n(B) = ${nB}, and n(A ∩ B) = ${inter}. Find n(A ∪ B).`, [`n(A) = ${nA}, n(B) = ${nB}, n(A∩B) = ${inter}`, `n(A∪B) = ${nA} + ${nB} − ${inter}`, `n(A∪B) = ${nUnion}`], [`Adding n(A) and n(B) counts the overlap twice.`, `Subtract n(A ∩ B) once to remove double-counting.`, `${nA} + ${nB} − ${inter} = ${nUnion}.`], "venn", `⭕ Venn: n(A)=${nA}, n(B)=${nB}, A∩B=${inter}`, [`A only=${aOnly}`, `Overlap=${inter}`, `B only=${bOnly}`], `Side check: ${aOnly} + ${inter} + ${bOnly} = ${nUnion}.`);
-  }
-  if(kind === 1){
-    const both = rInt(rng, 3, 8), mOnly = rInt(rng, 6, 15), eOnly = rInt(rng, 5, 14);
-    const totalM = mOnly + both, totalE = eOnly + both, total = mOnly + both + eOnly;
-    return makeQ(`In a class, ${totalM} like Maths, ${totalE} like English, and ${both} like both. How many like at least one?`, [`Maths only = ${totalM} − ${both} = ${mOnly}`, `English only = ${totalE} − ${both} = ${eOnly}`, `At least one = ${mOnly} + ${both} + ${eOnly} = ${total}`], [`Subtract overlap (${both}) to find pure single-subject counts.`, `At least one means union of both sets.`, `Total is ${total}.`], "venn", `⭕ Venn: Maths=${totalM}, Eng=${totalE}, Both=${both}`, [`M only=${mOnly}`, `Both=${both}`, `E only=${eOnly}`], `Side check: ${totalM} + ${totalE} − ${both} = ${total}.`);
-  }
-  const uMax = rInt(rng, 6, 10), aList = [1, 2, 3].filter(x => x <= uMax), compList = [];
-  for(let x=1; x<=uMax; x++) if(!aList.includes(x)) compList.push(x);
-  return makeQ(`If Universal set U = {1, 2, ..., ${uMax}} and A = {${aList.join(", ")}}, find A'.`, [`U = {1, 2, ..., ${uMax}}`, `Remove A = {${aList.join(", ")}}`, `A' = {${compList.join(", ")}}`], [`Complement A' contains elements in U that are not in A.`, `List remaining numbers from 1 to ${uMax}.`, `Result: {${compList.join(", ")}}.`], "venn", `⭕ Complement A' in U = {1..${uMax}}`, [`In U, not A`, `A' = U − A`, `${compList.length} items`], `Side check: n(A) + n(A') = ${uMax}.`);
+  const total = rInt(rng, 45, 70), neither = rInt(rng, 3, 8);
+  const both = rInt(rng, 6, 14);
+  const mOnly = rInt(rng, 12, 22);
+  const eOnly = total - neither - both - mOnly;
+  const nM = mOnly + both, nE = eOnly + both;
+  return makeQ(
+    `In a class of ${total} students, ${nM} offer Mathematics, ${nE} offer Physics, and ${neither} offer neither subject. How many students offer (a) both subjects, and (b) Mathematics only?`,
+    [
+      `Let n(M ∩ P) = x.  n(U) = ${total},  n(neither) = ${neither}`,
+      `n(M ∪ P) = ${total} − ${neither} = ${total - neither}`,
+      `(${nM} − x) + x + (${nE} − x) = ${total - neither}  ⇒  ${nM + nE} − x = ${total - neither}`,
+      `x (Both) = ${both}   |   Maths only = ${nM} − ${both} = ${mOnly}`
+    ],
+    [
+      `Always draw a two-circle Venn diagram inside the universal rectangle U = ${total}, placing the unknown intersection x in the centre overlap first.`,
+      `Students offering at least one subject equals total students minus the ${neither} outside both circles, giving ${total - neither}.`,
+      `Write each region in terms of x: Maths-only is ${nM} − x, Physics-only is ${nE} − x, and the overlap is x. Summing all three regions gives ${nM + nE} − x = ${total - neither}.`,
+      `Solving gives x = ${both} offering both subjects, and ${nM} − ${both} = ${mOnly} offering Mathematics only.`
+    ],
+    "venn", `⭕ Venn Diagram: U = ${total}, n(M) = ${nM}, n(P) = ${nE}, Neither = ${neither}`,
+    [`n(M∪P) = n(M) + n(P) − n(M∩P)`],
+    `Pause and verify: ${mOnly} (M only) + ${both} (Both) + ${eOnly} (P only) + ${neither} (Neither) = ${total}.`
+  );
 }
 
 function genGeometry(rng, variant){
-  const t = variant % 5;
+  const t = variant % 3;
   if(t === 0){
-    const ang = rInt(rng, 35, 78);
-    return makeQ(`Two parallel lines are cut by a transversal. One interior angle is ${ang}°. Find the alternate angle.`, [`Parallel lines → Z-shape formed`, `Alternate angle = ${ang}°`], [`Alternate angles sit inside parallel lines on opposite sides of transversal.`, `Parallel lines make alternate angles equal.`, `Answer is ${ang}°.`], "alternate", `🔴 Z-SHAPE — Alternate Angle = ${ang}°`, [`Z-shape`, `Equal angles`, `= ${ang}°`], `Side proof: identical tilt on parallel lines gives equal alternate angles.`);
+    const x = rInt(rng, 12, 24);
+    const a1 = 3 * x + 10, a2 = 5 * x - (2 * x - 10);
+    return makeQ(
+      `Two parallel lines are cut by a transversal. A pair of alternate interior angles are (3x + 10)° and (${a1})°. Find x and the co-interior angle.`,
+      [
+        `Parallel lines form a Z-shape → Alternate angles are EQUAL`,
+        `3x + 10 = ${a1}  ⇒  3x = ${a1 - 10}  ⇒  x = ${x}°`,
+        `Each alternate angle = ${a1}°`,
+        `Co-interior angle = 180° − ${a1}° = ${180 - a1}°`
+      ],
+      [
+        `Identify the geometric relationship first: alternate interior angles lie on opposite sides of the transversal between parallel lines, so they are equal.`,
+        `Set up the algebraic equation 3x + 10 = ${a1}, subtract 10 from both sides, and divide by 3 to find x = ${x}°.`,
+        `Substituting x back confirms the acute/obtuse angle is ${a1}°.`,
+        `Finally, co-interior (allied) angles on the same side of the transversal sum to 180°, giving 180° − ${a1}° = ${180 - a1}°.`
+      ],
+      "alternate", `🔴 Parallel Lines: Alternate Equal, Co-interior Sum = 180°`,
+      [`Z-shape: a = b  |  C-shape: a + c = 180°`],
+      `Pause and check: alternate and co-interior angles meet on a straight line, so they must add up to 180°.`
+    );
   }
   if(t === 1){
-    const ang = rInt(rng, 45, 125), co = 180 - ang;
-    return makeQ(`Two parallel lines are cut by a transversal. One co-interior angle is ${ang}°. Find the other.`, [`Co-interior angles sum to 180°`, `Other = 180° − ${ang}°`, `= ${co}°`], [`Co-interior angles lie inside parallel lines on the same side (C-shape).`, `They add up to 180°.`, `180° − ${ang}° = ${co}°.`], "cointerior", `🟢 C-SHAPE — ${ang}° + ${co}° = 180°`, [`C-shape`, `Sum = 180°`, `180°−${ang}°`], `Side check: ${ang}° + ${co}° = 180°.`);
+    const n = pick(rng, [6, 8, 9, 10, 12]);
+    const ext = 360 / n, interior = 180 - ext, sumInt = (n - 2) * 180;
+    return makeQ(
+      `Each interior angle of a regular polygon is ${interior}°. Calculate (a) the exterior angle, (b) the number of sides, and (c) the sum of interior angles.`,
+      [
+        `Interior + Exterior = 180° (straight line) ⇒ Ext = 180° − ${interior}° = ${ext}°`,
+        `Sum of all exterior angles = 360° ⇒ Sides n = 360° ÷ ${ext}° = ${n} sides`,
+        `Sum of interior angles = (${n} − 2) × 180° = ${n-2} × 180° = ${sumInt}°`
+      ],
+      [
+        `At any vertex of a polygon, extending one side forms a straight line, so interior angle plus exterior angle always equals 180°. Thus exterior = ${ext}°.`,
+        `Because the exterior angles of ANY convex polygon add up to one full turn of 360°, dividing 360° by ${ext}° immediately reveals n = ${n} sides.`,
+        `An ${n}-sided polygon divides into (${n} − 2) triangles from one vertex, giving interior sum ${n-2} × 180° = ${sumInt}°.`
+      ],
+      "pentagon", `⬠ Regular Polygon: Interior = ${interior}°, Exterior = ${ext}°`,
+      [`n = 360° ÷ Exterior Angle`],
+      `Pause and remember this shortcut: finding the exterior angle first is always the fastest way to find the number of sides.`
+    );
   }
-  if(t === 2){
-    const a = rInt(rng, 35, 75), b = rInt(rng, 35, 75), c = 180 - a - b;
-    return makeQ(`In a triangle, two angles are ${a}° and ${b}°. Find the third angle.`, [`Sum of angles in Δ = 180°`, `Third = 180° − (${a}° + ${b}°) = 180° − ${a+b}°`, `Third angle = ${c}°`], [`Angles in any triangle add up to 180°.`, `Known sum is ${a+b}°.`, `180° − ${a+b}° = ${c}°.`], "triangle", `🔺 Triangle Sum = 180° (${a}°, ${b}°, ?)`, [`Δ sum = 180°`, `Known = ${a+b}°`, `Rem = ${c}°`], `Side check: ${a}° + ${b}° + ${c}° = 180°.`);
-  }
-  if(t === 3){
-    const sides = rInt(rng, 5, 9), sumInt = (sides - 2) * 180, ext = (360 / sides);
-    const extStr = Number.isInteger(ext) ? `${ext}°` : `${ext.toFixed(1)}°`;
-    return makeQ(`A regular polygon has ${sides} sides. Find the sum of interior angles and each exterior angle.`, [`Interior sum = (${sides} − 2) × 180° = ${sumInt}°`, `Exterior sum = 360°`, `Each exterior = 360° ÷ ${sides} = ${extStr}`], [`Interior sum of n-gon is (n−2)×180°.`, `Exterior angles always sum to 360°.`, `360° ÷ ${sides} = ${extStr}.`], "pentagon", `⬠ Regular ${sides}-gon — Interior & Exterior`, [`(n−2)×180°`, `360° ÷ ${sides}`, `Ext: ${extStr}`], `Side note: interior + exterior = 180°.`);
-  }
-  const xVal = rInt(rng, 10, 28), yVal = 180 - 2 * xVal;
-  return makeQ(`Angles on a straight line are 2x and ${yVal}°. Find x.`, [`Straight line = 180°`, `2x + ${yVal} = 180 → 2x = ${180 - yVal}`, `x = ${(180 - yVal)/2}°`], [`Angles on a straight line sum to 180°.`, `Subtract ${yVal} from 180.`, `Divide by 2 to get ${(180 - yVal)/2}°.`], "straight", `— Straight Line = 180°`, [`Line = 180°`, `2x = ${180-yVal}`, `x = ${(180-yVal)/2}°`], `Side check: sum equals 180°.`);
-}
-
-function genMensuration(rng, variant){
-  const m = variant % 4;
-  if(m === 0){
-    const l = rInt(rng, 7, 16), b = rInt(rng, 4, 11);
-    return makeQ(`A rectangle has length ${l} cm and breadth ${b} cm. Find its area and perimeter.`, [`Area = ${l} × ${b} = ${l*b} cm²`, `Perimeter = 2 × (${l} + ${b}) = 2 × ${l+b} = ${2*(l+b)} cm`], [`Area is length × breadth (${l*b} cm²).`, `Perimeter is distance around: 2(l + b).`, `Perimeter is ${2*(l+b)} cm.`], "rectangle", `▭ Rectangle: ${l} cm × ${b} cm`, [`Area: cm²`, `Perim: cm`, `2(l+b)`], `Side note: area is cm²; perimeter is cm.`);
-  }
-  if(m === 1){
-    const r = rInt(rng, 7, 14), area = (22 / 7) * r * r, circ = (2 * 22 / 7 * r);
-    const areaClean = Number.isInteger(area) ? area : area.toFixed(1), circClean = Number.isInteger(circ) ? circ : circ.toFixed(1);
-    return makeQ(`Using π = 22/7, find the area and circumference of a circle of radius ${r} cm.`, [`Area = (22/7) × ${r}² = ${areaClean} cm²`, `Circumference = 2 × (22/7) × ${r} = ${circClean} cm`], [`Area of circle is πr².`, `Circumference is 2πr.`, `Gives area ${areaClean} cm² and circumference ${circClean} cm.`], "circle", `⭕ Circle Radius r = ${r} cm (π = 22/7)`, [`Area = πr²`, `C = 2πr`, `r = ${r}`], `Side check: diameter d = ${2*r} cm.`);
-  }
-  if(m === 2){
-    const base = rInt(rng, 6, 14), h = rInt(rng, 4, 12);
-    return makeQ(`Find the area of a triangle with base ${base} cm and height ${h} cm.`, [`Area = ½ × base × height`, `= ½ × ${base} × ${h}`, `= ${0.5*base*h} cm²`], [`Triangle area is half of base × height.`, `Multiply ½ × ${base} × ${h}.`, `Area is ${0.5*base*h} cm².`], "triangle", `🔺 Area = ½ × ${base} × ${h}`, [`½ × b × h`, `b = ${base}`, `h = ${h}`], `Side proof: two triangles form a rectangle.`);
-  }
-  const s = rInt(rng, 3, 8);
-  return makeQ(`A cube has edge ${s} cm. Find its volume and total surface area.`, [`Volume = ${s}³ = ${s*s*s} cm³`, `One face = ${s}² = ${s*s} cm²`, `Total SA = 6 × ${s*s} = ${6*s*s} cm²`], [`Volume of cube is side³.`, `A cube has 6 equal square faces.`, `Total surface area is ${6*s*s} cm².`], "cube", `🧊 Cube Edge = ${s} cm`, [`Vol = s³`, `6 faces`, `SA = 6s²`], `Side check: ${s}³ = ${s*s*s}.`);
-}
-
-function genBearings(rng, variant){
-  const k = variant % 3;
-  if(k === 0){
-    const b = rInt(rng, 15, 165), pad = String(b).padStart(3, "0");
-    return makeQ(`Bearing of B from A is ${pad}°. Find back bearing of A from B.`, [`Bearing ${pad}° < 180°`, `Back bearing = ${b}° + 180°`, `= ${b+180}°`], [`Bearings are 3-figure clockwise angles from North.`, `Add 180° when bearing is under 180°.`, `Result is ${b+180}°.`], "compass", `🧭 Forward ${pad}° → Back ${b+180}°`, [`< 180°`, `+ 180°`, `= ${b+180}°`], `Side rule: if > 180°, subtract 180°.`);
-  }
-  if(k === 1){
-    const b = rInt(rng, 195, 345), back = b - 180, padBack = String(back).padStart(3, "0");
-    return makeQ(`A ship sails on bearing ${b}°. Find bearing back to port.`, [`Bearing ${b}° > 180°`, `Back bearing = ${b}° − 180°`, `= ${padBack}°`], [`Subtract 180° when bearing exceeds 180°.`, `${b}° − 180° = ${back}°.`, `Write as ${padBack}°.`], "compass", `🧭 Bearing ${b}° → Return ${padBack}°`, [`> 180°`, `− 180°`, `= ${padBack}°`], `Side check: ${padBack}° + 180° = ${b}°.`);
-  }
-  const h = rInt(rng, 12, 45), d = rInt(rng, 15, 50), deg = (Math.atan(h / d) * 180 / Math.PI).toFixed(1);
-  return makeQ(`From ${d} m from a ${h} m tower, find the angle of elevation to the top.`, [`tan θ = ${h} ÷ ${d}`, `tan θ ≈ ${(h/d).toFixed(2)}`, `θ ≈ ${deg}°`], [`Elevation looks upward from horizontal.`, `Opposite is ${h} m; adjacent is ${d} m.`, `θ ≈ ${deg}°.`], "righttriangle", `📐 Elevation: opp=${h} m, adj=${d} m`, [`tan θ = O/A`, `O = ${h}`, `A = ${d}`], `Side note: elevation = UP; depression = DOWN.`);
-}
-
-function genTrig(rng, variant){
-  const [a, b, c] = pick(rng, [[3,4,5],[6,8,10],[5,12,13],[8,15,17]]);
-  const mode = variant % 3;
-  if(mode === 0){
-    return makeQ(`In a right triangle, opposite = ${a}, adjacent = ${b}, hypotenuse = ${c}. Find sin θ, cos θ, tan θ.`, [`sin θ = ${a}/${c} = ${(a/c).toFixed(2)}`, `cos θ = ${b}/${c} = ${(b/c).toFixed(2)}`, `tan θ = ${a}/${b} = ${(a/b).toFixed(2)}`], [`SOH: sin = Opp/Hyp.`, `CAH: cos = Adj/Hyp.`, `TOA: tan = Opp/Adj.`], "righttriangle", `📐 SOH CAH TOA (${a}, ${b}, ${c})`, [`SOH: O/H`, `CAH: A/H`, `TOA: O/A`], `Side check: ${a}² + ${b}² = ${c}².`);
-  }
-  if(mode === 1){
-    const ang = pick(rng, [30, 45, 60]);
-    const val = ang===30?"0.5":ang===45?"0.707":"0.866", cosVal = ang===30?"0.866":ang===45?"0.707":"0.5";
-    return makeQ(`Find sin ${ang}° and cos ${ang}°, and state their complementary angle relation.`, [`sin ${ang}° = ${val}`, `cos ${ang}° = ${cosVal}`, `sin ${ang}° = cos(${90-ang}°)`], [`Special angles 30°, 45°, 60° are standard exam values.`, `Complementary angles sum to 90°.`, `sin θ = cos(90° − θ).`], "triangle", `📐 Special Angle ${ang}°`, [`θ = ${ang}°`, `90°−θ = ${90-ang}°`, `Complementary`], `Side check: sin²θ + cos²θ = 1.`);
-  }
-  const x = rInt(rng, 2, 7), y = rInt(rng, 2, 7), hyp = Math.hypot(x, y).toFixed(2);
-  return makeQ(`If tan θ = ${x}/${y} for acute θ, find sin θ (2 d.p.).`, [`hyp = √(${x}² + ${y}²) ≈ ${hyp}`, `sin θ = ${x} ÷ ${hyp}`, `sin θ ≈ ${(x / Math.hypot(x,y)).toFixed(2)}`], [`tan θ = Opp/Adj gives ${x} and ${y}.`, `Find hypotenuse using Pythagoras.`, `sin θ = Opp/Hyp.`], "righttriangle", `📐 tan θ = ${x}/${y} → sin θ`, [`O=${x}, A=${y}`, `H=${hyp}`, `sin=O/H`], `Side check: tan θ = sin θ / cos θ.`);
+  const a = rInt(rng, 2, 4), b = rInt(rng, 3, 5), c = rInt(rng, 4, 6);
+  const totParts = a + b + c;
+  const unit = 180 / totParts;
+  if(!Number.isInteger(unit)) return genGeometry(rng, variant + 1);
+  return makeQ(
+    `The interior angles of a triangle are in the ratio ${a} : ${b} : ${c}. Find the size of each angle and classify the triangle.`,
+    [
+      `Sum of ratio parts = ${a} + ${b} + ${c} = ${totParts} parts`,
+      `1 part = 180° ÷ ${totParts} = ${unit}°`,
+      `Angles: ${a*unit}°, ${b*unit}°, and ${c*unit}°`,
+      `Largest angle ${c*unit}° ${c*unit > 90 ? "> 90° (Obtuse-angled)" : c*unit === 90 ? "= 90° (Right-angled)" : "< 90° (Acute-angled)"}`
+    ],
+    [
+      `The three interior angles of every Euclidean triangle sum to 180°. First add the ratio parts together: ${a} + ${b} + ${c} = ${totParts}.`,
+      `Divide 180° equally among the ${totParts} parts so each single part represents ${unit}°.`,
+      `Multiply each ratio number by ${unit}° to obtain the three angles: ${a*unit}°, ${b*unit}°, and ${c*unit}°.`,
+      `Check the largest angle (${c*unit}°) against 90° to classify the triangle accurately.`
+    ],
+    "triangle", `🔺 Triangle Ratio ${a} : ${b} : ${c} (Sum = 180°)`,
+    [`${a*unit}° + ${b*unit}° + ${c*unit}° = 180°`],
+    `Pause and check: always add the three angles at the end to confirm their sum is 180°.`
+  );
 }
 
 function genCircles(rng, variant){
   const kind = variant % 3;
   if(kind === 0){
-    const circAng = rInt(rng, 25, 80);
-    return makeQ(`Arc subtends ${circAng}° at circumference. Find angle at centre.`, [`Centre = 2 × circumference`, `= 2 × ${circAng}°`, `= ${2*circAng}°`], [`Angle at centre is twice angle at circumference on same arc.`, `Multiply ${circAng}° by 2.`, `Answer is ${2*circAng}°.`], "circle", `⭕ Centre = 2 × Circumference`, [`Centre=2×Circ`, `2 × ${circAng}°`, `= ${2*circAng}°`], `Side check: circumference angle is half of centre.`);
+    const circAng = rInt(rng, 32, 68);
+    const centreAng = 2 * circAng;
+    const reflexAng = 360 - centreAng;
+    const cyclicOpp = 180 - circAng;
+    return makeQ(
+      `Points A, B, C, D lie on a circle with centre O. If ∠ABC = ${circAng}°, find (a) obtuse/acute ∠AOC at the centre, and (b) ∠ADC.`,
+      [
+        `Angle at centre = 2 × angle at circumference on same arc AC`,
+        `∠AOC = 2 × ${circAng}° = ${centreAng}°`,
+        `ABCD is a cyclic quadrilateral ⇒ ∠ABC + ∠ADC = 180°`,
+        `∠ADC = 180° − ${circAng}° = ${cyclicOpp}°`
+      ],
+      [
+        `Both ∠AOC (at centre O) and ∠ABC (at circumference B) stand on the same minor arc AC. By Circle Theorem 1, the centre angle is twice the circumference angle: ${centreAng}°.`,
+        `Notice that all four vertices A, B, C, and D touch the circle, forming a cyclic quadrilateral.`,
+        `Opposite angles of a cyclic quadrilateral are supplementary (add up to 180°), so ∠ADC = 180° − ${circAng}° = ${cyclicOpp}°.`
+      ],
+      "circle", `⭕ Circle Theorems: Centre = 2×Circ & Cyclic Quad = 180°`,
+      [`Reflex ∠AOC = 360° − ${centreAng}° = ${reflexAng}°`],
+      `Pause and note: reflex ∠AOC (${reflexAng}°) is also twice ∠ADC (${cyclicOpp}°)—the theorem works in both directions!`
+    );
   }
   if(kind === 1){
-    const ang1 = rInt(rng, 22, 65), ang2 = 90 - ang1;
-    return makeQ(`AB is diameter of circle, C on circumference. If ∠BAC = ${ang1}°, find ∠ABC.`, [`Angle in semicircle = 90°`, `∠ABC = 180° − 90° − ${ang1}°`, `∠ABC = ${ang2}°`], [`Diameter subtends 90° at circumference.`, `Triangle angles sum to 180°.`, `∠ABC = ${ang2}°.`], "circle", `⭕ Semicircle Angle = 90°`, [`∠ACB = 90°`, `90° − ${ang1}°`, `= ${ang2}°`], `Side check: ${ang1}° + ${ang2}° + 90° = 180°.`);
+    const r = pick(rng, [5, 7, 8, 9]), d = pick(rng, [13, 25, 17, 15]);
+    const tSq = d*d - r*r;
+    const t = Math.sqrt(tSq);
+    if(!Number.isInteger(t)) return genCircles(rng, variant + 1);
+    return makeQ(
+      `A tangent from an external point P touches a circle of radius ${r} cm at T. If the distance from P to the centre O is ${d} cm, calculate the length of tangent PT.`,
+      [
+        `Radius OT ⊥ Tangent PT at point of contact T (∠OTP = 90°)`,
+        `In right-angled ΔOTP, OP is hypotenuse (${d} cm)`,
+        `PT² = OP² − OT² = ${d}² − ${r}² = ${d*d} − ${r*r} = ${tSq}`,
+        `PT = √${tSq} = ${t} cm`
+      ],
+      [
+        `A fundamental tangent theorem states that a tangent to a circle is always perpendicular (90°) to the radius drawn to the point of contact.`,
+        `This creates a right-angled triangle OTP where the line OP from centre to external point is the hypotenuse.`,
+        `Apply Pythagoras' theorem: subtract the square of the radius (${r*r}) from the square of the hypotenuse (${d*d}) to get ${tSq}.`,
+        `Taking the positive square root gives tangent length PT = ${t} cm.`
+      ],
+      "circle", `⭕ Tangent ⊥ Radius (∠OTP = 90°)`,
+      [`Pythagoras: PT² + r² = OP²`],
+      `Pause and remember: the 90° angle is ALWAYS at the point where the tangent touches the circle, never at the centre.`
+    );
   }
-  const opp = rInt(rng, 65, 130);
-  return makeQ(`In cyclic quadrilateral PQRS, ∠P = ${opp}°. Find opposite angle ∠R.`, [`Opposite angles of cyclic quad = 180°`, `∠R = 180° − ${opp}°`, `∠R = ${180 - opp}°`], [`Opposite angles of a cyclic quadrilateral sum to 180°.`, `Subtract ${opp}° from 180°.`, `∠R = ${180 - opp}°.`], "circle", `⭕ Cyclic Quad: ∠P + ∠R = 180°`, [`Cyclic quad`, `180° − ${opp}°`, `= ${180-opp}°`], `Side check: ${opp}° + ${180-opp}° = 180°.`);
+  const chordAng = rInt(rng, 38, 72);
+  return makeQ(
+    `Line SAT is a tangent to a circle at A, and AB is a chord. If ∠BAT = ${chordAng}° and C is a point on the major arc AB, find ∠ACB.`,
+    [
+      `By Alternate Segment Theorem:`,
+      `Angle between tangent AT and chord AB = Angle in alternate segment`,
+      `∠ACB = ∠BAT = ${chordAng}°`
+    ],
+    [
+      `Look at the chord AB dividing the circle into two segments: a minor segment on the side of tangent AT and a major segment containing C.`,
+      `The Alternate Segment Theorem proves that the angle between a tangent and a chord equals the angle subtended by that chord in the opposite (alternate) segment.`,
+      `Therefore ∠ACB equals ${chordAng}° directly.`
+    ],
+    "circle", `⭕ Alternate Segment Theorem: ∠BAT = ∠ACB = ${chordAng}°`,
+    [`Tangent-Chord Angle = Inscribed Angle`],
+    `Pause to see why: drawing a diameter through A and using the 90° radius-tangent rule proves both angles equal 90° minus the same angle.`
+  );
+}
+
+function genMensuration(rng, variant){
+  const m = variant % 3;
+  if(m === 0){
+    const r = pick(rng, [7, 14, 21]), theta = pick(rng, [60, 90, 120, 150]);
+    const arc = ((theta / 360) * 2 * (22 / 7) * r).toFixed(2).replace(/\.00$/, "");
+    const area = ((theta / 360) * (22 / 7) * r * r).toFixed(2).replace(/\.00$/, "");
+    const perim = (Number(arc) + 2 * r).toFixed(2).replace(/\.00$/, "");
+    return makeQ(
+      `A sector of a circle of radius ${r} cm subtends an angle of ${theta}° at the centre. Taking π = 22/7, find (a) the arc length, (b) perimeter of the sector, and (c) area of the sector.`,
+      [
+        `Fraction of full circle = ${theta}° ÷ 360°`,
+        `Arc length L = (${theta}/360) × 2 × (22/7) × ${r} = ${arc} cm`,
+        `Perimeter of sector = L + 2r = ${arc} + 2(${r}) = ${perim} cm`,
+        `Area of sector = (${theta}/360) × (22/7) × ${r}² = ${area} cm²`
+      ],
+      [
+        `A sector is simply a slice of a circle whose fraction of the whole circle is θ / 360°.`,
+        `Multiply that fraction by the full circumference 2πr to get the curved arc length ${arc} cm.`,
+        `Students often forget that a sector's perimeter includes BOTH straight radii as well as the curved arc: ${arc} + ${2*r} = ${perim} cm.`,
+        `Multiply the same fraction θ/360° by the full circle area πr² to obtain ${area} cm².`
+      ],
+      "circle", `🍕 Sector: r = ${r} cm, Angle θ = ${theta}°`,
+      [`Perimeter of Sector = Arc + 2r`],
+      `Pause and watch out for this exam trap: arc length is only the curved edge, whereas perimeter adds the two radii!`
+    );
+  }
+  if(m === 1){
+    const r = pick(rng, [7, 14]), h = rInt(rng, 10, 20);
+    const vol = (22 / 7) * r * r * h;
+    const csa = 2 * (22 / 7) * r * h;
+    const tsa = csa + 2 * (22 / 7) * r * r;
+    return makeQ(
+      `A closed solid cylinder has base radius ${r} cm and height ${h} cm. Using π = 22/7, calculate its (a) volume and (b) total surface area.`,
+      [
+        `Volume = πr²h = (22/7) × ${r}² × ${h} = ${vol} cm³`,
+        `Curved Surface Area (CSA) = 2πrh = 2 × (22/7) × ${r} × ${h} = ${csa} cm²`,
+        `Two circular ends = 2πr² = 2 × (22/7) × ${r}² = ${2*(22/7)*r*r} cm²`,
+        `Total Surface Area = ${csa} + ${2*(22/7)*r*r} = ${tsa} cm²`
+      ],
+      [
+        `A cylinder is a circular prism, so its volume equals base area (πr²) multiplied by vertical height (h), giving ${vol} cm³.`,
+        `If you unroll the curved wall of a cylinder, it forms a rectangle of width 2πr and height h, giving curved area ${csa} cm².`,
+        `Because the cylinder is CLOSED at both top and bottom, add the areas of both circular ends (2πr²).`,
+        `Summing curved wall and both ends gives total surface area ${tsa} cm².`
+      ],
+      "cube", `🛢️ Closed Cylinder: r = ${r} cm, h = ${h} cm`,
+      [`TSA (Closed) = 2πrh + 2πr²`],
+      `Pause and check whether a question says "open at one end" (only one πr²) or "closed" (two πr²).`
+    );
+  }
+  const r = pick(rng, [7, 14]), h = 24;
+  const l = Math.hypot(r, h);
+  const csa = ((22 / 7) * r * l).toFixed(1).replace(/\.0$/, "");
+  const vol = ((1 / 3) * (22 / 7) * r * r * h).toFixed(1).replace(/\.0$/, "");
+  return makeQ(
+    `A right circular cone has base radius ${r} cm and perpendicular height ${h} cm. Find (a) its slant height l, (b) curved surface area, and (c) volume (π = 22/7).`,
+    [
+      `Slant height l = √(r² + h²) = √(${r}² + ${h}²) = √${r*r + h*h} = ${l} cm`,
+      `Curved Surface Area = πrl = (22/7) × ${r} × ${l} = ${csa} cm²`,
+      `Volume = ⅓πr²h = ⅓ × (22/7) × ${r}² × ${h} = ${vol} cm³`
+    ],
+    [
+      `Inside a right cone, the vertical height h, base radius r, and slant edge l form a right-angled triangle, so l = √(r² + h²) = ${l} cm.`,
+      `Curved surface area uses the slant height l in πrl, giving ${csa} cm².`,
+      `Volume uses the perpendicular height h and is one-third of a cylinder of the same base and height: ${vol} cm³.`
+    ],
+    "triangle", `🍦 Cone: r = ${r} cm, h = ${h} cm, l = ${l} cm`,
+    [`l² = r² + h²  |  Vol = ⅓πr²h`],
+    `Pause and notice: slant height l is used for surface area, while vertical height h is used for volume.`
+  );
+}
+
+function genBearings(rng, variant){
+  const k = variant % 3;
+  if(k === 0){
+    const b = rInt(rng, 25, 155), pad = String(b).padStart(3, "0");
+    return makeQ(
+      `The bearing of town Q from town P is ${pad}°. Calculate the bearing of P from Q and express the direction in compass form.`,
+      [
+        `Rule: Always measure bearings clockwise from North (000°)`,
+        `Since ${pad}° < 180°, Back Bearing = ${b}° + 180° = ${b + 180}°`,
+        `Compass quadrant: ${b < 90 ? `N ${b}° E` : `S ${180 - b}° E`}`
+      ],
+      [
+        `Draw a North line at P and a parallel North line at Q. Alternate interior angles show the return angle turns past South (180°) by ${b}°.`,
+        `Whenever the forward bearing is less than 180°, add 180° to get the reverse bearing: ${b}° + 180° = ${b + 180}°.`,
+        `In acute compass notation, measure from North or South toward East or West.`
+      ],
+      "compass", `🧭 Bearing of Q from P = ${pad}° → Back Bearing = ${b + 180}°`,
+      [`Back Bearing = θ ± 180°`],
+      `Pause and visualize: North lines at P and Q are parallel, creating an alternate angle of ${b}° past South.`
+    );
+  }
+  if(k === 1){
+    const [nDist, eDist, hyp] = pick(rng, [[5, 12, 13], [8, 15, 17], [3, 4, 5], [6, 8, 10]]);
+    const deg = (Math.atan(eDist / nDist) * 180 / Math.PI).toFixed(1);
+    const padDeg = String(Math.round(Number(deg))).padStart(3, "0");
+    return makeQ(
+      `A boat sails ${nDist} km due North from port O to A, and then ${eDist} km due East to B. Calculate (a) distance OB, and (b) the three-figure bearing of B from O.`,
+      [
+        `North then East forms a 90° angle at A`,
+        `Distance OB = √(${nDist}² + ${eDist}²) = √${nDist*nDist + eDist*eDist} = ${hyp} km`,
+        `tan θ = Opposite ÷ Adjacent = ${eDist} ÷ ${nDist} = ${(eDist/nDist).toFixed(3)}`,
+        `θ ≈ ${deg}°  ⇒  Three-figure bearing ≈ ${padDeg}°`
+      ],
+      [
+        `Due North and due East are perpendicular, forming right-angled triangle OAB with right angle at A.`,
+        `Use Pythagoras' theorem to find the direct distance OB = ${hyp} km.`,
+        `The bearing of B from O is the clockwise angle from North at O, which is opposite the ${eDist} km East leg.`,
+        `Taking tan⁻¹(${eDist}/${nDist}) gives ${deg}°, written in 3-figure bearing notation as ${padDeg}°.`
+      ],
+      "compass", `🧭 Path: ${nDist} km North, ${eDist} km East → Bearing ${padDeg}°`,
+      [`Bearing is measured AT the 'from' point (O)`],
+      `Pause and check: always place your North arrow at the point mentioned after the word "from".`
+    );
+  }
+  const h = rInt(rng, 18, 42), ang = pick(rng, [30, 45, 60]);
+  const dist = ang === 45 ? `${h}` : ang === 30 ? `${(h * 1.732).toFixed(1)}` : `${(h / 1.732).toFixed(1)}`;
+  return makeQ(
+    `From the top of a vertical cliff ${h} m high, the angle of depression of a boat at sea is ${ang}°. Calculate the horizontal distance of the boat from the foot of the cliff.`,
+    [
+      `Angle of depression from top = Angle of elevation from boat = ${ang}° (Alternate angles)`,
+      `tan ${ang}° = Opposite ÷ Adjacent = ${h} ÷ d`,
+      `d = ${h} ÷ tan ${ang}° ≈ ${dist} m`
+    ],
+    [
+      `Angle of depression is measured downward from the horizontal eye-level at the top of the cliff, NOT from the vertical wall.`,
+      `By parallel horizontal lines (Z-shape), the angle of depression at the top equals the angle of elevation at the boat (${ang}°).`,
+      `In the right triangle, cliff height ${h} m is opposite ${ang}° and horizontal distance d is adjacent, so d = ${h} / tan ${ang}° ≈ ${dist} m.`
+    ],
+    "righttriangle", `📐 Depression ${ang}° = Elevation ${ang}°, Height = ${h} m`,
+    [`Horizontal || Ground → Alternate angles equal`],
+    `Pause and avoid this classic mistake: never put the angle of depression against the vertical cliff wall!`
+  );
+}
+
+function genTrig(rng, variant){
+  const mode = variant % 3;
+  if(mode === 0){
+    const [opp, adj, hyp] = pick(rng, [[3, 4, 5], [5, 12, 13], [8, 15, 17], [7, 24, 25]]);
+    return makeQ(
+      `Given that sin θ = ${opp}/${hyp} and θ is acute, find the exact value of (cos θ + tan θ) ÷ (1 − sin θ).`,
+      [
+        `sin θ = Opp/Hyp = ${opp}/${hyp} ⇒ Adj = √(${hyp}² − ${opp}²) = ${adj}`,
+        `cos θ = ${adj}/${hyp},   tan θ = ${opp}/${adj}`,
+        `Numerator = ${adj}/${hyp} + ${opp}/${adj} = ${(adj*adj + opp*hyp)}/${hyp*adj}`,
+        `Denominator = 1 − ${opp}/${hyp} = ${hyp - opp}/${hyp} ⇒ Value = ${((adj*adj + opp*hyp)/(adj*(hyp - opp))).toFixed(2)}`
+      ],
+      [
+        `Draw a right-angled triangle with opposite side ${opp} and hypotenuse ${hyp}, then use Pythagoras to find the adjacent side ${adj}.`,
+        `Read off cos θ = adjacent/hypotenuse and tan θ = opposite/adjacent directly from the triangle.`,
+        `Substitute these exact fractions into the expression and simplify numerator and denominator separately.`,
+        `Dividing gives the exact value.`
+      ],
+      "righttriangle", `📐 Right Triangle (${opp}, ${adj}, ${hyp})`,
+      [`SOH CAH TOA + Pythagoras`],
+      `Pause and note: drawing the right triangle avoids messy decimal rounding until the very end.`
+    );
+  }
+  if(mode === 1){
+    const b = rInt(rng, 6, 10), c = rInt(rng, 7, 12), angA = 60;
+    const aSq = b*b + c*c - b*c;
+    const aVal = Math.sqrt(aSq).toFixed(2);
+    return makeQ(
+      `In ΔABC, side b = ${b} cm, side c = ${c} cm, and included angle A = 60°. Use the Cosine Rule to calculate side a.`,
+      [
+        `Cosine Rule (SAS): a² = b² + c² − 2bc cos A`,
+        `a² = ${b}² + ${c}² − 2(${b})(${c}) cos 60°`,
+        `Since cos 60° = 0.5: a² = ${b*b} + ${c*c} − ${b*c} = ${aSq}`,
+        `a = √${aSq} ≈ ${aVal} cm`
+      ],
+      [
+        `Use the Cosine Rule whenever you know two sides and the included angle between them (SAS), or all three sides (SSS).`,
+        `Substitute b = ${b}, c = ${c}, and cos 60° = 1/2 into a² = b² + c² − 2bc cos A.`,
+        `Notice 2 × ${b} × ${c} × 0.5 simplifies cleanly to ${b*c}, giving a² = ${aSq}.`,
+        `Take the square root to obtain a ≈ ${aVal} cm.`
+      ],
+      "triangle", `🔺 Cosine Rule (SAS): b = ${b}, c = ${c}, ∠A = 60°`,
+      [`cos 60° = 0.5 = 1/2`],
+      `Pause and remember: if ∠A = 90°, cos 90° = 0 and the Cosine Rule reduces directly to Pythagoras' theorem!`
+    );
+  }
+  const a = rInt(rng, 8, 16), angA = 30, angB = 45;
+  const bVal = (a * Math.SQRT2).toFixed(2);
+  return makeQ(
+    `In ΔABC, a = ${a} cm, ∠A = 30°, and ∠B = 45°. Using the Sine Rule, find the length of side b (leave in surd and decimal form).`,
+    [
+      `Sine Rule: b ÷ sin B = a ÷ sin A`,
+      `b ÷ sin 45° = ${a} ÷ sin 30°`,
+      `b = (${a} × sin 45°) ÷ sin 30° = (${a} × √2/2) ÷ (1/2)`,
+      `b = ${a}√2 ≈ ${bVal} cm`
+    ],
+    [
+      `Use the Sine Rule whenever a known side lies directly opposite a known angle.`,
+      `Set up the proportion matching each side with the sine of its opposite angle.`,
+      `Substitute exact special-angle values: sin 30° = 1/2 and sin 45° = √2 / 2.`,
+      `The halves cancel cleanly, leaving b = ${a}√2 ≈ ${bVal} cm.`
+    ],
+    "triangle", `🔺 Sine Rule: a = ${a}, ∠A = 30°, ∠B = 45°`,
+    [`sin 30° = 1/2  |  sin 45° = √2 / 2`],
+    `Pause and see why: dividing by 1/2 is the same as multiplying by 2, which cancels the denominator of √2/2.`
+  );
 }
 
 function genCoordinates(rng, variant){
-  const x1 = rInt(rng, -4, 4), y1 = rInt(rng, -4, 4), dx = rInt(rng, 1, 5), dy = rInt(rng, -4, 6);
-  const x2 = x1 + dx, y2 = y1 + dy, k = variant % 3;
-  if(k === 0){
-    const m = (dy / dx).toFixed(2).replace(/\.00$/, "");
-    return makeQ(`Find the gradient of the line joining A(${x1}, ${y1}) and B(${x2}, ${y2}).`, [`m = (y₂ − y₁) ÷ (x₂ − x₁)`, `m = (${y2} − (${y1})) ÷ (${x2} − (${x1}))`, `m = ${dy} ÷ ${dx} = ${m}`], [`Gradient is change in y over change in x.`, `Δy = ${dy}, Δx = ${dx}.`, `m = ${m}.`], "axes", `📈 Gradient (${x1},${y1}) to (${x2},${y2})`, [`Δy = ${dy}`, `Δx = ${dx}`, `m = ${m}`], `Side note: rise over run.`);
-  }
-  if(k === 1){
-    const mx = ((x1 + x2) / 2).toFixed(1).replace(/\.0$/, ""), my = ((y1 + y2) / 2).toFixed(1).replace(/\.0$/, "");
-    return makeQ(`Find the midpoint of (${x1}, ${y1}) and (${x2}, ${y2}).`, [`Midpoint = ((x₁+x₂)/2, (y₁+y₂)/2)`, `x_mid = ${mx}, y_mid = ${my}`, `Midpoint = (${mx}, ${my})`], [`Average x-coordinates and average y-coordinates.`, `Sum x = ${x1+x2}, sum y = ${y1+y2}.`, `Midpoint is (${mx}, ${my}).`], "axes", `📈 Midpoint (${x1},${y1}) & (${x2},${y2})`, [`Avg x=${mx}`, `Avg y=${my}`, `(${mx},${my})`], `Side check: halfway between endpoints.`);
-  }
-  const m = rInt(rng, 2, 5), c = rInt(rng, -5, 6), signC = c >= 0 ? `+ ${c}` : `− ${Math.abs(c)}`;
-  return makeQ(`Find equation of line with gradient ${m} and y-intercept ${c}.`, [`y = mx + c`, `m = ${m}, c = ${c}`, `y = ${m}x ${signC}`], [`m is gradient; c is y-intercept.`, `Substitute directly into y = mx + c.`, `Equation is y = ${m}x ${signC}.`], "axes", `📈 Line y = ${m}x ${signC}`, [`m = ${m}`, `c = ${c}`, `y = mx+c`], `Side check: at x = 0, y = ${c}.`);
-}
-
-function genProbability(rng, variant){
-  const kind = variant % 3;
-  if(kind === 0){
-    const red = rInt(rng, 3, 9), blue = rInt(rng, 2, 8), green = rInt(rng, 1, 5), tot = red + blue + green;
-    return makeQ(`Bag has ${red} red, ${blue} blue, and ${green} green balls. Find P(red).`, [`Total = ${red} + ${blue} + ${green} = ${tot}`, `Red = ${red}`, `P(red) = ${red}/${tot}`], [`Probability = favourable ÷ total.`, `Total is ${tot}.`, `P(red) = ${red}/${tot}.`], "bag", `🎲 Bag: ${red}R, ${blue}B, ${green}G`, [`Fav=${red}`, `Tot=${tot}`, `P=${red}/${tot}`], `Side check: all probabilities sum to 1.`);
-  }
-  if(kind === 1){
-    const r = rInt(rng, 3, 7), b = rInt(rng, 3, 7), tot = r + b;
-    return makeQ(`Box has ${r} red and ${b} blue pens. Two picked WITHOUT replacement. Find P(both red).`, [`1st red: ${r}/${tot}`, `2nd red: ${r-1}/${tot-1}`, `P(both red) = (${r}/${tot}) × (${r-1}/${tot-1})`], [`Without replacement lowers count and total by 1.`, `Multiply probabilities for sequential events.`, `Result is (${r}×${r-1})/(${tot}×${tot-1}).`], "bag", `🎲 Without Replacement: ${r}R, ${b}B`, [`1st:${r}/${tot}`, `2nd:${r-1}/${tot-1}`, `Multiply`], `Side note: replacement would keep ${r}/${tot}.`);
-  }
-  const pEvent = rInt(rng, 1, 4), pDen = rInt(rng, 5, 10);
-  return makeQ(`If P(event) = ${pEvent}/${pDen}, find P(not event).`, [`P(A) = ${pEvent}/${pDen}`, `P(A') = 1 − ${pEvent}/${pDen}`, `= ${pDen - pEvent}/${pDen}`], [`Total probability equals 1.`, `Subtract P(A) from 1.`, `P(A') = ${pDen - pEvent}/${pDen}.`], "dice", `🎲 P(not A) = 1 − P(A)`, [`Total = 1`, `1 − ${pEvent}/${pDen}`, `= ${pDen-pEvent}/${pDen}`], `Side check: P(A) + P(A') = 1.`);
-}
-
-function genStatistics(rng, variant){
-  const n = rInt(rng, 4, 6), nums = Array.from({length:n}, ()=>rInt(rng, 2, 18));
-  const sum = nums.reduce((a,b)=>a+b, 0), mean = (sum / n).toFixed(2).replace(/\.00$/, "");
-  const sorted = [...nums].sort((a,b)=>a-b), mid = n % 2 === 1 ? sorted[Math.floor(n/2)] : ((sorted[n/2-1]+sorted[n/2])/2);
-  const mode = variant % 2 === 0 ? `Mean = ${mean}` : `Median = ${mid}`;
-  return makeQ(variant % 2 === 0 ? `Find the mean of: ${nums.join(", ")}.` : `Find the median of: ${nums.join(", ")}.`, variant % 2 === 0 ? [`Sum = ${sum}`, `Count = ${n}`, `Mean = ${sum} ÷ ${n} = ${mean}`] : [`Order: ${sorted.join(", ")}`, `Middle of ${n} items`, `Median = ${mid}`], variant % 2 === 0 ? [`Mean = sum ÷ count.`, `Sum is ${sum}, count is ${n}.`, `Mean = ${mean}.`] : [`Sort numbers in ascending order first.`, `Ordered: ${sorted.join(", ")}.`, `Median is ${mid}.`], "barchart", `📊 Statistics — ${mode}`, [`n = ${n}`, `Sum = ${sum}`, mode], `Side check: range = ${sorted[n-1] - sorted[0]}.`);
+  const x1 = rInt(rng, -3, 3), y1 = rInt(rng, -3, 4);
+  const dx = rInt(rng, 2, 5), m = pick(rng, [2, 3, -2]);
+  const x2 = x1 + dx, y2 = y1 + m * dx;
+  const c = y1 - m * x1;
+  const perpM = m > 0 ? `−1/${m}` : `1/${Math.abs(m)}`;
+  return makeQ(
+    `Line L passes through A(${x1}, ${y1}) and B(${x2}, ${y2}). Find (a) the gradient of L, (b) the equation of L, and (c) the gradient of a line perpendicular to L.`,
+    [
+      `Gradient m = (y₂ − y₁) ÷ (x₂ − x₁) = (${y2} − (${y1})) ÷ (${x2} − (${x1})) = ${m}`,
+      `Equation: y − y₁ = m(x − x₁)  ⇒  y − (${y1}) = ${m}(x − (${x1}))`,
+      `Simplify: y = ${m}x ${c >= 0 ? "+ " + c : "− " + Math.abs(c)}`,
+      `Perpendicular gradient m₂ = −1 ÷ m = ${perpM}`
+    ],
+    [
+      `Compute gradient m as vertical rise (y₂ − y₁) divided by horizontal run (x₂ − x₁), giving m = ${m}.`,
+      `Use the point-gradient formula y − y₁ = m(x − x₁) with point A(${x1}, ${y1}) and gradient ${m}.`,
+      `Expand the bracket and rearrange into slope-intercept form y = mx + c.`,
+      `Two non-vertical lines are perpendicular if and only if m₁ × m₂ = −1, so take the negative reciprocal ${perpM}.`
+    ],
+    "axes", `📈 Line through (${x1}, ${y1}) & (${x2}, ${y2}), m = ${m}`,
+    [`Parallel: m₁ = m₂  |  Perpendicular: m₁·m₂ = −1`],
+    `Pause and remember: perpendicular gradient flips the fraction AND changes its sign.`
+  );
 }
 
 function genCalculus(rng, variant){
-  const a = rInt(rng, 2, 6), b = rInt(rng, 2, 8), c = rInt(rng, 1, 9), kind = variant % 3;
+  const kind = variant % 3;
   if(kind === 0){
-    return makeQ(`Differentiate y = ${a}x³ + ${b}x² − ${c}x + 7.`, [`d/dx(${a}x³) = ${3*a}x²`, `d/dx(${b}x²) = ${2*b}x, d/dx(−${c}x) = −${c}`, `dy/dx = ${3*a}x² + ${2*b}x − ${c}`], [`Bring power down and subtract 1 from exponent.`, `Constant derivative is 0.`, `dy/dx = ${3*a}x² + ${2*b}x − ${c}.`], "none", "", [`d/dx(x^n)`, `= n·x^(n−1)`, `const → 0`], `Side rule: power drops by 1.`);
+    const r1 = rInt(rng, 1, 3), r2 = r1 + 2;
+    const bCoeff = -3 * (r1 + r2), cCoeff = 6 * r1 * r2, dConst = rInt(rng, 2, 9);
+    const y1 = 2*Math.pow(r1,3) - 3*(r1+r2)*r1*r1 + 6*r1*r2*r1 + dConst;
+    const y2 = 2*Math.pow(r2,3) - 3*(r1+r2)*r2*r2 + 6*r1*r2*r2 + dConst;
+    return makeQ(
+      `Find the stationary (turning) points of the curve y = 2x³ ${bCoeff >= 0 ? "+ "+bCoeff : "− "+Math.abs(bCoeff)}x² + ${cCoeff}x + ${dConst}, and distinguish between maximum and minimum.`,
+      [
+        `dy/dx = 6x² ${2*bCoeff >= 0 ? "+ "+2*bCoeff : "− "+Math.abs(2*bCoeff)}x + ${cCoeff} = 0`,
+        `Divide by 6: x² − ${r1+r2}x + ${r1*r2} = 0  ⇒  (x − ${r1})(x − ${r2}) = 0  ⇒  x = ${r1}, ${r2}`,
+        `d²y/dx² = 12x − ${6*(r1+r2)}: at x=${r1}, d²y/dx² < 0 (Max); at x=${r2}, d²y/dx² > 0 (Min)`,
+        `Turning points: (${r1}, ${y1}) [Max] and (${r2}, ${y2}) [Min]`
+      ],
+      [
+        `At any turning point, the tangent to the curve is horizontal, so set the first derivative dy/dx equal to zero.`,
+        `Divide through by 6 to simplify the quadratic equation, then factorise to locate stationary x-values x = ${r1} and x = ${r2}.`,
+        `Use the second derivative test d²y/dx²: where it is negative, the curve bends downward (local maximum); where positive, upward (local minimum).`,
+        `Substitute each x-value back into the original y equation to get the full coordinates.`
+      ],
+      "axes", `📈 Stationary Points where dy/dx = 0`,
+      [`d²y/dx² < 0 ⇒ Max  |  d²y/dx² > 0 ⇒ Min`],
+      `Pause and remember: negative second derivative means concave down (a peak / maximum).`
+    );
   }
   if(kind === 1){
-    const p = rInt(rng, 2, 5), q = rInt(rng, 2, 8);
-    return makeQ(`Evaluate ∫ (${p}x² + ${q}x + 3) dx.`, [`∫ ${p}x² dx = (${p}/3)x³`, `∫ ${q}x dx = (${q}/2)x², ∫ 3 dx = 3x`, `Result = (${p}/3)x³ + (${q}/2)x² + 3x + C`], [`Add 1 to power and divide by new power.`, `Add + C for constant of integration.`, `Final answer includes + C.`], "none", "", [`∫ x^n dx`, `= x^(n+1)/(n+1)`, `+ C`], `Side check: reverse of differentiation.`);
+    const upper = rInt(rng, 2, 4), a = 3, b = 2;
+    const val = Math.pow(upper, 3) + Math.pow(upper, 2);
+    return makeQ(
+      `Evaluate the definite integral ∫₀^${upper} (${a}x² + ${b}x) dx, which represents the area under y = ${a}x² + ${b}x from x = 0 to x = ${upper}.`,
+      [
+        `Integrate term-by-term: ∫ (${a}x² + ${b}x) dx = [${a}x³/3 + ${b}x²/2]₀^${upper}`,
+        `Simplify antiderivative: [x³ + x²]₀^${upper}`,
+        `Upper limit (${upper}) − Lower limit (0): (${upper}³ + ${upper}²) − (0³ + 0²)`,
+        `Area = ${Math.pow(upper,3)} + ${Math.pow(upper,2)} = ${val} square units`
+      ],
+      [
+        `Increase each power of x by 1 and divide by the new power: 3x² integrates to x³ and 2x integrates to x².`,
+        `In definite integration, the constant + C cancels out during subtraction, so we omit C and use square brackets with limits 0 and ${upper}.`,
+        `Evaluate the expression at the upper limit x = ${upper} first, then subtract its value at the lower limit x = 0.`,
+        `This gives the exact bounded area ${val} square units.`
+      ],
+      "axes", `📈 Area Under Curve = ∫₀^${upper} (3x² + 2x) dx`,
+      [`∫ₐᵇ f(x) dx = F(b) − F(a)`],
+      `Pause and note: always substitute the UPPER limit first before subtracting the LOWER limit.`
+    );
   }
-  const limA = rInt(rng, 2, 7);
-  return makeQ(`Find lim (x → ${limA}) (x² − ${limA*limA}) ÷ (x − ${limA}).`, [`Direct x = ${limA} gives 0/0`, `Factor: (x − ${limA})(x + ${limA}) ÷ (x − ${limA})`, `Cancel → lim (x + ${limA}) = ${2*limA}`], [`Factor difference of two squares to cancel (x − ${limA}).`, `Substitute x = ${limA} after cancelling.`, `Limit = ${2*limA}.`], "none", "", [`a²−b²`, `=(a−b)(a+b)`, `Cancel 0/0`], `Side check: ${limA} + ${limA} = ${2*limA}.`);
+  const limA = rInt(rng, 2, 6);
+  return makeQ(
+    `Evaluate lim (x → ${limA}) [(x² − ${limA*limA}) ÷ (x − ${limA})].`,
+    [
+      `Direct substitution x = ${limA} yields 0/0 (indeterminate form)`,
+      `Factorise numerator: x² − ${limA*limA} = (x − ${limA})(x + ${limA})`,
+      `Cancel common factor (x − ${limA}) for x ≠ ${limA} ⇒ lim (x → ${limA}) (x + ${limA})`,
+      `Substitute x = ${limA}: ${limA} + ${limA} = ${2*limA}`
+    ],
+    [
+      `Direct substitution produces 0/0, which tells us (x − ${limA}) is a shared zero factor in both numerator and denominator.`,
+      `Apply the difference of two squares identity a² − b² = (a − b)(a + b) to factor the numerator.`,
+      `Cancel the (x − ${limA}) factor to remove the discontinuity.`,
+      `Now substitute x = ${limA} smoothly into (x + ${limA}) to get ${2*limA}.`
+    ],
+    "none", "",
+    [`a² − b² = (a − b)(a + b)`],
+    `Pause to see why: cancelling (x − ${limA}) removes the 0/0 hole so the limit can be evaluated directly.`
+  );
 }
 
 function genLogarithms(rng, variant){
-  const base = pick(rng, [2, 3, 5, 10]), exp = rInt(rng, 2, 4), val = Math.pow(base, exp);
   if(variant % 2 === 0){
-    return makeQ(`Evaluate log_${base}(${val}).`, [`${base}^? = ${val}`, `${base}^${exp} = ${val}`, `log_${base}(${val}) = ${exp}`], [`Logarithm asks what power of ${base} gives ${val}.`, `${base}^${exp} = ${val}.`, `Answer is ${exp}.`], "none", "", [`log_b(b^k)=k`, `Base=${base}`, `Exp=${exp}`], `Side check: ${base}^${exp} = ${val}.`);
+    const base = pick(rng, [2, 3, 5]);
+    const k = rInt(rng, 2, 4);
+    const rhs = Math.pow(base, k);
+    return makeQ(
+      `Solve the logarithmic equation: log_${base}(x + 1) + log_${base}(x − 1) = log_${base}(${rhs - 1}).`,
+      [
+        `Product Law: log_${base}[(x + 1)(x − 1)] = log_${base}(${rhs - 1})`,
+        `Equate arguments: x² − 1 = ${rhs - 1}  ⇒  x² = ${rhs}`,
+        `x = ±${Math.sqrt(rhs).toFixed(2).replace(/\.00$/,"")}`,
+        `Reject negative root since log of negative is undefined ⇒ x = ${Math.sqrt(rhs).toFixed(2).replace(/\.00$/,"")}`
+      ],
+      [
+        `Combine the sum of two logarithms with the same base into a single logarithm by multiplying their arguments.`,
+        `Since both sides are single base-${base} logarithms, their arguments must be equal: (x + 1)(x − 1) = x² − 1.`,
+        `Solve the resulting quadratic equation for x.`,
+        `Always check domain restrictions: logarithms are only defined for strictly positive arguments, so discard any root making x − 1 ≤ 0.`
+      ],
+      "none", "",
+      [`log_a M + log_a N = log_a(MN)`],
+      `Pause and remember this vital check: always reject solutions that make the inside of a logarithm zero or negative!`
+    );
   }
-  const x = rInt(rng, 2, 5), rhs = x + 3, ans = Math.pow(base, rhs) - 3;
-  return makeQ(`Solve for x: log_${base}(x + 3) = ${rhs}.`, [`x + 3 = ${base}^${rhs}`, `x + 3 = ${Math.pow(base, rhs)}`, `x = ${ans}`], [`Convert from log form to index form.`, `Subtract 3 to solve for x.`, `x = ${ans}.`], "none", "", [`log_a M=N`, `⇔ M=a^N`, `x=${ans}`], `Side check: (${ans}) + 3 = ${Math.pow(base, rhs)}.`);
+  const n = rInt(rng, 2, 5);
+  return makeQ(
+    `Given that log₁₀ 2 = 0.3010 and log₁₀ 3 = 0.4771, evaluate log₁₀(${Math.pow(2,n)*3}) without using tables or calculator.`,
+    [
+      `Prime factorise ${Math.pow(2,n)*3} = 2^${n} × 3`,
+      `log₁₀(2^${n} × 3) = ${n} log₁₀ 2 + log₁₀ 3`,
+      `= ${n}(0.3010) + 0.4771 = ${(n*0.3010).toFixed(4)} + 0.4771`,
+      `= ${(n*0.3010 + 0.4771).toFixed(4)}`
+    ],
+    [
+      `Break ${Math.pow(2,n)*3} into prime factors involving only 2 and 3 so we can use the given log values.`,
+      `Apply the product law (addition) and power law (bring exponent ${n} to the front).`,
+      `Multiply ${n} × 0.3010 and add 0.4771 carefully.`,
+      `Final answer is ${(n*0.3010 + 0.4771).toFixed(4)}.`
+    ],
+    "none", "",
+    [`log(a^n · b) = n log a + log b`],
+    `Pause and see the strategy: express the target number using only factors whose logs are given.`
+  );
 }
 
 function genIndices(rng, variant){
-  const b = rInt(rng, 2, 6), m = rInt(rng, 2, 5), n = rInt(rng, 2, 4), mode = variant % 3;
-  if(mode === 0){
-    return makeQ(`Simplify ${b}^${m} × ${b}^${n}.`, [`Same base = ${b}`, `Add powers: ${m} + ${n} = ${m+n}`, `Answer = ${b}^${m+n}`], [`Multiplying same base adds indices.`, `${m} + ${n} = ${m+n}.`, `Result: ${b}^${m+n}.`], "none", "", [`a^m×a^n`, `=a^(m+n)`, `Add powers`], `Side proof: total copies = ${m+n}.`);
-  }
-  if(mode === 1){
-    const big = m + n;
-    return makeQ(`Simplify ${b}^${big} ÷ ${b}^${n}.`, [`Same base = ${b}`, `Subtract powers: ${big} − ${n} = ${m}`, `Answer = ${b}^${m}`], [`Dividing same base subtracts indices.`, `${big} − ${n} = ${m}.`, `Result: ${b}^${m}.`], "none", "", [`a^m÷a^n`, `=a^(m−n)`, `Sub powers`], `Side check: ${b}^${m} × ${b}^${n} = ${b}^${big}.`);
-  }
-  const sq = rInt(rng, 3, 12);
-  return makeQ(`Simplify √(${sq*sq}) + ${b}⁰.`, [`√(${sq*sq}) = ${sq}`, `${b}⁰ = 1`, `Sum = ${sq} + 1 = ${sq+1}`], [`√(${sq*sq}) = ${sq}; any non-zero power 0 is 1.`, `Add ${sq} + 1.`, `Answer is ${sq+1}.`], "none", "", [`√(k²)=k`, `a⁰ = 1`, `Sum=${sq+1}`], `Side note: a⁰ = a^(n−n) = 1.`);
-}
-
-function genFunctions(rng, variant){
-  const a = rInt(rng, 2, 6), b = rInt(rng, 1, 9), x = rInt(rng, 1, 6);
   if(variant % 2 === 0){
-    return makeQ(`If f(x) = ${a}x + ${b}, find f(${x}).`, [`Sub x = ${x}`, `f(${x}) = ${a}(${x}) + ${b}`, `= ${a*x + b}`], [`Replace x with ${x}.`, `Multiply before adding.`, `f(${x}) = ${a*x + b}.`], "none", "", [`f(x)=${a}x+${b}`, `Sub x=${x}`, `=${a*x+b}`], `Side check: ${a}×${x} + ${b} = ${a*x+b}.`);
+    const base = pick(rng, [2, 3, 5]);
+    const exp = rInt(rng, 3, 5);
+    const val = Math.pow(base, exp);
+    return makeQ(
+      `Solve the exponential (indicial) equation: ${base}^(2x − 1) = ${val}.`,
+      [
+        `Express ${val} as a power of base ${base}: ${val} = ${base}^${exp}`,
+        `Rewrite equation: ${base}^(2x − 1) = ${base}^${exp}`,
+        `Same base on both sides ⇒ Equate exponents: 2x − 1 = ${exp}`,
+        `2x = ${exp + 1}  ⇒  x = ${(exp + 1)/2}`
+      ],
+      [
+        `To solve an equation where the unknown is in the exponent, rewrite both sides with the exact same prime base (${base}).`,
+        `Since ${base}^${exp} = ${val}, the bases now match on left and right.`,
+        `Because exponential functions are one-to-one, equal bases force the powers to be equal: 2x − 1 = ${exp}.`,
+        `Solve the linear equation to obtain x = ${(exp + 1)/2}.`
+      ],
+      "none", "",
+      [`If a^m = a^n (a > 0, a ≠ 1), then m = n`],
+      `Pause and note: matching the base turns a hard exponential equation into a simple linear equation.`
+    );
   }
-  return makeQ(`Find inverse f⁻¹(x) if f(x) = ${a}x − ${b}.`, [`y = ${a}x − ${b}`, `x = ${a}y − ${b} → ${a}y = x + ${b}`, `f⁻¹(x) = (x + ${b}) ÷ ${a}`], [`Swap x and y and isolate y.`, `Add ${b}, divide by ${a}.`, `f⁻¹(x) = (x + ${b})/${a}.`], "none", "", [`y=${a}x−${b}`, `Undo −${b}`, `Divide by ${a}`], `Side check: f(f⁻¹(x)) = x.`);
+  const a = rInt(rng, 2, 5), k = pick(rng, [2, 3, 5]);
+  return makeQ(
+    `Rationalise the denominator and simplify: ${a * k} ÷ (√${k} + 1)  [or simplify ${a * k} ÷ √${k}]. Let us rationalise ${a * k} ÷ √${k}.`,
+    [
+      `Multiply numerator and denominator by √${k}:`,
+      `= (${a * k} × √${k}) ÷ (√${k} × √${k})`,
+      `Since √${k} × √${k} = ${k}: = (${a * k}√${k}) ÷ ${k}`,
+      `Cancel ${k}: = ${a}√${k}`
+    ],
+    [
+      `Standard mathematical form requires denominators to be rational numbers without square roots.`,
+      `Multiply top and bottom by √${k} (which equals multiplying by 1, so value stays unchanged).`,
+      `In the denominator, √${k} × √${k} simplifies cleanly to the integer ${k}.`,
+      `Divide ${a*k} by ${k} to finish with ${a}√${k}.`
+    ],
+    "none", "",
+    [`√a × √a = a`],
+    `Pause to understand why: multiplying top and bottom by the same expression multiplies by 1, preserving value while clearing the root.`
+  );
 }
 
 function genPolynomials(rng, variant){
-  const r1 = rInt(rng, 1, 6), r2 = rInt(rng, 1, 6), b = -(r1 + r2), c = r1 * r2, bStr = b >= 0 ? `+ ${b}x` : `− ${Math.abs(b)}x`;
-  if(variant % 2 === 0){
-    return makeQ(`Factorise: x² ${bStr} + ${c}.`, [`Product = +${c}, sum = ${b}`, `Factors: −${r1} and −${r2}`, `Answer = (x − ${r1})(x − ${r2})`], [`Find two numbers multiplying to +${c} and adding to ${b}.`, `They are −${r1} and −${r2}.`, `(x − ${r1})(x − ${r2}).`], "none", "", [`Prod=+${c}`, `Sum=${b}`, `−${r1}, −${r2}`], `Side check: expand to verify.`);
-  }
-  const k = rInt(rng, 1, 5), xVal = rInt(rng, 2, 4), rem = xVal*xVal + k*xVal + c;
-  return makeQ(`Find remainder when x² + ${k}x + ${c} is divided by (x − ${xVal}).`, [`Set x − ${xVal} = 0 → x = ${xVal}`, `P(${xVal}) = (${xVal})² + ${k}(${xVal}) + ${c}`, `Remainder = ${rem}`], [`Remainder Theorem: substitute root x = ${xVal}.`, `Evaluate polynomial at ${xVal}.`, `Remainder is ${rem}.`], "none", "", [`Divisor x−${xVal}`, `Sub x=${xVal}`, `Rem=${rem}`], `Side note: remainder 0 means exact factor.`);
+  const a = rInt(rng, 1, 3), k = rInt(rng, 2, 6), c = rInt(rng, 1, 8), r = rInt(rng, 1, 3);
+  const rem = a * Math.pow(r, 3) - k * r + c;
+  return makeQ(
+    `When the polynomial P(x) = ${a}x³ − ${k}x + ${c} is divided by (x − ${r}), find the remainder using the Remainder Theorem.`,
+    [
+      `Set divisor equal to zero: x − ${r} = 0  ⇒  x = ${r}`,
+      `By Remainder Theorem, Remainder R = P(${r})`,
+      `R = ${a}(${r})³ − ${k}(${r}) + ${c} = ${a*Math.pow(r,3)} − ${k*r} + ${c}`,
+      `Remainder R = ${rem}`
+    ],
+    [
+      `Instead of performing full polynomial long division, the Remainder Theorem lets us find the remainder immediately.`,
+      `Find the root of the linear divisor (x − ${r}) by setting it to zero, giving x = ${r}.`,
+      `Substitute x = ${r} into every x in P(x) and evaluate carefully.`,
+      `The resulting value ${rem} is the exact remainder (and if it were 0, (x − ${r}) would be a factor).`
+    ],
+    "none", "",
+    [`Remainder when P(x) ÷ (x − a) is P(a)`],
+    `Pause and connect both theorems: the Factor Theorem is simply the special case where P(a) = 0.`
+  );
 }
 
 function genPartialFractions(rng, variant){
-  const a = rInt(rng, 1, 4), b = rInt(rng, 1, 4), numA = rInt(rng, 2, 6), numB = rInt(rng, 1, 5);
-  return makeQ(`Express (${numA}x + ${numB}) ÷ [(x + ${a})(x + ${b})] in partial fractions.`, [`= A/(x + ${a}) + B/(x + ${b})`, `Cover-up x = −${a} for A`, `Cover-up x = −${b} for B`], [`Assign separate denominators to distinct linear factors.`, `Use cover-up method to find constants A and B.`, `Write decomposed sum.`], "none", "", [`A/(x+${a})`, `+ B/(x+${b})`, `Cover-up`], `Side check: combine fractions back.`);
+  const a = rInt(rng, 1, 3), b = a + rInt(rng, 2, 4);
+  const A = rInt(rng, 2, 5), B = rInt(rng, 1, 4);
+  const numX = A + B, numC = A * b - B * a;
+  return makeQ(
+    `Resolve into partial fractions: (${numX}x ${numC >= 0 ? "+ "+numC : "− "+Math.abs(numC)}) ÷ [(x − ${a})(x + ${b})].`,
+    [
+      `Write identity: (${numX}x ${numC >= 0 ? "+ "+numC : "− "+Math.abs(numC)}) ÷ [(x−${a})(x+${b})] ≡ A/(x−${a}) + B/(x+${b})`,
+      `Multiply through: ${numX}x ${numC >= 0 ? "+ "+numC : "− "+Math.abs(numC)} = A(x + ${b}) + B(x − ${a})`,
+      `Put x = ${a}: ${numX*a + numC} = A(${a + b}) ⇒ A = ${A}  |  Put x = −${b}: ${-numX*b + numC} = B(−${a+b}) ⇒ B = ${B}`,
+      `Result = ${A}/(x − ${a}) + ${B}/(x + ${b})`
+    ],
+    [
+      `Because the denominator has two distinct linear factors, split the fraction into A/(x − ${a}) + B/(x + ${b}).`,
+      `Clear denominators by multiplying both sides by (x − ${a})(x + ${b}).`,
+      `Choose strategic substitution values x = ${a} and x = −${b} to zero out one bracket at a time and solve for A and B cleanly.`,
+      `Write the final decomposed sum of simpler fractions.`
+    ],
+    "none", "",
+    [`Strategic substitution eliminates one unknown`],
+    `Pause and check: combining ${A}/(x−${a}) + ${B}/(x+${b}) over a common denominator gives back the original fraction.`
+  );
 }
 
-function genFractionsRatio(rng, variant){
-  const pct = pick(rng, [10, 15, 20, 25, 30, 40]), amt = rInt(rng, 4, 20) * 100;
-  if(variant % 3 === 0){
-    return makeQ(`Find ${pct}% of ₦${amt}.`, [`${pct}% = ${pct}/100`, `(${pct}/100) × ₦${amt}`, `= ₦${(pct/100)*amt}`], [`Percent means out of 100.`, `Multiply ${pct}/100 by ₦${amt}.`, `Answer: ₦${(pct/100)*amt}.`], "none", "", [`${pct}%=${pct}/100`, `× ₦${amt}`, `=₦${(pct/100)*amt}`], `Side check: find 10% first.`);
-  }
-  if(variant % 3 === 1){
-    const p = rInt(rng, 2, 10) * 1000, r = rInt(rng, 4, 10), t = rInt(rng, 1, 4), si = (p * r * t) / 100;
-    return makeQ(`Find simple interest on ₦${p} at ${r}% for ${t} year(s).`, [`SI = (P × R × T) ÷ 100`, `SI = (${p} × ${r} × ${t}) ÷ 100`, `SI = ₦${si}`], [`Simple interest = PRT ÷ 100.`, `Substitute P=${p}, R=${r}, T=${t}.`, `SI = ₦${si}.`], "none", "", [`SI=PRT/100`, `P=₦${p}`, `SI=₦${si}`], `Side note: Amount = Principal + SI.`);
-  }
-  const g = rInt(rng, 2, 7), r1 = rInt(rng, 2, 5), r2 = rInt(rng, 3, 7);
-  return makeQ(`Simplify ratio ${r1*g} : ${r2*g}.`, [`Common factor = ${g}`, `Divide both by ${g}`, `Ratio = ${r1} : ${r2}`], [`Divide both parts by highest common factor ${g}.`, `${r1*g}÷${g}=${r1}, ${r2*g}÷${g}=${r2}.`, `Answer: ${r1} : ${r2}.`], "none", "", [`HCF=${g}`, `÷${g} both`, `${r1}:${r2}`], `Side check: multiply back by ${g}.`);
-}
-
-function genVectors(rng, variant){
-  const ax = rInt(rng, -4, 6), ay = rInt(rng, -4, 6), bx = rInt(rng, -4, 6), by = rInt(rng, -4, 6);
+function genEquations(rng, variant){
   if(variant % 2 === 0){
-    return makeQ(`If a = (${ax}, ${ay}) and b = (${bx}, ${by}), find a + b.`, [`x: ${ax} + (${bx}) = ${ax+bx}`, `y: ${ay} + (${by}) = ${ay+by}`, `a + b = (${ax+bx}, ${ay+by})`], [`Add x-components together and y-components together.`, `x gives ${ax+bx}, y gives ${ay+by}.`, `Vector is (${ax+bx}, ${ay+by}).`], "arrow", `➡️ Vector Sum: (${ax},${ay}) + (${bx},${by})`, [`x:${ax+bx}`, `y:${ay+by}`, `Add parts`], `Side rule: add matching components.`);
+    const r1 = rInt(rng, 2, 6), r2 = rInt(rng, 1, 5);
+    const b = -(r1 + r2), c = r1 * r2;
+    return makeQ(
+      `Solve the quadratic equation x² − ${r1+r2}x + ${c} = 0 by factorisation, and find the sum and product of its roots.`,
+      [
+        `Find two numbers whose product is +${c} and sum is −${r1+r2}: −${r1} and −${r2}`,
+        `Factorise: (x − ${r1})(x − ${r2}) = 0`,
+        `Zero-Product Property: x − ${r1} = 0  or  x − ${r2} = 0  ⇒  x = ${r1} or x = ${r2}`,
+        `Sum of roots α + β = −b/a = ${r1+r2}   |   Product αβ = c/a = ${c}`
+      ],
+      [
+        `For ax² + bx + c = 0 with a = 1, look for two integers multiplying to c (+${c}) and adding to b (−${r1+r2}).`,
+        `Rewrite the quadratic as a product of two linear brackets (x − ${r1})(x − ${r2}) = 0.`,
+        `By the Zero-Product Property, if two factors multiply to zero, at least one factor must be zero, giving roots ${r1} and ${r2}.`,
+        `Notice how Vieta's formulas (−b/a and c/a) confirm the sum and product immediately.`
+      ],
+      "none", "",
+      [`α + β = −b/a   |   αβ = c/a`],
+      `Pause and remember: you can always verify quadratic roots using α + β = −b/a and αβ = c/a.`
+    );
   }
-  const [vx, vy, mag] = pick(rng, [[3,4,5],[6,8,10],[5,12,13]]);
-  return makeQ(`Find magnitude |v| of v = (${vx}, ${vy}).`, [`|v| = √(x² + y²)`, `= √(${vx}² + ${vy}²) = √${vx*vx+vy*vy}`, `|v| = ${mag}`], [`Magnitude uses Pythagoras on components.`, `Square, add, take square root.`, `Length is ${mag}.`], "arrow", `➡️ Magnitude of (${vx}, ${vy}) = ${mag}`, [`x²=${vx*vx}`, `y²=${vy*vy}`, `|v|=${mag}`], `Side check: ${vx}² + ${vy}² = ${mag*mag}.`);
+  const x = rInt(rng, 2, 6), y = rInt(rng, 1, 5);
+  const c1 = 2 * x + 3 * y, c2 = 3 * x - y;
+  return makeQ(
+    `Solve the simultaneous equations: 2x + 3y = ${c1}  ...(i)  and  3x − y = ${c2}  ...(ii).`,
+    [
+      `Multiply equation (ii) by 3 to match y-coefficients: 9x − 3y = ${3*c2}  ...(iii)`,
+      `Add (i) and (iii) to eliminate y: (2x + 9x) + (3y − 3y) = ${c1 + 3*c2}  ⇒  11x = ${11*x}`,
+      `Divide by 11: x = ${x}`,
+      `Sub x = ${x} in (ii): 3(${x}) − y = ${c2}  ⇒  y = ${3*x - c2}`
+    ],
+    [
+      `To eliminate y, make the coefficients of y equal in size with opposite signs by multiplying equation 2 by 3.`,
+      `Adding equations 1 and 3 cancels +3y and −3y completely, leaving 11x = ${11*x}.`,
+      `Divide both sides by 11 to obtain x = ${x}.`,
+      `Substitute x = ${x} back into equation 2 to find y = ${y}.`
+    ],
+    "balance", `⚖️ Simultaneous Equations: Elimination Method`,
+    [`Opposite signs (+3y, −3y) → ADD equations`],
+    `Pause and remember this rule: Same Signs Subtract (SSS), Opposite Signs Add (OSA).`
+  );
+}
+
+function genProbability(rng, variant){
+  const red = rInt(rng, 4, 7), blue = rInt(rng, 3, 6), tot = red + blue;
+  const numDiff = 2 * red * blue, den = tot * (tot - 1);
+  return makeQ(
+    `A box contains ${red} red and ${blue} blue identical balls. Two balls are drawn at random one after the other WITHOUT replacement. Find the probability that they are of different colours.`,
+    [
+      `Total balls = ${red} + ${blue} = ${tot}.  "Different colours" = (Red then Blue) OR (Blue then Red)`,
+      `P(R then B) = (${red}/${tot}) × (${blue}/${tot - 1}) = ${red*blue}/${den}`,
+      `P(B then R) = (${blue}/${tot}) × (${red}/${tot - 1}) = ${blue*red}/${den}`,
+      `P(Different) = ${red*blue}/${den} + ${blue*red}/${den} = ${numDiff}/${den}`
+    ],
+    [
+      `Because the first ball is NOT replaced, the total number of balls drops from ${tot} to ${tot - 1} for the second draw.`,
+      `There are two mutually exclusive ways to get different colours: Red first then Blue second, OR Blue first then Red second.`,
+      `Multiply along each branch of the probability tree, then ADD the two branches together because "OR" means addition.`,
+      `Total probability is ${numDiff}/${den}.`
+    ],
+    "bag", `🎲 Without Replacement: ${red} Red, ${blue} Blue (Total ${tot})`,
+    [`AND → Multiply (×)   |   OR → Add (+)`],
+    `Pause and watch out: students often forget to multiply by 2 (or add both orders RB and BR) when order is not fixed!`
+  );
+}
+
+function genStatistics(rng, variant){
+  const nums = [rInt(rng, 4, 8), rInt(rng, 8, 12), rInt(rng, 10, 14), rInt(rng, 12, 16), rInt(rng, 16, 20)];
+  const n = nums.length;
+  const sum = nums.reduce((a,b)=>a+b, 0);
+  const mean = sum / n;
+  if(!Number.isInteger(mean)) return genStatistics(rng, variant + 1);
+  const sqDevs = nums.map(v => Math.pow(v - mean, 2));
+  const sumSq = sqDevs.reduce((a,b)=>a+b, 0);
+  const variance = (sumSq / n).toFixed(2).replace(/\.00$/, "");
+  const sd = Math.sqrt(sumSq / n).toFixed(2);
+  return makeQ(
+    `Calculate the (a) mean, (b) variance, and (c) standard deviation of the scores: ${nums.join(", ")}.`,
+    [
+      `Mean x̄ = (${nums.join(" + ")}) ÷ ${n} = ${sum} ÷ ${n} = ${mean}`,
+      `Squared deviations (x − x̄)²: ${sqDevs.join(", ")}`,
+      `Variance σ² = Σ(x − x̄)² ÷ n = ${sumSq} ÷ ${n} = ${variance}`,
+      `Standard Deviation σ = √(Variance) = √${variance} ≈ ${sd}`
+    ],
+    [
+      `First compute the arithmetic mean x̄ by dividing the total sum (${sum}) by the number of items (${n}), giving x̄ = ${mean}.`,
+      `Subtract the mean ${mean} from each score and square each difference so positive and negative deviations do not cancel out.`,
+      `Variance is the average of those squared deviations: ${sumSq} ÷ ${n} = ${variance}.`,
+      `Taking the square root restores the original units, giving standard deviation ≈ ${sd}.`
+    ],
+    "barchart", `📊 Dispersion: Mean = ${mean}, Variance = ${variance}, SD ≈ ${sd}`,
+    [`σ = √[ Σ(x − x̄)² / n ]`],
+    `Pause and understand why we square deviations: without squaring, positive and negative differences from the mean always add to zero!`
+  );
 }
 
 function genMatrices(rng, variant){
-  const a = rInt(rng, 1, 6), b = rInt(rng, -4, 5), c = rInt(rng, -4, 5), d = rInt(rng, 1, 6), det = a*d - b*c;
-  return makeQ(`Find determinant of [[${a}, ${b}], [${c}, ${d}]].`, [`det = ad − bc`, `= (${a})(${d}) − (${b})(${c}) = ${a*d} − (${b*c})`, `det = ${det}`], [`Main diagonal product minus secondary diagonal product.`, `${a*d} − (${b*c}) = ${det}.`, `Determinant is ${det}.`], "none", "", [`ad − bc`, `ad=${a*d}`, `bc=${b*c}`], `Side note: det = 0 means singular matrix.`);
+  const a = rInt(rng, 2, 5), b = rInt(rng, 1, 3), c = rInt(rng, 1, 3), d = rInt(rng, 2, 6);
+  const det = a * d - b * c;
+  if(det === 0) return genMatrices(rng, variant + 1);
+  return makeQ(
+    `Given matrix A = [[${a}, ${b}], [${c}, ${d}]], find (a) its determinant |A|, and (b) its inverse matrix A⁻¹.`,
+    [
+      `Determinant |A| = ad − bc = (${a})(${d}) − (${b})(${c}) = ${a*d} − ${b*c} = ${det}`,
+      `Adjoint matrix adj(A): swap main diagonal (${d}, ${a}), negate off-diagonal (−${b}, −${c})`,
+      `A⁻¹ = (1/|A|) × adj(A) = (1/${det}) [[${d}, −${b}], [−${c}, ${a}]]`
+    ],
+    [
+      `First compute the determinant ad − bc to ensure the matrix is non-singular (invertible). Here |A| = ${det} ≠ 0.`,
+      `To form the adjoint of a 2×2 matrix, swap the top-left and bottom-right entries and change the signs of the other two entries.`,
+      `Multiply the adjoint matrix by 1 divided by the determinant (1/${det}) to obtain A⁻¹.`
+    ],
+    "none", "",
+    [`A⁻¹ = (1 / (ad − bc)) [[d, −b], [−c, a]]`],
+    `Pause and check: multiplying A × A⁻¹ always produces the identity matrix [[1, 0], [0, 1]].`
+  );
 }
 
-function genComplex(rng, variant){
-  const a = rInt(rng, 1, 6), b = rInt(rng, 1, 6), c = rInt(rng, 1, 6), d = rInt(rng, 1, 6);
-  if(variant % 2 === 0){
-    return makeQ(`Simplify (${a} + ${b}i)(${c} + ${d}i) using i² = −1.`, [`Expand: ${a*c} + ${a*d}i + ${b*c}i + ${b*d}i²`, `Replace i² = −1 → −${b*d}`, `= (${a*c - b*d}) + (${a*d + b*c})i`], [`Multiply brackets and replace i² with −1.`, `Combine real and imaginary parts.`, `Result: (${a*c-b*d}) + (${a*d+b*c})i.`], "none", "", [`i² = −1`, `Real=${a*c-b*d}`, `Imag=${a*d+b*c}i`], `Side check: (ac−bd) + (ad+bc)i.`);
-  }
-  const [re, im, mod] = pick(rng, [[3,4,5],[6,8,10],[5,12,13]]);
-  return makeQ(`Find modulus |z| of z = ${re} + ${im}i.`, [`|z| = √(Re² + Im²)`, `= √(${re}² + ${im}²) = √${re*re+im*im}`, `|z| = ${mod}`], [`Modulus is √(real² + imag²).`, `Evaluate square root of ${re*re+im*im}.`, `|z| = ${mod}.`], "none", "", [`|a+bi|`, `=√(a²+b²)`, `=${mod}`], `Side check: conjugate is ${re}−${im}i.`);
+function genVectors(rng, variant){
+  const ax = rInt(rng, 1, 5), ay = rInt(rng, 2, 6), bx = rInt(rng, 4, 9), by = rInt(rng, 6, 12);
+  const dx = bx - ax, dy = by - ay;
+  const mag = Math.hypot(dx, dy).toFixed(2);
+  return makeQ(
+    `Points A and B have position vectors OA = (${ax}, ${ay}) and OB = (${bx}, ${by}). Find (a) displacement vector AB, and (b) magnitude |AB|.`,
+    [
+      `Triangle Law of Vectors: AB = OB − OA`,
+      `AB = (${bx} − ${ax},  ${by} − ${ay}) = (${dx}, ${dy})`,
+      `Magnitude |AB| = √(${dx}² + ${dy}²) = √(${dx*dx} + ${dy*dy}) = √${dx*dx + dy*dy} ≈ ${mag}`
+    ],
+    [
+      `To travel from A to B via the origin O, go backward along OA (−OA) and forward along OB (+OB), so AB = OB − OA.`,
+      `Subtract corresponding x and y components carefully to get (${dx}, ${dy}).`,
+      `Apply Pythagoras' theorem to the horizontal and vertical components to find the length |AB| ≈ ${mag}.`
+    ],
+    "arrow", `➡️ Displacement Vector AB = OB − OA = (${dx}, ${dy})`,
+    [`AB = OB − OA  (End minus Start)`],
+    `Pause and remember: vector AB always equals position of B minus position of A.`
+  );
 }
 
 function genVariation(rng, variant){
-  const x1 = rInt(rng, 2, 6), k = rInt(rng, 2, 6), x2 = rInt(rng, 3, 8);
-  if(variant % 2 === 0){
-    return makeQ(`y varies directly as x. y = ${k*x1} when x = ${x1}. Find y when x = ${x2}.`, [`y = kx → ${k*x1} = k(${x1}) → k = ${k}`, `y = ${k}x at x = ${x2}`, `y = ${k*x2}`], [`Find constant k from y/x.`, `Multiply k by ${x2}.`, `y = ${k*x2}.`], "none", "", [`y ∝ x`, `y = kx`, `k = ${k}`], `Side check: direct ratio stays constant.`);
-  }
-  const prod = k * x1, xInv = pick(rng, [2, 3, 4, 6]);
-  return makeQ(`y varies inversely as x. y = ${k} when x = ${x1}. Find y when x = ${xInv}.`, [`y = k/x → k = ${k} × ${x1} = ${prod}`, `At x = ${xInv}: y = ${prod} ÷ ${xInv}`, `y = ${(prod/xInv).toFixed(2).replace(/\.00$/,"")}`], [`Inverse variation: xy = k = ${prod}.`, `Divide ${prod} by ${xInv}.`, `Answer: ${(prod/xInv).toFixed(2).replace(/\.00$/,"")}.`], "none", "", [`y ∝ 1/x`, `xy = k`, `k = ${prod}`], `Side note: inverse means product xy is constant.`);
+  const k = rInt(rng, 2, 5), x1 = rInt(rng, 2, 4), z1 = rInt(rng, 2, 4);
+  const y1 = (k * x1 * x1) / z1;
+  if(!Number.isInteger(y1)) return genVariation(rng, variant + 1);
+  const x2 = rInt(rng, 3, 6), z2 = rInt(rng, 2, 5);
+  const y2 = ((k * x2 * x2) / z2).toFixed(2).replace(/\.00$/, "");
+  return makeQ(
+    `y varies directly as the square of x and inversely as z. If y = ${y1} when x = ${x1} and z = ${z1}, find (a) the law connecting x, y, z, and (b) y when x = ${x2} and z = ${z2}.`,
+    [
+      `Joint/combined variation: y = kx² ÷ z`,
+      `Sub y=${y1}, x=${x1}, z=${z1}: ${y1} = k(${x1}²) ÷ ${z1}  ⇒  k = (${y1} × ${z1}) ÷ ${x1*x1} = ${k}`,
+      `Law: y = ${k}x² ÷ z`,
+      `When x = ${x2}, z = ${z2}: y = ${k}(${x2}²) ÷ ${z2} = ${y2}`
+    ],
+    [
+      `"Varies directly as x²" puts x² in the numerator; "varies inversely as z" puts z in the denominator, with constant of proportionality k.`,
+      `Substitute the first complete set of values to solve for the constant k = ${k}.`,
+      `Write out the exact formula y = ${k}x² / z connecting the variables.`,
+      `Plug x = ${x2} and z = ${z2} into the formula to calculate y = ${y2}.`
+    ],
+    "none", "",
+    [`Direct → Numerator  |  Inverse → Denominator`],
+    `Pause and remember: always find the constant k first before solving for the new unknown.`
+  );
 }
 
-function genGraphsInequalities(rng, variant, isIneq){
-  const a = rInt(rng, 2, 5), b = rInt(rng, 1, 9), c = a * rInt(rng, 2, 7) + b;
-  if(isIneq){
-    return makeQ(`Solve: ${a}x + ${b} > ${c}.`, [`${a}x > ${c - b}`, `Divide by +${a}`, `x > ${(c - b)/a}`], [`Subtract ${b}, then divide by positive ${a}.`, `Positive division keeps > direction.`, `x > ${(c - b)/a}.`], "none", "", [`${a}x > ${c-b}`, `÷ +${a}`, `Keep >`], `Side rule: dividing by negative flips sign.`);
-  }
-  const xPt = rInt(rng, 1, 5);
-  return makeQ(`For y = ${a}x − ${b}, find gradient and y when x = ${xPt}.`, [`Gradient m = ${a}`, `Sub x = ${xPt}: y = ${a}(${xPt}) − ${b}`, `y = ${a*xPt - b}`], [`Coefficient of x is gradient ${a}.`, `Substitute x = ${xPt} to get y.`, `Point (${xPt}, ${a*xPt - b}).`], "axes", `📈 y = ${a}x − ${b} at x = ${xPt}`, [`m = ${a}`, `x = ${xPt}`, `y = ${a*xPt-b}`], `Side check: at y = 0, x = ${b}/${a}.`);
+function genFractions(rng, variant){
+  const cp = rInt(rng, 4, 15) * 1000;
+  const pct = pick(rng, [15, 20, 25]);
+  const sp = cp + (pct / 100) * cp;
+  return makeQ(
+    `A trader sold an article for ₦${sp} and made a profit of ${pct}% on the cost price. Calculate (a) the original cost price, and (b) the actual profit in Naira.`,
+    [
+      `Cost Price (CP) = 100%,  Profit = ${pct}%  ⇒  Selling Price (SP) = 100% + ${pct}% = ${100 + pct}%`,
+      `${100 + pct}% of CP = ₦${sp}  ⇒  CP = (₦${sp} × 100) ÷ ${100 + pct}`,
+      `Cost Price = ₦${cp}`,
+      `Profit = SP − CP = ₦${sp} − ₦${cp} = ₦${sp - cp}`
+    ],
+    [
+      `A very common exam mistake is taking ${pct}% of the selling price—profit percentage is ALWAYS calculated on the Cost Price unless stated otherwise.`,
+      `Since the trader gained ${pct}%, the selling price of ₦${sp} represents ${100 + pct}% of the original cost price.`,
+      `Divide ₦${sp} by ${100 + pct} to find 1%, then multiply by 100 to recover the exact Cost Price ₦${cp}.`,
+      `Subtracting Cost Price from Selling Price gives the profit ₦${sp - cp}.`
+    ],
+    "none", "",
+    [`CP = (SP × 100) ÷ (100 + %Profit)`],
+    `Pause and avoid this trap: NEVER take % profit directly on the selling price!`
+  );
 }
 
 function genBasesFactors(rng, variant, isFactors){
   if(isFactors){
-    const d = rInt(rng, 3, 9), m1 = rInt(rng, 2, 5), m2 = rInt(rng, 2, 6);
-    return makeQ(`Find HCF of ${d*m1} and ${d*m2}.`, [`${d*m1} = ${d} × ${m1}`, `${d*m2} = ${d} × ${m2}`, `HCF = ${d}`], [`Highest common factor dividing both without remainder.`, `Common factor is ${d}.`, `HCF = ${d}.`], "none", "", [`${d*m1}=${d}×${m1}`, `${d*m2}=${d}×${m2}`, `HCF=${d}`], `Side note: HCF ≤ smaller number.`);
+    const g = rInt(rng, 4, 12), a = rInt(rng, 2, 5), b = rInt(rng, 3, 7);
+    if(a === b) return genBasesFactors(rng, variant + 1, true);
+    const n1 = g * a, n2 = g * b;
+    const lcm = g * a * b;
+    return makeQ(
+      `Find both the HCF and LCM of ${n1} and ${n2}, and verify that HCF × LCM = ${n1} × ${n2}.`,
+      [
+        `Prime/shared breakdown: ${n1} = ${g} × ${a},   ${n2} = ${g} × ${b}`,
+        `HCF = ${g}   |   LCM = ${g} × ${a} × ${b} = ${lcm}`,
+        `Check: HCF × LCM = ${g} × ${lcm} = ${g * lcm}`,
+        `Product of numbers = ${n1} × ${n2} = ${n1 * n2} (Verified!)`
+      ],
+      [
+        `Express both numbers using their common factor ${g} and coprime remainders ${a} and ${b}.`,
+        `HCF takes only the shared factor (${g}), while LCM takes the shared factor multiplied by all remaining factors (${lcm}).`,
+        `For any two positive integers, HCF × LCM always equals the product of the two numbers themselves.`
+      ],
+      "none", "",
+      [`For 2 numbers: HCF(a,b) × LCM(a,b) = a × b`],
+      `Pause and remember this useful identity: if you know one of HCF or LCM, you can find the other immediately.`
+    );
   }
-  const b4 = rInt(rng, 8, 15);
-  return makeQ(`Convert ${b4}₁₀ to base 2 (binary).`, [`Repeated division by 2`, `Read remainders bottom-up`, `${b4}₁₀ = ${b4.toString(2)}₂`], [`Divide by 2 repeatedly for binary digits.`, `Collect remainders from bottom to top.`, `Answer: ${b4.toString(2)}₂.`], "none", "", [`Base 2`, `÷ 2 rem`, `${b4.toString(2)}₂`], `Side check: convert back to base 10.`);
-}
-
-function genEquations(rng, variant){
-  const a = rInt(rng, 2, 7), x = rInt(rng, 2, 9), b = rInt(rng, 1, 12), rhs = a * x + b;
-  return makeQ(`Solve for x: ${a}x + ${b} = ${rhs}.`, [`${a}x = ${rhs} − ${b} = ${a*x}`, `x = ${a*x} ÷ ${a}`, `x = ${x}`], [`Keep both sides balanced.`, `Subtract ${b}, then divide by ${a}.`, `x = ${x}.`], "balance", `⚖️ Balance: ${a}x + ${b} = ${rhs}`, [`${a}x = ${a*x}`, `÷ ${a}`, `x = ${x}`], `Side check: ${a}(${x}) + ${b} = ${rhs}.`);
-}
-
-function genCambridgeFurther(rng, variant, topic){
-  const p = rInt(rng, 2, 7), a = rInt(rng, 2, 5);
-  return makeQ(`[${topic}] Solve x ≡ ${a} (mod ${p}) for smallest positive x.`, [`x = ${p}k + ${a} (k ≥ 0)`, `For k = 1: x = ${p} + ${a} = ${p+a}`, `Check: (${p+a}) mod ${p} = ${a}`], [`Modular congruence means same remainder upon division by ${p}.`, `Pick k = 1 for smallest positive solution.`, `x = ${p+a}.`], "none", "", [`mod ${p}`, `k = 1`, `x = ${p+a}`], `Side check: (${p+a} − ${a}) is divisible by ${p}.`);
+  const rem = rInt(rng, 1, 4), mod = rInt(rng, 5, 8), mult = rInt(rng, 2, 4);
+  const lhs = mult * rInt(rng, 2, 4) + rem;
+  return makeQ(
+    `Evaluate (${lhs} + ${rInt(rng, 6, 14)}) (mod ${mod}), and solve 2x ≡ ${rem} (mod ${mod}) for the smallest positive integer x.`,
+    [
+      `In modulo ${mod}, divide by ${mod} and keep ONLY the remainder`,
+      `Test x = 1, 2, ... until 2x − ${rem} is divisible by ${mod}`,
+      `Adding ${mod} to ${rem} until even: ${rem % 2 === 0 ? rem : rem + mod} ÷ 2 = ${(rem % 2 === 0 ? rem : rem + mod) / 2}`,
+      `Smallest positive integer x = ${(rem % 2 === 0 ? rem : rem + mod) / 2} (mod ${mod})`
+    ],
+    [
+      `Modular arithmetic works like a clock with ${mod} hours: multiples of ${mod} wrap back to 0.`,
+      `To solve 2x ≡ ${rem} (mod ${mod}), we can add multiples of the modulus ${mod} to the right-hand side until it becomes divisible by 2.`,
+      `Dividing by 2 gives the smallest positive solution x.`
+    ],
+    "none", "",
+    [`a ≡ b (mod m) ⇔ m divides (a − b)`],
+    `Pause to see why: adding ${mod} changes nothing in modulo ${mod} because ${mod} ≡ 0 (mod ${mod}).`
+  );
 }
 
 function genLogical(rng, variant){
-  return makeQ(`If all prime numbers > 2 are odd, and 13 is prime > 2, is 13 odd?`, [`Premise 1: Primes > 2 → Odd`, `Premise 2: 13 is prime > 2`, `Conclusion: Yes, 13 is odd`], [`Deductive logic applies general rule to specific case.`, `Both premises hold.`, `Conclusion is valid: Yes.`], "none", "", [`P → Q`, `P is true`, `∴ Q true`], `Side note: modus ponens.`);
+  return makeQ(
+    `Let P: "A triangle is equilateral" and Q: "All its angles are 60°." Write the (a) implication, (b) converse, and (c) contrapositive, and state which are logically equivalent.`,
+    [
+      `Implication (P ⇒ Q): If a Δ is equilateral, then all its angles are 60° (True)`,
+      `Converse (Q ⇒ P): If all angles of a Δ are 60°, then it is equilateral (True here)`,
+      `Contrapositive (~Q ⇒ ~P): If NOT all angles are 60°, then Δ is NOT equilateral`,
+      `Rule: An implication P ⇒ Q is ALWAYS logically equivalent to its contrapositive ~Q ⇒ ~P`
+    ],
+    [
+      `An implication P ⇒ Q states that P guarantees Q.`,
+      `The converse reverses the arrow to Q ⇒ P, which is not always true for general statements.`,
+      `The contrapositive negates and swaps both parts (~Q ⇒ ~P), and truth tables prove it always has the exact same truth value as P ⇒ Q.`
+    ],
+    "triangle", `🔺 Logical Equivalence: (P ⇒ Q) ⇔ (~Q ⇒ ~P)`,
+    [`(P ⇒ Q) ≡ (~Q ⇒ ~P)`],
+    `Pause and remember: to prove P ⇒ Q indirectly, mathematicians often prove its contrapositive ~Q ⇒ ~P.`
+  );
 }
 
 function generateTopicQuestion(topic, idx, mode){
@@ -568,27 +1318,23 @@ function generateTopicQuestion(topic, idx, mode){
     case "bearings": built = genBearings(rng, variant); break;
     case "trigonometry": built = genTrig(rng, variant); break;
     case "circles": built = genCircles(rng, variant); break;
-    case "coordinates": case "graphs": built = (variant % 2 === 1) ? genCoordinates(rng, variant) : genGraphsInequalities(rng, variant, false); break;
-    case "inequalities": built = genGraphsInequalities(rng, variant, true); break;
+    case "coordinates": case "graphs": built = genCoordinates(rng, variant); break;
     case "probability": built = genProbability(rng, variant); break;
     case "statistics": built = genStatistics(rng, variant); break;
     case "calculus": built = genCalculus(rng, variant); break;
     case "logarithms": built = genLogarithms(rng, variant); break;
     case "indices": built = genIndices(rng, variant); break;
-    case "functions": built = genFunctions(rng, variant); break;
     case "polynomial": built = genPolynomials(rng, variant); break;
     case "partial": built = genPartialFractions(rng, variant); break;
-    case "fractions": case "directed": built = genFractionsRatio(rng, variant); break;
+    case "fractions": case "directed": built = genFractions(rng, variant); break;
     case "vectors": built = genVectors(rng, variant); break;
     case "matrices": built = genMatrices(rng, variant); break;
-    case "complex": built = genComplex(rng, variant); break;
     case "variation": built = genVariation(rng, variant); break;
     case "bases": built = genBasesFactors(rng, variant, false); break;
     case "factors": built = genBasesFactors(rng, variant, true); break;
     case "logical": built = genLogical(rng, variant); break;
-    case "cambridge_further": built = genCambridgeFurther(rng, variant, topic); break;
     case "past_drill": {
-      const subKeys = ["equations","sequences","trigonometry","probability","geometry","mensuration","calculus","logarithms","indices","coordinates"];
+      const subKeys = ["sequences","trigonometry","circles","mensuration","calculus","logarithms","indices","coordinates","probability","statistics","matrices","variation"];
       built = generateTopicQuestion(subKeys[(idx + topicHash) % subKeys.length] + " " + topic, idx, mode);
       break;
     }
@@ -596,7 +1342,7 @@ function generateTopicQuestion(topic, idx, mode){
   }
 
   const source = mode === "exam"
-    ? ["WAEC", "NECO", "JAMB", "BECE", "Cambridge"][(idx + topicHash) % 5] + " Past Style"
+    ? ["WAEC", "NECO", "JAMB", "BECE"][(idx + topicHash) % 4] + " Past Style"
     : (mode === "exercise" ? "Practice Exercise" : "Guided Lesson");
 
   return { title: built.q, lines: built.lines, expl: built.expl, source, key, idx, diagram: built.diagram, diagramLabel: built.label, sideProof: built.sideProof, sideExpl: built.sideExpl };
@@ -616,112 +1362,188 @@ function drawDiagram(type, label){
   function circ(x,y,r,color){ ctx.strokeStyle=color||"#1E4DA1"; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.stroke(); }
 
   if(type==="alternate"){ line(45,75,475,75); line(45,195,475,195); line(130,35,390,235,"#e11"); txt("a",215,65,"#e11"); txt("b (alternate)",285,220,"#e11"); txt("Z SHAPE",225,142,"#e11"); }
-  else if(type==="cointerior"){ line(45,75,475,75); line(45,195,475,195); line(160,35,340,235,"#0a9d5c"); txt("Angle 1",180,65,"#0a9d5c"); txt("Angle 2",250,220,"#0a9d5c"); txt("Sum = 180°",275,142,"#0a9d5c"); }
   else if(type==="triangle"){ line(95,215,425,215); line(95,215,260,55); line(425,215,260,55); txt("A",78,222); txt("B",435,222); txt("C",254,45); txt("Sum = 180°",218,248); }
-  else if(type==="pentagon"){ ctx.beginPath(); ctx.moveTo(260,42); ctx.lineTo(385,118); ctx.lineTo(340,225); ctx.lineTo(180,225); ctx.lineTo(135,118); ctx.closePath(); ctx.stroke(); txt("Regular Polygon",205,255); }
-  else if(type==="straight"){ line(45,145,475,145); line(260,145,260,45); txt("Part 1",130,132); txt("Part 2",315,132); txt("Straight Line = 180°",185,185); }
+  else if(type==="pentagon"){ ctx.beginPath(); ctx.moveTo(260,42); ctx.lineTo(385,118); ctx.lineTo(340,225); ctx.lineTo(180,225); ctx.lineTo(135,118); ctx.closePath(); ctx.stroke(); txt("Regular Polygon (Ext sum = 360°)",145,255); }
   else if(type==="righttriangle"){ line(95,215,415,215); line(95,215,95,65); line(95,65,415,215); ctx.strokeRect(95,189,26,26); txt("90°",126,206); txt("Opp",55,145); txt("Adj",240,238); txt("Hyp",275,125); }
-  else if(type==="rectangle"){ ctx.strokeRect(100,65,310,140); txt("Length (l)",215,52); txt("Breadth (b)",418,140); txt("Area = l × b",215,142); }
-  else if(type==="circle"){ circ(260,140,88); line(260,140,348,140,"#e11"); ctx.beginPath(); ctx.arc(260,140,4,0,Math.PI*2); ctx.fill(); txt("O",245,156); txt("r",300,130,"#e11"); txt("Circle",236,254); }
-  else if(type==="cube"){ ctx.strokeRect(130,75,145,145); ctx.strokeRect(175,48,145,145); line(130,75,175,48); line(275,75,320,48); line(130,220,175,193); line(275,220,320,193); txt("Cube (6 faces)",205,250); }
+  else if(type==="circle"){ circ(260,140,88); line(260,140,348,140,"#e11"); ctx.beginPath(); ctx.arc(260,140,4,0,Math.PI*2); ctx.fill(); txt("O",245,156); txt("r",300,130,"#e11"); txt("Circle Geometry",205,254); }
+  else if(type==="cube"){ ctx.strokeRect(130,75,145,145); ctx.strokeRect(175,48,145,145); line(130,75,175,48); line(275,75,320,48); line(130,220,175,193); line(275,220,320,193); txt("3D Solid Mensuration",185,250); }
   else if(type==="compass"){ circ(260,140,82); line(260,45,260,235); line(165,140,355,140); txt("N (000°)",232,36); txt("E (090°)",362,145); txt("S (180°)",232,254); txt("W (270°)",95,145); }
   else if(type==="axes"){ line(55,140,465,140); line(260,35,260,245); txt("x",472,145); txt("y",268,28); txt("O",243,158); }
-  else if(type==="bag"){ ctx.strokeRect(185,65,150,145); txt("Sample Space",212,135); txt("Favourable / Total",196,162); txt("Bag",244,235); }
-  else if(type==="dice"){ ctx.strokeRect(205,75,110,110); txt("6 Faces",232,135); txt("Die",246,215); }
-  else if(type==="barchart"){ line(85,215,435,215); line(85,55,85,215); ctx.fillStyle="#1E4DA1"; ctx.fillRect(120,135,45,80); ctx.fillRect(195,95,45,120); ctx.fillRect(270,155,45,60); ctx.fillRect(345,115,45,100); txt("Data Summary",215,242,"#111"); }
-  else if(type==="venn"){ circ(205,140,74,"#1E4DA1"); circ(315,140,74,"#0a9d5c"); txt("A",155,92,"#1E4DA1"); txt("B",352,92,"#0a9d5c"); txt("A∩B",244,145,"#e11"); txt("Universal Set U",205,250,"#111"); }
-  else if(type==="arrow"){ line(95,140,405,140,"#e11"); ctx.beginPath(); ctx.moveTo(405,140); ctx.lineTo(384,129); ctx.lineTo(384,151); ctx.closePath(); ctx.fillStyle="#e11"; ctx.fill(); txt("Directed Vector",195,112,"#e11"); }
-  else if(type==="balance"){ line(100,85,420,85); line(260,85,260,215); txt("Left Side",125,70); txt("Right Side",335,70); txt("Keep Balanced",212,242); }
+  else if(type==="bag"){ ctx.strokeRect(185,65,150,145); txt("Sample Space",212,135); txt("Without Replacement",190,162); txt("Box",244,235); }
+  else if(type==="barchart"){ line(85,215,435,215); line(85,55,85,215); ctx.fillStyle="#1E4DA1"; ctx.fillRect(120,135,45,80); ctx.fillRect(195,95,45,120); ctx.fillRect(270,155,45,60); ctx.fillRect(345,115,45,100); txt("Distribution & Spread",190,242,"#111"); }
+  else if(type==="venn"){ circ(205,140,74,"#1E4DA1"); circ(315,140,74,"#0a9d5c"); txt("M",155,92,"#1E4DA1"); txt("P",352,92,"#0a9d5c"); txt("M∩P",242,145,"#e11"); txt("Universal Set U",205,250,"#111"); }
+  else if(type==="arrow"){ line(95,140,405,140,"#e11"); ctx.beginPath(); ctx.moveTo(405,140); ctx.lineTo(384,129); ctx.lineTo(384,151); ctx.closePath(); ctx.fillStyle="#e11"; ctx.fill(); txt("Displacement Vector AB",175,112,"#e11"); }
+  else if(type==="balance"){ line(100,85,420,85); line(260,85,260,215); txt("Left Side",125,70); txt("Right Side",335,70); txt("Balanced Equations",192,242); }
   else { line(60,80,460,80); line(60,190,460,190); txt("Visual Aid",222,142); }
 }
 
 function buildOneQuestion(topic, idx, mode){ return generateTopicQuestion(topic, idx, mode); }
 
-let voiceRate=0.65, curCat="JSS", curTopic=0, curMode="learn", curIdx=0, curQuestion=null, boardTimer=null, isPlaying=false, boardCtx=null;
+let voiceRate=0.68, curCat="JSS", curTopic=0, curMode="learn", curIdx=0, curQuestion=null, boardTimer=null, isPlaying=false, boardCtx=null, activeRunId=0;
 let deviceId=localStorage.getItem("deviceId");
 if(!deviceId){ deviceId="PHONE-"+Math.random().toString(36).slice(2,8).toUpperCase()+"-"+Date.now().toString().slice(-4); localStorage.setItem("deviceId",deviceId); }
 
-function setSpeed(r){ voiceRate=r; document.getElementById("penStatus").innerText="Marker ready. Speed: "+(r<=0.55?"Very Slow":r<=0.65?"Moderate":"Faster"); speakSlow("Voice speed changed. I will speak slowly and explain why in full.", null); }
-function initBoard(){ const c=document.getElementById("whiteboard"); boardCtx=c.getContext("2d"); boardCtx.clearRect(0,0,c.width,c.height); drawBoardDivider(); boardCtx.font="bold 19px Arial"; boardCtx.fillStyle="#111"; }
-function drawBoardDivider(){ if(!boardCtx) return; boardCtx.save(); boardCtx.setLineDash([6,6]); boardCtx.strokeStyle="#cbd5e1"; boardCtx.lineWidth=2; boardCtx.beginPath(); boardCtx.moveTo(332,14); boardCtx.lineTo(332,296); boardCtx.stroke(); boardCtx.setLineDash([]); boardCtx.font="bold 12px Arial"; boardCtx.fillStyle="#64748b"; boardCtx.fillText("MAIN SOLUTION",16,20); boardCtx.fillText("SIDE PROOF / WORK",344,20); boardCtx.restore(); }
-function clearBoard(){ initBoard(); isPlaying=false; try{speechSynthesis.cancel()}catch(e){} document.getElementById("penStatus").innerText="Marker ready."; document.getElementById("marker").style.display="none"; document.getElementById("nowReading").innerText="Now explaining: —"; }
-function speakSlow(txt,onEnd){ try{ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(txt); u.rate=voiceRate; u.pitch=1; u.volume=1; u.onend=()=>{if(onEnd)onEnd()}; u.onerror=()=>{if(onEnd)onEnd()}; speechSynthesis.speak(u); }catch(e){ if(onEnd)onEnd(); } }
-function expandForVoice(line){ return line.replace(/²/g," squared ").replace(/³/g," cubed ").replace(/√/g," square root of ").replace(/π/g," pi ").replace(/×/g," times ").replace(/÷/g," divided by ").replace(/−/g," minus ").replace(/\+/g," plus ").replace(/=/g," equals ").replace(/%/g," percent ").replace(/°/g," degrees ").replace(/θ/g," theta ").replace(/≤/g," less than or equal to ").replace(/≥/g," greater than or equal to ").replace(/∩/g," intersection ").replace(/∪/g," union "); }
+function cancelAllPlayback(){
+  activeRunId++;
+  isPlaying = false;
+  clearInterval(boardTimer);
+  try{ speechSynthesis.cancel(); }catch(e){}
+}
 
-function writeAndExplain(lines,expl,done,sideProof,sideExpl){
-  clearInterval(boardTimer); initBoard(); isPlaying=true;
-  const marker=document.getElementById("marker"); marker.style.display="block";
-  const completedMain=[]; let activeSideLines=[]; let sideCleared=false;
-  const splitAt=Math.max(1,Math.ceil(lines.length/2));
+function setSpeed(r){ voiceRate=r; document.getElementById("penStatus").innerText="Marker ready. Speed: "+(r<=0.55?"Very Slow":r<=0.68?"Moderate":"Faster"); speakSlow("Voice speed updated. The pen will write each step and pause to explain why in full.", null, activeRunId); }
 
-  function renderAll(currentMainLine,currentChars,currentSideLine,sideChars){
-    boardCtx.clearRect(0,0,520,310); drawBoardDivider(); boardCtx.font="bold 18px Arial";
-    for(let i=0;i<completedMain.length;i++){ boardCtx.fillStyle="#111"; boardCtx.fillText(completedMain[i],16,52+i*44); }
-    if(currentMainLine!==null){ boardCtx.fillStyle="#1E4DA1"; boardCtx.fillText(currentMainLine.slice(0,currentChars),16,52+completedMain.length*44); }
-    if(activeSideLines.length>0||currentSideLine!==null){
-      boardCtx.font="bold 15px Arial";
-      for(let s=0;s<activeSideLines.length;s++){ boardCtx.fillStyle="#0a9d5c"; boardCtx.fillText(activeSideLines[s],344,52+s*36); }
-      if(currentSideLine!==null){ boardCtx.fillStyle="#b45309"; boardCtx.fillText(currentSideLine.slice(0,sideChars),344,52+activeSideLines.length*36); }
+// Full-width open board (no dividing line) so equations have full 520px width
+function initBoard(){
+  const c=document.getElementById("whiteboard");
+  boardCtx=c.getContext("2d");
+  boardCtx.clearRect(0,0,c.width,c.height);
+  boardCtx.font="bold 17px Arial";
+  boardCtx.fillStyle="#111";
+}
+
+function clearBoard(){
+  cancelAllPlayback();
+  initBoard();
+  document.getElementById("penStatus").innerText="Marker ready.";
+  document.getElementById("marker").style.display="none";
+  document.getElementById("nowReading").innerText="Now explaining: —";
+}
+
+function speakSlow(txt, onEnd, runToken){
+  try{
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(txt);
+    u.rate=voiceRate; u.pitch=1; u.volume=1;
+    u.onend=()=>{ if(runToken === activeRunId && onEnd) onEnd(); };
+    u.onerror=()=>{ if(runToken === activeRunId && onEnd) onEnd(); };
+    speechSynthesis.speak(u);
+  }catch(e){
+    if(runToken === activeRunId && onEnd) onEnd();
+  }
+}
+
+function expandForVoice(line){
+  return line
+    .replace(/²/g," squared ").replace(/³/g," cubed ")
+    .replace(/√/g," square root of ").replace(/π/g," pi ")
+    .replace(/×/g," times ").replace(/÷/g," divided by ")
+    .replace(/−/g," minus ").replace(/\+/g," plus ")
+    .replace(/=/g," equals ").replace(/%/g," percent ")
+    .replace(/°/g," degrees ").replace(/θ/g," theta ")
+    .replace(/≤/g," less than or equal to ").replace(/≥/g," greater than or equal to ")
+    .replace(/∩/g," intersection ").replace(/∪/g," union ")
+    .replace(/⇒/g," therefore ").replace(/≡/g," is congruent to ");
+}
+
+function drawFittedText(ctx, text, x, y, maxW, baseSize, color){
+  let size = baseSize;
+  ctx.font = `bold ${size}px Arial`;
+  while(ctx.measureText(text).width > maxW && size > 12){
+    size--;
+    ctx.font = `bold ${size}px Arial`;
+  }
+  ctx.fillStyle = color;
+  ctx.fillText(text, x, y);
+  return ctx.measureText(text).width;
+}
+
+// Full-width board: pen writes, pauses during deep WHY explanations & temporary pop-note, wipes pop-note, continues
+function writeAndExplain(lines, expl, done, sideProof, sideExpl){
+  cancelAllPlayback();
+  const myRun = activeRunId;
+  initBoard();
+  isPlaying = true;
+  const marker = document.getElementById("marker");
+  marker.style.display = "block";
+  const completedMain = [];
+  let tempNote = null;
+  let noteShown = false;
+  const splitAt = Math.max(1, Math.ceil(lines.length / 2));
+
+  function renderBoard(currentLine, currentChars){
+    boardCtx.clearRect(0, 0, 520, 340);
+    for(let i = 0; i < completedMain.length; i++){
+      drawFittedText(boardCtx, completedMain[i], 16, 42 + i * 54, 488, 17, "#111");
     }
+    let lastW = 0;
+    if(currentLine !== null){
+      lastW = drawFittedText(boardCtx, currentLine.slice(0, currentChars), 16, 42 + completedMain.length * 54, 488, 17, "#1E4DA1");
+    }
+    // Temporary corner note that appears during pause and gets wiped clean before continuing
+    if(tempNote){
+      boardCtx.save();
+      boardCtx.fillStyle = "#fffbeb";
+      boardCtx.strokeStyle = "#f59e0b";
+      boardCtx.lineWidth = 2;
+      boardCtx.fillRect(16, 268, 488, 54);
+      boardCtx.strokeRect(16, 268, 488, 54);
+      drawFittedText(boardCtx, "💡 Key Rule: " + tempNote, 26, 300, 468, 14, "#92400e");
+      boardCtx.restore();
+    }
+    return lastW;
   }
 
-  function runSideProofThenContinue(nextIdx){
-    if(!isPlaying) return;
-    if(!sideProof||!sideProof.length||sideCleared){ doMainLine(nextIdx); return; }
-    document.getElementById("penStatus").innerText="📐 Side board: proving & explaining concept...";
-    let sIdx=0;
-    function writeSideLine(){
-      if(!isPlaying) return;
-      if(sIdx>=sideProof.length){
-        const sideVoice=sideExpl||"Here is why that side rule works. Now clearing the side board and continuing.";
-        document.getElementById("nowReading").innerText="Side note: "+sideVoice;
-        speakSlow(sideVoice,()=>{
-          setTimeout(()=>{
-            if(!isPlaying) return;
-            document.getElementById("penStatus").innerText="🧹 Cleaning side board...";
-            activeSideLines=[]; sideCleared=true; renderAll(null,0,null,0);
-            setTimeout(()=>doMainLine(nextIdx),450);
-          },600);
-        });
-        return;
-      }
-      const sLine=sideProof[sIdx]; let sc=0;
-      boardTimer=setInterval(()=>{
-        if(!isPlaying){clearInterval(boardTimer);return}
-        renderAll(null,0,sLine,sc);
-        const w=boardCtx.measureText(sLine.slice(0,sc)).width;
-        marker.style.left=Math.min(480,344+w)+"px"; marker.style.top=(28+activeSideLines.length*36)+"px";
-        sc++;
-        if(sc>sLine.length){ clearInterval(boardTimer); activeSideLines.push(sLine); sIdx++; writeSideLine(); }
-      },65);
+  function showTempRuleThenContinue(nextIdx){
+    if(!isPlaying || myRun !== activeRunId) return;
+    if(!sideProof || !sideProof.length || noteShown){
+      doMainLine(nextIdx);
+      return;
     }
-    writeSideLine();
+    noteShown = true;
+    tempNote = sideProof.join("  •  ");
+    renderBoard(null, 0);
+    marker.style.left = "460px";
+    marker.style.top = "282px";
+    document.getElementById("penStatus").innerText = "⏸ Pen paused — explaining key rule & wiping note...";
+    const noteSpeech = sideExpl || "Let us pause here and note the key theorem behind this step before continuing.";
+    document.getElementById("nowReading").innerText = "Teacher explanation (Pen paused): " + noteSpeech;
+    speakSlow(noteSpeech, ()=>{
+      setTimeout(()=>{
+        if(!isPlaying || myRun !== activeRunId) return;
+        tempNote = null;
+        renderBoard(null, 0);
+        doMainLine(nextIdx);
+      }, 450);
+    }, myRun);
   }
 
   function doMainLine(idx){
-    if(!isPlaying) return;
-    if(idx>=lines.length){ isPlaying=false; marker.style.display="none"; document.getElementById("penStatus").innerText="✅ Done. Tap Next Question."; document.getElementById("nowReading").innerText="Now explaining: —"; if(done)done(); return; }
-    const line=lines[idx]; let ci=0;
-    document.getElementById("penStatus").innerText="✍️ Step "+(idx+1)+" of "+lines.length+"...";
-    boardTimer=setInterval(()=>{
-      if(!isPlaying){clearInterval(boardTimer);return}
-      renderAll(line,ci,null,0);
-      const w=boardCtx.measureText(line.slice(0,ci)).width;
-      marker.style.left=Math.min(295,18+w)+"px"; marker.style.top=(26+completedMain.length*44)+"px";
+    if(!isPlaying || myRun !== activeRunId) return;
+    if(idx >= lines.length){
+      isPlaying = false;
+      marker.style.display = "none";
+      document.getElementById("penStatus").innerText = "✅ Solution complete. Tap Next Question.";
+      document.getElementById("nowReading").innerText = "Now explaining: —";
+      if(done) done();
+      return;
+    }
+    const line = lines[idx];
+    let ci = 0;
+    document.getElementById("penStatus").innerText = "✍️ Writing Step " + (idx + 1) + " of " + lines.length + "...";
+    boardTimer = setInterval(()=>{
+      if(!isPlaying || myRun !== activeRunId){ clearInterval(boardTimer); return; }
+      const w = renderBoard(line, ci);
+      marker.style.left = Math.min(485, 18 + w) + "px";
+      marker.style.top = (18 + completedMain.length * 54) + "px";
       ci++;
-      if(ci>line.length){
-        clearInterval(boardTimer); completedMain.push(line); renderAll(null,0,null,0);
-        const why=(expl&&expl[idx])?expl[idx]:"";
-        const voiceText=expandForVoice(line)+". "+why;
-        document.getElementById("nowReading").innerText="Now explaining: "+voiceText;
-        speakSlow(voiceText,()=>{
+      if(ci > line.length){
+        clearInterval(boardTimer);
+        completedMain.push(line);
+        renderBoard(null, 0);
+        // Pen pauses while teacher explains WHY in depth
+        document.getElementById("penStatus").innerText = "⏸ Pen paused — explaining Step " + (idx + 1) + " in full...";
+        const why = (expl && expl[idx]) ? expl[idx] : "";
+        const voiceText = expandForVoice(line) + ". " + why;
+        document.getElementById("nowReading").innerText = "Explaining Step " + (idx + 1) + ": " + why;
+        speakSlow(voiceText, ()=>{
           setTimeout(()=>{
-            if(idx+1===splitAt&&sideProof&&!sideCleared) runSideProofThenContinue(idx+1);
-            else doMainLine(idx+1);
-          },700);
-        });
+            if(myRun !== activeRunId) return;
+            if(idx + 1 === splitAt && sideProof && !noteShown) showTempRuleThenContinue(idx + 1);
+            else doMainLine(idx + 1);
+          }, 500);
+        }, myRun);
       }
-    },75);
+    }, 55);
   }
 
   doMainLine(0);
@@ -735,22 +1557,21 @@ function daysLeft(o){ if(!o) return 0; return Math.max(0,Math.ceil((30*24*60*60*
 function hasSub(cat){ if(isAdmin()) return true; const p=getPins(); for(let k in p){if(p[k].cat===cat&&p[k].device===deviceId&&!isExpired(p[k])) return true} return false; }
 function getSubInfo(cat){ const p=getPins(); for(let k in p){if(p[k].cat===cat&&p[k].device===deviceId) return p[k]} return null; }
 function updateAdminUI(){ const a=isAdmin(); document.getElementById("adminBar").classList.toggle("hidden",!a); ["toAdminBtn","toAdminBtn2","toAdminBtn3"].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=a?"inline-block":"none"}); }
-function showHome(){ hideAll(); document.getElementById("home").classList.remove("hidden"); updateAdminUI(); }
-function showSections(){ hideAll(); document.getElementById("sections").classList.remove("hidden"); updateStats(); updateAdminUI(); }
+function showHome(){ cancelAllPlayback(); hideAll(); document.getElementById("home").classList.remove("hidden"); updateAdminUI(); }
+function showSections(){ cancelAllPlayback(); hideAll(); document.getElementById("sections").classList.remove("hidden"); updateStats(); updateAdminUI(); }
 function hideAll(){ ["home","sections","topics","lesson","adminDash"].forEach(id=>document.getElementById(id).classList.add("hidden")); }
 function updateStats(){ document.getElementById("myDevice").innerText="Your Phone ID: "+deviceId+" • PIN works ONLY on this phone."; ["JSS","SSS","JAMB"].forEach(c=>{const el=document.getElementById("stat"+c);if(isAdmin())el.innerText="👑 ADMIN - All FREE";else if(hasSub(c))el.innerText="✅ Subscribed - "+daysLeft(getSubInfo(c))+" days left • Locked to this phone";else{const old=getSubInfo(c);el.innerText=old?"⏰ Expired - Renew ₦5,000 / month":"🔒 Topic 1 FREE • Others ₦5,000 / month • PIN NOT transferable"}}); document.getElementById("subStatus").innerText=isAdmin()?"👑 Admin Mode - All FREE.":"PIN = 1 Phone Only. NOT transferable. Expires after 1 month."; }
 function openWhatsApp(){ window.open("https://wa.me/2348147699555?text="+encodeURIComponent("Hello Admin, I want to subscribe. I have paid ₦5,000. Here is my receipt."),"_blank"); }
-function openCategory(cat){ curCat=cat; hideAll(); document.getElementById("topics").classList.remove("hidden"); updateAdminUI(); document.getElementById("catTitle").innerText=cat==="JSS"?"📗 Junior Secondary (JS1–JS3 & Junior WAEC)":cat==="SSS"?"📘 Senior Secondary (SS1–SS3 & WAEC/NECO)":"🎯 JAMB Mathematics"; document.getElementById("catSub").innerText=hasSub(cat)?(isAdmin()?"👑 Admin - All unlocked":"✅ Subscribed - Locked to this phone"):"Topic 1 FREE. Others locked."; const info=getSubInfo(cat); document.getElementById("expiryInfo").innerText=isAdmin()?"👑 No expiry":info?(isExpired(info)?"⏰ EXPIRED. Renew.":"⏰ Expires in "+daysLeft(info)+" days • PIN NOT transferable."):""; document.getElementById("topicSearch").value=""; renderTopicList(""); document.getElementById("payCard").style.display=hasSub(cat)?"none":"block"; }
+function openCategory(cat){ cancelAllPlayback(); curCat=cat; hideAll(); document.getElementById("topics").classList.remove("hidden"); updateAdminUI(); document.getElementById("catTitle").innerText=cat==="JSS"?"📗 Junior Secondary (JS1–JS3 & Junior WAEC)":cat==="SSS"?"📘 Senior Secondary (SS1–SS3 & WAEC/NECO)":"🎯 JAMB Mathematics (UTME Syllabus)"; document.getElementById("catSub").innerText=hasSub(cat)?(isAdmin()?"👑 Admin - All unlocked":"✅ Subscribed - Locked to this phone"):"Topic 1 FREE. Others locked."; const info=getSubInfo(cat); document.getElementById("expiryInfo").innerText=isAdmin()?"👑 No expiry":info?(isExpired(info)?"⏰ EXPIRED. Renew.":"⏰ Expires in "+daysLeft(info)+" days • PIN NOT transferable."):""; document.getElementById("topicSearch").value=""; renderTopicList(""); document.getElementById("payCard").style.display=hasSub(cat)?"none":"block"; }
 
 function getGroupHeader(t){
   if(t.includes("|")){
     const parts = t.split("|").map(s=>s.trim());
     return (parts[0] + " — " + parts[1].split(":")[0]).toUpperCase();
   }
-  if(t.startsWith("Junior WAEC")) return "JUNIOR WAEC / BECE";
-  if(t.startsWith("WAEC & NECO")) return "SENIOR WAEC & NECO";
-  if(t.startsWith("Cambridge")) return "CAMBRIDGE / A-LEVEL";
-  return "JAMB SYLLABUS & EXAM DRILLS";
+  if(t.startsWith("Junior WAEC")) return "JUNIOR WAEC / BECE EXAM PREP";
+  if(t.startsWith("WAEC & NECO")) return "SENIOR WAEC & NECO EXAM PREP";
+  return "JAMB UTME COMPLETE SYLLABUS";
 }
 
 function renderTopicList(filter){
@@ -767,24 +1588,24 @@ function renderTopicList(filter){
 
 function filterTopics(){ renderTopicList(document.getElementById("topicSearch").value); }
 function onTick(i,cb){ if(i>0&&!hasSub(curCat)){cb.checked=false;alert("🔒 Locked.\n\nPay ₦5,000 / MONTH to:\n8147699555 - Ekpo Bassey\n\nPIN = 1 PHONE ONLY. NOT transferable.");document.getElementById("payCard").scrollIntoView({behavior:"smooth"});return} openTopic(i); }
-function openTopic(i){ curTopic=i; if(i>0&&!hasSub(curCat)){alert("🔒 Locked");return} const title=TOPICS[curCat][i]; hideAll(); document.getElementById("lesson").classList.remove("hidden"); updateAdminUI(); document.getElementById("lessonTitle").innerText=title; document.getElementById("lessonPill").innerText=getGroupHeader(title)+" • THIS TOPIC ONLY"; document.getElementById("lessonIntro").innerText="You are in ONE topic only: "+title+". All questions below are from THIS topic."; setMode("learn"); }
-function setMode(mode){ curMode=mode; curIdx=0; document.getElementById("modeLearnBtn").className=mode==="learn"?"btn blue":"btn white"; document.getElementById("modeExamBtn").className=mode==="exam"?"btn blue":"btn white"; document.getElementById("modeExBtn").className=mode==="exercise"?"btn blue":"btn white"; document.getElementById("qModePill").innerText=mode==="learn"?"📖 LEARN":mode==="exam"?"🎯 PAST QUESTION":"✏️ EXERCISE"; renderCurrent(); clearBoard(); }
+function openTopic(i){ cancelAllPlayback(); curTopic=i; if(i>0&&!hasSub(curCat)){alert("🔒 Locked");return} const title=TOPICS[curCat][i]; hideAll(); document.getElementById("lesson").classList.remove("hidden"); updateAdminUI(); document.getElementById("lessonTitle").innerText=title; document.getElementById("lessonPill").innerText=getGroupHeader(title)+" • THIS TOPIC ONLY"; document.getElementById("lessonIntro").innerText="Syllabus Topic: "+title+". Every question and step-by-step proof belongs strictly to this topic."; setMode("learn"); }
+function setMode(mode){ cancelAllPlayback(); curMode=mode; curIdx=0; document.getElementById("modeLearnBtn").className=mode==="learn"?"btn blue":"btn white"; document.getElementById("modeExamBtn").className=mode==="exam"?"btn blue":"btn white"; document.getElementById("modeExBtn").className=mode==="exercise"?"btn blue":"btn white"; document.getElementById("qModePill").innerText=mode==="learn"?"📖 LEARN":mode==="exam"?"🎯 PAST QUESTION":"✏️ EXERCISE"; renderCurrent(); clearBoard(); }
 function getTotal(){ return curMode==="learn"?25:curMode==="exam"?10:60; }
-function renderCurrent(){ const title=TOPICS[curCat][curTopic]; curQuestion=buildOneQuestion(title,curIdx,curMode); const total=getTotal(); document.getElementById("exCounter").innerText=`Question ${curIdx+1} of ${total}`; document.getElementById("exProgress").style.width=((curIdx+1)/total*100)+"%"; document.getElementById("qTitle").innerText=curQuestion.title; document.getElementById("qSource").innerText=curMode==="exam"?`Source: ${curQuestion.source} • Topic: ${title}`:`Topic: ${title} • Question ${curIdx+1} • Type: ${curQuestion.key}`; document.getElementById("askBox").value="Why did we do this step in: "+curQuestion.title; document.getElementById("askAns").innerHTML=""; drawDiagram(curQuestion.diagram||"none",curQuestion.diagramLabel||"Look at the diagram"); }
+function renderCurrent(){ const title=TOPICS[curCat][curTopic]; curQuestion=buildOneQuestion(title,curIdx,curMode); const total=getTotal(); document.getElementById("exCounter").innerText=`Question ${curIdx+1} of ${total}`; document.getElementById("exProgress").style.width=((curIdx+1)/total*100)+"%"; document.getElementById("qTitle").innerText=curQuestion.title; document.getElementById("qSource").innerText=curMode==="exam"?`Source: ${curQuestion.source} • Topic: ${title}`:`Topic: ${title} • Question ${curIdx+1}`; document.getElementById("askBox").value="Why did we do this step in: "+curQuestion.title; document.getElementById("askAns").innerHTML=""; drawDiagram(curQuestion.diagram||"none",curQuestion.diagramLabel||"Look at the diagram"); }
 function playLesson(){ if(!curQuestion) return; drawDiagram(curQuestion.diagram||"none",curQuestion.diagramLabel||"Look at the diagram"); writeAndExplain(curQuestion.lines,curQuestion.expl,null,curQuestion.sideProof,curQuestion.sideExpl); }
 function replayCurrent(){ playLesson(); }
-function nextQuestion(){ const total=getTotal(); if(curIdx<total-1){curIdx++;renderCurrent();playLesson()}else alert("✅ Finished all "+total+" for THIS topic."); }
-function prevQuestion(){ if(curIdx>0){curIdx--;renderCurrent();playLesson()} }
-function pauseLesson(){ isPlaying=false; clearInterval(boardTimer); try{speechSynthesis.cancel()}catch(e){} document.getElementById("penStatus").innerText="⏸ Paused."; }
-function stopVoice(){ isPlaying=false; clearInterval(boardTimer); try{speechSynthesis.cancel()}catch(e){} document.getElementById("penStatus").innerText="Stopped."; }
-function askTeacher(){ if(!curQuestion) return; document.getElementById("askAns").innerHTML=`<div class="card" style="background:#eef7ff"><b>WHY? Full explanation again for THIS question:</b><br>${curQuestion.expl.join("<br><br>")}</div>`; writeAndExplain(curQuestion.lines,curQuestion.expl,null,curQuestion.sideProof,curQuestion.sideExpl); }
+function nextQuestion(){ cancelAllPlayback(); const total=getTotal(); if(curIdx<total-1){curIdx++;renderCurrent();playLesson()}else alert("✅ Finished all "+total+" for THIS topic."); }
+function prevQuestion(){ cancelAllPlayback(); if(curIdx>0){curIdx--;renderCurrent();playLesson()} }
+function pauseLesson(){ cancelAllPlayback(); document.getElementById("penStatus").innerText="⏸ Paused."; }
+function stopVoice(){ cancelAllPlayback(); document.getElementById("penStatus").innerText="Stopped."; }
+function askTeacher(){ if(!curQuestion) return; document.getElementById("askAns").innerHTML=`<div class="card" style="background:#eef7ff"><b>WHY? Full step-by-step reasoning:</b><br><br>${curQuestion.expl.join("<br><br>")}</div>`; writeAndExplain(curQuestion.lines,curQuestion.expl,null,curQuestion.sideProof,curQuestion.sideExpl); }
 function askVoice(){ try{const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){alert("Type please.");return}const r=new R();r.lang="en-NG";r.onresult=e=>{document.getElementById("askBox").value=e.results[0][0].transcript;askTeacher()};r.start()}catch(e){alert("Type your question.")} }
 function previewQ(e){ const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{const im=document.getElementById("qPrev");im.src=ev.target.result;im.classList.remove("hidden")};r.readAsDataURL(f); }
 function previewWork(e){ const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=ev=>{const im=document.getElementById("workPrev");im.src=ev.target.result;im.classList.remove("hidden")};r.readAsDataURL(f); }
 function canUpload(){ return isAdmin()||hasSub("JSS")||hasSub("SSS")||hasSub("JAMB"); }
-function solveQuestion(){ if(!canUpload()){document.getElementById("qAns").innerHTML=`<div class="card" style="background:#ffecec"><b>🔒 Subscribers + Admin Only</b></div>`;return} const q=document.getElementById("qText").value||"Your question"; const title=TOPICS[curCat][curTopic]; document.getElementById("qAns").innerHTML=`<div class="card" style="background:#eef7ff"><b>✅ Received — Topic: ${title}</b><br>${q}</div>`; writeAndExplain([q,"= ?"],["This is your question from this topic.","We will break it down and explain WHY each step is done."],null,["Check rule","Balance sides"],"Side note: always verify units and signs."); }
-function correctWork(){ document.getElementById("correctAns").innerHTML=`<div class="card" style="background:#eafff1"><b>✅ Marked</b><br>✔ Step 1: Correct<br>⚠ Step 2: Check sign — WHY? When it crosses =, sign changes.<br><b>Score: 7 / 10</b></div>`; writeAndExplain(["Step 1: ✔","Step 2: ⚠ Check sign","Score: 7/10"],["Step 1 is correct.","WHY check sign? When number crosses equal sign, plus becomes minus.","Good effort."],null,["+ becomes −","− becomes +"],"Side check: moving across = flips the sign."); }
-function backToTopics(){ stopVoice(); openCategory(curCat); }
+function solveQuestion(){ if(!canUpload()){document.getElementById("qAns").innerHTML=`<div class="card" style="background:#ffecec"><b>🔒 Subscribers + Admin Only</b></div>`;return} const q=document.getElementById("qText").value||"Your question"; const title=TOPICS[curCat][curTopic]; document.getElementById("qAns").innerHTML=`<div class="card" style="background:#eef7ff"><b>✅ Received — Topic: ${title}</b><br>${q}</div>`; writeAndExplain([q,"Identify given values & apply topic theorem"],["Read the question carefully and list every known quantity.","Apply the exact formula for this topic step by step."],null,["Check units, signs, and domain conditions"],"Pause and verify that every sign and unit is consistent."); }
+function correctWork(){ document.getElementById("correctAns").innerHTML=`<div class="card" style="background:#eafff1"><b>✅ Marked</b><br>✔ Step 1: Method & setup correct<br>⚠ Step 2: Check sign when transposing across '='<br><b>Score: 7 / 10</b></div>`; writeAndExplain(["Step 1: Method setup ✔","Step 2: Check sign across '=' ⚠","Final Score: 7 / 10"],["Your initial equation setup is accurate.","When moving a term across the equality sign, remember to invert its sign.","Correcting that sign gives full marks."],null,["+ becomes − when crossing ="],"Pause and remember: transposing a term across '=' always reverses its operation."); }
+function backToTopics(){ cancelAllPlayback(); openCategory(curCat); }
 function openAdmin(){ document.getElementById("adminBox").classList.add("show"); document.getElementById("adminLoginForm").classList.remove("hidden"); document.getElementById("adminSuccess").classList.add("hidden"); const saved=localStorage.getItem("adminPass"); if(!saved){document.getElementById("adminTitle").innerText="Create Admin Password 🔐";document.getElementById("adminHint").innerText="First time only.";document.getElementById("adminPass2").classList.remove("hidden");document.getElementById("adminBtn").innerText="Create & Continue →"}else{document.getElementById("adminTitle").innerText="Admin Login 🔐";document.getElementById("adminHint").innerText="Enter your password.";document.getElementById("adminPass2").classList.add("hidden");document.getElementById("adminBtn").innerText="Login →"} document.getElementById("adminMsg").innerText=""; }
 function closeAdmin(){ document.getElementById("adminBox").classList.remove("show"); }
 function checkAdmin(){ const saved=localStorage.getItem("adminPass"); const p1=document.getElementById("adminPass").value; const p2=document.getElementById("adminPass2").value; if(!saved){if(!p1||p1.length<4){document.getElementById("adminMsg").innerText="At least 4 characters.";return}if(p1!==p2){document.getElementById("adminMsg").innerText="Passwords do not match.";return}localStorage.setItem("adminPass",p1);localStorage.setItem("isAdmin","1");showAdminSuccess();return} if(p1===saved){localStorage.setItem("isAdmin","1");showAdminSuccess()}else{document.getElementById("adminMsg").innerText="Wrong password"} }
