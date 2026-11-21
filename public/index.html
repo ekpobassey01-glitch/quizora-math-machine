@@ -20,33 +20,37 @@ img.prev{width:100%;border-radius:12px;margin-top:8px}.topBar{background:#6a1b9a
 .progress{background:#eee;border-radius:999px;height:10px;overflow:hidden}.progressBar{background:#0a9d5c;height:10px}
 .voiceCtrl{display:flex;gap:8px;flex-wrap:wrap}.voiceCtrl button{flex:1}.searchBox{position:sticky;top:60px;background:#fff;padding:8px;border-radius:10px;z-index:5}
 .warnBox{background:#ffecec;border:2px solid #e11;border-radius:12px;padding:12px;font-weight:700;color:#b00}
-.qTitle{font-size:18px;font-weight:800;line-height:1.5}.pill{display:inline-block;background:#eef2ff;color:#1E4DA1;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:800}
+.qTitle{font-size:18px;font-weight:800;line-height:1.5}.pill{display:inline-block;background:#eef2ff;color:#1E4DA1;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:800}.examBadge{display:inline-block;background:#fef3c7;color:#92400e;border:1px solid #f59e0b;padding:4px 10px;border-radius:999px;font-size:12px;font-weight:800;margin-left:6px}
 .diagramLabel{background:#fff3cd;border:1px solid #FFC21A;border-radius:8px;padding:8px;font-size:13px;font-weight:700;text-align:center}
 .assignBox{background:#fef2f2;border:2px solid #dc2626;border-radius:14px;padding:16px}
 .assignItem{background:#fff;border:1px solid #fecaca;border-radius:10px;padding:12px;margin-top:10px}
 </style></head><body>
 <div id="adminBar" class="hidden topBar">👑 ADMIN • <button class="btn yellow" style="padding:4px 12px" onclick="goToAdminDash()">↩ Back to Admin</button> <button class="btn white" style="padding:4px 12px" onclick="adminLogout()">Logout</button></div>
-<header><div class="logo"><div class="m">M</div><div><b>Maths Machine</b><br><small>Parameters First • Formula Explained • Clear Arithmetic</small></div></div><div><button class="btn blue" onclick="showHome()">Home</button> <button class="btn purple" onclick="openAdmin()">Admin</button></div></header>
-<div id="home"><div class="hero"><div class="bigM">M</div><h2>Maths Machine</h2><p>Every topic has its OWN tough WAEC / NECO / JAMB / BECE questions. Teacher lists & explains parameters, explains every part of the formula, writes out arithmetic clearly, and explains WHY from scratch.</p><br><button class="btn yellow" style="width:100%;padding:14px" onclick="showSections()">Continue as Student →</button><br><br><button class="btn white" style="width:100%;padding:13px" onclick="openAdmin()">Login as Admin 🔐</button></div>
-<div class="wrap"><div class="card"><b>📚 Sections</b><br><br><div class="sec" onclick="openCategory('JSS')">📗 Junior Secondary (JS1–JS3 Terms 1–3 & Junior WAEC)</div><div class="sec" onclick="openCategory('SSS')">📘 Senior Secondary (SS1–SS3 Terms 1–3 & WAEC/NECO)</div><div class="sec" onclick="openCategory('JAMB')">🎯 JAMB Mathematics (Complete UTME Syllabus)</div></div>
+<header><div class="logo"><div class="m">M</div><div><b>Maths Machine</b><br><small>BECE • WAEC • NECO • JAMB Past Qs</small></div></div><div><button class="btn blue" onclick="showHome()">Home</button> <button class="btn purple" onclick="openAdmin()">Admin</button></div></header>
+<div id="home"><div class="hero"><div class="bigM">M</div><h2>Maths Machine</h2><p>Tough Junior WAEC (BECE), Senior WAEC/NECO & JAMB past-question patterns with exam years, spread-out non-repeating structures, parameters explained first, formula symbols explained before solving, and clear arithmetic.</p><br><button class="btn yellow" style="width:100%;padding:14px" onclick="showSections()">Continue as Student →</button><br><br><button class="btn white" style="width:100%;padding:13px" onclick="openAdmin()">Login as Admin 🔐</button></div>
+<div class="wrap"><div class="card"><b>📚 Sections</b><br><br><div class="sec" onclick="openCategory('JSS')">📗 Junior Secondary (JS1–JS3 Terms 1–3 & Junior WAEC / BECE)</div><div class="sec" onclick="openCategory('SSS')">📘 Senior Secondary (SS1–SS3 Terms 1–3 & WAEC/NECO)</div><div class="sec" onclick="openCategory('JAMB')">🎯 JAMB Mathematics (Complete UTME Syllabus)</div></div>
 <div class="card warnBox">🔒 PIN RULE<br><span style="font-weight:400;color:#333;font-size:13px">1 PIN = 1 PHONE ONLY. NOT transferable. Expires after 1 month.</span></div></div><p style="text-align:center;color:#888;font-size:12px;padding:10px">Quizora Maths Machine • © 2026</p></div>
-<div id="sections" class="hidden wrap"><button class="btn white" onclick="showHome()">← Back</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn" style="display:none">👑 Back to Admin</button><br><br><h2>Choose Your Section</h2><p class="small" id="subStatus"></p><p class="small" id="myDevice"></p><br><div class="card"><div class="sec" onclick="openCategory('JSS')">📗 Junior Secondary (JS1–JS3 & Junior WAEC)<br><span class="small" id="statJSS"></span></div><div class="sec" onclick="openCategory('SSS')">📘 Senior Secondary (SS1–SS3 & WAEC/NECO)<br><span class="small" id="statSSS"></span></div><div class="sec" onclick="openCategory('JAMB')">🎯 JAMB Mathematics<br><span class="small" id="statJAMB"></span></div></div>
+<div id="sections" class="hidden wrap"><button class="btn white" onclick="showHome()">← Back</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn" style="display:none">👑 Back to Admin</button><br><br><h2>Choose Your Section</h2><p class="small" id="subStatus"></p><p class="small" id="myDevice"></p><br><div class="card"><div class="sec" onclick="openCategory('JSS')">📗 Junior Secondary (JS1–JS3 & Junior WAEC / BECE)<br><span class="small" id="statJSS"></span></div><div class="sec" onclick="openCategory('SSS')">📘 Senior Secondary (SS1–SS3 & WAEC/NECO)<br><span class="small" id="statSSS"></span></div><div class="sec" onclick="openCategory('JAMB')">🎯 JAMB Mathematics<br><span class="small" id="statJAMB"></span></div></div>
 <div class="card"><b>🔑 Have a PIN?</b><div class="warnBox" style="font-size:13px">⚠️ PIN locks to THIS phone only. NOT transferable.</div><input id="pinInput" placeholder="Enter PIN"><button class="btn blue" style="width:100%" onclick="activatePIN()">Activate PIN - This Phone Only</button><p class="small" id="pinMsg"></p></div></div>
 <div id="topics" class="hidden wrap"><button class="btn white" onclick="showSections()">← Sections</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn2" style="display:none">👑 Back to Admin</button><br><br><h2 id="catTitle"></h2><p class="small" id="catSub"></p><p class="small" id="expiryInfo"></p><br><div class="searchBox"><input id="topicSearch" placeholder="🔍 Search topic or term..." oninput="filterTopics()"></div><br><div class="card"><b>☑️ Tick a Topic to Open It</b><div id="topicList"></div></div>
 <div class="card payBox" id="payCard"><b>🔒 Unlock - ₦5,000 / MONTH</b><br><br><b>Pay to:</b><br><b>8147699555</b><br><b>Ekpo Bassey</b><br><div class="warnBox" style="margin-top:10px">⚠️ 1 PIN = 1 PHONE ONLY. NOT transferable.</div><br><button class="btn green" style="width:100%" onclick="openWhatsApp()">💬 Send Receipt - WhatsApp</button><br><br><input id="pinInput2" placeholder="Enter PIN"><button class="btn blue" style="width:100%" onclick="activatePIN2()">Activate PIN</button><p class="small" id="pinMsg2"></p></div></div>
 <div id="lesson" class="hidden wrap"><button class="btn white" onclick="backToTopics()">← Topics</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn3" style="display:none">👑 Back to Admin</button><br><br>
 <span class="pill" id="lessonPill">TOPIC</span><br><br><h2 id="lessonTitle"></h2><p class="small" id="lessonIntro"></p><br>
 <div class="card" style="padding:10px"><div style="display:flex;gap:6px"><button class="btn blue" id="modeLearnBtn" style="flex:1" onclick="setMode('learn')">📖 Learn (25)</button><button class="btn white" id="modeExamBtn" style="flex:1" onclick="setMode('exam')">🎯 Past Qs</button><button class="btn white" id="modeExBtn" style="flex:1" onclick="setMode('exercise')">✏️ Exercises (60)</button></div></div>
-<div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><span class="pill" id="qModePill">LEARN</span><span class="small" id="exCounter">Question 1 of 25</span></div><br><div class="progress"><div class="progressBar" id="exProgress" style="width:4%"></div></div><br><div class="qTitle" id="qTitle"></div><p class="small" id="qSource"></p></div>
+<div class="card"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><div><span class="pill" id="qModePill">LEARN</span><span class="examBadge" id="qExamTag">WAEC 2023</span></div><span class="small" id="exCounter">Question 1 of 25</span></div><br><div class="progress"><div class="progressBar" id="exProgress" style="width:4%"></div></div><br><div class="qTitle" id="qTitle"></div><p class="small" id="qSource"></p></div>
 <div class="card" id="diagramCard"><b>📐 Diagram — Teacher Sketches First</b><p class="small">Study the diagram before solving. Every angle, line, and set is labelled.</p><br><div class="diagramLabel" id="diagramLabel">Look at the diagram</div><br><canvas id="diagramCanvas" width="520" height="270"></canvas></div>
 <div class="card"><b>✍️ Full-Width Board — Parameters → Formula Parts → Clear Arithmetic → WHY Voice</b><p class="small">First lists and explains all given parameters, writes the formula and explains every symbol before solving starts, writes out simple arithmetic clearly, and erases side-work cleanly.</p><br><div class="boardWrap"><canvas id="whiteboard" width="520" height="390"></canvas><div class="marker" id="marker">🖊️</div></div><br><div class="voiceCtrl"><button class="btn blue" onclick="playLesson()">▶ Play — Full Structured Lesson</button><button class="btn white" onclick="pauseLesson()">⏸ Pause</button><button class="btn white" onclick="stopVoice()">⏹ Stop</button></div><br><div class="voiceCtrl"><button class="btn white" onclick="setSpeed(0.52)">🐢 Very Slow</button><button class="btn green" onclick="setSpeed(0.58)">▶ Calm Teacher</button><button class="btn white" onclick="setSpeed(0.75)">🐇 Faster</button><button class="btn yellow" onclick="clearBoard()">🧹 Clear</button></div><br><button class="btn dark" style="width:100%" onclick="testVoiceVolume()">🔊 Test Voice Volume & Clarity (Turn Phone Media Volume Up)</button><p class="small" id="penStatus">Marker ready.</p><p class="small" id="nowReading">Now explaining: —</p></div>
 <div class="card"><div style="display:flex;gap:8px"><button class="btn white" style="flex:1" onclick="prevQuestion()">← Previous</button><button class="btn green" style="flex:1" onclick="nextQuestion()">Next Question →</button></div><br><button class="btn yellow" style="width:100%" onclick="replayCurrent()">🔁 Replay This Question — Explain Again</button><p class="small" style="text-align:center;margin-top:8px">One question at a time. Clean and focused.</p></div>
 <div class="card"><b>❓ Don't understand THIS question?</b><textarea id="askBox" placeholder="Ask why..."></textarea><button class="btn yellow" style="width:100%" onclick="askTeacher()">Ask Teacher — Explain WHY From Scratch</button><button class="btn white" style="width:100%" onclick="askVoice()">🎙️ Ask by Voice</button><div id="askAns"></div></div>
 <div class="card"><b>📸 Snap a Question From THIS Topic</b><input type="file" accept="image/*" onchange="previewQ(event)"><img id="qPrev" class="prev hidden"><textarea id="qText" placeholder="Type question from this topic..."></textarea><button class="btn green" style="width:100%" onclick="solveQuestion()">Solve →</button><div id="qAns"></div><input type="file" accept="image/*" onchange="previewWork(event)"><img id="workPrev" class="prev hidden"><button class="btn blue" style="width:100%" onclick="correctWork()">Send My Work For Correction →</button><div id="correctAns"></div></div>
-<div class="card assignBox"><b>🏆 End-of-Lesson Tough Assignment (10 Hard Exam Challenges)</b><p class="small" style="color:#7f1d1d">High-level WAEC / NECO / JAMB / Olympiad-style challenges for THIS topic. Every solution begins by listing & explaining parameters, explaining every formula part, and writing out arithmetic clearly.</p><div id="finalAssignmentList"></div></div></div>
+<div class="card assignBox"><b>🏆 End-of-Lesson Tough Assignment (10 Hard Exam Challenges)</b><p class="small" style="color:#7f1d1d">High-level WAEC / NECO / JAMB / BECE past-style challenges with exam years, spread-out patterns, and zero repetition.</p><div id="finalAssignmentList"></div></div></div>
 <div id="adminDash" class="hidden wrap"><button class="btn white" onclick="adminLogout()">← Logout</button> <button class="btn yellow" onclick="showSections()">👀 Switch to Student View →</button><br><br><h2>👑 Admin Dashboard</h2><p class="small">Welcome Ekpo Bassey!</p><br><div class="card payBox"><b>💳 Your Payment Details</b><br><b>Account:</b> 8147699555<br><b>Name:</b> Ekpo Bassey<br><b>WhatsApp:</b> 08147699555<br><b>Price:</b> ₦5,000 / Section / MONTH<br><b>PIN:</b> 1 Phone Only. NOT transferable.</div><div class="card"><b>Generate New PIN — NOT Transferable</b><select id="pinCat"><option value="JSS">Junior (JSS)</option><option value="SSS">Senior (SSS)</option><option value="JAMB">JAMB Mathematics</option></select><input id="studentName" placeholder="Student Name"><button class="btn green" style="width:100%" onclick="genPIN()">Generate PIN →</button><div id="genResult"></div></div><div class="card"><b>📋 All PINs</b><div id="pinList"></div></div><div class="card"><b>⚙️ Change Password</b><input id="newAdminPass" type="password" placeholder="New Password"><button class="btn blue" style="width:100%" onclick="changeAdminPass()">Change Password</button><p class="small" id="changeMsg"></p></div></div>
 <div id="adminBox" onclick="if(event.target==this) closeAdmin()"><div class="popup"><div id="adminLoginForm"><h3 id="adminTitle">Admin 🔐</h3><p class="small" id="adminHint">Create your Admin Password first time.</p><input id="adminPass" type="password" placeholder="Admin Password"><input id="adminPass2" type="password" placeholder="Confirm Password" class="hidden"><button class="btn blue" style="width:100%" onclick="checkAdmin()" id="adminBtn">Continue →</button><p id="adminMsg" style="color:red;font-size:13px"></p><button class="btn" onclick="closeAdmin()">Cancel</button></div><div id="adminSuccess" class="hidden" style="text-align:center"><h2>✅ Welcome Admin!</h2><br><button class="btn green" style="width:100%;padding:14px" onclick="goToAdminDash()">Go to Admin Dashboard →</button></div></div></div>
 <script>
+// Optional external/inline past-question bank hook:
+// window.CUSTOM_PAST_QUESTIONS = [ { topicMatch: "polynomial", examYear: "WAEC 2023", q: "...", params: [...], formula: {...}, steps: [...] } ];
+window.CUSTOM_PAST_QUESTIONS = window.CUSTOM_PAST_QUESTIONS || [];
+
 const TOPICS={
 JSS:[
   "JS1 | First Term: Whole Numbers — Counting, Reading & Writing up to Billions",
@@ -219,16 +223,19 @@ JAMB:[
 function topicKey(topic){
   const t = (" " + topic.toLowerCase() + " ");
   if(t.includes("mock") || t.includes("simulation") || t.includes("past questions")) return "past_drill";
+  if(t.includes("polynomial") || t.includes("remainder") || t.includes("factor theorem")) return "polynomials";
+  if(t.includes("hcf") || t.includes("lcm") || t.includes("highest common") || t.includes("lowest common")) return "hcf_lcm";
+  if(t.includes("probability")) return "probability";
   if(t.includes("simultaneous")) return "simultaneous";
   if(t.includes("set") || t.includes("venn")) return "sets";
   if(t.includes("matrix") || t.includes("matrices") || t.includes("determinant")) return "matrices";
   if(t.includes("vector")) return "vectors";
-  if(t.includes("probability") || t.includes("statistic") || t.includes("mean") || t.includes("average") || t.includes("dispersion")) return "prob_stats";
-  if(t.includes("logarithm") || t.includes("indices") || t.includes("surd") || t.includes("standard form") || t.includes("square root")) return "log_indices";
+  if(t.includes("statistic") || t.includes("mean") || t.includes("average") || t.includes("dispersion")) return "stats";
+  if(t.includes("logarithm") || t.includes("indices") || t.includes("surd") || t.includes("standard form")) return "log_indices";
   if(t.includes("bearing") || t.includes("elevation") || t.includes("depression") || t.includes("longitude") || t.includes("latitude")) return "bearings";
   if(t.includes("circle") || t.includes("cyclic") || t.includes("chord") || t.includes("tangent")) return "circles";
-  if(t.includes("trigonometry") || t.includes("sine") || t.includes("cosine") || t.includes("sin, cos")) return "trigonometry";
-  if(t.includes("calculus") || t.includes("differentiation") || t.includes("integration") || t.includes("limit") || t.includes("turning point")) return "calculus";
+  if(t.includes("trigonometry") || t.includes("sine") || t.includes("cosine")) return "trigonometry";
+  if(t.includes("calculus") || t.includes("differentiation") || t.includes("integration") || t.includes("limit")) return "calculus";
   if(t.includes("sequence") || t.includes("series") || t.includes("progression")) return "sequences";
   return "general";
 }
@@ -241,345 +248,535 @@ function seededRng(seed){
 function rInt(rng, min, max){ return Math.floor(rng() * (max - min + 1)) + min; }
 function pick(rng, arr){ return arr[Math.floor(rng() * arr.length)]; }
 
-function makeStructuredQ(q, params, formula, steps, diagram, label, sideWorkLines, sideWorkExpl){
+function pickExamYear(cat, rng, idx){
+  if(cat === "JSS"){
+    const yrs = ["BECE 2023", "Junior WAEC 2022", "BECE 2024", "Junior WAEC 2021", "BECE 2020", "Junior WAEC 2019"];
+    return yrs[(idx + Math.floor(rng()*yrs.length)) % yrs.length];
+  }
+  if(cat === "JAMB"){
+    const yrs = ["JAMB 2024", "JAMB 2023", "JAMB 2022", "JAMB 2021", "JAMB 2020", "JAMB 2019", "JAMB 2018"];
+    return yrs[(idx + Math.floor(rng()*yrs.length)) % yrs.length];
+  }
+  const yrs = ["WAEC 2024", "NECO 2023", "WAEC 2023", "NECO 2022", "WAEC 2022", "WAEC 2021", "NECO 2020"];
+  return yrs[(idx + Math.floor(rng()*yrs.length)) % yrs.length];
+}
+
+function makeStructuredQ(q, params, formula, steps, diagram, label, sideWorkLines, sideWorkExpl, examTag){
   return {
     q, params, formula, steps,
     diagram: diagram || "none",
     label: label || "",
     sideWorkLines: sideWorkLines || null,
-    sideWorkExpl: sideWorkExpl || ""
+    sideWorkExpl: sideWorkExpl || "",
+    examTag: examTag || "WAEC 2023"
   };
 }
 
-// 1. Simultaneous Equations Formula Template
-function genSimultaneousQ(rng, idx){
-  const x = rInt(rng, 2, 6), y = rInt(rng, 1, 5);
-  const a1 = 2, b1 = 3, c1 = a1*x + b1*y;
-  const a2 = 3, b2 = -1, c2 = a2*x + b2*y;
+// Tough exam-style Polynomials (6 spread-out patterns)
+function genPolynomialsQ(rng, idx, examTag){
+  const pat = idx % 6;
+  if(pat === 0){
+    const a = rInt(rng, 2, 4), k = rInt(rng, 2, 5), rem = rInt(rng, 5, 18);
+    // P(x) = kx³ − 2x² + 5; P(a) = k*a³ - 2*a² + 5 = rem => k*a³ = rem + 2*a² - 5
+    const a3 = a*a*a, rhs = rem + 2*a*a - 5;
+    const kVal = (rhs / a3).toFixed(2).replace(/\.00$/, "");
+    return makeStructuredQ(
+      `The polynomial P(x) = kx³ − 2x² + 5 leaves a remainder of ${rem} when divided by (x − ${a}). Find the value of k.`,
+      [
+        { sym: `P(x) = kx³ − 2x² + 5`, meaning: "cubic polynomial with unknown leading coefficient k", why: `Replacing x with ${a} turns k into a simple linear unknown.` },
+        { sym: `Divisor = (x − ${a}),  R = ${rem}`, meaning: "linear divisor and given remainder", why: `By Remainder Theorem, P(${a}) = ${rem}.` }
+      ],
+      { eq: `P(a) = R   ⇒   solve for k`, parts: [{ part: "P(a)", desc: "value of polynomial when x = a" }, { part: "R", desc: "remainder left after division" }] },
+      [
+        { line: `P(${a}) = k(${a})³ − 2(${a})² + 5 = ${a3}k − ${2*a*a} + 5 = ${a3}k − ${2*a*a - 5}`, why: "Substitute x = ${a} and simplify constant terms.", arith: `${a}³ = ${a3};  2×${a}² = ${2*a*a};  −${2*a*a} + 5 = −${2*a*a - 5}.` },
+        { line: `${a3}k − ${2*a*a - 5} = ${rem}  ⇒  ${a3}k = ${rhs}  ⇒  k = ${kVal}`, why: "Move constant to the right side, then divide by ${a3}.", arith: `${rem} + ${2*a*a - 5} = ${rhs};  ${rhs} ÷ ${a3} = ${kVal}.` }
+      ],
+      "none", "", [`${a}³ = ${a3}`, `${rem} + ${2*a*a-5} = ${rhs}`], `Let me write out the cube and isolation arithmetic on the board, then erase it.`, examTag
+    );
+  }
+  if(pat === 1){
+    // (2x + 1) or (3x - 2) factor theorem / remainder
+    const coeffX = 2, constTerm = rInt(rng, 1, 3); // divisor (2x + constTerm) => x = -constTerm/2
+    const xVal = -constTerm / coeffX;
+    const rem = 4*xVal*xVal + 6*xVal + 3;
+    return makeStructuredQ(
+      `Find the remainder when f(x) = 4x² + 6x + 3 is divided by (2x + ${constTerm}).`,
+      [
+        { sym: `Divisor = (2x + ${constTerm})`, meaning: "linear divisor with coefficient 2 on x", why: `Set 2x + ${constTerm} = 0 to get x = −${constTerm}/2 = ${xVal}.` },
+        { sym: `f(x) = 4x² + 6x + 3`, meaning: "dividend quadratic", why: `Remainder is f(${xVal}).` }
+      ],
+      { eq: `ax + b = 0 ⇒ x = −b/a,   Remainder = f(−b/a)`, parts: [{ part: "−b/a", desc: "root of linear divisor ax + b" }, { part: "f(−b/a)", desc: "remainder upon substituting x = −b/a" }] },
+      [
+        { line: `2x + ${constTerm} = 0  ⇒  x = ${xVal}`, why: "Subtract ${constTerm} and divide by 2 carefully.", arith: `−${constTerm} ÷ 2 = ${xVal}.` },
+        { line: `f(${xVal}) = 4(${xVal})² + 6(${xVal}) + 3 = ${4*xVal*xVal} + ${6*xVal} + 3 = ${rem}`, why: "Square first (positive!), then multiply and add.", arith: `4×(${xVal*xVal}) = ${4*xVal*xVal};  6×(${xVal}) = ${6*xVal};  sum = ${rem}.` }
+      ],
+      "none", "", [`x = ${xVal}`, `4×${xVal*xVal} + (${6*xVal}) + 3 = ${rem}`], `Let me show the negative fraction substitution on the board, then erase it.`, examTag
+    );
+  }
+  if(pat === 2){
+    // Factor theorem: find p so (x - r) is a factor of x³ - px + 6
+    const r = 2; // 2³ - 2p + 6 = 0 => 8 - 2p + 6 = 0 => 2p = 14 => p = 7
+    const pVal = (r*r*r + 6) / r;
+    return makeStructuredQ(
+      `If (x − ${r}) is a factor of g(x) = x³ − px + 6, find the value of p.`,
+      [
+        { sym: `Factor = (x − ${r})`, meaning: "exact factor of g(x)", why: `By Factor Theorem, g(${r}) = 0.` },
+        { sym: `g(x) = x³ − px + 6`, meaning: "cubic with unknown p", why: `Setting g(${r}) = 0 gives ${r*r*r} − ${r}p + 6 = 0.` }
+      ],
+      { eq: `(x − a) is a factor  ⇒  P(a) = 0`, parts: [{ part: "P(a) = 0", desc: "zero remainder required for an exact factor" }] },
+      [
+        { line: `g(${r}) = ${r}³ − p(${r}) + 6 = 0  ⇒  ${r*r*r + 6} − ${r}p = 0`, why: "Combine numerical terms after plugging x = ${r}.", arith: `${r}³ + 6 = ${r*r*r} + 6 = ${r*r*r + 6}.` },
+        { line: `${r}p = ${r*r*r + 6}  ⇒  p = ${pVal}`, why: "Divide ${r*r*r + 6} by ${r}.", arith: `${r*r*r + 6} ÷ ${r} = ${pVal}.` }
+      ],
+      "none", "", [`${r*r*r} + 6 = ${r*r*r + 6}`, `${r*r*r + 6} ÷ ${r} = ${pVal}`], `Let me write that Factor Theorem equation clearly on the board, then erase it.`, examTag
+    );
+  }
+  if(pat === 3){
+    // Equal remainders when divided by (x - 1) and (x + 2)
+    // Let P(x) = ax² + 3x - 2. P(1) = a + 1; P(-2) = 4a - 8
+    const a = 3, r1 = a + 1, r2 = 4*a - 8;
+    return makeStructuredQ(
+      `For P(x) = ${a}x² + 3x − 2, find the sum of the remainders when P(x) is divided by (x − 1) and (x + 2).`,
+      [
+        { sym: `x₁ = 1 (from x − 1)`, meaning: "root for first remainder R₁ = P(1)", why: `x − 1 = 0 ⇒ x = 1.` },
+        { sym: `x₂ = −2 (from x + 2)`, meaning: "root for second remainder R₂ = P(−2)", why: `x + 2 = 0 ⇒ x = −2.` }
+      ],
+      { eq: `Total Remainder = P(1) + P(−2)`, parts: [{ part: "P(1)", desc: "remainder for (x − 1)" }, { part: "P(−2)", desc: "remainder for (x + 2)" }] },
+      [
+        { line: `P(1) = ${a}(1)² + 3(1) − 2 = ${r1};   P(−2) = ${a}(−2)² + 3(−2) − 2 = ${r2}`, why: "Evaluate P at x = 1 and x = −2 separately.", arith: `${a}+3−2 = ${r1};  ${a}×4 − 6 − 2 = ${r2}.` },
+        { line: `Sum of remainders = ${r1} + ${r2} = ${r1 + r2}`, why: "Add both remainders together.", arith: `${r1} + ${r2} = ${r1 + r2}.` }
+      ],
+      "none", "", [`P(1) = ${r1}`, `P(−2) = ${r2}`, `Sum = ${r1+r2}`], `Let me write both remainders and their sum on the board, then erase them.`, examTag
+    );
+  }
+  if(pat === 4){
+    // Given two factors (x - 1) and (x - 2) of x³ + ax² + bx + c
+    return makeStructuredQ(
+      `If (x − 1) and (x − 2) are both factors of x³ − 6x² + 11x − 6, verify both roots and find the third linear factor.`,
+      [
+        { sym: `Roots x = 1 and x = 2`, meaning: "roots from factors (x − 1) and (x − 2)", why: `Sum of all 3 roots of x³ − 6x² + 11x − 6 is 6.` },
+        { sym: `Sum of roots = 6`, meaning: "negative coefficient of x²", why: `1 + 2 + r₃ = 6 ⇒ r₃ = 3.` }
+      ],
+      { eq: `r₁ + r₂ + r₃ = −(coeff of x²)   ⇒   third factor = (x − r₃)`, parts: [{ part: "r₁ + r₂ + r₃", desc: "sum of all three roots of a monic cubic" }, { part: "(x − r₃)", desc: "third linear factor" }] },
+      [
+        { line: `Check P(1) = 1 − 6 + 11 − 6 = 0;   P(2) = 8 − 24 + 22 − 6 = 0`, why: "Both give remainder 0, confirming both are exact factors.", arith: `1−6+11−6 = 0;  8−24+22−6 = 0.` },
+        { line: `Third root r₃ = 6 − (1 + 2) = 3  ⇒  third factor is (x − 3)`, why: "Subtract sum of known roots from 6.", arith: `1 + 2 = 3;  6 − 3 = 3.` }
+      ],
+      "none", "", [`1 + 2 = 3`, `6 − 3 = 3`], `Let me show that root subtraction on the board, then erase it.`, examTag
+    );
+  }
+  // pat === 5: Quotient/remainder structure check
   return makeStructuredQ(
-    `Solve the simultaneous equations: 2x + 3y = ${c1}  and  3x − y = ${c2}.`,
+    `When a polynomial P(x) is divided by (x − 3), the quotient is (2x + 1) and the remainder is 4. Find P(3) and P(0).`,
     [
-      { sym: `Eq 1: 2x + 3y = ${c1}`, meaning: "first linear equation relating x and y", why: `Gives one relationship between the two unknowns x and y.` },
-      { sym: `Eq 2: 3x − y = ${c2}`, meaning: "second linear equation relating x and y", why: `We need two independent equations to find two unknowns cleanly.` }
+      { sym: `Divisor = (x − 3), Q(x) = 2x + 1, R = 4`, meaning: "division algorithm components", why: `P(x) = (x − 3)(2x + 1) + 4.` }
     ],
-    {
-      eq: `Elimination: Multiply to match coefficient → ADD (opposite signs) or SUBTRACT (same signs)`,
-      parts: [
-        { part: "Match coefficient", desc: "make the number in front of y (or x) equal in both equations" },
-        { part: "ADD / SUBTRACT", desc: "add when signs are opposite (+ and −) or subtract when signs are identical to cancel one letter" }
-      ]
-    },
+    { eq: `P(x) = Divisor × Quotient + Remainder`, parts: [{ part: "Divisor × Quotient", desc: "product of linear divisor and quotient" }, { part: "Remainder", desc: "leftover constant added at the end" }] },
     [
-      {
-        line: `Multiply Eq 2 by 3:  9x − 3y = ${3*c2}   ...(Eq 2b)`,
-        why: "Equation 2 has −1y, so multiplying every term by 3 turns it into −3y to match +3y in Eq 1.",
-        arith: `3×3x = 9x;  3×(−y) = −3y;  3×${c2} = ${3*c2}.`
-      },
-      {
-        line: `Add Eq 1 + Eq 2b:  (2x + 9x) + (3y − 3y) = ${c1} + ${3*c2}  ⇒  11x = ${11*x}`,
-        why: "+3y and −3y have opposite signs, so adding cancels y completely.",
-        arith: `2 + 9 = 11;  3 − 3 = 0;  ${c1} + ${3*c2} = ${11*x}.`
-      },
-      {
-        line: `x = ${11*x} ÷ 11 = ${x};   Sub in Eq 2: 3(${x}) − y = ${c2}  ⇒  y = ${y}`,
-        why: "Divide by 11 to get x, then plug x back into Eq 2 to find y.",
-        arith: `${11*x} ÷ 11 = ${x};  3×${x} = ${3*x};  ${3*x} − ${c2} = ${y}.`
-      }
+      { line: `At x = 3:  P(3) = (3 − 3)(2(3) + 1) + 4 = 0 + 4 = 4`, why: "At x = 3 the bracket (x − 3) becomes 0, leaving the remainder 4.", arith: `3 − 3 = 0;  0 × 7 + 4 = 4.` },
+      { line: `At x = 0:  P(0) = (−3)(1) + 4 = −3 + 4 = 1`, why: "Substitute x = 0 into every factor.", arith: `−3 × 1 = −3;  −3 + 4 = 1.` }
     ],
-    "balance", `⚖️ Simultaneous Solution: x = ${x}, y = ${y}`,
-    [`+3y + (−3y) = 0 (Opposite signs → ADD)`],
-    `Let me show why opposite signs cancel when added on the board, then erase it.`
+    "none", "", [`(−3)(1) + 4 = 1`], `Let me show P(0) = −3 + 4 = 1 on the board, then erase it.`, examTag
   );
 }
 
-// 2. Sets & Venn Diagrams Formula Template
-function genSetsQ(rng, idx){
+// Tough exam-style HCF & LCM (6 spread-out patterns)
+function genHcfLcmQ(rng, idx, examTag){
+  const pat = idx % 6;
+  if(pat === 0){
+    const hcf = rInt(rng, 4, 9), c1 = 2, c2 = 3;
+    const a = hcf * c1, b = hcf * c2, lcm = hcf * c1 * c2;
+    return makeStructuredQ(
+      `The HCF and LCM of two numbers are ${hcf} and ${lcm} respectively. If one of the numbers is ${a}, find the other number and their sum.`,
+      [
+        { sym: `HCF = ${hcf},  LCM = ${lcm}`, meaning: "highest common factor and lowest common multiple", why: `Product of the two numbers equals HCF × LCM.` },
+        { sym: `First number = ${a}`, meaning: "one of the two numbers", why: `Second number = (HCF × LCM) ÷ ${a}.` }
+      ],
+      { eq: `Number₁ × Number₂ = HCF × LCM`, parts: [{ part: "Number₁ × Number₂", desc: "product of the two numbers" }, { part: "HCF × LCM", desc: "product of their HCF and LCM" }] },
+      [
+        { line: `Number₂ = (${hcf} × ${lcm}) ÷ ${a} = ${hcf * lcm} ÷ ${a} = ${b}`, why: "Divide product of HCF and LCM by the known number.", arith: `${hcf} × ${lcm} = ${hcf * lcm};  ${hcf * lcm} ÷ ${a} = ${b}.` },
+        { line: `Sum of the two numbers = ${a} + ${b} = ${a + b}`, why: "Add both numbers together.", arith: `${a} + ${b} = ${a + b}.` }
+      ],
+      "none", "", [`${hcf} × ${lcm} = ${hcf*lcm}`, `${a} + ${b} = ${a+b}`], `Let me show the product, division, and sum on the board, then erase them.`, examTag
+    );
+  }
+  if(pat === 1){
+    const hcf = rInt(rng, 5, 10), m1 = 3, m2 = 5, n1 = hcf * m1, n2 = hcf * m2;
+    return makeStructuredQ(
+      `Two barrels contain ${n1} litres and ${n2} litres of palm oil. Find the capacity of the largest container that can measure each barrel an exact number of times, and the total containers needed.`,
+      [
+        { sym: `Capacities = ${n1} L and ${n2} L`, meaning: "volumes to measure out without remainder", why: `"Largest container measuring each an exact number of times" = HCF.` }
+      ],
+      { eq: `Max container = HCF(${n1}, ${n2});   Total = (${n1}÷HCF) + (${n2}÷HCF)`, parts: [{ part: "HCF", desc: "largest exact divisor of both volumes" }] },
+      [
+        { line: `Largest container = HCF(${n1}, ${n2}) = ${hcf} litres`, why: "${hcf} divides ${n1} (${m1} times) and ${n2} (${m2} times) cleanly.", arith: `${n1} ÷ ${hcf} = ${m1};  ${n2} ÷ ${hcf} = ${m2}.` },
+        { line: `Total containers = ${m1} + ${m2} = ${m1 + m2}`, why: "Add the counts from both barrels.", arith: `${m1} + ${m2} = ${m1 + m2}.` }
+      ],
+      "none", "", [`${n1}÷${hcf} = ${m1}`, `${n2}÷${hcf} = ${m2}`], `Let me write those divisions on the board, then erase them.`, examTag
+    );
+  }
+  if(pat === 2){
+    const i1 = 12, i2 = 15; // LCM = 60 minutes = 1 hour
+    return makeStructuredQ(
+      `Two buses depart a terminal at intervals of ${i1} minutes and ${i2} minutes. If they leave together at 7:00 AM, at what time will they next depart together?`,
+      [
+        { sym: `Intervals = ${i1} min and ${i2} min`, meaning: "departure schedules", why: `First common multiple of ${i1} and ${i2} is LCM(${i1}, ${i2}) = 60 minutes.` }
+      ],
+      { eq: `Next simultaneous departure = Start time + LCM(${i1}, ${i2})`, parts: [{ part: "LCM(${i1}, ${i2})", desc: "60 minutes (1 hour) until schedules align again" }] },
+      [
+        { line: `LCM(${i1}, ${i2}) = 60 minutes = 1 hour`, why: "${i1}×5 = 60 and ${i2}×4 = 60.", arith: `60 ÷ ${i1} = 5;  60 ÷ ${i2} = 4.` },
+        { line: `7:00 AM + 1 hour = 8:00 AM`, why: "Add 60 minutes to the starting time.", arith: `7:00 + 1:00 = 8:00 AM.` }
+      ],
+      "none", "", [`LCM(12, 15) = 60 min = 1 hr`], `Let me convert 60 minutes to 1 hour on the board, then erase it.`, examTag
+    );
+  }
+  if(pat === 3){
+    return makeStructuredQ(
+      `Express 72 and 108 in prime factor form and find their HCF and LCM.`,
+      [
+        { sym: `72 = 2³ × 3²,  108 = 2² × 3³`, meaning: "prime factorisations", why: `HCF picks lowest powers (2² × 3²); LCM picks highest powers (2³ × 3³).` }
+      ],
+      { eq: `HCF = 2^(min) × 3^(min);   LCM = 2^(max) × 3^(max)`, parts: [{ part: "min powers", desc: "common prime factors at smallest exponents" }, { part: "max powers", desc: "prime factors at largest exponents" }] },
+      [
+        { line: `HCF = 2² × 3² = 4 × 9 = 36`, why: "Lowest powers of 2 and 3 are 2² and 3².", arith: `4 × 9 = 36.` },
+        { line: `LCM = 2³ × 3³ = 8 × 27 = 216`, why: "Highest powers of 2 and 3 are 2³ and 3³.", arith: `8 × 27 = 216.` }
+      ],
+      "none", "", [`4 × 9 = 36`, `8 × 27 = 216`], `Let me show 4×9 = 36 and 8×27 = 216 on the board, then erase them.`, examTag
+    );
+  }
+  if(pat === 4){
+    return makeStructuredQ(
+      `Find the least number which when divided by 6, 8, and 12 leaves a remainder of 5 in each case.`,
+      [
+        { sym: `Divisors = 6, 8, 12`, meaning: "numbers that divide evenly into LCM(6, 8, 12) = 24", why: `Adding remainder 5 to 24 gives 29.` },
+        { sym: `Remainder = 5`, meaning: "constant leftover after dividing by 6, 8, or 12", why: `Required number = LCM(6, 8, 12) + 5.` }
+      ],
+      { eq: `Required number = LCM(divisors) + remainder`, parts: [{ part: "LCM(6, 8, 12)", desc: "24, smallest number divisible by 6, 8, and 12" }, { part: "+ 5", desc: "leaves 5 when divided by each" }] },
+      [
+        { line: `LCM(6, 8, 12) = 24`, why: "24 is divisible by 6, 8, and 12.", arith: `24÷6=4, 24÷8=3, 24÷12=2.` },
+        { line: `Required number = 24 + 5 = 29`, why: "Add remainder 5 to get leftover 5 on each division.", arith: `24 + 5 = 29.` }
+      ],
+      "none", "", [`24 + 5 = 29`], `Let me write 24 + 5 = 29 on the board, then erase it.`, examTag
+    );
+  }
+  // pat === 5: Ratio of HCF to LCM
+  return makeStructuredQ(
+    `Two coprime numbers have HCF = 1 and product = 35. What is their LCM?`,
+    [
+      { sym: `HCF = 1,  Product = 35`, meaning: "HCF and product of two coprime numbers", why: `When HCF = 1, LCM equals the product of the two numbers.` }
+    ],
+    { eq: `LCM = (Product) ÷ HCF`, parts: [{ part: "Product", desc: "35" }, { part: "HCF", desc: "1" }] },
+    [{ line: `LCM = 35 ÷ 1 = 35`, why: "Dividing 35 by HCF = 1 gives LCM = 35.", arith: `35 ÷ 1 = 35.` }],
+    "none", "", [`35 ÷ 1 = 35`], `Let me show 35 ÷ 1 = 35 on the board, then erase it.`, examTag
+  );
+}
+
+// Tough exam-style Probability (6 spread-out patterns)
+function genProbabilityQ(rng, idx, examTag){
+  const pat = idx % 6;
+  if(pat === 0){
+    const r = 4, b = 3, tot = 7;
+    // Two balls without replacement: one red then one blue = (4/7)*(3/6) = 12/42 = 2/7
+    return makeStructuredQ(
+      `A box has ${r} red and ${b} blue pens. Two pens are drawn at random WITHOUT replacement. Find the probability that the first is red and the second is blue.`,
+      [
+        { sym: `Red = ${r}, Blue = ${b}, Total = ${tot}`, meaning: "counts before first draw", why: `After taking 1 red pen, ${tot-1} pens remain including all ${b} blue pens.` }
+      ],
+      { eq: `P(R₁ ∩ B₂) = P(R₁) × P(B₂ | R₁)`, parts: [{ part: "P(R₁)", desc: "${r}/${tot} chance first pen is red" }, { part: "P(B₂ | R₁)", desc: "${b}/${tot-1} chance second is blue after 1 red removed" }] },
+      [{ line: `P(Red then Blue) = (${r}/${tot}) × (${b}/${tot-1}) = ${r*b}/${tot*(tot-1)} = 2/7`, why: "Multiply sequential probabilities without replacement.", arith: `${r}×${b} = ${r*b};  ${tot}×${tot-1} = ${tot*(tot-1)};  divide both by 6 ⇒ 2/7.` }],
+      "none", "", [`12/42 = 2/7`], `Let me simplify 12/42 to 2/7 on the board, then erase it.`, examTag
+    );
+  }
+  if(pat === 1){
+    // At least one head in two fair coin tosses: 1 - P(TT) = 1 - 1/4 = 3/4
+    return makeStructuredQ(
+      `A fair coin is tossed twice. Find the probability of obtaining AT LEAST ONE head.`,
+      [
+        { sym: `Sample space = {HH, HT, TH, TT}`, meaning: "all 4 equally likely outcomes", why: `n(S) = 4.` },
+        { sym: `Complement = {TT}`, meaning: "zero heads (both tails)", why: `Easier to subtract P(TT) = 1/4 from 1.` }
+      ],
+      { eq: `P(At least 1 H) = 1 − P(TT)`, parts: [{ part: "1", desc: "total probability of all outcomes" }, { part: "P(TT)", desc: "probability of getting no heads at all (1/4)" }] },
+      [{ line: `P(At least 1 H) = 1 − (1/4) = 3/4`, why: "Subtract the 'no head' case from 1.", arith: `4/4 − 1/4 = 3/4.` }],
+      "none", "", [`4/4 − 1/4 = 3/4`], `Let me show 4/4 − 1/4 = 3/4 on the board, then erase it.`, examTag
+    );
+  }
+  if(pat === 2){
+    // Two fair dice: sum equal to 7 => (1,6),(2,5),(3,4),(4,3),(5,2),(6,1) => 6/36 = 1/6
+    return makeStructuredQ(
+      `Two fair six-sided dice are rolled together. Find the probability that the sum of the two numbers showing is 7.`,
+      [
+        { sym: `n(S) = 6 × 6 = 36`, meaning: "total pairs when rolling two dice", why: `Each die has 6 outcomes.` },
+        { sym: `Favourable pairs = 6`, meaning: "(1,6), (2,5), (3,4), (4,3), (5,2), (6,1)", why: `Each pair sums to 7.` }
+      ],
+      { eq: `P(Sum = 7) = n(Sum = 7) ÷ n(S)`, parts: [{ part: "n(Sum = 7)", desc: "6 pairs summing to 7" }, { part: "n(S)", desc: "36 total dice pairs" }] },
+      [{ line: `P(Sum = 7) = 6 ÷ 36 = 1 ÷ 6`, why: "6 out of 36 outcomes sum to 7.", arith: `6 ÷ 6 = 1;  36 ÷ 6 = 6.` }],
+      "none", "", [`6/36 = 1/6`], `Let me write 6/36 = 1/6 on the board, then erase it.`, examTag
+    );
+  }
+  if(pat === 3){
+    // Mutually exclusive OR: P(A or B) = P(A) + P(B)
+    return makeStructuredQ(
+      `In a class of 40 students, 8 wear glasses and 12 are left-handed (no student has both). One student is chosen at random. Find P(Glasses or Left-handed).`,
+      [
+        { sym: `n(Glasses) = 8,  n(Left) = 12,  n(S) = 40`, meaning: "group counts and total class size", why: `Disjoint groups add directly: 8 + 12 = 20.` }
+      ],
+      { eq: `P(A or B) = [n(A) + n(B)] ÷ n(S)`, parts: [{ part: "n(A) + n(B)", desc: "combined favourable count" }, { part: "n(S)", desc: "total students (40)" }] },
+      [{ line: `P(Glasses or Left) = (8 + 12) ÷ 40 = 20 ÷ 40 = 1/2`, why: "Add mutually exclusive outcomes and divide by 40.", arith: `8 + 12 = 20;  20 ÷ 40 = 0.5 = 1/2.` }],
+      "none", "", [`8 + 12 = 20`, `20/40 = 1/2`], `Let me show 8 + 12 = 20 and 20/40 = 1/2 on the board, then erase them.`, examTag
+    );
+  }
+  if(pat === 4){
+    // Probability with unknown count
+    return makeStructuredQ(
+      `A basket contains x ripe mangoes and 6 unripe mangoes. If the probability of picking a ripe mango at random is 2/5, find x.`,
+      [
+        { sym: `Ripe = x,  Unripe = 6,  Total = x + 6`, meaning: "counts of mangoes", why: `P(Ripe) = x ÷ (x + 6) = 2/5.` }
+      ],
+      { eq: `x ÷ (x + 6) = 2 ÷ 5   ⇒   cross-multiply to solve for x`, parts: [{ part: "x", desc: "number of ripe mangoes" }, { part: "x + 6", desc: "total mangoes in basket" }] },
+      [
+        { line: `5x = 2(x + 6)  ⇒  5x = 2x + 12`, why: "Cross-multiply denominators into numerators.", arith: `5×x = 5x;  2×x + 2×6 = 2x + 12.` },
+        { line: `5x − 2x = 12  ⇒  3x = 12  ⇒  x = 4`, why: "Subtract 2x from both sides and divide by 3.", arith: `5 − 2 = 3;  12 ÷ 3 = 4.` }
+      ],
+      "none", "", [`5x − 2x = 12`, `12 ÷ 3 = 4`], `Let me show the cross-multiplication and subtraction on the board, then erase it.`, examTag
+    );
+  }
+  // pat === 5: Prime number on die
+  return makeStructuredQ(
+    `A fair die is thrown once. Find the probability of getting a prime number.`,
+    [
+      { sym: `Prime faces = {2, 3, 5}`, meaning: "numbers with exactly two factors (1 and itself)", why: `Note that 1 is NOT prime; there are 3 prime faces out of 6.` }
+    ],
+    { eq: `P(Prime) = n(Prime) ÷ n(S)`, parts: [{ part: "n(Prime)", desc: "3 faces: 2, 3, and 5" }, { part: "n(S)", desc: "6 total faces" }] },
+    [{ line: `P(Prime) = 3 ÷ 6 = 1/2`, why: "3 prime outcomes out of 6 total outcomes.", arith: `3 ÷ 3 = 1;  6 ÷ 3 = 2.` }],
+    "none", "", [`Primes on die: {2, 3, 5} → 3/6 = 1/2`], `Let me remind learners that 1 is not prime on the board, then erase it.`, examTag
+  );
+}
+
+// Other topics with varied exam-style patterns
+function genSimultaneousQ(rng, idx, examTag){
+  const x = rInt(rng, 2, 6), y = rInt(rng, 1, 5);
+  if(idx % 2 === 0){
+    const c1 = 2*x + 3*y, c2 = 3*x - y;
+    return makeStructuredQ(
+      `Solve for x and y: 2x + 3y = ${c1}  and  3x − y = ${c2}. Find (x + y).`,
+      [{ sym: `2x + 3y = ${c1},  3x − y = ${c2}`, meaning: "system of two linear equations", why: `Multiply second equation by 3 to cancel y.` }],
+      { eq: `Eliminate y by ×3 on Eq 2, then ADD to Eq 1`, parts: [{ part: "×3", desc: "matches −3y with +3y" }, { part: "ADD", desc: "cancels y" }] },
+      [
+        { line: `9x − 3y = ${3*c2}  ⇒  11x = ${11*x}  ⇒  x = ${x}`, why: "Adding cancels +3y and −3y.", arith: `${c1} + ${3*c2} = ${11*x};  ${11*x} ÷ 11 = ${x}.` },
+        { line: `y = ${y}   ⇒   x + y = ${x + y}`, why: "Find y and add x + y.", arith: `${x} + ${y} = ${x + y}.` }
+      ],
+      "balance", `⚖️ x = ${x}, y = ${y}, x+y = ${x+y}`, [`${c1}+${3*c2} = ${11*x}`], `Let me check that sum on the board, then erase it.`, examTag
+    );
+  }
+  return makeStructuredQ(
+    `The sum of two numbers is ${x + y} and their difference is ${Math.abs(x - y)}. Find the larger number.`,
+    [{ sym: `Sum = ${x + y},  Diff = ${Math.abs(x - y)}`, meaning: "sum and positive difference of two unknowns", why: `Adding the two equations gives twice the larger number.` }],
+    { eq: `Larger = (Sum + Diff) ÷ 2`, parts: [{ part: "Sum + Diff", desc: "equals twice the larger number" }, { part: "÷ 2", desc: "divides by 2 to get the larger value" }] },
+    [{ line: `Larger = (${x + y} + ${Math.abs(x - y)}) ÷ 2 = ${Math.max(x, y)}`, why: "Add sum and difference, then divide by 2.", arith: `${x+y} + ${Math.abs(x-y)} = ${2*Math.max(x,y)};  ÷ 2 = ${Math.max(x,y)}.` }],
+    "balance", `⚖️ Larger = ${Math.max(x, y)}`, [`(${x+y} + ${Math.abs(x-y)}) ÷ 2 = ${Math.max(x,y)}`], `Let me write that shortcut arithmetic on the board, then erase it.`, examTag
+  );
+}
+
+function genSetsQ(rng, idx, examTag){
   const onlyA = rInt(rng, 6, 14), both = rInt(rng, 3, 8), onlyB = rInt(rng, 5, 13), neither = rInt(rng, 2, 6);
   const nA = onlyA + both, nB = onlyB + both, total = onlyA + both + onlyB + neither;
   return makeStructuredQ(
-    `In a survey of ${total} students, ${nA} like Football (F), ${nB} like Basketball (B), and ${both} like BOTH. How many like (a) Football only, and (b) NEITHER sport?`,
-    [
-      { sym: `n(U) = ${total}`, meaning: "universal set (total students surveyed)", why: `Every student falls inside or outside the circles.` },
-      { sym: `n(F) = ${nA},  n(B) = ${nB}`, meaning: "totals in Football and Basketball", why: `Each total already includes the ${both} students in the middle overlap!` },
-      { sym: `n(F ∩ B) = ${both}`, meaning: "intersection (students in BOTH F and B)", why: `Sits in the overlap of the two circles.` }
-    ],
-    {
-      eq: `n(F only) = n(F) − n(F ∩ B)   and   n(F ∪ B) = n(F) + n(B) − n(F ∩ B)`,
-      parts: [
-        { part: "n(F)", desc: "all students who like Football (including those who also like Basketball)" },
-        { part: "n(F ∩ B)", desc: "intersection symbol ∩ ('AND'): students in BOTH sets" },
-        { part: "n(F ∪ B)", desc: "union symbol ∪ ('OR'): students in at least one set" }
-      ]
-    },
-    [
-      {
-        line: `n(F only) = ${nA} − ${both} = ${onlyA};   n(B only) = ${nB} − ${both} = ${onlyB}`,
-        why: "Subtract the overlap so students who like both sports aren't counted as 'only' one sport.",
-        arith: `${nA} − ${both} = ${onlyA};  ${nB} − ${both} = ${onlyB}.`
-      },
-      {
-        line: `n(F ∪ B) = ${onlyA} + ${both} + ${onlyB} = ${onlyA + both + onlyB};   Neither = ${total} − ${onlyA + both + onlyB} = ${neither}`,
-        why: "Add all three regions inside the circles, then subtract from total students to get those outside.",
-        arith: `${onlyA} + ${both} + ${onlyB} = ${onlyA + both + onlyB};  ${total} − ${onlyA + both + onlyB} = ${neither}.`
-      }
-    ],
-    "none", "",
-    [`n(F ∪ B) = n(F) + n(B) − n(F ∩ B)`],
-    `Let me write the union formula on the board so beginners see why overlap is subtracted once, then erase it.`
+    `In a group of ${total} candidates, ${nA} offer Physics, ${nB} offer Chemistry, and ${both} offer both. Find the number who offer NEITHER subject.`,
+    [{ sym: `n(U) = ${total},  n(P) = ${nA},  n(C) = ${nB},  n(P ∩ C) = ${both}`, meaning: "universal, subject totals, and overlap", why: `Union = ${nA} + ${nB} − ${both} = ${onlyA + both + onlyB}.` }],
+    { eq: `Neither = n(U) − [n(P) + n(C) − n(P ∩ C)]`, parts: [{ part: "n(P) + n(C) − n(P ∩ C)", desc: "total in at least one subject" }, { part: "n(U)", desc: "total candidates" }] },
+    [{ line: `Union = ${nA + nB - both};   Neither = ${total} − ${nA + nB - both} = ${neither}`, why: "Subtract union from total candidates.", arith: `${nA} + ${nB} − ${both} = ${nA+nB-both};  ${total} − ${nA+nB-both} = ${neither}.` }],
+    "none", "", [`${nA+nB-both}`, `${total} − ${nA+nB-both} = ${neither}`], `Let me show union and complement on the board, then erase them.`, examTag
   );
 }
 
-// 3. Matrices & Determinants Formula Template
-function genMatricesQ(rng, idx){
+function genMatricesQ(rng, idx, examTag){
   const a = rInt(rng, 2, 5), b = rInt(rng, 1, 3), c = rInt(rng, 1, 3), d = rInt(rng, 3, 6);
   const det = a*d - b*c;
-  if(det === 0) return genMatricesQ(rng, idx + 1);
+  if(det === 0) return genMatricesQ(rng, idx + 1, examTag);
   return makeStructuredQ(
-    `Given matrix M = [[${a}, ${b}], [${c}, ${d}]], find the determinant |M| and the inverse matrix M⁻¹.`,
-    [
-      { sym: `a = ${a}, d = ${d}`, meaning: "main diagonal entries (top-left and bottom-right)", why: `Multiplied together first in ad − bc.` },
-      { sym: `b = ${b}, c = ${c}`, meaning: "secondary diagonal entries (top-right and bottom-left)", why: `Multiplied together second and subtracted from ad.` }
-    ],
-    {
-      eq: `det(M) = ad − bc   and   M⁻¹ = (1 ÷ det(M)) × [[d, −b], [−c, a]]`,
-      parts: [
-        { part: "ad − bc", desc: "main diagonal product minus other diagonal product" },
-        { part: "1 ÷ det(M)", desc: "scalar multiplier (inverse exists whenever det(M) ≠ 0)" },
-        { part: "[[d, −b], [−c, a]]", desc: "swap a and d, and flip the signs of b and c" }
-      ]
-    },
-    [
-      {
-        line: `det(M) = (${a})(${d}) − (${b})(${c}) = ${a*d} − ${b*c} = ${det}`,
-        why: "Compute the determinant first to check M is invertible and get the denominator 1/det.",
-        arith: `${a} × ${d} = ${a*d};  ${b} × ${c} = ${b*c};  ${a*d} − ${b*c} = ${det}.`
-      },
-      {
-        line: `M⁻¹ = (1/${det}) × [[${d}, −${b}], [−${c}, ${a}]]`,
-        why: "Swap main diagonal elements (a and d) and negate b and c, then scale by 1/det.",
-        arith: `Swap ${a}↔${d} and change +${b}→−${b}, +${c}→−${c}.`
-      }
-    ],
-    "none", "",
-    [`ad = ${a*d},  bc = ${b*c}  ⇒  ${a*d} − ${b*c} = ${det}`],
-    `Let me show those two diagonal multiplications clearly on the board, then erase them.`
+    `Find the value of k if the matrix [[${a}, ${b}], [${c}, k]] is singular (determinant = 0).`,
+    [{ sym: `det = 0`, meaning: "condition for a singular (non-invertible) matrix", why: `a·k − b·c = 0.` }, { sym: `a = ${a}, b = ${b}, c = ${c}`, meaning: "known matrix entries", why: `Gives ${a}k − ${b*c} = 0.` }],
+    { eq: `ad − bc = 0   ⇒   ak = bc`, parts: [{ part: "ad − bc = 0", desc: "determinant equal to zero for a singular matrix" }] },
+    [{ line: `${a}k − ${b*c} = 0  ⇒  ${a}k = ${b*c}  ⇒  k = ${(b*c/a).toFixed(2).replace(/\.00$/,"")}`, why: "Set determinant to zero and solve for k.", arith: `${b} × ${c} = ${b*c};  ${b*c} ÷ ${a} = ${(b*c/a).toFixed(2).replace(/\.00$/,"")}.` }],
+    "none", "", [`${b}×${c} = ${b*c}`], `Let me write that singular-matrix equation on the board, then erase it.`, examTag
   );
 }
 
-// 4. Vectors Formula Template
-function genVectorsQ(rng, idx){
+function genVectorsQ(rng, idx, examTag){
   const ax = rInt(rng, 1, 5), ay = rInt(rng, 2, 6), bx = rInt(rng, 4, 9), by = rInt(rng, 6, 11);
   const dx = bx - ax, dy = by - ay, mag = Math.hypot(dx, dy).toFixed(2);
   return makeStructuredQ(
-    `If position vectors OA = (${ax}, ${ay}) and OB = (${bx}, ${by}), find vector AB and its magnitude |AB|.`,
+    `Given OA = (${ax}, ${ay}) and OB = (${bx}, ${by}), find vector AB and |AB|.`,
+    [{ sym: `OA = (${ax}, ${ay}),  OB = (${bx}, ${by})`, meaning: "position vectors from origin", why: `AB = OB − OA.` }],
+    { eq: `AB = OB − OA;   |AB| = √(dx² + dy²)`, parts: [{ part: "OB − OA", desc: "end minus start" }, { part: "√(dx² + dy²)", desc: "magnitude (length)" }] },
     [
-      { sym: `OA = (${ax}, ${ay})`, meaning: "position vector from origin O to start point A", why: `Acts as our starting point.` },
-      { sym: `OB = (${bx}, ${by})`, meaning: "position vector from origin O to end point B", why: `Acts as our ending point.` }
+      { line: `AB = (${dx}, ${dy})`, why: "Subtract start from end.", arith: `${bx}−${ax} = ${dx};  ${by}−${ay} = ${dy}.` },
+      { line: `|AB| = √(${dx*dx} + ${dy*dy}) = √${dx*dx + dy*dy} ≈ ${mag}`, why: "Pythagoras on components.", arith: `${dx*dx} + ${dy*dy} = ${dx*dx + dy*dy}.` }
     ],
-    {
-      eq: `AB = OB − OA   and   |AB| = √(x² + y²)`,
-      parts: [
-        { part: "OB − OA", desc: "end vector minus start vector (x minus x, y minus y)" },
-        { part: "|AB|", desc: "magnitude (length of the arrow from A to B)" },
-        { part: "√(x² + y²)", desc: "Pythagoras' theorem applied to horizontal and vertical components" }
-      ]
-    },
-    [
-      {
-        line: `AB = (${bx} − ${ax}, ${by} − ${ay}) = (${dx}, ${dy})`,
-        why: "Always subtract starting coordinates OA from ending coordinates OB.",
-        arith: `${bx} − ${ax} = ${dx};  ${by} − ${ay} = ${dy}.`
-      },
-      {
-        line: `|AB| = √(${dx}² + ${dy}²) = √(${dx*dx} + ${dy*dy}) = √${dx*dx + dy*dy} ≈ ${mag}`,
-        why: "Square both components, add them, and take the square root for vector length.",
-        arith: `${dx}² = ${dx*dx};  ${dy}² = ${dy*dy};  ${dx*dx} + ${dy*dy} = ${dx*dx + dy*dy}.`
-      }
-    ],
-    "arrow", `➡️ AB = (${dx}, ${dy}), |AB| ≈ ${mag}`,
-    [`AB = End − Start = OB − OA`],
-    `Let me remind beginners to subtract OA from OB (End minus Start), then erase it.`
+    "arrow", `➡️ AB = (${dx}, ${dy}), |AB| ≈ ${mag}`, [`${dx*dx} + ${dy*dy} = ${dx*dx+dy*dy}`], `Let me show the sum of squares on the board, then erase it.`, examTag
   );
 }
 
-// 5. Probability & Statistics Formula Template
-function genProbStatsQ(rng, idx){
-  if(idx % 2 === 0){
-    const fav = rInt(rng, 3, 8), other = rInt(rng, 4, 9), tot = fav + other;
-    return makeStructuredQ(
-      `A bag holds ${fav} green tokens and ${other} yellow tokens. One token is picked at random. Find P(Green) and P(Not Green).`,
-      [
-        { sym: `n(Green) = ${fav}`, meaning: "number of favourable outcomes for Green", why: `Count of green tokens in the bag.` },
-        { sym: `n(S) = ${tot}`, meaning: "sample space (total possible outcomes)", why: `Add all tokens: ${fav} + ${other} = ${tot}.` }
-      ],
-      {
-        eq: `P(E) = n(E) ÷ n(S)   and   P(E') = 1 − P(E)`,
-        parts: [
-          { part: "n(E)", desc: "number of outcomes matching event E" },
-          { part: "n(S)", desc: "total number of equally likely outcomes" },
-          { part: "P(E')", desc: "complement probability (chance event E does NOT happen)" }
-        ]
-      },
-      [
-        {
-          line: `Total outcomes n(S) = ${fav} + ${other} = ${tot};   P(Green) = ${fav}/${tot}`,
-          why: "Divide favourable count by total possible outcomes.",
-          arith: `${fav} + ${other} = ${tot}  ⇒  ${fav}/${tot}.`
-        },
-        {
-          line: `P(Not Green) = 1 − ${fav}/${tot} = ${other}/${tot}`,
-          why: "All probabilities sum to 1, so subtracting P(Green) from 1 gives P(Not Green).",
-          arith: `${tot}/${tot} − ${fav}/${tot} = ${other}/${tot}.`
-        }
-      ],
-      "none", "",
-      [`${tot}/${tot} − ${fav}/${tot} = ${other}/${tot}`],
-      `Let me show 1 written as ${tot}/${tot} on the board for easy fraction subtraction, then erase it.`
-    );
-  }
-  const nums = [rInt(rng, 4, 9), rInt(rng, 6, 12), rInt(rng, 5, 11), rInt(rng, 8, 15), rInt(rng, 7, 14)];
-  const sum = nums.reduce((a,b)=>a+b, 0), mean = (sum / nums.length).toFixed(2).replace(/\.00$/, "");
+function genStatsQ(rng, idx, examTag){
+  const n = 5, mean = rInt(rng, 8, 15), total = n * mean;
+  const firstFour = [mean - 2, mean + 1, mean - 1, mean + 2];
+  const sum4 = firstFour.reduce((a,b)=>a+b, 0), fifth = total - sum4;
   return makeStructuredQ(
-    `Find the mean of the data set: ${nums.join(", ")}.`,
-    [
-      { sym: `Data = [${nums.join(", ")}]`, meaning: "list of observed numerical values", why: `Each value contributes to the total sum.` },
-      { sym: `n = ${nums.length}`, meaning: "number of data items in the list", why: `There are ${nums.length} numbers to average.` }
-    ],
-    {
-      eq: `Mean (x̄) = (Sum of all values) ÷ n`,
-      parts: [
-        { part: "x̄", desc: "symbol for the arithmetic mean (average)" },
-        { part: "Sum of all values", desc: "total obtained by adding every number in the set" },
-        { part: "n", desc: "how many numbers are in the set" }
-      ]
-    },
-    [
-      {
-        line: `Sum = ${nums.join(" + ")} = ${sum}`,
-        why: "Add every value carefully before dividing.",
-        arith: `Running total: ${sum}.`
-      },
-      {
-        line: `Mean = ${sum} ÷ ${nums.length} = ${mean}`,
-        why: "Divide the total sum equally among all ${nums.length} items.",
-        arith: `${sum} ÷ ${nums.length} = ${mean}.`
-      }
-    ],
-    "none", "",
-    [`${nums.join(" + ")} = ${sum}`],
-    `Let me write that addition clearly on the board, then erase it.`
+    `The mean of ${n} numbers is ${mean}. If four of the numbers are ${firstFour.join(", ")}, find the fifth number.`,
+    [{ sym: `Mean = ${mean},  n = ${n}`, meaning: "mean and count of five numbers", why: `Total sum of all 5 numbers = ${n} × ${mean} = ${total}.` }, { sym: `First 4 sum = ${sum4}`, meaning: "sum of the four known numbers", why: `Fifth number = Total sum − First 4 sum.` }],
+    { eq: `Total Sum = Mean × n;   Missing = Total Sum − Sum of known`, parts: [{ part: "Mean × n", desc: "total of all n values" }] },
+    [{ line: `Total = ${n} × ${mean} = ${total};   Fifth number = ${total} − ${sum4} = ${fifth}`, why: "Multiply mean by n first, then subtract known sum.", arith: `${n}×${mean} = ${total};  ${sum4} subtracted from ${total} = ${fifth}.` }],
+    "none", "", [`${n}×${mean} = ${total}`, `${total} − ${sum4} = ${fifth}`], `Let me write that missing-value arithmetic on the board, then erase it.`, examTag
   );
 }
 
-// 6. Sequences, Circles, Trig/Bearings, Calculus/Log-Indices & General Templates
-function genSequencesQ(rng, idx){
-  const a = rInt(rng, 3, 10), d = rInt(rng, 2, 6), n = rInt(rng, 8, 13), termVal = a + (n - 1) * d;
+function genSequencesQ(rng, idx, examTag){
+  const a = rInt(rng, 3, 9), d = rInt(rng, 2, 5), t3 = a + 2*d, t7 = a + 6*d;
   return makeStructuredQ(
-    `Find the ${n}th term of the AP: ${a}, ${a+d}, ${a+2*d}, ...`,
+    `In an Arithmetic Progression, the 3rd term is ${t3} and the 7th term is ${t7}. Find the common difference d and first term a.`,
+    [{ sym: `T₃ = a + 2d = ${t3}`, meaning: "3rd term equation", why: `2 steps after first term a.` }, { sym: `T₇ = a + 6d = ${t7}`, meaning: "7th term equation", why: `6 steps after first term a.` }],
+    { eq: `T_n = a + (n − 1)d   ⇒   subtract equations to eliminate a`, parts: [{ part: "T_n", desc: "nth term" }, { part: "a", desc: "first term" }, { part: "d", desc: "common difference" }] },
     [
-      { sym: `a = ${a}`, meaning: "first term", why: `Sequence starts at ${a}.` },
-      { sym: `d = ${d}`, meaning: "common difference", why: `Each step adds ${d}.` },
-      { sym: `n = ${n}`, meaning: "target term position", why: `We want position ${n}.` }
+      { line: `(a + 6d) − (a + 2d) = ${t7} − ${t3}  ⇒  4d = ${t7 - t3}  ⇒  d = ${d}`, why: "Subtracting cancels 'a' so you solve directly for d.", arith: `6−2 = 4;  ${t7}−${t3} = ${t7-t3};  ${t7-t3} ÷ 4 = ${d}.` },
+      { line: `a + 2(${d}) = ${t3}  ⇒  a = ${t3 - 2*d} = ${a}`, why: "Plug d back into T₃ to find a.", arith: `${t3} − ${2*d} = ${a}.` }
     ],
-    { eq: `T_n = a + (n − 1)d`, parts: [{ part: "a", desc: "first term" }, { part: "d", desc: "common difference" }, { part: "n − 1", desc: "number of steps after first term" }] },
-    [
-      { line: `T_${n} = ${a} + (${n} − 1) × ${d}`, why: "Substitute a, d, and n into the AP formula.", arith: `${n} − 1 = ${n-1};  ${n-1} × ${d} = ${(n-1)*d}.` },
-      { line: `T_${n} = ${a} + ${(n-1)*d} = ${termVal}`, why: "Add first term to total step increase.", arith: `${a} + ${(n-1)*d} = ${termVal}.` }
-    ],
-    "none", "", [`${n} − 1 = ${n-1}`, `${n-1} × ${d} = ${(n-1)*d}`], `Let me show that step calculation on the board, then erase it.`
+    "none", "", [`${t7} − ${t3} = ${t7-t3}`, `${t7-t3} ÷ 4 = ${d}`], `Let me show how subtracting eliminates 'a' on the board, then erase it.`, examTag
   );
 }
 
-function genCirclesQ(rng, idx){
-  const circAng = rInt(rng, 32, 68), centreAng = 2 * circAng;
+function genCirclesQ(rng, idx, examTag){
+  const ang = rInt(rng, 34, 66);
   return makeStructuredQ(
-    `Angle at the circumference on an arc is ${circAng}°. Find the angle at the centre O on the same arc.`,
-    [
-      { sym: `Circumference angle = ${circAng}°`, meaning: "angle at the circle boundary", why: `Given as ${circAng}°.` },
-      { sym: `Same arc`, meaning: "both angles stand on the exact same arc", why: `Central angle is double the circumference angle.` }
-    ],
-    { eq: `∠Centre = 2 × ∠Circumference`, parts: [{ part: "∠Centre", desc: "angle at centre O" }, { part: "2 ×", desc: "double multiplier for same-arc central angle" }] },
-    [{ line: `∠Centre = 2 × ${circAng}° = ${centreAng}°`, why: "Double the circumference angle.", arith: `2 × ${circAng} = ${centreAng}.` }],
-    "circle", `⭕ Centre = ${centreAng}°`, [`2 × ${circAng} = ${centreAng}`], `Let me write 2 × ${circAng} = ${centreAng} on the board, then erase it.`
+    `In a circle with centre O, reflex/obtuse angle at centre on arc AB is ${2*ang}°, and point C lies on the major arc. Find ∠ACB.`,
+    [{ sym: `∠AOB = ${2*ang}°`, meaning: "angle at centre standing on arc AB", why: `Angle at circumference on the same arc is half the centre angle.` }],
+    { eq: `∠Circumference = ½ × ∠Centre`, parts: [{ part: "½", desc: "half multiplier for angle at circumference vs. centre" }] },
+    [{ line: `∠ACB = ½ × ${2*ang}° = ${ang}°`, why: "Angle at circumference is half angle at centre on same arc.", arith: `${2*ang} ÷ 2 = ${ang}.` }],
+    "circle", `⭕ ∠ACB = ${ang}°`, [`${2*ang} ÷ 2 = ${ang}`], `Let me show ${2*ang} ÷ 2 = ${ang} on the board, then erase it.`, examTag
   );
 }
 
-function genTrigBearingsQ(rng, idx){
-  const [opp, adj, hyp] = pick(rng, [[3, 4, 5], [5, 12, 13], [8, 15, 17]]);
+function genTrigBearingsQ(rng, idx, examTag){
+  const b = rInt(rng, 25, 145), pad = String(b).padStart(3, "0");
   return makeStructuredQ(
-    `In a right triangle with sides ${opp}, ${adj}, and hypotenuse ${hyp}, find sin θ, cos θ, and tan θ for angle θ opposite ${opp}.`,
-    [
-      { sym: `Opp = ${opp}, Adj = ${adj}, Hyp = ${hyp}`, meaning: "opposite, adjacent, and hypotenuse sides", why: `Identified relative to angle θ and the 90° corner.` }
-    ],
-    { eq: `sin θ = Opp/Hyp,  cos θ = Adj/Hyp,  tan θ = Opp/Adj`, parts: [{ part: "Opp/Hyp", desc: "opposite over hypotenuse" }, { part: "Adj/Hyp", desc: "adjacent over hypotenuse" }, { part: "Opp/Adj", desc: "opposite over adjacent" }] },
-    [{ line: `sin θ = ${opp}/${hyp},  cos θ = ${adj}/${hyp},  tan θ = ${opp}/${adj}`, why: "Substitute side lengths directly into SOH CAH TOA.", arith: `Fractions are exact ratios of sides.` }],
-    "righttriangle", `📐 SOH CAH TOA (${opp}, ${adj}, ${hyp})`, [`SOH: ${opp}/${hyp}, CAH: ${adj}/${hyp}, TOA: ${opp}/${adj}`], `Let me write the three ratios clearly on the board, then erase it.`
+    `Town B is on a bearing of ${pad}° from Town A. Find the bearing of Town A from Town B.`,
+    [{ sym: `Forward bearing = ${pad}°`, meaning: "clockwise angle from North at A to B", why: `Less than 180°, so add 180° for the back bearing.` }],
+    { eq: `Back bearing = Forward + 180°  (when < 180°)`, parts: [{ part: "+ 180°", desc: "straight-line reversal" }] },
+    [{ line: `Back bearing = ${b}° + 180° = ${b + 180}°`, why: "Reversing direction adds 180°.", arith: `${b} + 180 = ${b + 180}.` }],
+    "compass", `🧭 Back = ${b + 180}°`, [`${b} + 180 = ${b+180}`], `Let me write ${b} + 180 = ${b+180} on the board, then erase it.`, examTag
   );
 }
 
-function genCalculusLogQ(rng, idx){
+function genCalculusLogQ(rng, idx, examTag){
   const base = pick(rng, [2, 3, 5]), exp = rInt(rng, 3, 5), val = Math.pow(base, exp), xAns = (exp + 1) / 2;
   return makeStructuredQ(
     `Solve for x: ${base}^(2x − 1) = ${val}.`,
-    [
-      { sym: `Base = ${base}`, meaning: "base number", why: `Express ${val} as ${base}^${exp} so bases match.` },
-      { sym: `Target = ${val}`, meaning: "value on the right side", why: `Equals ${base}^${exp}.` }
-    ],
-    { eq: `a^m = a^n ⇒ m = n`, parts: [{ part: "m", desc: "left exponent (2x − 1)" }, { part: "n", desc: "right exponent (${exp})" }] },
-    [
-      { line: `2x − 1 = ${exp}`, why: "Equate powers once bases match.", arith: `${base}^${exp} = ${val}.` },
-      { line: `2x = ${exp + 1}  ⇒  x = ${xAns}`, why: "Add 1 and divide by 2.", arith: `${exp} + 1 = ${exp+1}; ${exp+1} ÷ 2 = ${xAns}.` }
-    ],
-    "none", "", [`${exp} + 1 = ${exp+1}`, `${exp+1} ÷ 2 = ${xAns}`], `Let me show that arithmetic on the board, then erase it.`
+    [{ sym: `Base = ${base},  RHS = ${val} = ${base}^${exp}`, meaning: "matching exponential bases", why: `Once bases are equal, equate exponents: 2x − 1 = ${exp}.` }],
+    { eq: `a^m = a^n  ⇒  m = n`, parts: [{ part: "m", desc: "2x − 1" }, { part: "n", desc: "${exp}" }] },
+    [{ line: `2x − 1 = ${exp}  ⇒  2x = ${exp + 1}  ⇒  x = ${xAns}`, why: "Equate powers, add 1, divide by 2.", arith: `${exp} + 1 = ${exp+1};  ${exp+1} ÷ 2 = ${xAns}.` }],
+    "none", "", [`${exp+1} ÷ 2 = ${xAns}`], `Let me show that arithmetic on the board, then erase it.`, examTag
   );
 }
 
-function genGeneralToughQ(rng, idx, topic){
-  const r1 = rInt(rng, 2, 5), r2 = rInt(rng, 1, 4);
+function genGeneralToughQ(rng, idx, topic, examTag){
+  const pat = idx % 3;
+  if(pat === 0){
+    const r1 = rInt(rng, 2, 5), r2 = rInt(rng, 1, 4);
+    return makeStructuredQ(
+      `[${topic}] Solve for x: x² − ${r1+r2}x + ${r1*r2} = 0.`,
+      [{ sym: `Sum = −${r1+r2},  Product = +${r1*r2}`, meaning: "target sum and product", why: `Factors are (x − ${r1})(x − ${r2}) = 0.` }],
+      { eq: `(x − r₁)(x − r₂) = 0  ⇒  x = r₁ or r₂`, parts: [{ part: "r₁, r₂", desc: "solutions/roots of quadratic" }] },
+      [{ line: `(x − ${r1})(x − ${r2}) = 0  ⇒  x = ${r1} or ${r2}`, why: "Set each factor equal to zero.", arith: `(−${r1})(−${r2}) = ${r1*r2};  (−${r1}) + (−${r2}) = −${r1+r2}.` }],
+      "axes", `📈 x = ${r1}, ${r2}`, [`(−${r1}) + (−${r2}) = −${r1+r2}`], `Let me check the sum on the board, then erase it.`, examTag
+    );
+  }
+  if(pat === 1){
+    const cp = rInt(rng, 4, 12) * 1000, pct = pick(rng, [10, 20, 25]), sp = cp + (pct/100)*cp;
+    return makeStructuredQ(
+      `[${topic}] A trader sells a radio for ₦${sp} at a profit of ${pct}%. Calculate the cost price.`,
+      [{ sym: `SP = ₦${sp},  Profit = ${pct}%`, meaning: "selling price and percentage gain", why: `SP = ${100+pct}% of cost price.` }],
+      { eq: `CP = (SP × 100) ÷ (100 + p%)`, parts: [{ part: "SP × 100", desc: "scales selling price" }, { part: "100 + p%", desc: "percentage value of SP" }] },
+      [{ line: `CP = (${sp} × 100) ÷ ${100+pct} = ₦${cp}`, why: "Divide scaled SP by ${100+pct}%.", arith: `${sp*100} ÷ ${100+pct} = ${cp}.` }],
+      "none", "", [`100 + ${pct} = ${100+pct}`], `Let me write ${100+pct}% on the board, then erase it.`, examTag
+    );
+  }
+  const prin = rInt(rng, 2, 6) * 1000, rate = 5, yrs = 3, interest = (prin * rate * yrs) / 100;
   return makeStructuredQ(
-    `[${topic}] Solve x² − ${r1+r2}x + ${r1*r2} = 0.`,
-    [
-      { sym: `Sum = ${r1+r2}, Product = ${r1*r2}`, meaning: "target sum and product for factoring", why: `Two numbers multiplying to +${r1*r2} and adding to −${r1+r2} are −${r1} and −${r2}.` }
-    ],
-    { eq: `(x − r₁)(x − r₂) = 0 ⇒ x = r₁ or r₂`, parts: [{ part: "(x − r₁)(x − r₂)", desc: "factored brackets" }, { part: "r₁, r₂", desc: "roots where each bracket equals zero" }] },
-    [
-      { line: `(x − ${r1})(x − ${r2}) = 0`, why: "Factorise quadratic into two brackets.", arith: `(−${r1})(−${r2}) = ${r1*r2}; (−${r1}) + (−${r2}) = −${r1+r2}.` },
-      { line: `x = ${r1}  or  x = ${r2}`, why: "Set each bracket to zero.", arith: `Zero-Product Rule.` }
-    ],
-    "axes", `📈 Roots: x = ${r1}, ${r2}`, [`(−${r1}) + (−${r2}) = −${r1+r2}`], `Let me check the sum and product on the board, then erase it.`
+    `[${topic}] Find the simple interest on ₦${prin} for ${yrs} years at ${rate}% per annum.`,
+    [{ sym: `P = ₦${prin},  R = ${rate}%,  T = ${yrs} yrs`, meaning: "principal, rate, and time", why: `SI = (P × R × T) ÷ 100.` }],
+    { eq: `SI = (P × R × T) ÷ 100`, parts: [{ part: "P", desc: "principal" }, { part: "R", desc: "rate %" }, { part: "T", desc: "time in years" }] },
+    [{ line: `SI = (${prin} × ${rate} × ${yrs}) ÷ 100 = ₦${interest}`, why: "Multiply P, R, and T, then divide by 100.", arith: `${rate} × ${yrs} = ${rate*yrs};  ${prin} × ${rate*yrs} ÷ 100 = ${interest}.` }],
+    "none", "", [`${rate} × ${yrs} = ${rate*yrs}`], `Let me show that interest arithmetic on the board, then erase it.`, examTag
+  );
+}
+
+function findCustomPastQ(topic, idx){
+  const bank = window.CUSTOM_PAST_QUESTIONS;
+  if(!Array.isArray(bank) || !bank.length) return null;
+  const tl = topic.toLowerCase();
+  const matches = bank.filter(item => item.topicMatch && tl.includes(String(item.topicMatch).toLowerCase()));
+  if(!matches.length) return null;
+  // Prioritize custom past questions for ~75% of slots
+  if(idx % 4 === 3) return null;
+  const chosen = matches[idx % matches.length];
+  return makeStructuredQ(
+    chosen.q,
+    chosen.params || [{ sym: "Given", meaning: "values from past question", why: "Extracted from exam statement." }],
+    chosen.formula || { eq: "Exam Rule", parts: [{ part: "Target", desc: "quantity sought" }] },
+    chosen.steps || [{ line: chosen.solution || "Follow step-by-step substitution", why: "Standard exam method.", arith: chosen.arith || "Check arithmetic carefully." }],
+    chosen.diagram || "none",
+    chosen.diagramLabel || "",
+    chosen.sideWorkLines || null,
+    chosen.sideWorkExpl || "",
+    chosen.examYear || "WAEC Past Q"
   );
 }
 
 function generateTopicQuestion(topic, idx, mode){
+  const customHit = findCustomPastQ(topic, idx);
+  if(customHit) return { ...customHit, source: `${customHit.examTag} • Topic: ${topic}`, key: topicKey(topic), idx };
+
   const key = topicKey(topic);
   const modeSalt = mode === "learn" ? 137 : mode === "exam" ? 577 : 991;
   let topicHash = 0;
   for(let i=0; i<topic.length; i++) topicHash = (topicHash * 31 + topic.charCodeAt(i)) % 1000003;
   const rng = seededRng(topicHash * 17 + idx * 1009 + modeSalt);
   const pIdx = idx + (mode === "exam" ? 1 : mode === "exercise" ? 2 : 0);
+  const examTag = pickExamYear(curCat, rng, idx);
 
   let built;
-  if(key === "simultaneous") built = genSimultaneousQ(rng, pIdx);
-  else if(key === "sets") built = genSetsQ(rng, pIdx);
-  else if(key === "matrices") built = genMatricesQ(rng, pIdx);
-  else if(key === "vectors") built = genVectorsQ(rng, pIdx);
-  else if(key === "prob_stats") built = genProbStatsQ(rng, pIdx);
-  else if(key === "sequences") built = genSequencesQ(rng, pIdx);
-  else if(key === "circles") built = genCirclesQ(rng, pIdx);
-  else if(key === "trigonometry" || key === "bearings") built = genTrigBearingsQ(rng, pIdx);
-  else if(key === "calculus" || key === "log_indices") built = genCalculusLogQ(rng, pIdx);
+  if(key === "polynomials") built = genPolynomialsQ(rng, pIdx, examTag);
+  else if(key === "hcf_lcm") built = genHcfLcmQ(rng, pIdx, examTag);
+  else if(key === "probability") built = genProbabilityQ(rng, pIdx, examTag);
+  else if(key === "simultaneous") built = genSimultaneousQ(rng, pIdx, examTag);
+  else if(key === "sets") built = genSetsQ(rng, pIdx, examTag);
+  else if(key === "matrices") built = genMatricesQ(rng, pIdx, examTag);
+  else if(key === "vectors") built = genVectorsQ(rng, pIdx, examTag);
+  else if(key === "stats") built = genStatsQ(rng, pIdx, examTag);
+  else if(key === "sequences") built = genSequencesQ(rng, pIdx, examTag);
+  else if(key === "circles") built = genCirclesQ(rng, pIdx, examTag);
+  else if(key === "trigonometry" || key === "bearings") built = genTrigBearingsQ(rng, pIdx, examTag);
+  else if(key === "calculus" || key === "log_indices") built = genCalculusLogQ(rng, pIdx, examTag);
   else if(key === "past_drill"){
-    const gens = [genSimultaneousQ, genSetsQ, genMatricesQ, genVectorsQ, genProbStatsQ, genSequencesQ, genCirclesQ, genTrigBearingsQ, genCalculusLogQ];
-    built = gens[(idx + topicHash) % gens.length](rng, pIdx, topic);
+    const gens = [genPolynomialsQ, genHcfLcmQ, genProbabilityQ, genSimultaneousQ, genSetsQ, genMatricesQ, genVectorsQ, genStatsQ, genSequencesQ, genCirclesQ, genTrigBearingsQ, genCalculusLogQ];
+    built = gens[(idx + topicHash) % gens.length](rng, pIdx, examTag);
   } else {
-    built = genGeneralToughQ(rng, pIdx, topic);
+    built = genGeneralToughQ(rng, pIdx, topic, examTag);
   }
 
-  const source = mode === "exam"
-    ? ["WAEC", "NECO", "JAMB", "BECE"][(idx + topicHash) % 4] + " Past Exam"
-    : (mode === "exercise" ? "Tough Exercise" : "Deep Guided Lesson");
-
-  return { title: built.q, params: built.params, formula: built.formula, steps: built.steps, source, key, idx, diagram: built.diagram, diagramLabel: built.label, sideWorkLines: built.sideWorkLines, sideWorkExpl: built.sideWorkExpl };
+  const labelType = mode === "exam" ? "Past Exam" : (mode === "exercise" ? "Tough Exam Exercise" : "Past-Style Guided Lesson");
+  return {
+    title: built.q,
+    params: built.params,
+    formula: built.formula,
+    steps: built.steps,
+    source: `${built.examTag} (${labelType}) • Topic: ${topic}`,
+    examTag: built.examTag,
+    key, idx,
+    diagram: built.diagram,
+    diagramLabel: built.label,
+    sideWorkLines: built.sideWorkLines,
+    sideWorkExpl: built.sideWorkExpl
+  };
 }
 
 function buildToughAssignment(topic){
@@ -592,10 +789,11 @@ function buildToughAssignment(topic){
     const mult = rInt(rng, 2, 5), addC = rInt(rng, 1, 6);
     items.push({
       num: i + 1,
-      q: `Challenge ${i + 1} (${topic}): ${base.title} — Then compute (${mult} × MainAnswer + ${addC}) and verify all conditions.`,
-      params: [...base.params, { sym: `k = ${mult}, c = ${addC}`, meaning: "follow-up challenge multiplier and constant", why: `Applies your main result in a second step.` }],
+      examTag: base.examTag,
+      q: `[${base.examTag}] Challenge ${i + 1}: ${base.title} — Then evaluate (${mult} × MainAnswer + ${addC}) and verify.`,
+      params: [...base.params, { sym: `k = ${mult}, c = ${addC}`, meaning: "follow-up challenge multiplier and constant", why: `Tests multi-step accuracy after obtaining the main result.` }],
       formula: { eq: `${base.formula.eq}   and   Final = ${mult} × MainAnswer + ${addC}`, parts: [...base.formula.parts, { part: `${mult} × MainAnswer + ${addC}`, desc: `multiply main answer by ${mult} first, then add ${addC}` }] },
-      steps: [...base.steps, { line: `Follow-up: ${mult} × (MainAnswer) + ${addC}`, why: "Complete main calculation first, then do the extra challenge arithmetic.", arith: `Multiply by ${mult} first, then add ${addC}.` }],
+      steps: [...base.steps, { line: `Follow-up: ${mult} × (MainAnswer) + ${addC}`, why: "Complete main calculation first, then perform extra arithmetic.", arith: `Multiply by ${mult} first, then add ${addC}.` }],
       sideWorkLines: base.sideWorkLines || [`Check signs & units`],
       sideWorkExpl: base.sideWorkExpl || `Let me write that check on the board, then erase it.`
     });
@@ -657,7 +855,7 @@ function drawFittedText(ctx, text, x, y, maxW, baseSize, color){
 
 function buildBoardSequence(qObj){
   const items = [
-    { stage: "PARAMETERS", boardText: "📌 STEP 1: GIVEN PARAMETERS", color: "#b45309", voice: "Before we solve, let us carefully list and explain every parameter given in the question." }
+    { stage: "PARAMETERS", boardText: `📌 STEP 1: GIVEN PARAMETERS (${qObj.examTag || "EXAM"})`, color: "#b45309", voice: `This question is modeled on ${qObj.examTag || "exam"} past questions. Before solving, let us list and explain every parameter.` }
   ];
   (qObj.params || []).forEach(p=>{
     items.push({ stage: "PARAMETERS", boardText: `• ${p.sym}  →  ${p.meaning}`, color: "#111", voice: `Parameter ${expandForVoice(p.sym)} means ${p.meaning}. Why? ${p.why}` });
@@ -666,7 +864,7 @@ function buildBoardSequence(qObj){
   (qObj.formula.parts || []).forEach(pt=>{
     items.push({ stage: "FORMULA", boardText: `  ◦ ${pt.part} : ${pt.desc}`, color: "#1E4DA1", voice: `In this formula, ${expandForVoice(pt.part)} stands for ${pt.desc}.` });
   });
-  items.push({ stage: "SOLUTION", boardText: "✍️ STEP 3: SOLVING & ARITHMETIC", color: "#0a9d5c", voice: "Now that we understand all parameters and every part of the formula, let us solve step by step and write out the arithmetic clearly." });
+  items.push({ stage: "SOLUTION", boardText: "✍️ STEP 3: SOLVING & ARITHMETIC", color: "#0a9d5c", voice: "Now let us solve step by step and write out the arithmetic clearly." });
   (qObj.steps || []).forEach((st, i)=>{
     items.push({
       stage: "SOLUTION", boardText: `Step ${i+1}: ${st.line}`, color: "#111",
@@ -788,6 +986,7 @@ function renderAssignmentForTopic(title){
 function playAssignmentItem(i){
   const item = curAssignment[i]; if(!item) return;
   document.getElementById("qTitle").innerText = item.q;
+  document.getElementById("qExamTag").innerText = item.examTag || "EXAM";
   document.getElementById("qSource").innerText = `End-of-Lesson Tough Assignment • Challenge ${item.num} of 10`;
   drawDiagram("none", "");
   document.getElementById("whiteboard").scrollIntoView({behavior:"smooth"});
@@ -807,7 +1006,7 @@ function showSections(){ cancelAllPlayback(); hideAll(); document.getElementById
 function hideAll(){ ["home","sections","topics","lesson","adminDash"].forEach(id=>document.getElementById(id).classList.add("hidden")); }
 function updateStats(){ document.getElementById("myDevice").innerText="Your Phone ID: "+deviceId+" • PIN works ONLY on this phone."; ["JSS","SSS","JAMB"].forEach(c=>{const el=document.getElementById("stat"+c);if(isAdmin())el.innerText="👑 ADMIN - All FREE";else if(hasSub(c))el.innerText="✅ Subscribed - "+daysLeft(getSubInfo(c))+" days left • Locked to this phone";else{const old=getSubInfo(c);el.innerText=old?"⏰ Expired - Renew ₦5,000 / month":"🔒 Topic 1 FREE • Others ₦5,000 / month • PIN NOT transferable"}}); document.getElementById("subStatus").innerText=isAdmin()?"👑 Admin Mode - All FREE.":"PIN = 1 Phone Only. NOT transferable. Expires after 1 month."; }
 function openWhatsApp(){ window.open("https://wa.me/2348147699555?text="+encodeURIComponent("Hello Admin, I want to subscribe. I have paid ₦5,000. Here is my receipt."),"_blank"); }
-function openCategory(cat){ cancelAllPlayback(); curCat=cat; hideAll(); document.getElementById("topics").classList.remove("hidden"); updateAdminUI(); document.getElementById("catTitle").innerText=cat==="JSS"?"📗 Junior Secondary (JS1–JS3 & Junior WAEC)":cat==="SSS"?"📘 Senior Secondary (SS1–SS3 & WAEC/NECO)":"🎯 JAMB Mathematics (UTME Syllabus)"; document.getElementById("catSub").innerText=hasSub(cat)?(isAdmin()?"👑 Admin - All unlocked":"✅ Subscribed - Locked to this phone"):"Topic 1 FREE. Others locked."; const info=getSubInfo(cat); document.getElementById("expiryInfo").innerText=isAdmin()?"👑 No expiry":info?(isExpired(info)?"⏰ EXPIRED. Renew.":"⏰ Expires in "+daysLeft(info)+" days • PIN NOT transferable."):""; document.getElementById("topicSearch").value=""; renderTopicList(""); document.getElementById("payCard").style.display=hasSub(cat)?"none":"block"; }
+function openCategory(cat){ cancelAllPlayback(); curCat=cat; hideAll(); document.getElementById("topics").classList.remove("hidden"); updateAdminUI(); document.getElementById("catTitle").innerText=cat==="JSS"?"📗 Junior Secondary (JS1–JS3 & Junior WAEC / BECE)":cat==="SSS"?"📘 Senior Secondary (SS1–SS3 & WAEC/NECO)":"🎯 JAMB Mathematics (UTME Syllabus)"; document.getElementById("catSub").innerText=hasSub(cat)?(isAdmin()?"👑 Admin - All unlocked":"✅ Subscribed - Locked to this phone"):"Topic 1 FREE. Others locked."; const info=getSubInfo(cat); document.getElementById("expiryInfo").innerText=isAdmin()?"👑 No expiry":info?(isExpired(info)?"⏰ EXPIRED. Renew.":"⏰ Expires in "+daysLeft(info)+" days • PIN NOT transferable."):""; document.getElementById("topicSearch").value=""; renderTopicList(""); document.getElementById("payCard").style.display=hasSub(cat)?"none":"block"; }
 
 function getGroupHeader(t){
   if(t.includes("|")){
@@ -833,10 +1032,10 @@ function renderTopicList(filter){
 
 function filterTopics(){ renderTopicList(document.getElementById("topicSearch").value); }
 function onTick(i,cb){ if(i>0&&!hasSub(curCat)){cb.checked=false;alert("🔒 Locked.\n\nPay ₦5,000 / MONTH to:\n8147699555 - Ekpo Bassey\n\nPIN = 1 PHONE ONLY. NOT transferable.");document.getElementById("payCard").scrollIntoView({behavior:"smooth"});return} openTopic(i); }
-function openTopic(i){ cancelAllPlayback(); curTopic=i; if(i>0&&!hasSub(curCat)){alert("🔒 Locked");return} const title=TOPICS[curCat][i]; hideAll(); document.getElementById("lesson").classList.remove("hidden"); updateAdminUI(); document.getElementById("lessonTitle").innerText=title; document.getElementById("lessonPill").innerText=getGroupHeader(title)+" • THIS TOPIC ONLY"; document.getElementById("lessonIntro").innerText="Syllabus Topic: "+title+". Lists & explains parameters, explains every part of the formula before solving, writes out arithmetic clearly, and includes a 10-part tough assignment."; renderAssignmentForTopic(title); setMode("learn"); }
+function openTopic(i){ cancelAllPlayback(); curTopic=i; if(i>0&&!hasSub(curCat)){alert("🔒 Locked");return} const title=TOPICS[curCat][i]; hideAll(); document.getElementById("lesson").classList.remove("hidden"); updateAdminUI(); document.getElementById("lessonTitle").innerText=title; document.getElementById("lessonPill").innerText=getGroupHeader(title)+" • THIS TOPIC ONLY"; document.getElementById("lessonIntro").innerText="Syllabus Topic: "+title+". Majority past-question style problems with exam years, spread-out non-repeating patterns, parameters & formula parts explained before solving, and clear arithmetic."; renderAssignmentForTopic(title); setMode("learn"); }
 function setMode(mode){ cancelAllPlayback(); curMode=mode; curIdx=0; document.getElementById("modeLearnBtn").className=mode==="learn"?"btn blue":"btn white"; document.getElementById("modeExamBtn").className=mode==="exam"?"btn blue":"btn white"; document.getElementById("modeExBtn").className=mode==="exercise"?"btn blue":"btn white"; document.getElementById("qModePill").innerText=mode==="learn"?"📖 LEARN":mode==="exam"?"🎯 PAST QUESTION":"✏️ EXERCISE"; renderCurrent(); clearBoard(); }
 function getTotal(){ return curMode==="learn"?25:curMode==="exam"?10:60; }
-function renderCurrent(){ const title=TOPICS[curCat][curTopic]; curQuestion=generateTopicQuestion(title,curIdx,curMode); const total=getTotal(); document.getElementById("exCounter").innerText=`Question ${curIdx+1} of ${total}`; document.getElementById("exProgress").style.width=((curIdx+1)/total*100)+"%"; document.getElementById("qTitle").innerText=curQuestion.title; document.getElementById("qSource").innerText=curMode==="exam"?`Source: ${curQuestion.source} • Topic: ${title}`:`Topic: ${title} • Question ${curIdx+1}`; document.getElementById("askBox").value="Why did we do this step in: "+curQuestion.title; document.getElementById("askAns").innerHTML=""; drawDiagram(curQuestion.diagram||"none",curQuestion.diagramLabel||"Look at the diagram"); }
+function renderCurrent(){ const title=TOPICS[curCat][curTopic]; curQuestion=generateTopicQuestion(title,curIdx,curMode); const total=getTotal(); document.getElementById("exCounter").innerText=`Question ${curIdx+1} of ${total}`; document.getElementById("exProgress").style.width=((curIdx+1)/total*100)+"%"; document.getElementById("qExamTag").innerText=curQuestion.examTag||"EXAM"; document.getElementById("qTitle").innerText=curQuestion.title; document.getElementById("qSource").innerText=curQuestion.source; document.getElementById("askBox").value="Why did we do this step in: "+curQuestion.title; document.getElementById("askAns").innerHTML=""; drawDiagram(curQuestion.diagram||"none",curQuestion.diagramLabel||"Look at the diagram"); }
 function playLesson(){ if(!curQuestion) return; drawDiagram(curQuestion.diagram||"none",curQuestion.diagramLabel||"Look at the diagram"); writeStructuredLesson(curQuestion, null); }
 function replayCurrent(){ playLesson(); }
 function nextQuestion(){ cancelAllPlayback(); const total=getTotal(); if(curIdx<total-1){curIdx++;renderCurrent();playLesson()}else alert("✅ Finished all "+total+" for THIS topic. Now try the 10-part Tough Assignment below!"); }
@@ -860,7 +1059,7 @@ function solveQuestion(){
   const q=document.getElementById("qText").value||"Your question"; const title=TOPICS[curCat][curTopic];
   document.getElementById("qAns").innerHTML=`<div class="card" style="background:#eef7ff"><b>✅ Received — Topic: ${title}</b><br>${q}</div>`;
   const customQ = {
-    q,
+    q, examTag: "USER Q",
     params:[{ sym:"Given values", meaning:"numbers/symbols stated in the problem", why:"Separating known values from the unknown prevents mistakes." }],
     formula:{ eq:"Topic Rule / Formula", parts:[{ part:"Target unknown", desc:"the quantity we want to isolate and calculate" }] },
     steps:[{ line:"Substitute known values & simplify", why:"Replace each symbol with its given value.", arith:"Perform operations in order: brackets, powers, multiplication/division, addition/subtraction." }],
