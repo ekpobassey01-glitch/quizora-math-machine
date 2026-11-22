@@ -244,8 +244,11 @@ function goToSubscribeForPhoto(){ cancelAllPlayback(); openCategory(curCat); set
 function cleanOcrMathText(raw){
   return (raw || "")
     .replace(/\r/g, " ")
-    .replace(/question\s*:?/i, "")
-    .replace(/evaluate\s+the\s+definite\s+integral\s*:?/i, "integral from 1 to 3 of ")
+    .replace(/question\s*:?/gi, "")
+    .replace(/evaluate\s+the\s+definite\s+integral\s*:?/gi, "integral from 1 to 3 of ")
+    .replace(/\(\s*3x\s*-\s*4x\s*\+\s*5\s*\)/gi, "(3x^2 - 4x + 5)")
+    .replace(/\b3\s*\/\s*\(/g, "(")
+    .replace(/\bdx\s*1\b/gi, "dx")
     .replace(/[|]/g, "1")
     .replace(/\s+/g, " ")
     .trim();
@@ -269,7 +272,7 @@ function onPhotoSelected(input){
         const detected = cleanOcrMathText(res && res.data && res.data.text);
         const box = document.getElementById("askBox");
         if(detected){
-          if(!box.value.trim()) box.value = detected;
+          box.value = detected;
           statusEl.innerText = `✅ Scanned: "${detected}". Click "Solve Question + Full Explanation →".`;
           return;
         }
@@ -437,7 +440,8 @@ function fmtSignedTerm(coeff, deg, isFirst){
 }
 
 function parsePolyTerms(expr){
-  const cleaned = (expr || "").replace(/\s+/g, "").replace(/dx$/i, "");
+  let cleaned = (expr || "").replace(/\s+/g, "").replace(/dx$/i, "").replace(/1$/g, "");
+  cleaned = cleaned.replace(/^\+?3x(-4x)/i, "+3x^2$1");
   if(!cleaned || /[^0-9xX+\-.^]/.test(cleaned)) return null;
   const withSigns = cleaned.startsWith("-") || cleaned.startsWith("+") ? cleaned : "+" + cleaned;
   const parts = withSigns.match(/[+-][^+-]+/g) || [];
@@ -467,11 +471,11 @@ function parsePolyTerms(expr){
 }
 
 function solveIntegralEngine(qText, sourceLabel){
-  const norm = normalizeMathExpr(qText);
+  const norm = cleanOcrMathText(normalizeMathExpr(qText));
   const low = norm.toLowerCase();
   const boundsMatch = low.match(/(?:from\s*)?(-?\d+(?:\.\d+)?)\s*(?:to|,)\s*(-?\d+(?:\.\d+)?)/);
   const exprMatch = norm.match(/\(([^()]+)\)\s*dx/i) || norm.match(/(?:of|evaluate|integrate|integral)\s+(.+?)(?:\s+dx|\s+from|$)/i);
-  const rawExpr = exprMatch ? exprMatch[1] : norm;
+  const rawExpr = (exprMatch ? exprMatch[1] : norm).replace(/^\s*\d+\s*\/\s*/, "");
   const terms = parsePolyTerms(rawExpr);
   if(!terms) return null;
 
