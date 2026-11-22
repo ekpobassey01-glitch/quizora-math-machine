@@ -24,7 +24,7 @@ video.teacherVid{width:100%;max-height:360px;border-radius:12px;margin-top:8px;b
 .topBar{background:#6a1b9a;color:#fff;text-align:center;padding:8px;font-size:13px;font-weight:700}
 .topicRow{display:flex;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid #eee}.classHead{background:#1E4DA1;color:#fff;padding:10px 12px;border-radius:10px;margin:14px 0 6px;font-weight:800}
 .boardWrap{background:#fff;border:4px solid #cbd5e1;border-radius:14px;overflow:hidden;position:relative}
-#whiteboard,#diagramCanvas{width:100%;display:block;background:#fff}.marker{position:absolute;font-size:26px;transition:all .14s;pointer-events:none}
+#whiteboard,#diagramCanvas{width:100%;display:block;background:#fff}.marker{position:absolute;font-size:26px;transition:all .1s;pointer-events:none}
 .progress{background:#eee;border-radius:999px;height:10px;overflow:hidden}.progressBar{background:#0a9d5c;height:10px}
 .voiceCtrl{display:flex;gap:8px;flex-wrap:wrap}.voiceCtrl button{flex:1;min-width:110px}.searchBox{position:sticky;top:60px;background:#fff;padding:8px;border-radius:10px;z-index:5}
 .warnBox{background:#ffecec;border:2px solid #e11;border-radius:12px;padding:12px;font-weight:700;color:#b00}
@@ -57,8 +57,8 @@ video.teacherVid{width:100%;max-height:360px;border-radius:12px;margin-top:8px;b
 <div class="card"><b>🔑 Have a PIN?</b><div class="warnBox" style="font-size:13px">⚠️ PIN locks to THIS phone only. NOT transferable.</div><input id="pinInput" placeholder="Enter PIN"><button class="btn blue" style="width:100%" onclick="activatePIN()">Activate PIN - This Phone Only</button><p class="small" id="pinMsg"></p></div></div>
 <div id="topics" class="hidden wrap"><button class="btn white" onclick="showSections()">← Sections</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn2" style="display:none">👑 Back to Admin</button><br><br><h2 id="catTitle"></h2><p class="small" id="catSub"></p><p class="small" id="expiryInfo"></p><br><div class="searchBox"><input id="topicSearch" placeholder="🔍 Search topic or term..." oninput="filterTopics()"></div><br><div class="card"><b>☑️ Tick a Topic to Open It</b><div id="topicList"></div></div>
 <div class="card payBox" id="payCard"><b>🔒 Unlock - ₦5,000 / MONTH</b><br><br><b>Pay to:</b><br><b>8147699555</b><br><b>Ekpo Bassey</b><br><div class="warnBox" style="margin-top:10px">⚠️ 1 PIN = 1 PHONE ONLY. NOT transferable.</div><br><button class="btn green" style="width:100%" onclick="openWhatsApp()">💬 Send Receipt - WhatsApp</button><br><br><input id="pinInput2" placeholder="Enter PIN"><button class="btn blue" style="width:100%" onclick="activatePIN2()">Activate PIN</button><p class="small" id="pinMsg2"></p></div></div>
-<div id="lesson" class="hidden lessonWrap"><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="btn white" onclick="backToTopics()">← Topics</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn3" style="display:none">👑 Back to Admin</button></div><br><span class="pill" id="lessonPill">TOPIC</span><br><br><h2 id="lessonTitle"></h2><p class="small" id="lessonIntro"></p><br><div class="card" style="padding:10px"><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn blue" id="modeLearnBtn" style="flex:1" onclick="setMode('learn')">📖 Learn (<span id="cntLearn">0</span>)</button><button class="btn white" id="modeExamBtn" style="flex:1" onclick="setMode('exam')">🎯 Past Qs (<span id="cntExam">0</span>)</button><button class="btn white" id="modeExBtn" style="flex:1" onclick="setMode('exercise')">✏️ Exercises (<span id="cntEx">0</span>)</button></div></div><div class="solveGrid"><div><div class="card"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><div><span class="pill" id="qModePill">LEARN</span><span class="examBadge" id="qExamTag">WAEC 2023</span><span id="qSavedBadge"></span></div><span class="small" id="exCounter">Question 1 of 1</span></div><br><div class="progress"><div class="progressBar" id="exProgress" style="width:100%"></div></div><br><div class="qTitle" id="qTitle"></div><p class="small" id="qSource"></p><img id="questionPhotoPreview" class="prev hidden" alt="Uploaded question photo"><div id="questionVideoWrap" class="hidden" style="margin-top:12px"><b>🎥 Your Uploaded Solving &amp; Explanation Video</b><video id="questionVideoPlayer" class="teacherVid" controls playsinline></video></div></div><div class="card" id="diagramCard"><b>📐 Diagram — Teacher Sketches First</b><p class="small">Study the diagram for this question before solving.</p><br><div class="diagramLabel" id="diagramLabel">Look at the diagram</div><br><canvas id="diagramCanvas" width="560" height="240"></canvas></div><div class="card"><b>✍️ Whiteboard — Pen-Only Writing + Explanation</b><p class="small">Uses your explanation when provided, or automatically solves &amp; explains snapped/uploaded questions.</p><br><div class="boardWrap"><canvas id="whiteboard" width="560" height="460"></canvas><div class="marker" id="marker">🖊️</div></div><br><div class="voiceCtrl"><button class="btn blue" onclick="playLesson()">▶ Play Pen</button><button class="btn white" onclick="pauseLesson()">⏸ Pause</button><button class="btn white" onclick="stopVoice()">⏹ Stop</button><button class="btn yellow" onclick="clearBoard()">🧹 Clear</button></div><br><div class="voiceCtrl"><button class="btn green" id="maleVoiceBtn" onclick="setNarrationMode('male')">🎙️ Male Voice (Exact Words)</button><button class="btn white" id="silentPenBtn" onclick="setNarrationMode('silent')">🖊️ Pen Only (No Voice)</button><button class="btn dark" onclick="testVoiceVolume()">🔊 Test Male Voice</button></div><br><div class="voiceCtrl"><button class="btn white" onclick="setSpeed(0.52)">🐢 Very Slow</button><button class="btn white" onclick="setSpeed(0.62)">▶ Calm</button><button class="btn white" onclick="setSpeed(0.78)">🐇 Faster</button></div><p class="small" id="penStatus" style="margin-top:8px">Pen ready.</p><p class="small" id="nowReading">Exact line: —</p><div style="margin-top:14px;padding-top:14px;border-top:1px solid #eee"><b>❓ Ask About This Question or Type Your Own Question</b><div id="photoSubscriberControls" class="photoBar"><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn blue" style="flex:1" onclick="triggerPhotoInput('snapInput')">📷 Snap Question</button><button type="button" class="btn white" style="flex:1" onclick="triggerPhotoInput('uploadPhotoInput')">🖼️ Upload Photo</button><button type="button" class="btn white" onclick="clearPhotoPreview()">✕ Clear Photo</button></div><input id="snapInput" type="file" accept="image/*" capture="environment" class="hidden" onchange="onPhotoSelected(this)"><input id="uploadPhotoInput" type="file" accept="image/*" class="hidden" onchange="onPhotoSelected(this)"><img id="photoPreview" class="prev hidden" alt="Uploaded question photo"><p class="small" id="photoStatus" style="margin-top:6px">Subscriber perk: Snap or upload a question photo — OCR reads text if present, or solves directly.</p></div><div id="photoLockedNotice" class="photoLockedBox hidden"><b>🔒 Photo Snap &amp; Upload — Subscribers Only</b><p class="small" style="color:#78350f;margin:4px 0 8px">Snapping or uploading photos to solve questions is available only to active monthly subscribers (₦5,000 / month). You can still type questions below.</p><button type="button" class="btn yellow" style="padding:8px 14px;font-size:13px" onclick="goToSubscribeForPhoto()">🔓 Subscribe / Enter PIN to Unlock Photo Solver</button></div><textarea id="askBox" placeholder="Type ANY maths question (round 4872 to nearest thousand, base 2/8/16, simple/compound interest, profit/loss, AP/GP, nPr/nCr, matrices, inequalities, cubics, calculus, %, etc.)..."></textarea><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn yellow" style="flex:1" onclick="askTeacher()">Ask Teacher — Formula &amp; Steps</button><button class="btn green" style="flex:1" onclick="solveQuestion()">Solve Question + Full Explanation →</button><button class="btn white" onclick="askVoice()">🎙️ Voice</button></div><div id="askAns"></div><div id="qAns"></div></div></div><div class="card"><div style="display:flex;gap:8px"><button class="btn white" style="flex:1" onclick="prevQuestion()">← Previous</button><button class="btn green" style="flex:1" onclick="nextQuestion()">Next Question →</button></div><br><button class="btn yellow" style="width:100%" onclick="replayCurrent()">🔁 Replay This Question</button></div><div class="card"><button class="btn white" style="width:100%" onclick="toggleAssignmentDrawer()" id="toggleAssignBtn">🏆 Show End-of-Lesson Challenge</button><div id="assignmentDrawer" class="hidden" style="margin-top:12px"><div class="assignBox"><b>🏆 End-of-Lesson Tough Assignment</b><p class="small" style="color:#7f1d1d">Uploaded/saved topic challenges appear here when added.</p><div id="finalAssignmentList"></div></div></div></div></div><aside class="card"><b>📋 Topic Questions (Click a Box to Pick)</b><p class="small" style="margin-bottom:10px" id="sideCountHint">Select any question box to solve it on the board.</p><div class="sideList" id="topicQueueList"></div></aside></div></div>
-<div id="adminDash" class="hidden wrap"><button class="btn white" onclick="adminLogout()">← Logout</button><button class="btn yellow" onclick="showSections()">👀 Switch to Student View →</button><br><br><h2>👑 Admin Dashboard</h2><p class="small">Welcome Ekpo Bassey!</p><br><div class="card payBox"><b>💳 Your Payment Details</b><br><b>Account:</b> 8147699555<br><b>Name:</b> Ekpo Bassey<br><b>WhatsApp:</b> 08147699555<br><b>Price:</b> ₦5,000 / Section / MONTH<br><b>PIN:</b> 1 Phone Only. NOT transferable.</div><div class="card"><b id="qFormHeading">➕ Upload Question, Photo &amp; Your Solving Video</b><p class="small">Tap a class/exam question bank below, type your question, upload a photo or your solving/explanation video, and press Save.</p><label class="small"><b>Question Bank (Click to Open)</b></label><div class="bankGrid" id="bankSelectorGrid"><button type="button" class="bankBtn activeBank" data-bank="JS1" onclick="selectQuestionBank('JS1')">JS1</button><button type="button" class="bankBtn" data-bank="JS2" onclick="selectQuestionBank('JS2')">JS2</button><button type="button" class="bankBtn" data-bank="JS3" onclick="selectQuestionBank('JS3')">JS3</button><button type="button" class="bankBtn" data-bank="SS1" onclick="selectQuestionBank('SS1')">SS1</button><button type="button" class="bankBtn" data-bank="SS2" onclick="selectQuestionBank('SS2')">SS2</button><button type="button" class="bankBtn" data-bank="SS3" onclick="selectQuestionBank('SS3')">SS3</button><button type="button" class="bankBtn" data-bank="WAEC" onclick="selectQuestionBank('WAEC')">WAEC</button><button type="button" class="bankBtn" data-bank="JAMB" onclick="selectQuestionBank('JAMB')">JAMB</button></div><label class="small"><b>Tab / Mode</b></label><select id="bankMode"><option value="learn">📖 Learn</option><option value="exam">🎯 Past Qs</option><option value="exercise">✏️ Exercises</option></select><input id="bankExam" placeholder="Exam Tag (e.g. WAEC 2024, BECE 2023, JAMB 2024)"><textarea id="bankQ" placeholder="Type the full question here (or snap/upload photo below)..."></textarea><label class="small"><b>Formula Box (Leave blank to auto-generate when unexplained)</b></label><textarea id="bankFormula" placeholder="Write your exact formula (kept as-is when you explain it yourself)..."></textarea><label class="small"><b>Your Step-by-Step Solution &amp; Explanation (Leave blank for auto-solve &amp; explain)</b></label><textarea id="bankAnswer" placeholder="Write your exact steps & explanation when you solve it yourself; leave blank so the system solves & explains automatically..."></textarea><div class="vidUploadBox"><label class="small"><b>📷 Upload Photo of Question or Solving Page</b></label><input id="bankPhotoFile" type="file" accept="image/*" capture="environment" onchange="onAdminPhotoSelected(this)"><img id="bankPhotoPreview" class="prev hidden" alt="Uploaded admin photo"><p class="small" id="bankPhotoStatus">Optional: Upload or snap a photo — OCR extracts text if present, or solves directly.</p><button type="button" class="btn white" style="padding:6px 12px;font-size:12px" onclick="clearAdminPhoto()">✕ Remove Photo</button><br><br><label class="small"><b>🎥 Upload Video of How You Solve &amp; Explain</b></label><input id="bankVideoFile" type="file" accept="video/*" onchange="onAdminVideoSelected(this)"><video id="bankVideoPreview" class="teacherVid hidden" controls playsinline></video><p class="small" id="bankVideoStatus">Optional: Upload a video of you solving and explaining this question.</p><button type="button" class="btn white" style="padding:6px 12px;font-size:12px" onclick="clearAdminVideo()">✕ Remove Video</button></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn green" style="flex:1" onclick="saveBankQuestion()" id="saveBankBtn">💾 Save Question, Photo &amp; Video</button><button class="btn white" onclick="resetBankForm()">Cancel Edit</button></div><p class="small" id="bankMsg" style="margin-top:8px"></p><input type="hidden" id="bankCat" value="JSS"><input type="hidden" id="bankTopic" value=""><input type="hidden" id="activeBankCode" value="JS1"></div><div class="card"><b>📚 Unbundle PDF / Book / Booklet (UME • JAMB • WAEC • NECO • Exercises)</b><p class="small">Upload a PDF booklet or text/markdown/JSON file. The system extracts questions, detects the exam body &amp; strongest topic, expands solved patterns, and solves unsolved exercises with expanded explanations.</p><div class="bookUploadBox"><input id="bookletFileInput" type="file" accept=".pdf,.txt,.md,.csv,.json" onchange="onBookletFileSelected(this)"><p class="small" id="bookletStatus">Select a PDF booklet or text/book file to unbundle automatically.</p><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><button type="button" class="btn blue" style="flex:1" onclick="unbundleBookletFile()">⚡ Unbundle, Expand &amp; Route Questions</button><button type="button" class="btn red" onclick="clearBookletFile()">✕ Remove File</button></div></div><div id="bookletReport" class="small" style="margin-top:8px"></div></div><div class="card"><b>🗂️ Saved Questions Cells (Edit, Next or Delete)</b><p class="small" id="cellSummary">Showing saved questions.</p><br><div id="savedQuestionsCells"></div></div><div class="card"><b>Generate New PIN — NOT Transferable</b><select id="pinCat"><option value="JSS">Junior (JSS)</option><option value="SSS">Senior (SSS)</option><option value="JAMB">JAMB Mathematics</option></select><input id="studentName" placeholder="Student Name"><button class="btn green" style="width:100%" onclick="genPIN()">Generate PIN →</button><div id="genResult"></div></div><div class="card"><b>📋 All PINs</b><div id="pinList"></div></div><div class="card"><b>⚙️ Change Password</b><input id="newAdminPass" type="password" placeholder="New Password"><button class="btn blue" style="width:100%" onclick="changeAdminPass()">Change Password</button><p class="small" id="changeMsg"></p></div></div>
+<div id="lesson" class="hidden lessonWrap"><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="btn white" onclick="backToTopics()">← Topics</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn3" style="display:none">👑 Back to Admin</button></div><br><span class="pill" id="lessonPill">TOPIC</span><br><br><h2 id="lessonTitle"></h2><p class="small" id="lessonIntro"></p><br><div class="card" style="padding:10px"><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn blue" id="modeLearnBtn" style="flex:1" onclick="setMode('learn')">📖 Learn (<span id="cntLearn">0</span>)</button><button class="btn white" id="modeExamBtn" style="flex:1" onclick="setMode('exam')">🎯 Past Qs (<span id="cntExam">0</span>)</button><button class="btn white" id="modeExBtn" style="flex:1" onclick="setMode('exercise')">✏️ Exercises (<span id="cntEx">0</span>)</button></div></div><div class="solveGrid"><div><div class="card"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><div><span class="pill" id="qModePill">LEARN</span><span class="examBadge" id="qExamTag">WAEC 2023</span><span id="qSavedBadge"></span></div><span class="small" id="exCounter">Question 1 of 1</span></div><br><div class="progress"><div class="progressBar" id="exProgress" style="width:100%"></div></div><br><div class="qTitle" id="qTitle"></div><p class="small" id="qSource"></p><img id="questionPhotoPreview" class="prev hidden" alt="Uploaded question photo"><div id="questionVideoWrap" class="hidden" style="margin-top:12px"><b>🎥 Your Uploaded Solving &amp; Explanation Video</b><video id="questionVideoPlayer" class="teacherVid" controls playsinline></video></div></div><div class="card" id="diagramCard"><b>📐 Diagram — Teacher Sketches First</b><p class="small">Study the diagram for this question before solving.</p><br><div class="diagramLabel" id="diagramLabel">Look at the diagram</div><br><canvas id="diagramCanvas" width="560" height="240"></canvas></div><div class="card"><b>✍️ Whiteboard — Pen-Only Writing + Explanation</b><p class="small">Uses your explanation when provided, or automatically solves &amp; explains snapped/uploaded questions.</p><br><div class="boardWrap"><canvas id="whiteboard" width="560" height="460"></canvas><div class="marker" id="marker">🖊️</div></div><br><div class="voiceCtrl"><button class="btn blue" onclick="playLesson()">▶ Play Pen</button><button class="btn white" onclick="pauseLesson()">⏸ Pause</button><button class="btn white" onclick="stopVoice()">⏹ Stop</button><button class="btn yellow" onclick="clearBoard()">🧹 Clear</button></div><br><div class="voiceCtrl"><button class="btn green" id="maleVoiceBtn" onclick="setNarrationMode('male')">🎙️ Male Voice (Exact Words)</button><button class="btn white" id="silentPenBtn" onclick="setNarrationMode('silent')">🖊️ Pen Only (No Voice)</button><button class="btn dark" onclick="testVoiceVolume()">🔊 Test Male Voice</button></div><br><div class="voiceCtrl"><button class="btn white" onclick="setSpeed(0.52)">🐢 Very Slow</button><button class="btn white" onclick="setSpeed(0.62)">▶ Calm</button><button class="btn white" onclick="setSpeed(0.78)">🐇 Faster</button></div><p class="small" id="penStatus" style="margin-top:8px">Pen ready.</p><p class="small" id="nowReading">Exact line: —</p><div style="margin-top:14px;padding-top:14px;border-top:1px solid #eee"><b>❓ Ask About This Question or Type Your Own Question</b><div id="photoSubscriberControls" class="photoBar"><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn blue" style="flex:1" onclick="triggerPhotoInput('snapInput')">📷 Snap Bulk Qs</button><button type="button" class="btn white" style="flex:1" onclick="triggerPhotoInput('uploadPhotoInput')">🖼️ Upload Bulk Photos</button><button type="button" class="btn white" onclick="clearPhotoPreview()">✕ Clear Photo</button></div><input id="snapInput" type="file" accept="image/*" capture="environment" multiple class="hidden" onchange="onPhotoSelected(this)"><input id="uploadPhotoInput" type="file" accept="image/*" multiple class="hidden" onchange="onPhotoSelected(this)"><img id="photoPreview" class="prev hidden" alt="Uploaded question photo"><p class="small" id="photoStatus" style="margin-top:6px">Subscriber perk: Snap or upload bulk question photos — OCR reads text if present, routes &amp; solves automatically.</p></div><div id="photoLockedNotice" class="photoLockedBox hidden"><b>🔒 Photo Snap &amp; Upload — Subscribers Only</b><p class="small" style="color:#78350f;margin:4px 0 8px">Snapping or uploading photos to solve questions is available only to active monthly subscribers (₦5,000 / month). You can still type questions below.</p><button type="button" class="btn yellow" style="padding:8px 14px;font-size:13px" onclick="goToSubscribeForPhoto()">🔓 Subscribe / Enter PIN to Unlock Photo Solver</button></div><textarea id="askBox" placeholder="Type ANY maths question (round 4872 to nearest thousand, base 2/8/16, simple/compound interest, profit/loss, AP/GP, nPr/nCr, matrices, inequalities, cubics, calculus, %, etc.)..."></textarea><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn yellow" style="flex:1" onclick="askTeacher()">Ask Teacher — Formula &amp; Steps</button><button class="btn green" style="flex:1" onclick="solveQuestion()">Solve Question + Full Explanation →</button><button class="btn white" onclick="askVoice()">🎙️ Voice</button></div><div id="askAns"></div><div id="qAns"></div></div></div><div class="card"><div style="display:flex;gap:8px"><button class="btn white" style="flex:1" onclick="prevQuestion()">← Previous</button><button class="btn green" style="flex:1" onclick="nextQuestion()">Next Question →</button></div><br><button class="btn yellow" style="width:100%" onclick="replayCurrent()">🔁 Replay This Question</button></div><div class="card"><button class="btn white" style="width:100%" onclick="toggleAssignmentDrawer()" id="toggleAssignBtn">🏆 Show End-of-Lesson Challenge</button><div id="assignmentDrawer" class="hidden" style="margin-top:12px"><div class="assignBox"><b>🏆 End-of-Lesson Tough Assignment</b><p class="small" style="color:#7f1d1d">Uploaded/saved topic challenges appear here when added.</p><div id="finalAssignmentList"></div></div></div></div></div><aside class="card"><b>📋 Topic Questions (Click a Box to Pick)</b><p class="small" style="margin-bottom:10px" id="sideCountHint">Select any question box to solve it on the board.</p><div class="sideList" id="topicQueueList"></div></aside></div></div>
+<div id="adminDash" class="hidden wrap"><button class="btn white" onclick="adminLogout()">← Logout</button><button class="btn yellow" onclick="showSections()">👀 Switch to Student View →</button><br><br><h2>👑 Admin Dashboard</h2><p class="small">Welcome Ekpo Bassey!</p><br><div class="card payBox"><b>💳 Your Payment Details</b><br><b>Account:</b> 8147699555<br><b>Name:</b> Ekpo Bassey<br><b>WhatsApp:</b> 08147699555<br><b>Price:</b> ₦5,000 / Section / MONTH<br><b>PIN:</b> 1 Phone Only. NOT transferable.</div><div class="card"><b id="qFormHeading">➕ Upload Question, Photo &amp; Your Solving Video</b><p class="small">Tap a class/exam question bank below, type your question, upload bulk photos or your solving/explanation video, and press Save.</p><label class="small"><b>Question Bank (Click to Open)</b></label><div class="bankGrid" id="bankSelectorGrid"><button type="button" class="bankBtn activeBank" data-bank="JS1" onclick="selectQuestionBank('JS1')">JS1</button><button type="button" class="bankBtn" data-bank="JS2" onclick="selectQuestionBank('JS2')">JS2</button><button type="button" class="bankBtn" data-bank="JS3" onclick="selectQuestionBank('JS3')">JS3</button><button type="button" class="bankBtn" data-bank="SS1" onclick="selectQuestionBank('SS1')">SS1</button><button type="button" class="bankBtn" data-bank="SS2" onclick="selectQuestionBank('SS2')">SS2</button><button type="button" class="bankBtn" data-bank="SS3" onclick="selectQuestionBank('SS3')">SS3</button><button type="button" class="bankBtn" data-bank="WAEC" onclick="selectQuestionBank('WAEC')">WAEC</button><button type="button" class="bankBtn" data-bank="JAMB" onclick="selectQuestionBank('JAMB')">JAMB</button></div><label class="small"><b>Tab / Mode</b></label><select id="bankMode"><option value="learn">📖 Learn</option><option value="exam">🎯 Past Qs</option><option value="exercise">✏️ Exercises</option></select><input id="bankExam" placeholder="Exam Tag (e.g. WAEC 2024, BECE 2023, JAMB 2024)"><textarea id="bankQ" placeholder="Type the full question here (or snap/upload bulk photos below)..."></textarea><label class="small"><b>Formula Box (Leave blank to auto-generate when unexplained)</b></label><textarea id="bankFormula" placeholder="Write your exact formula (kept as-is when you explain it yourself)..."></textarea><label class="small"><b>Your Step-by-Step Solution &amp; Explanation (Leave blank for auto-solve &amp; explain)</b></label><textarea id="bankAnswer" placeholder="Write your exact steps & explanation when you solve it yourself; leave blank so the system solves & explains automatically..."></textarea><div class="vidUploadBox"><label class="small"><b>📷 Snap or Upload Bulk Photos of Questions</b></label><input id="bankPhotoFile" type="file" accept="image/*" capture="environment" multiple onchange="onAdminPhotoSelected(this)"><img id="bankPhotoPreview" class="prev hidden" alt="Uploaded admin photo"><p class="small" id="bankPhotoStatus">Optional: Snap or upload single/bulk photos — OCR extracts text if present, routes &amp; solves directly.</p><button type="button" class="btn white" style="padding:6px 12px;font-size:12px" onclick="clearAdminPhoto()">✕ Remove Photo</button><br><br><label class="small"><b>🎥 Upload Video of How You Solve &amp; Explain</b></label><input id="bankVideoFile" type="file" accept="video/*" onchange="onAdminVideoSelected(this)"><video id="bankVideoPreview" class="teacherVid hidden" controls playsinline></video><p class="small" id="bankVideoStatus">Optional: Upload a video of you solving and explaining this question.</p><button type="button" class="btn white" style="padding:6px 12px;font-size:12px" onclick="clearAdminVideo()">✕ Remove Video</button></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn green" style="flex:1" onclick="saveBankQuestion()" id="saveBankBtn">💾 Save Question, Photo &amp; Video</button><button class="btn white" onclick="resetBankForm()">Cancel Edit</button></div><p class="small" id="bankMsg" style="margin-top:8px"></p><input type="hidden" id="bankCat" value="JSS"><input type="hidden" id="bankTopic" value=""><input type="hidden" id="activeBankCode" value="JS1"></div><div class="card"><b>📚 Unbundle PDF / Book / Booklet (UME • JAMB • WAEC • NECO • Exercises)</b><p class="small">Upload a PDF booklet or text/markdown/JSON file. The system extracts questions, detects the exam body &amp; strongest topic, expands solved patterns, and solves unsolved exercises with expanded explanations.</p><div class="bookUploadBox"><input id="bookletFileInput" type="file" accept=".pdf,.txt,.md,.csv,.json" onchange="onBookletFileSelected(this)"><p class="small" id="bookletStatus">Select a PDF booklet or text/book file to unbundle automatically.</p><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><button type="button" class="btn blue" style="flex:1" onclick="unbundleBookletFile()">⚡ Unbundle, Expand &amp; Route Questions</button><button type="button" class="btn red" onclick="clearBookletFile()">✕ Remove File</button></div></div><div id="bookletReport" class="small" style="margin-top:8px"></div></div><div class="card"><b>🗂️ Saved Questions Cells (Edit, Next or Delete)</b><p class="small" id="cellSummary">Showing saved questions.</p><br><div id="savedQuestionsCells"></div></div><div class="card"><b>Generate New PIN — NOT Transferable</b><select id="pinCat"><option value="JSS">Junior (JSS)</option><option value="SSS">Senior (SSS)</option><option value="JAMB">JAMB Mathematics</option></select><input id="studentName" placeholder="Student Name"><button class="btn green" style="width:100%" onclick="genPIN()">Generate PIN →</button><div id="genResult"></div></div><div class="card"><b>📋 All PINs</b><div id="pinList"></div></div><div class="card"><b>⚙️ Change Password</b><input id="newAdminPass" type="password" placeholder="New Password"><button class="btn blue" style="width:100%" onclick="changeAdminPass()">Change Password</button><p class="small" id="changeMsg"></p></div></div>
 <div id="adminBox" onclick="if(event.target==this) closeAdmin()"><div class="popup"><div id="adminLoginForm"><h3 id="adminTitle">Admin 🔐</h3><p class="small" id="adminHint">Create your Admin Password first time.</p><input id="adminPass" type="password" placeholder="Admin Password"><input id="adminPass2" type="password" placeholder="Confirm Password" class="hidden"><button class="btn blue" style="width:100%" onclick="checkAdmin()" id="adminBtn">Continue →</button><p id="adminMsg" style="color:red;font-size:13px"></p><button class="btn" onclick="closeAdmin()">Cancel</button></div><div id="adminSuccess" class="hidden" style="text-align:center"><h2>✅ Welcome Admin!</h2><br><button class="btn green" style="width:100%;padding:14px" onclick="goToAdminDash()">Go to Admin Dashboard →</button></div></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
@@ -80,21 +80,32 @@ let draftVideoName = "";
 let draftPhotoUrl = "";
 let draftPhotoName = "";
 let draftOcrText = "";
+let draftBulkPhotos = [];
 
 function cleanOcrMathText(raw){
-  return (raw || "")
+  const cleaned = (raw || "")
     .replace(/\r/g, " ")
     .replace(/question\s*:?/gi, "")
-    .replace(/evaluate\s+the\s+definite\s+integral\s*:?/gi, "integral from 1 to 3 of ")
-    .replace(/\(\s*3x\s*-\s*4x\s*\+\s*5\s*\)/gi, "(3x^2 - 4x + 5)")
-    .replace(/\b3\s*\/\s*\(/g, "(")
-    .replace(/\bdx\s*1\b/gi, "dx")
-    .replace(/π/gi, "pi")
-    .replace(/θ/gi, "theta")
-    .replace(/√/g, "sqrt")
-    .replace(/[|]/g, "1")
+    .replace(/evaluate\s+the\s+definite\s+integral\s*:?/gi, "∫ ")
+    .replace(/π/gi, "π")
+    .replace(/θ/gi, "θ")
+    .replace(/√/g, "√")
     .replace(/\s+/g, " ")
     .trim();
+  const alphaNumCount = (cleaned.match(/[a-zA-Z0-9]/g) || []).length;
+  const wordLikeCount = (cleaned.match(/[a-zA-Z0-9]{2,}/g) || []).length;
+  if(alphaNumCount < 2 || wordLikeCount < 1) return "";
+  return cleaned;
+}
+
+function splitSnappedQuestions(rawText){
+  const t = (rawText || "").trim();
+  if(!t) return [];
+  const parts = t
+    .split(/(?=(?:^|\s+)(?:question\s*\d+|q\.?\s*\d+|\d{1,2}\s*[.)])\s+)/i)
+    .map(s => s.replace(/^(?:question\s*\d+|q\.?\s*\d+|\d{1,2}\s*[.)])\s*/i, "").trim())
+    .filter(Boolean);
+  return parts.length > 1 ? parts : [t];
 }
 
 async function runOcrIfPresent(imageSrc){
@@ -107,19 +118,23 @@ async function runOcrIfPresent(imageSrc){
   }
 }
 
+function readFileAsDataUrl(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = ev => resolve(ev.target.result || "");
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
 function buildAutoExplanation(qText, detectedTopic){
   const solved = solveAnyMathQuestion(qText, "Auto Solver");
-  const formulaEq = (solved.formula && solved.formula.eq) ? solved.formula.eq : `Apply ${detectedTopic} rules carefully`;
-  const rawSteps = (solved.steps || []).map((s, i) => {
-    const cleanLine = (s.line || "").trim();
-    return `Step ${i + 1}: ${cleanLine} — we apply this step for ${detectedTopic} to move cleanly toward the result.`;
-  });
-  const finalCheck = solved.check ? `Final Answer: ${solved.check}` : `Final Answer: ${qText}`;
+  const formulaEq = (solved.formula && solved.formula.eq) ? solved.formula.eq : "";
+  const rawSteps = (solved.steps || []).map(s => (s.line || "").trim()).filter(Boolean);
+  const finalCheck = solved.check ? `${solved.check}` : `${qText}`;
   const answerLines = [
-    `Step 1 (Identify & Set Up): Read "${qText}" under ${detectedTopic}. Note the given numbers, symbols, and what is required.`,
-    `Step 2 (Rule / Formula): Use ${formulaEq}.`,
-    ...(rawSteps.length ? rawSteps : [`Step 3 (Direct Solve): Simplify the expression step by step following order of operations.`]),
-    `${finalCheck} — verify each sign and calculation before concluding.`
+    ...(rawSteps.length ? rawSteps : [`${qText}`]),
+    `${finalCheck}`
   ];
   return {
     formula: formulaEq,
@@ -127,41 +142,49 @@ function buildAutoExplanation(qText, detectedTopic){
   };
 }
 
-function onAdminPhotoSelected(input){
-  const file = input.files && input.files[0];
-  if(!file) return;
+async function onAdminPhotoSelected(input){
+  const files = Array.from((input && input.files) || []);
+  if(!files.length) return;
+  draftBulkPhotos = [];
   draftOcrText = "";
-  const reader = new FileReader();
-  reader.onload = async function(ev){
-    draftPhotoUrl = ev.target.result || "";
-    draftPhotoName = file.name;
-    const img = document.getElementById("bankPhotoPreview");
-    if(img){ img.src = draftPhotoUrl; img.classList.remove("hidden"); }
-    const statusEl = document.getElementById("bankPhotoStatus");
-    if(statusEl) statusEl.innerText = `📷 Attached photo: ${file.name}. Checking OCR text if present...`;
-    const detected = await runOcrIfPresent(draftPhotoUrl);
-    if(detected && detected.length >= 2){
-      draftOcrText = detected;
-      const qBox = document.getElementById("bankQ");
-      if(qBox && !qBox.value.trim()) qBox.value = detected;
-      if(statusEl) statusEl.innerText = `✅ OCR extracted: "${detected}". Leave solution blank for auto-solve & explain, or enter your own explanation.`;
-    } else {
-      draftOcrText = "";
-      if(statusEl) statusEl.innerText = `📷 Photo attached (${file.name}). No OCR text detected — will solve directly if solution is left blank.`;
-    }
-  };
-  reader.readAsDataURL(file);
+  const statusEl = document.getElementById("bankPhotoStatus");
+  if(statusEl) statusEl.innerText = `📷 Processing ${files.length} photo(s)...`;
+
+  for(let i = 0; i < files.length; i++){
+    const f = files[i];
+    const dataUrl = await readFileAsDataUrl(f);
+    const ocr = await runOcrIfPresent(dataUrl);
+    draftBulkPhotos.push({ name: f.name, dataUrl, ocr });
+  }
+
+  draftPhotoUrl = draftBulkPhotos[0].dataUrl;
+  draftPhotoName = files.length > 1 ? `${files.length} photos (${files[0].name})` : files[0].name;
+  const img = document.getElementById("bankPhotoPreview");
+  if(img){ img.src = draftPhotoUrl; img.classList.remove("hidden"); }
+
+  const combinedOcr = draftBulkPhotos.map(p => p.ocr).filter(Boolean).join(" ; ");
+  draftOcrText = combinedOcr;
+  const qBox = document.getElementById("bankQ");
+  if(combinedOcr && qBox && !qBox.value.trim()){
+    qBox.value = combinedOcr;
+  }
+  if(statusEl){
+    statusEl.innerText = combinedOcr
+      ? `✅ OCR (${files.length} photo(s)): "${combinedOcr}" — press Save to unbundle, route & solve.`
+      : `📷 ${files.length} photo(s) attached. No OCR text — press Save to route & solve directly.`;
+  }
 }
 
 function clearAdminPhoto(){
   draftPhotoUrl = "";
   draftPhotoName = "";
   draftOcrText = "";
+  draftBulkPhotos = [];
   const inp = document.getElementById("bankPhotoFile");
   if(inp) inp.value = "";
   const img = document.getElementById("bankPhotoPreview");
   if(img){ img.src = ""; img.classList.add("hidden"); }
-  document.getElementById("bankPhotoStatus").innerText = "Optional: Upload or snap a photo — OCR extracts text if present, or solves directly.";
+  document.getElementById("bankPhotoStatus").innerText = "Optional: Snap or upload single/bulk photos — OCR extracts text if present, routes & solves directly.";
 }
 
 function onAdminVideoSelected(input){
@@ -393,7 +416,7 @@ function customItemToQuestion(item, idx){
 
   const rawLines = ansText.split(/\n+/).map(s => s.trim()).filter(Boolean);
   const steps = rawLines.map(line => ({
-    line: line.replace(/^step\s*\d+\s*:\s*/i, ""),
+    line: line.replace(/^step\s*\d+\s*(?:\([^)]*\))?\s*:\s*/i, ""),
     why: "",
     arith: ""
   }));
@@ -406,7 +429,7 @@ function customItemToQuestion(item, idx){
     steps,
     pitfall: "",
     check: steps.length ? steps[steps.length - 1].line : ansText,
-    source: `${item.examTag || "CUSTOM"} • ${item.topic}${hasManualExpl ? " • Your Explanation" : " • Auto-Solved"}`,
+    source: `${item.examTag || "CUSTOM"} • ${item.topic}`,
     examTag: item.examTag || "CUSTOM",
     key: topicKey(item.topic),
     idx,
@@ -527,60 +550,89 @@ function autoSolveForTopic(topic, q){
 }
 
 function saveBankQuestion(){
-  const typedQ = document.getElementById("bankQ").value.trim();
-  const q = typedQ || draftOcrText || (draftPhotoName ? `Photo Question: ${draftPhotoName}` : (draftVideoName ? `Video Solution: ${draftVideoName}` : ""));
-  if(!q){ document.getElementById("bankMsg").innerText = "⚠️ Please type a question or attach a photo/video before saving."; return; }
   const bankCode = document.getElementById("activeBankCode") ? document.getElementById("activeBankCode").value : "JS1";
-  const detected = autoDetectTopic(q, bankCode);
-  const cat = detected.cat;
-  const topic = detected.topic;
   const mode = document.getElementById("bankMode").value || "learn";
   const examTag = (document.getElementById("bankExam").value || (bankCode === "WAEC" || bankCode === "JAMB" ? bankCode : "WAEC 2024")).trim();
   const manualFormula = document.getElementById("bankFormula").value.trim();
   const manualAnswer = document.getElementById("bankAnswer").value.trim();
   const hasManualExpl = Boolean(manualFormula || manualAnswer);
+  const typedQ = document.getElementById("bankQ").value.trim();
 
-  let formula = manualFormula;
-  let answer = manualAnswer;
-  if(!hasManualExpl){
-    const solved = autoSolveForTopic(topic, q);
-    formula = solved.formula;
-    answer = solved.answer;
+  if(draftBulkPhotos.length > 1 && !editingCustomId){
+    const bank = getCustomBank();
+    let count = 0;
+    for(const ph of draftBulkPhotos){
+      const subQs = ph.ocr ? splitSnappedQuestions(ph.ocr) : [`Photo Question: ${ph.name}`];
+      for(const sq of subQs){
+        const detected = autoDetectTopic(sq, bankCode);
+        const solved = hasManualExpl ? { formula: manualFormula, answer: manualAnswer } : autoSolveForTopic(detected.topic, sq);
+        const newId = "Q-"+Date.now()+"-"+Math.floor(Math.random()*100000);
+        uploadedPhotoUrls[newId] = ph.dataUrl;
+        if(draftVideoUrl) uploadedVideoUrls[newId] = draftVideoUrl;
+        const item = {
+          id: newId, bankCode, cat: detected.cat, topic: detected.topic, mode, examTag,
+          q: sq, formula: solved.formula, answer: solved.answer, hasManualExpl,
+          videoName: draftVideoName || "", photoName: ph.name, createdAt: new Date().toLocaleDateString()
+        };
+        bank.unshift(item);
+        const { videoUrl, photoUrl, ...dbPayload } = { ...item, videoUrl: draftVideoUrl || "", photoUrl: ph.dataUrl };
+        pushToSupabase(dbPayload);
+        count++;
+      }
+    }
+    saveCustomBank(bank);
+    resetBankForm();
+    document.getElementById("bankMsg").innerText = `✅ Unbundled & routed ${count} question(s) across their topics.`;
+    renderSavedQuestionCells();
+    return;
   }
 
+  const baseSource = typedQ || draftOcrText || (draftPhotoName ? `Photo Question: ${draftPhotoName}` : (draftVideoName ? `Video Solution: ${draftVideoName}` : ""));
+  if(!baseSource){ document.getElementById("bankMsg").innerText = "⚠️ Please type a question or attach a photo/video before saving."; return; }
+
+  const splitQs = (!editingCustomId && typedQ) ? splitSnappedQuestions(typedQ) : [baseSource];
   const bank = getCustomBank();
-  let savedItem = null;
+
   if(editingCustomId){
     const idx = bank.findIndex(x => x.id === editingCustomId);
     if(idx !== -1){
+      const detected = autoDetectTopic(baseSource, bankCode);
+      const solved = hasManualExpl ? { formula: manualFormula, answer: manualAnswer } : autoSolveForTopic(detected.topic, baseSource);
       const existingVid = draftVideoUrl || uploadedVideoUrls[editingCustomId] || bank[idx].videoUrl || "";
       const existingPhoto = draftPhotoUrl || uploadedPhotoUrls[editingCustomId] || bank[idx].photoUrl || "";
       if(existingVid) uploadedVideoUrls[editingCustomId] = existingVid;
       if(existingPhoto) uploadedPhotoUrls[editingCustomId] = existingPhoto;
-      bank[idx] = {...bank[idx], bankCode, cat, topic, mode, examTag, q, formula, answer, hasManualExpl, videoName: draftVideoName || bank[idx].videoName || "", photoName: draftPhotoName || bank[idx].photoName || ""};
-      savedItem = {...bank[idx], videoUrl: existingVid, photoUrl: existingPhoto};
+      bank[idx] = {...bank[idx], bankCode, cat: detected.cat, topic: detected.topic, mode, examTag, q: baseSource, formula: solved.formula, answer: solved.answer, hasManualExpl, videoName: draftVideoName || bank[idx].videoName || "", photoName: draftPhotoName || bank[idx].photoName || ""};
+      const { videoUrl, photoUrl, ...dbPayload } = {...bank[idx], videoUrl: existingVid, photoUrl: existingPhoto};
+      pushToSupabase(dbPayload);
     }
     saveCustomBank(bank);
-  } else {
-    const newId = "Q-"+Date.now()+"-"+Math.floor(Math.random()*1000);
+    resetBankForm();
+    document.getElementById("bankMsg").innerText = `✅ Updated question in [${bankCode}].`;
+    renderSavedQuestionCells();
+    return;
+  }
+
+  let savedCount = 0;
+  for(const sq of splitQs){
+    const detected = autoDetectTopic(sq, bankCode);
+    const solved = hasManualExpl ? { formula: manualFormula, answer: manualAnswer } : autoSolveForTopic(detected.topic, sq);
+    const newId = "Q-"+Date.now()+"-"+Math.floor(Math.random()*100000);
     if(draftVideoUrl) uploadedVideoUrls[newId] = draftVideoUrl;
     if(draftPhotoUrl) uploadedPhotoUrls[newId] = draftPhotoUrl;
-    savedItem = { id:newId, bankCode, cat, topic, mode, examTag, q, formula, answer, hasManualExpl, videoName:draftVideoName||"", photoName:draftPhotoName||"", createdAt:new Date().toLocaleDateString() };
-    bank.unshift(savedItem);
-    saveCustomBank(bank);
-  }
-  if(savedItem){
-    const { videoUrl, photoUrl, ...dbPayload } = savedItem;
+    const item = {
+      id: newId, bankCode, cat: detected.cat, topic: detected.topic, mode, examTag,
+      q: sq, formula: solved.formula, answer: solved.answer, hasManualExpl,
+      videoName: draftVideoName || "", photoName: draftPhotoName || "", createdAt: new Date().toLocaleDateString()
+    };
+    bank.unshift(item);
+    const { videoUrl, photoUrl, ...dbPayload } = { ...item, videoUrl: draftVideoUrl || "", photoUrl: draftPhotoUrl || "" };
     pushToSupabase(dbPayload);
+    savedCount++;
   }
-  const bc=document.getElementById("bankCat"); if(bc) bc.value=cat;
-  const bt=document.getElementById("bankTopic"); if(bt) bt.value=topic;
-  const mediaNotes = [hasManualExpl ? "Your Explanation Kept" : "Auto-Solved & Explained"];
-  if(draftPhotoName) mediaNotes.push("Photo: " + draftPhotoName);
-  if(draftVideoName) mediaNotes.push("Video: " + draftVideoName);
-  const msg = `✅ Saved to [${bankCode}]! Routed to ${cat} → ${topic} (${mediaNotes.join(", ")})`;
+  saveCustomBank(bank);
   resetBankForm();
-  document.getElementById("bankMsg").innerText = msg;
+  document.getElementById("bankMsg").innerText = `✅ Saved ${savedCount} question(s) to [${bankCode}] and routed to matching topic(s).`;
   renderSavedQuestionCells();
 }
 
@@ -765,32 +817,22 @@ function parseBookletBlocks(rawText){
 
 function expandSolutionWithPattern(qText, rawSol, isExercise, detectedTopic){
   const autoSolved = solveAnyMathQuestion(qText, "Booklet Unbundler");
-  const baseFormula = (autoSolved.formula && autoSolved.formula.eq) ? autoSolved.formula.eq : `Apply ${detectedTopic} rules carefully`;
-  const autoSteps = (autoSolved.steps || []).map((s, i) => `Step ${i + 1}: ${s.line}`);
+  const baseFormula = (autoSolved.formula && autoSolved.formula.eq) ? autoSolved.formula.eq : "";
+  const autoSteps = (autoSolved.steps || []).map(s => s.line).filter(Boolean);
 
   if(rawSol && !isExercise){
     const givenLines = rawSol
       .split(/(?:\n+|(?<=[.!?])\s+(?=[A-Z0-9(]))/)
       .map(s => s.trim())
       .filter(Boolean);
-    const expanded = [];
-    givenLines.forEach((ln, idx) => {
-      expanded.push(`Step ${idx + 1} (Booklet Pattern): ${ln}`);
-      expanded.push(`Explanation: This follows the booklet's method for ${detectedTopic}, keeping signs, brackets, and operations consistent.`);
-    });
-    if(autoSteps.length){
-      expanded.push(`Verification & Expanded Detail: ${autoSteps.join(" -> ")}`);
-    }
-    expanded.push(`Final Check: ${autoSolved.check || givenLines[givenLines.length - 1] || qText}`);
-    return { formula: baseFormula, answer: expanded.join("\n") };
+    const merged = [...givenLines, ...autoSteps, autoSolved.check].filter(Boolean);
+    return { formula: baseFormula, answer: merged.join("\n") };
   }
 
   const exerciseLines = [
-    `Step 1 (Understand & Identify Topic): This exercise belongs to ${detectedTopic}. Identify the given values, unknowns, and target result.`,
-    `Step 2 (Formula / Rule): ${baseFormula}.`,
-    ...(autoSteps.length ? autoSteps.map(st => `${st} — substitute carefully and simplify step by step.`) : [`Step 3 (Working): Break "${qText}" into smaller parts and simplify cleanly.`]),
-    `Step ${autoSteps.length + 3} (Final Answer & Check): ${autoSolved.check || qText}. Re-check each arithmetic step to avoid sign or order errors.`
-  ];
+    ...(autoSteps.length ? autoSteps : [qText]),
+    autoSolved.check || qText
+  ].filter(Boolean);
   return { formula: baseFormula, answer: exerciseLines.join("\n") };
 }
 
@@ -857,39 +899,44 @@ async function unbundleBookletFile(){
 
 let attachedPhotoData = "";
 let attachedPhotoOcrText = "";
+let attachedBulkPhotos = [];
 function canUsePhotoSolver(){ return Boolean(isAdmin() || hasSub(curCat)); }
 function updatePhotoAccessUI(){ const unlocked = canUsePhotoSolver(); const controls = document.getElementById("photoSubscriberControls"); const notice = document.getElementById("photoLockedNotice"); if(controls) controls.classList.toggle("hidden", !unlocked); if(notice) notice.classList.toggle("hidden", unlocked); if(!unlocked){ clearPhotoPreview(); } }
 function triggerPhotoInput(inputId){ if(!canUsePhotoSolver()){ updatePhotoAccessUI(); alert("🔒 Photo Snap & Upload is only available to active subscribers."); return; } const el = document.getElementById(inputId); if(el) el.click(); }
 function goToSubscribeForPhoto(){ cancelAllPlayback(); openCategory(curCat); setTimeout(()=>{ const pc = document.getElementById("payCard"); if(pc) pc.scrollIntoView({behavior:"smooth"}); }, 80); }
 
-function onPhotoSelected(input){
+async function onPhotoSelected(input){
   if(!canUsePhotoSolver()){ input.value = ""; clearPhotoPreview(); updatePhotoAccessUI(); alert("🔒 Photo Snap & Upload is only for subscribed students."); return; }
-  const file = input.files && input.files[0];
-  if(!file) return;
+  const files = Array.from((input && input.files) || []);
+  if(!files.length) return;
+  attachedBulkPhotos = [];
   attachedPhotoOcrText = "";
-  const reader = new FileReader();
-  reader.onload = async function(ev){
-    attachedPhotoData = ev.target.result || "";
-    const img = document.getElementById("photoPreview");
-    img.src = attachedPhotoData;
-    img.classList.remove("hidden");
-    const statusEl = document.getElementById("photoStatus");
-    statusEl.innerText = `📷 Checking photo (${file.name}) for text via OCR...`;
-    const detected = await runOcrIfPresent(attachedPhotoData);
-    const box = document.getElementById("askBox");
-    if(detected && detected.length >= 2){
-      attachedPhotoOcrText = detected;
-      if(box && !box.value.trim()) box.value = detected;
-      statusEl.innerText = `✅ OCR found text: "${detected}". Click "Solve Question + Full Explanation →".`;
-    } else {
-      attachedPhotoOcrText = "";
-      statusEl.innerText = `📷 Photo attached (${file.name}). No OCR text present — click "Solve Question + Full Explanation →" to solve directly.`;
-    }
-  };
-  reader.readAsDataURL(file);
+  const statusEl = document.getElementById("photoStatus");
+  statusEl.innerText = `📷 Reading ${files.length} photo(s)...`;
+
+  for(const f of files){
+    const dataUrl = await readFileAsDataUrl(f);
+    const ocr = await runOcrIfPresent(dataUrl);
+    attachedBulkPhotos.push({ name: f.name, dataUrl, ocr });
+  }
+
+  attachedPhotoData = attachedBulkPhotos[0].dataUrl;
+  const img = document.getElementById("photoPreview");
+  img.src = attachedPhotoData;
+  img.classList.remove("hidden");
+
+  const combinedOcr = attachedBulkPhotos.map(p => p.ocr).filter(Boolean).join(" ; ");
+  attachedPhotoOcrText = combinedOcr;
+  const box = document.getElementById("askBox");
+  if(combinedOcr && box && !box.value.trim()){
+    box.value = combinedOcr;
+  }
+  statusEl.innerText = combinedOcr
+    ? `✅ OCR (${files.length} photo(s)): "${combinedOcr}". Click "Solve Question + Full Explanation →".`
+    : `📷 ${files.length} photo(s) attached. No OCR text — click "Solve Question + Full Explanation →" to solve directly.`;
 }
 
-function clearPhotoPreview(){ attachedPhotoData = ""; attachedPhotoOcrText = ""; const s = document.getElementById("snapInput"); const u = document.getElementById("uploadPhotoInput"); if(s) s.value = ""; if(u) u.value = ""; const img = document.getElementById("photoPreview"); if(img){ img.src = ""; img.classList.add("hidden"); } const st = document.getElementById("photoStatus"); if(st) st.innerText = "Subscriber perk: Snap or upload a question photo — OCR reads text if present, or solves directly."; }
+function clearPhotoPreview(){ attachedPhotoData = ""; attachedPhotoOcrText = ""; attachedBulkPhotos = []; const s = document.getElementById("snapInput"); const u = document.getElementById("uploadPhotoInput"); if(s) s.value = ""; if(u) u.value = ""; const img = document.getElementById("photoPreview"); if(img){ img.src = ""; img.classList.add("hidden"); } const st = document.getElementById("photoStatus"); if(st) st.innerText = "Subscriber perk: Snap or upload bulk question photos — OCR reads text if present, routes & solves automatically."; }
 
 function toSup(n){ const map = {"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹","-":"⁻"}; return String(n).split("").map(ch => map[ch] || ch).join(""); }
 
@@ -932,20 +979,23 @@ function setNarrationMode(mode){
   if(mBtn) mBtn.className = mode === "male" ? "btn green" : "btn white";
   if(sBtn) sBtn.className = mode === "silent" ? "btn blue" : "btn white";
   document.getElementById("penStatus").innerText = mode === "male"
-    ? "🎙️ Male Voice (Exact Words) active."
-    : "🖊️ Pen Only (No Voice) active.";
+    ? "🎙️ Male Voice active."
+    : "🖊️ Pen Only active.";
 }
 
 function pickMaleVoice(){
   if(!window.speechSynthesis || !window.speechSynthesis.getVoices) return null;
   const voices = window.speechSynthesis.getVoices() || [];
   if(!voices.length) return null;
-  const maleHints = ["male","david","daniel","mark","george","arthur","james","thomas","rishi","oliver","ryan","aaron","fred","alex","en-gb","en-us"];
+  const femaleHints = ["female","zira","samantha","victoria","karen","moira","tessa","fiona","hazel","susan","linda","aria","jenny","ava","emma","olivia","sophia","chloe"];
+  const nonFemale = voices.filter(v => !femaleHints.some(h => (v.name || "").toLowerCase().includes(h)));
+  const pool = nonFemale.length ? nonFemale : voices;
+  const maleHints = ["daniel","david","mark","george","arthur","james","thomas","rishi","oliver","ryan","aaron","fred","alex","male","en-gb","en-us"];
   for(const hint of maleHints){
-    const found = voices.find(v => (v.name + " " + v.lang).toLowerCase().includes(hint) && !(v.name||"").toLowerCase().includes("female"));
+    const found = pool.find(v => (v.name + " " + v.lang).toLowerCase().includes(hint));
     if(found) return found;
   }
-  return voices.find(v => !(v.name||"").toLowerCase().includes("female")) || voices[0];
+  return pool[0];
 }
 
 function getTotalForMode(cat,topic,mode){ return getTopicCustomList(cat,topic,mode).length; }
@@ -1036,17 +1086,18 @@ function testVoiceVolume(){
   const myRun = activeRunId;
   isPlaying = true;
   document.getElementById("penStatus").innerText = "🔊 Testing male voice...";
-  speakExactLineWithPauses("Here is how we write and solve the step.", ()=>{
+  speakExactLineWithPauses("2x + 3 = 7", ()=>{
     isPlaying = false;
     if(myRun === activeRunId) document.getElementById("penStatus").innerText = "✅ Male voice ready.";
   }, myRun);
 }
 function setSpeed(r){ voiceRate=r; document.getElementById("penStatus").innerText="Pace updated."; }
-function initBoard(){ const c=document.getElementById("whiteboard"); boardCtx=c.getContext("2d"); boardCtx.clearRect(0,0,c.width,c.height); boardCtx.font="bold 16px Arial"; boardCtx.fillStyle="#111"; }
+function initBoard(){ const c=document.getElementById("whiteboard"); boardCtx=c.getContext("2d"); boardCtx.clearRect(0,0,c.width,c.height); boardCtx.font="bold 17px Arial"; boardCtx.fillStyle="#111"; }
 function clearBoard(){ cancelAllPlayback(); initBoard(); document.getElementById("penStatus").innerText="Pen ready."; document.getElementById("marker").style.display="none"; document.getElementById("nowReading").innerText="Exact line: —"; }
 
 function expandForVoice(line){
   return (line||"")
+    .replace(/([a-zA-Z0-9])\s*\^\s*([0-9]+)/g, "$1 to the power of $2")
     .replace(/∫/g," integral ")
     .replace(/∑/g," sum of ")
     .replace(/∠/g," angle ")
@@ -1058,112 +1109,134 @@ function expandForVoice(line){
     .replace(/β/g," beta ")
     .replace(/π/g," pi ")
     .replace(/∛/g," cube root of ")
-    .replace(/√/g," square root of ")
+    .replace(/√/g," square root ")
     .replace(/²/g," squared ")
     .replace(/³/g," cubed ")
-    .replace(/⁴/g," to the power of 4 ")
-    .replace(/⁹/g," to the power of 9 ")
+    .replace(/⁴/g," to the power of four ")
+    .replace(/⁹/g," to the power of nine ")
     .replace(/ⁿ/g," to the power of n ")
     .replace(/∪/g," union ")
     .replace(/∩/g," intersection ")
     .replace(/≤/g," less than or equal to ")
     .replace(/≥/g," greater than or equal to ")
     .replace(/≠/g," not equal to ")
+    .replace(/≡/g," equivalent to ")
+    .replace(/\*/g," times ")
     .replace(/×/g," times ")
+    .replace(/\//g," over ")
     .replace(/÷/g," divided by ")
     .replace(/−/g," minus ")
+    .replace(/-/g," minus ")
     .replace(/\+/g," plus ")
     .replace(/=/g," equals ")
     .replace(/%/g," percent ")
     .replace(/°/g," degrees ")
     .replace(/⇒/g," therefore ")
     .replace(/½/g," one half ")
-    .replace(/¾/g," three quarters ");
+    .replace(/¾/g," three quarters ")
+    .replace(/\(/g," open bracket ")
+    .replace(/\)/g," close bracket ")
+    .replace(/\s+/g," ")
+    .trim();
 }
 
 function speakExactLineWithPauses(rawText, onDone, runToken){
   if(narrationMode === "silent"){
     document.getElementById("nowReading").innerText = "Exact line: " + (rawText || "—");
-    setTimeout(()=>{ if(isPlaying && runToken === activeRunId && onDone) onDone(); }, 950);
+    setTimeout(()=>{ if(isPlaying && runToken === activeRunId && onDone) onDone(); }, 550);
     return;
   }
   const spoken = expandForVoice(rawText || "").trim();
   if(!spoken || !window.speechSynthesis){
-    setTimeout(()=>{ if(isPlaying && runToken === activeRunId && onDone) onDone(); }, 750);
+    setTimeout(()=>{ if(isPlaying && runToken === activeRunId && onDone) onDone(); }, 450);
     return;
   }
-  const chunks = spoken
-    .split(/(?:;|,|\btherefore\b|\bso\b)/i)
-    .map(s => s.trim())
-    .filter(Boolean);
-
+  document.getElementById("nowReading").innerText = "🎙️ " + spoken;
   const chosenVoice = pickMaleVoice();
-
-  function speakChunk(idx){
-    if(!isPlaying || runToken !== activeRunId) return;
-    if(idx >= chunks.length){
-      setTimeout(()=>{ if(isPlaying && runToken === activeRunId && onDone) onDone(); }, 850);
-      return;
-    }
-    document.getElementById("nowReading").innerText = "🎙️ " + chunks[idx];
-    try{
-      const u = new SpeechSynthesisUtterance(chunks[idx]);
-      if(chosenVoice) u.voice = chosenVoice;
-      u.rate = voiceRate;
-      u.pitch = 0.85;
-      u.volume = 1.0;
-      let moved = false;
-      const goNext = ()=>{
-        if(moved) return;
-        moved = true;
-        if(!isPlaying || runToken !== activeRunId) return;
-        setTimeout(()=>{ if(isPlaying && runToken === activeRunId) speakChunk(idx + 1); }, 420);
-      };
-      u.onend = goNext;
-      u.onerror = goNext;
-      window.speechSynthesis.speak(u);
-    }catch(e){
-      setTimeout(()=>{ if(isPlaying && runToken === activeRunId) speakChunk(idx + 1); }, 550);
-    }
+  try{
+    try{ window.speechSynthesis.cancel(); }catch(e){}
+    const u = new SpeechSynthesisUtterance(spoken);
+    if(chosenVoice) u.voice = chosenVoice;
+    u.rate = Math.min(1.05, Math.max(0.65, voiceRate + 0.12));
+    u.pitch = 0.72;
+    u.volume = 1.0;
+    let finished = false;
+    const finish = ()=>{
+      if(finished) return;
+      finished = true;
+      if(isPlaying && runToken === activeRunId && onDone) onDone();
+    };
+    u.onend = finish;
+    u.onerror = finish;
+    window.speechSynthesis.speak(u);
+  }catch(e){
+    setTimeout(()=>{ if(isPlaying && runToken === activeRunId && onDone) onDone(); }, 500);
   }
-  speakChunk(0);
 }
 
-function drawFittedText(ctx,text,x,y,maxW,baseSize,color){ let size=baseSize; ctx.font=`bold ${size}px Arial`; while(ctx.measureText(text).width>maxW&&size>11){ size--; ctx.font=`bold ${size}px Arial`; } ctx.fillStyle=color; ctx.fillText(text,x,y); return ctx.measureText(text).width; }
+function wrapTextToWidth(ctx, text, maxW, fontSize){
+  ctx.font = `bold ${fontSize}px Arial`;
+  const words = String(text || "").split(/\s+/).filter(Boolean);
+  if(!words.length) return [""];
+  const lines = [];
+  let cur = "";
+  for(const w of words){
+    const test = cur ? `${cur} ${w}` : w;
+    if(ctx.measureText(test).width <= maxW){
+      cur = test;
+    } else {
+      if(cur) lines.push(cur);
+      if(ctx.measureText(w).width > maxW){
+        let chunk = "";
+        for(const ch of w){
+          const t2 = chunk + ch;
+          if(ctx.measureText(t2).width <= maxW) chunk = t2;
+          else { if(chunk) lines.push(chunk); chunk = ch; }
+        }
+        cur = chunk;
+      } else {
+        cur = w;
+      }
+    }
+  }
+  if(cur) lines.push(cur);
+  return lines;
+}
 
-function humanPenDelayForChar(ch, paceFactor){
+function humanPenDelayForChar(ch){
   const baseScale = (0.62 / Math.max(0.35, voiceRate || 0.62));
-  const jitter = 0.85 + Math.random() * 0.45;
-  let ms = 115 * baseScale * jitter;
-  if(ch === " ") ms *= 1.35;
-  else if(ch === "," || ch === ";" || ch === ":") ms *= 2.1;
-  else if(ch === "=" || ch === "+" || ch === "−" || ch === "-") ms *= 1.75;
-  return Math.round(Math.min(480, Math.max(65, ms)));
+  const jitter = 0.85 + Math.random() * 0.4;
+  let ms = 85 * baseScale * jitter;
+  if(ch === " ") ms *= 1.25;
+  else if(ch === "," || ch === ";" || ch === ":") ms *= 1.6;
+  else if(ch === "=" || ch === "+" || ch === "−" || ch === "-") ms *= 1.45;
+  return Math.round(Math.min(340, Math.max(45, ms)));
 }
 
 function buildBoardSequence(qObj){
   const items = [];
   if(qObj.formula && qObj.formula.eq){
     items.push({
-      boardText: `Formula: ${qObj.formula.eq}`,
+      boardText: String(qObj.formula.eq).trim(),
       color: "#1E4DA1",
-      voice: qObj.formula.eq
+      voice: String(qObj.formula.eq).trim()
     });
   }
-  (qObj.steps || []).forEach((st, i) => {
-    const lineTxt = st.line || "";
-    if(lineTxt){
+  (qObj.steps || []).forEach(st => {
+    const cleanLine = String(st.line || "").replace(/^step\s*\d+\s*(?:\([^)]*\))?\s*:\s*/i, "").trim();
+    if(cleanLine){
       items.push({
-        boardText: `Step ${i+1}: ${lineTxt}`,
+        boardText: cleanLine,
         color: "#111",
-        voice: lineTxt
+        voice: cleanLine
       });
     }
     if(st.arith){
+      const cleanArith = String(st.arith).trim();
       items.push({
-        boardText: `  ${st.arith}`,
+        boardText: cleanArith,
         color: "#0f766e",
-        voice: st.arith
+        voice: cleanArith
       });
     }
   });
@@ -1174,26 +1247,54 @@ function writeStructuredLesson(qObj,done){
   cancelAllPlayback();
   const myRun = activeRunId;
   initBoard();
-  const seq = buildBoardSequence(qObj);
+  const rawSeq = buildBoardSequence(qObj);
+  const seq = [];
+  const fontSize = 17;
+  const lineH = 34;
+  const maxW = 524;
+  for(const entry of rawSeq){
+    const wrapped = wrapTextToWidth(boardCtx, entry.boardText, maxW, fontSize);
+    wrapped.forEach((seg, idx) => {
+      seq.push({
+        boardText: seg,
+        color: entry.color,
+        voice: idx === 0 ? entry.voice : ""
+      });
+    });
+  }
+
   const marker = document.getElementById("marker");
   if(!seq.length){
     marker.style.display = "none";
-    document.getElementById("penStatus").innerText = "No written steps yet for this question.";
+    document.getElementById("penStatus").innerText = "No written steps yet.";
     if(done) done();
     return;
   }
+
   isPlaying = true;
   marker.style.display = "block";
+  const maxVisibleRows = Math.max(1, Math.floor((460 - 24) / lineH));
   const completedLines = [];
 
   function renderBoard(ct,cc,col){
     boardCtx.clearRect(0,0,560,460);
-    const si = Math.max(0, completedLines.length - 8);
+    boardCtx.font = `bold ${fontSize}px Arial`;
+    const reserveForActive = ct !== null ? 1 : 0;
+    const keepCompleted = Math.max(0, maxVisibleRows - reserveForActive);
+    const si = Math.max(0, completedLines.length - keepCompleted);
     const vd = completedLines.slice(si);
-    vd.forEach((it,ix)=>drawFittedText(boardCtx,it.text,16,36+ix*48,528,16,it.color||"#111"));
+    vd.forEach((it,ix)=>{
+      boardCtx.fillStyle = it.color || "#111";
+      boardCtx.fillText(it.text, 18, 34 + ix * lineH);
+    });
     const ar = vd.length;
     let lw = 0;
-    if(ct !== null) lw = drawFittedText(boardCtx,ct.slice(0,cc),16,36+ar*48,528,16,col||"#1E4DA1");
+    if(ct !== null){
+      const sliceStr = ct.slice(0, cc);
+      boardCtx.fillStyle = col || "#1E4DA1";
+      boardCtx.fillText(sliceStr, 18, 34 + ar * lineH);
+      lw = boardCtx.measureText(sliceStr).width;
+    }
     return {lastW:lw, activeRow:ar};
   }
 
@@ -1202,29 +1303,44 @@ function writeStructuredLesson(qObj,done){
     if(idx >= seq.length){
       isPlaying = false;
       marker.style.display = "none";
-      document.getElementById("penStatus").innerText = "✅ Done writing.";
+      document.getElementById("penStatus").innerText = "✅ Done.";
       document.getElementById("nowReading").innerText = "Exact line: —";
       if(done) done();
       return;
     }
     const item = seq[idx];
     let ci = 0;
-    document.getElementById("penStatus").innerText = `🖊️ Writing step ${idx+1}/${seq.length} naturally...`;
+    let voiceStarted = false;
+    let voiceDone = !item.voice;
+    let penDone = false;
+    document.getElementById("penStatus").innerText = `🖊️ Writing ${idx+1}/${seq.length}...`;
+
+    function maybeAdvance(){
+      if(!isPlaying || myRun !== activeRunId) return;
+      if(penDone && voiceDone){
+        runItem(idx + 1);
+      }
+    }
 
     function stepChar(){
       if(!isPlaying || myRun !== activeRunId) return;
+      if(!voiceStarted && item.voice){
+        voiceStarted = true;
+        speakExactLineWithPauses(item.voice, ()=>{
+          voiceDone = true;
+          maybeAdvance();
+        }, myRun);
+      }
       const {lastW,activeRow} = renderBoard(item.boardText, ci, item.color);
-      const subtleBob = Math.sin(ci * 0.9) * 2.2;
-      marker.style.left = Math.min(520, 18 + lastW) + "px";
-      marker.style.top = (14 + activeRow * 48 + subtleBob) + "px";
+      const subtleBob = Math.sin(ci * 0.9) * 2;
+      marker.style.left = Math.min(524, 20 + lastW) + "px";
+      marker.style.top = Math.min(420, 12 + activeRow * lineH + subtleBob) + "px";
 
       if(ci >= item.boardText.length){
         completedLines.push({text:item.boardText, color:item.color});
         renderBoard(null, 0, item.color);
-        document.getElementById("penStatus").innerText = `🖊️ Reading step ${idx+1}/${seq.length} + pause for students...`;
-        speakExactLineWithPauses(item.voice, ()=>{
-          if(isPlaying && myRun === activeRunId) runItem(idx + 1);
-        }, myRun);
+        penDone = true;
+        maybeAdvance();
         return;
       }
       const ch = item.boardText.charAt(ci);
@@ -1264,7 +1380,7 @@ function nextQuestion(){ cancelAllPlayback(); const total=getTotal(); if(total<=
 function prevQuestion(){ cancelAllPlayback(); if(curIdx>0){curIdx--;renderCurrent();playLesson()} }
 function pauseLesson(){ cancelAllPlayback(); const vid=document.getElementById("questionVideoPlayer"); if(vid && !vid.paused) vid.pause(); document.getElementById("penStatus").innerText="⏸ Paused."; }
 function stopVoice(){ cancelAllPlayback(); const vid=document.getElementById("questionVideoPlayer"); if(vid){ vid.pause(); vid.currentTime=0; } document.getElementById("penStatus").innerText="Stopped."; }
-function askTeacher(){ if(!curQuestion) return; const sHtml=(curQuestion.steps||[]).map((st,i)=>`• <b>Step ${i+1}:</b> ${st.line}`).join("<br>"); document.getElementById("askAns").innerHTML=`<div class="card" style="background:#eef7ff;margin-top:10px">${curQuestion.formula.eq?`<b>Formula:</b> ${curQuestion.formula.eq}<br><br>`:""}${sHtml?`<b>Steps:</b><br>${sHtml}`:""}</div>`; writeStructuredLesson(curQuestion,null); }
+function askTeacher(){ if(!curQuestion) return; const sHtml=(curQuestion.steps||[]).map(st=>`• ${st.line}`).join("<br>"); document.getElementById("askAns").innerHTML=`<div class="card" style="background:#eef7ff;margin-top:10px">${curQuestion.formula.eq?`<b>${curQuestion.formula.eq}</b><br><br>`:""}${sHtml}</div>`; writeStructuredLesson(curQuestion,null); }
 function askVoice(){ try{const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){alert("Type your question.");return}const r=new R();r.lang="en-NG";r.onresult=e=>{document.getElementById("askBox").value=e.results[0][0].transcript;solveQuestion()};r.start()}catch(e){alert("Type your question.");} }
 
 function normalizeMathExpr(raw){
@@ -1342,13 +1458,13 @@ function solveRoundingEngine(qText, sourceLabel){
   const rawVal = parseFloat(numMatch[1]);
 
   let placeName = "", placeVal = 1, decPlaces = null;
-  if(/thousand/i.test(low)){ placeName = "thousands"; placeVal = 1000; }
-  else if(/hundred/i.test(low)){ placeName = "hundreds"; placeVal = 100; }
-  else if(/\bten(?:s)?\b/i.test(low)){ placeName = "tens"; placeVal = 10; }
-  else if(/whole\s*number/i.test(low)){ placeName = "units (nearest whole number)"; decPlaces = 0; }
+  if(/thousand/i.test(low)){ placeName = "1000"; placeVal = 1000; }
+  else if(/hundred/i.test(low)){ placeName = "100"; placeVal = 100; }
+  else if(/\bten(?:s)?\b/i.test(low)){ placeName = "10"; placeVal = 10; }
+  else if(/whole\s*number/i.test(low)){ placeName = "1"; decPlaces = 0; }
   else {
     const dpMatch = low.match(/(\d+)\s*(?:decimal\s*place|d\.?p\.?)/i);
-    if(dpMatch){ decPlaces = parseInt(dpMatch[1], 10); placeName = `${decPlaces} decimal place(s)`; }
+    if(dpMatch){ decPlaces = parseInt(dpMatch[1], 10); placeName = `${decPlaces} d.p.`; }
   }
   if(!placeName && decPlaces === null) return null;
 
@@ -1358,22 +1474,18 @@ function solveRoundingEngine(qText, sourceLabel){
     const factor = Math.pow(10, decPlaces);
     const rounded = Math.round(rawVal * factor) / factor;
     roundedStr = decPlaces === 0 ? String(Math.round(rounded)) : rounded.toFixed(decPlaces);
-    steps.push({ line: `Target: ${placeName} on ${rawVal}`, why: "", arith: "" });
-    steps.push({ line: `Five-or-more rule applied -> ${roundedStr}`, why: "", arith: "" });
+    steps.push({ line: `${rawVal} -> ${roundedStr} (${placeName})`, why: "", arith: "" });
   } else {
     const rounded = Math.round(rawVal / placeVal) * placeVal;
-    const deciderDigit = Math.floor((Math.abs(rawVal) % placeVal) / (placeVal / 10));
     roundedStr = fmtNum(rounded);
-    steps.push({ line: `Target place: ${placeName} (${placeVal}) in ${rawVal}`, why: "", arith: "" });
-    steps.push({ line: `Decider digit = ${deciderDigit} (${deciderDigit >= 5 ? ">= 5, round up" : "< 5, round down"})`, why: "", arith: "" });
-    steps.push({ line: `Result = ${roundedStr}`, why: "", arith: "" });
+    steps.push({ line: `${rawVal} -> ${roundedStr} (nearest ${placeName})`, why: "", arith: "" });
   }
 
   return {
     examTag: "ROUNDING",
     source: sourceLabel,
     params: [],
-    formula: { eq: "Five-or-more rule: 0–4 round down, 5–9 round up", parts: [] },
+    formula: { eq: "", parts: [] },
     steps,
     pitfall: "",
     check: roundedStr
@@ -1399,8 +1511,8 @@ function solveBasesModEngine(qText, sourceLabel){
         examTag: "MODULAR",
         source: sourceLabel,
         params: [],
-        formula: { eq: "ax ≡ c (mod m)", parts: [] },
-        steps: [{ line: `Testing x ∈ {0..${m-1}}: ${ans}`, why: "", arith: "" }],
+        formula: { eq: `${a}x ≡ ${c} (mod ${m})`, parts: [] },
+        steps: [{ line: ans, why: "", arith: "" }],
         pitfall: "",
         check: ans
       };
@@ -1418,10 +1530,10 @@ function solveBasesModEngine(qText, sourceLabel){
         examTag: "NUMBER BASE",
         source: sourceLabel,
         params: [],
-        formula: { eq: "Value₁₀ = Σ (digit × baseⁿ)", parts: [] },
+        formula: { eq: "", parts: [] },
         steps: [
           { line: `${digits}_(${b}) = ${expanded}`, why: "", arith: "" },
-          { line: `= ${val}₁₀`, why: "", arith: "" }
+          { line: `= ${val}`, why: "", arith: "" }
         ],
         pitfall: "",
         check: `${val}`
@@ -1439,8 +1551,8 @@ function solveBasesModEngine(qText, sourceLabel){
         examTag: "NUMBER BASE",
         source: sourceLabel,
         params: [],
-        formula: { eq: "Repeated division by target base, read remainders upward", parts: [] },
-        steps: [{ line: `${n}₁₀ = ${converted}_(${b})`, why: "", arith: "" }],
+        formula: { eq: "", parts: [] },
+        steps: [{ line: `${n}_10 = ${converted}_(${b})`, why: "", arith: "" }],
         pitfall: "",
         check: `${converted}_(${b})`
       };
@@ -1464,7 +1576,7 @@ function solveFinanceRatioEngine(qText, sourceLabel){
         examTag: "SIMPLE INTEREST",
         source: sourceLabel,
         params: [],
-        formula: { eq: "I = (P × R × T) / 100", parts: [] },
+        formula: { eq: "I = PRT / 100", parts: [] },
         steps: [{ line: `I = (${P} × ${R} × ${T}) / 100 = ${fmtNum(I)}`, why: "", arith: "" }],
         pitfall: "",
         check: `${fmtNum(I)}`
@@ -1484,7 +1596,7 @@ function solveFinanceRatioEngine(qText, sourceLabel){
         examTag: "COMPOUND INTEREST",
         source: sourceLabel,
         params: [],
-        formula: { eq: "A = P(1 + R/100)ᵀ;  CI = A − P", parts: [] },
+        formula: { eq: "A = P(1 + R/100)^T", parts: [] },
         steps: [
           { line: `A = ${P}(1 + ${R}/100)^${T} = ${fmtNum(A)}`, why: "", arith: "" },
           { line: `CI = ${fmtNum(A)} − ${P} = ${fmtNum(CI)}`, why: "", arith: "" }
@@ -1507,10 +1619,10 @@ function solveFinanceRatioEngine(qText, sourceLabel){
         examTag: label.toUpperCase(),
         source: sourceLabel,
         params: [],
-        formula: { eq: `${label} = |SP − CP|;  % = (${label} / CP) × 100`, parts: [] },
+        formula: { eq: `${label} = |SP − CP|`, parts: [] },
         steps: [
           { line: `${label} = ${fmtNum(Math.abs(diff))}`, why: "", arith: "" },
-          { line: `% ${label} = ${fmtNum(pct)}%`, why: "", arith: "" }
+          { line: `% = ${fmtNum(pct)}%`, why: "", arith: "" }
         ],
         pitfall: "",
         check: `${label} = ${fmtNum(Math.abs(diff))} (${fmtNum(pct)}%)`
@@ -1538,7 +1650,7 @@ function solveInequalityCubicSubjectEngine(qText, sourceLabel){
         examTag: "INEQUALITY",
         source: sourceLabel,
         params: [],
-        formula: { eq: "Isolate x (flip inequality sign when dividing by a negative number)", parts: [] },
+        formula: { eq: "", parts: [] },
         steps: [
           { line: `${a}x ${op} ${fmtNum(c - b)}`, why: "", arith: "" },
           { line: `x ${op} ${fmtNum(rhs)}`, why: "", arith: "" }
@@ -1567,8 +1679,8 @@ function solveInequalityCubicSubjectEngine(qText, sourceLabel){
           examTag: "CUBIC EQ",
           source: sourceLabel,
           params: [],
-          formula: { eq: "Factor theorem: if f(r) = 0, (x − r) is a factor", parts: [] },
-          steps: roots.map(rt => ({ line: `f(${rt}) = 0 => x = ${rt}`, why: "", arith: "" })),
+          formula: { eq: "", parts: [] },
+          steps: roots.map(rt => ({ line: `x = ${rt}`, why: "", arith: "" })),
           pitfall: "",
           check: `x = ${roots.join(", ")}`
         };
@@ -1589,7 +1701,7 @@ function solveInequalityCubicSubjectEngine(qText, sourceLabel){
         examTag: "SUBJECT",
         source: sourceLabel,
         params: [],
-        formula: { eq: "Isolate squared term and take square root on both sides", parts: [] },
+        formula: { eq: "", parts: [] },
         steps: [{ line: ans, why: "", arith: "" }],
         pitfall: "",
         check: ans
@@ -1606,7 +1718,7 @@ function solveInequalityCubicSubjectEngine(qText, sourceLabel){
         examTag: "SUBJECT",
         source: sourceLabel,
         params: [],
-        formula: { eq: "Rearrange terms to isolate target variable", parts: [] },
+        formula: { eq: "", parts: [] },
         steps: [{ line: ans, why: "", arith: "" }],
         pitfall: "",
         check: ans
@@ -1633,10 +1745,10 @@ function solveSeqStatsMatEngine(qText, sourceLabel){
         examTag: "A.P.",
         source: sourceLabel,
         params: [],
-        formula: { eq: "Tₙ = a + (n − 1)d;  Sₙ = n/2 [2a + (n − 1)d]", parts: [] },
+        formula: { eq: "T_n = a + (n − 1)d", parts: [] },
         steps: [
           { line: `T_${n} = ${a} + (${n} − 1)(${d}) = ${fmtNum(tn)}`, why: "", arith: "" },
-          { line: `S_${n} = (${n}/2)[2(${a}) + (${n} − 1)(${d})] = ${fmtNum(sn)}`, why: "", arith: "" }
+          { line: `S_${n} = ${fmtNum(sn)}`, why: "", arith: "" }
         ],
         pitfall: "",
         check: wantSum ? `S_${n} = ${fmtNum(sn)}` : `T_${n} = ${fmtNum(tn)}`
@@ -1656,7 +1768,7 @@ function solveSeqStatsMatEngine(qText, sourceLabel){
         examTag: "G.P.",
         source: sourceLabel,
         params: [],
-        formula: { eq: "Tₙ = arⁿ⁻¹;  Sₙ = a(rⁿ − 1)/(r − 1)", parts: [] },
+        formula: { eq: "T_n = ar^(n−1)", parts: [] },
         steps: [
           { line: `T_${n} = ${a}(${r})^${n-1} = ${fmtNum(tn)}`, why: "", arith: "" },
           { line: `S_${n} = ${fmtNum(sn)}`, why: "", arith: "" }
@@ -1680,7 +1792,7 @@ function solveSeqStatsMatEngine(qText, sourceLabel){
           examTag: "STATISTICS",
           source: sourceLabel,
           params: [],
-          formula: { eq: "Mean = Σx / n;  Variance = Σ(x − x̄)² / n;  SD = √Variance", parts: [] },
+          formula: { eq: "Mean = Σx / n", parts: [] },
           steps: [
             { line: `Mean = ${fmtNum(mean)}, Range = ${fmtNum(range)}`, why: "", arith: "" },
             { line: `Variance = ${fmtNum(variance)}, SD = ${fmtNum(sd)}`, why: "", arith: "" }
@@ -1700,14 +1812,14 @@ function solveSeqStatsMatEngine(qText, sourceLabel){
     let ans = `det = ${fmtNum(det)}`;
     if(/inverse/i.test(low) && Math.abs(det) > 1e-9){
       const invStr = `(1/${fmtNum(det)}) [[${fmtNum(d)}, ${fmtNum(-b)}], [${fmtNum(-c)}, ${fmtNum(a)}]]`;
-      steps.push({ line: `Inverse = ${invStr}`, why: "", arith: "" });
+      steps.push({ line: `A^(-1) = ${invStr}`, why: "", arith: "" });
       ans = invStr;
     }
     return {
       examTag: "MATRIX 2×2",
       source: sourceLabel,
       params: [],
-      formula: { eq: "det = ad − bc;  A⁻¹ = (1/det)[[d, −b], [−c, a]]", parts: [] },
+      formula: { eq: "det = ad − bc", parts: [] },
       steps,
       pitfall: "",
       check: ans
@@ -1737,7 +1849,7 @@ function solveIntegralEngine(qText, sourceLabel){
         examTag: "DEFINITE INTEGRAL",
         source: sourceLabel,
         params: [],
-        formula: { eq: "∫sin(kx)dx = −cos(kx)/k;  ∫cos(kx)dx = sin(kx)/k", parts: [] },
+        formula: { eq: "", parts: [] },
         steps: [{ line: `F(${b}) − F(${a}) = ${fmtNum(val)}`, why: "", arith: "" }],
         pitfall: "",
         check: `${fmtNum(val)}`
@@ -1747,7 +1859,7 @@ function solveIntegralEngine(qText, sourceLabel){
       examTag: "INTEGRAL",
       source: sourceLabel,
       params: [],
-      formula: { eq: "∫sin(kx)dx = −cos(kx)/k;  ∫cos(kx)dx = sin(kx)/k", parts: [] },
+      formula: { eq: "", parts: [] },
       steps: [{ line: `${antiFn} + C`, why: "", arith: "" }],
       pitfall: "",
       check: `${antiFn} + C`
@@ -1771,12 +1883,11 @@ function solveIntegralEngine(qText, sourceLabel){
       examTag: "INTEGRAL",
       source: sourceLabel,
       params: [],
-      formula: { eq: "∫ xⁿ dx = xⁿ⁺¹/(n+1); ∫ₐᵇ f(x) dx = F(b) − F(a)", parts: [] },
+      formula: { eq: "∫ x^n dx = x^(n+1)/(n+1)", parts: [] },
       steps: [
         { line: `F(x) = ${antiStr}`, why: "", arith: "" },
-        { line: `F(${b}) = ${fmtNum(valB)}`, why: "", arith: "" },
-        { line: `F(${a}) = ${fmtNum(valA)}`, why: "", arith: "" },
-        { line: `${fmtNum(valB)} − (${fmtNum(valA)}) = ${fmtNum(ans)}`, why: "", arith: "" }
+        { line: `F(${b}) = ${fmtNum(valB)}, F(${a}) = ${fmtNum(valA)}`, why: "", arith: "" },
+        { line: `= ${fmtNum(ans)}`, why: "", arith: "" }
       ],
       pitfall: "",
       check: `${fmtNum(ans)}`
@@ -1787,7 +1898,7 @@ function solveIntegralEngine(qText, sourceLabel){
     examTag: "INTEGRAL",
     source: sourceLabel,
     params: [],
-    formula: { eq: "∫ xⁿ dx = xⁿ⁺¹/(n+1) + C", parts: [] },
+    formula: { eq: "∫ x^n dx = x^(n+1)/(n+1) + C", parts: [] },
     steps: [{ line: `${antiStr} + C`, why: "", arith: "" }],
     pitfall: "",
     check: `${antiStr} + C`
@@ -1811,14 +1922,14 @@ function solveDerivativeEngine(qText, sourceLabel){
     if(atMatch){
       const x0 = parseFloat(atMatch[1]);
       const val = fn === "sin" ? amp * k * Math.cos(k * x0) : -amp * k * Math.sin(k * x0);
-      steps.push({ line: `At x = ${x0}, dy/dx = ${fmtNum(val)}`, why: "", arith: "" });
+      steps.push({ line: `x = ${x0} -> ${fmtNum(val)}`, why: "", arith: "" });
       ans = `${fmtNum(val)}`;
     }
     return {
       examTag: "CALCULUS",
       source: sourceLabel,
       params: [],
-      formula: { eq: "d/dx[sin(kx)] = k·cos(kx);  d/dx[cos(kx)] = −k·sin(kx)", parts: [] },
+      formula: { eq: "", parts: [] },
       steps,
       pitfall: "",
       check: ans
@@ -1836,7 +1947,7 @@ function solveDerivativeEngine(qText, sourceLabel){
   if(atMatch){
     const x0 = parseFloat(atMatch[1]);
     const val = deriv.reduce((s, t) => s + t.coeff * Math.pow(x0, t.deg), 0);
-    steps.push({ line: `At x = ${x0}, dy/dx = ${fmtNum(val)}`, why: "", arith: "" });
+    steps.push({ line: `x = ${x0} -> ${fmtNum(val)}`, why: "", arith: "" });
     ansText = `${fmtNum(val)}`;
   }
 
@@ -1844,7 +1955,7 @@ function solveDerivativeEngine(qText, sourceLabel){
     examTag: "CALCULUS",
     source: sourceLabel,
     params: [],
-    formula: { eq: "d/dx(xⁿ) = n·xⁿ⁻¹", parts: [] },
+    formula: { eq: "d/dx(x^n) = n·x^(n−1)", parts: [] },
     steps,
     pitfall: "",
     check: ansText
@@ -1876,10 +1987,10 @@ function solveQuadraticEngine(qText, sourceLabel){
       examTag: "LINEAR EQ",
       source: sourceLabel,
       params: [],
-      formula: { eq: "bx + c = 0; x = −c / b", parts: [] },
+      formula: { eq: "", parts: [] },
       steps: [
         { line: `${fmtNum(b)}x = ${fmtNum(-c)}`, why: "", arith: "" },
-        { line: `x = ${fmtNum(-c)} / ${fmtNum(b)} = ${fmtNum(x)}`, why: "", arith: "" }
+        { line: `x = ${fmtNum(x)}`, why: "", arith: "" }
       ],
       pitfall: "",
       check: `x = ${fmtNum(x)}`
@@ -1888,8 +1999,8 @@ function solveQuadraticEngine(qText, sourceLabel){
 
   const disc = b * b - 4 * a * c;
   const steps = [
-    { line: `${fmtNum(a)}x² ${b>=0?"+":"−"} ${fmtNum(Math.abs(b))}x ${c>=0?"+":"−"} ${fmtNum(Math.abs(c))} = 0`, why: "", arith: "" },
-    { line: `b² − 4ac = ${fmtNum(b*b)} − ${fmtNum(4*a*c)} = ${fmtNum(disc)}`, why: "", arith: "" }
+    { line: `${fmtNum(a)}x^2 ${b>=0?"+":"−"} ${fmtNum(Math.abs(b))}x ${c>=0?"+":"−"} ${fmtNum(Math.abs(c))} = 0`, why: "", arith: "" },
+    { line: `b^2 − 4ac = ${fmtNum(disc)}`, why: "", arith: "" }
   ];
 
   let ansStr = "";
@@ -1901,7 +2012,7 @@ function solveQuadraticEngine(qText, sourceLabel){
     const x1 = (-b + sqrtD) / (2 * a);
     const x2 = (-b - sqrtD) / (2 * a);
     steps.push({ line: `x = (${fmtNum(-b)} ± ${fmtNum(sqrtD)}) / ${fmtNum(2*a)}`, why: "", arith: "" });
-    steps.push({ line: `x₁ = ${fmtNum(x1)}, x₂ = ${fmtNum(x2)}`, why: "", arith: "" });
+    steps.push({ line: `x_1 = ${fmtNum(x1)}, x_2 = ${fmtNum(x2)}`, why: "", arith: "" });
     ansStr = `x = ${fmtNum(x1)} or ${fmtNum(x2)}`;
   }
 
@@ -1909,7 +2020,7 @@ function solveQuadraticEngine(qText, sourceLabel){
     examTag: "QUADRATIC",
     source: sourceLabel,
     params: [],
-    formula: { eq: "x = (−b ± √(b² − 4ac)) / (2a)", parts: [] },
+    formula: { eq: "x = (−b ± √(b^2 − 4ac)) / (2a)", parts: [] },
     steps,
     pitfall: "",
     check: ansStr
@@ -1956,7 +2067,7 @@ function solveSimultaneousEngine(qText, sourceLabel){
     examTag: "SIMULTANEOUS",
     source: sourceLabel,
     params: [],
-    formula: { eq: "Elimination / Substitution", parts: [] },
+    formula: { eq: "", parts: [] },
     steps: [
       { line: `x = ${fmtNum(x)}`, why: "", arith: "" },
       { line: `y = ${fmtNum(y)}`, why: "", arith: "" }
@@ -1978,7 +2089,7 @@ function solveTrigLogCombEngine(qText, sourceLabel){
         examTag: "PERMUTATION",
         source: sourceLabel,
         params: [],
-        formula: { eq: "ⁿPᵣ = n! / (n − r)!", parts: [] },
+        formula: { eq: "nPr = n! / (n − r)!", parts: [] },
         steps: [{ line: `${n}P${r} = ${fmtNum(val)}`, why: "", arith: "" }],
         pitfall: "",
         check: `${fmtNum(val)}`
@@ -1996,7 +2107,7 @@ function solveTrigLogCombEngine(qText, sourceLabel){
         examTag: "COMBINATION",
         source: sourceLabel,
         params: [],
-        formula: { eq: "ⁿCᵣ = n! / [r!(n − r)!]", parts: [] },
+        formula: { eq: "nCr = n! / [r!(n − r)!]", parts: [] },
         steps: [{ line: `${n}C${r} = ${fmtNum(val)}`, why: "", arith: "" }],
         pitfall: "",
         check: `${fmtNum(val)}`
@@ -2012,8 +2123,8 @@ function solveTrigLogCombEngine(qText, sourceLabel){
         examTag: "LOGARITHM",
         source: sourceLabel,
         params: [],
-        formula: { eq: "log₁₀(x)", parts: [] },
-        steps: [{ line: `log₁₀(${v}) = ${fmtNum(ans)}`, why: "", arith: "" }],
+        formula: { eq: "", parts: [] },
+        steps: [{ line: `log(${v}) = ${fmtNum(ans)}`, why: "", arith: "" }],
         pitfall: "",
         check: `${fmtNum(ans)}`
       };
@@ -2034,7 +2145,7 @@ function solveTrigLogCombEngine(qText, sourceLabel){
       examTag: "TRIGONOMETRY",
       source: sourceLabel,
       params: [],
-      formula: { eq: isRad ? `${fn}(θ) in radians` : `${fn}(θ × π/180)`, parts: [] },
+      formula: { eq: "", parts: [] },
       steps: [{ line: `${fn}(${ang}${isRad ? " rad" : "°"}) = ${fmtNum(cleanVal)}`, why: "", arith: "" }],
       pitfall: "",
       check: `${fmtNum(cleanVal)}`
@@ -2054,7 +2165,7 @@ function solveArithmeticEngine(qText, sourceLabel){
       examTag: "PERCENTAGE",
       source: sourceLabel,
       params: [],
-      formula: { eq: "(p / 100) × Value", parts: [] },
+      formula: { eq: "", parts: [] },
       steps: [{ line: `(${fmtNum(p)} / 100) × ${fmtNum(v)} = ${fmtNum(res)}`, why: "", arith: "" }],
       pitfall: "",
       check: `${fmtNum(res)}`
@@ -2076,8 +2187,8 @@ function solveArithmeticEngine(qText, sourceLabel){
           examTag: "ARITHMETIC",
           source: sourceLabel,
           params: [],
-          formula: { eq: "BODMAS & Power/Root Rules", parts: [] },
-          steps: [{ line: `= ${fmtNum(val)}`, why: "", arith: "" }],
+          formula: { eq: "", parts: [] },
+          steps: [{ line: `${exprCandidate} = ${fmtNum(val)}`, why: "", arith: "" }],
           pitfall: "",
           check: `${fmtNum(val)}`
         };
@@ -2128,7 +2239,7 @@ function solveQuestion(){
     formula: solved.formula && solved.formula.eq ? solved.formula : { eq: autoExp.formula, parts: [] },
     steps: (solved.steps && solved.steps.length && solved.steps[0].line !== effectiveQ)
       ? solved.steps
-      : autoExp.answer.split(/\n+/).map(l => ({ line: l.replace(/^step\s*\d+\s*:\s*/i, ""), why: "", arith: "" })),
+      : autoExp.answer.split(/\n+/).map(l => ({ line: l.replace(/^step\s*\d+\s*(?:\([^)]*\))?\s*:\s*/i, ""), why: "", arith: "" })),
     pitfall: solved.pitfall,
     check: solved.check,
     sideWorkLines: [],
