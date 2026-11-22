@@ -41,1393 +41,192 @@ img.prev{width:100%;max-height:240px;object-fit:contain;border-radius:12px;margi
 </style></head><body>
 <div id="adminBar" class="hidden topBar">👑 ADMIN • <button class="btn yellow" style="padding:4px 12px" onclick="goToAdminDash()">↩ Back to Admin</button> <button class="btn white" style="padding:4px 12px" onclick="adminLogout()">Logout</button></div>
 <header><div class="logo"><div class="m">M</div><div><b>Maths Machine</b><br><small>BECE • WAEC • NECO • JAMB Past Qs</small></div></div><div><button class="btn blue" onclick="showHome()">Home</button> <button class="btn purple" onclick="openAdmin()">Admin</button></div></header>
-
 <div id="home"><div class="hero"><div class="bigM">M</div><h2>Maths Machine</h2><p>Comprehensive step-by-step explanations with standard mathematical notation across BECE, WAEC, NECO &amp; JAMB past-question patterns, subscriber photo/snap solver, custom topic question bank, and admin question editor.</p><br><button class="btn yellow" style="width:100%;padding:14px" onclick="showSections()">Continue as Student →</button><br><br><button class="btn white" style="width:100%;padding:13px" onclick="openAdmin()">Login as Admin 🔐</button></div>
 <div class="wrap"><div class="card"><b>📚 Sections</b><br><br><div class="sec" onclick="openCategory('JSS')">📗 Junior Secondary (JS1–JS3 Terms 1–3 &amp; Junior WAEC / BECE)</div><div class="sec" onclick="openCategory('SSS')">📘 Senior Secondary (SS1–SS3 Terms 1–3 &amp; WAEC/NECO)</div><div class="sec" onclick="openCategory('JAMB')">🎯 JAMB Mathematics (Complete UTME Syllabus)</div></div>
 <div class="card warnBox">🔒 PIN RULE<br><span style="font-weight:400;color:#333;font-size:13px">1 PIN = 1 PHONE ONLY. NOT transferable. Expires after 1 month.</span></div></div><p style="text-align:center;color:#888;font-size:12px;padding:10px">Quizora Maths Machine • © 2026</p></div>
-
 <div id="sections" class="hidden wrap"><button class="btn white" onclick="showHome()">← Back</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn" style="display:none">👑 Back to Admin</button><br><br><h2>Choose Your Section</h2><p class="small" id="subStatus"></p><p class="small" id="myDevice"></p><br><div class="card"><div class="sec" onclick="openCategory('JSS')">📗 Junior Secondary (JS1–JS3 &amp; Junior WAEC / BECE)<br><span class="small" id="statJSS"></span></div><div class="sec" onclick="openCategory('SSS')">📘 Senior Secondary (SS1–SS3 &amp; WAEC/NECO)<br><span class="small" id="statSSS"></span></div><div class="sec" onclick="openCategory('JAMB')">🎯 JAMB Mathematics<br><span class="small" id="statJAMB"></span></div></div>
 <div class="card"><b>🔑 Have a PIN?</b><div class="warnBox" style="font-size:13px">⚠️ PIN locks to THIS phone only. NOT transferable.</div><input id="pinInput" placeholder="Enter PIN"><button class="btn blue" style="width:100%" onclick="activatePIN()">Activate PIN - This Phone Only</button><p class="small" id="pinMsg"></p></div></div>
-
 <div id="topics" class="hidden wrap"><button class="btn white" onclick="showSections()">← Sections</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn2" style="display:none">👑 Back to Admin</button><br><br><h2 id="catTitle"></h2><p class="small" id="catSub"></p><p class="small" id="expiryInfo"></p><br><div class="searchBox"><input id="topicSearch" placeholder="🔍 Search topic or term..." oninput="filterTopics()"></div><br><div class="card"><b>☑️ Tick a Topic to Open It</b><div id="topicList"></div></div>
 <div class="card payBox" id="payCard"><b>🔒 Unlock - ₦5,000 / MONTH</b><br><br><b>Pay to:</b><br><b>8147699555</b><br><b>Ekpo Bassey</b><br><div class="warnBox" style="margin-top:10px">⚠️ 1 PIN = 1 PHONE ONLY. NOT transferable.</div><br><button class="btn green" style="width:100%" onclick="openWhatsApp()">💬 Send Receipt - WhatsApp</button><br><br><input id="pinInput2" placeholder="Enter PIN"><button class="btn blue" style="width:100%" onclick="activatePIN2()">Activate PIN</button><p class="small" id="pinMsg2"></p></div></div>
-
-<div id="lesson" class="hidden lessonWrap">
-  <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-    <button class="btn white" onclick="backToTopics()">← Topics</button>
-    <button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn3" style="display:none">👑 Back to Admin</button>
-  </div><br>
-  <span class="pill" id="lessonPill">TOPIC</span><br><br>
-  <h2 id="lessonTitle"></h2>
-  <p class="small" id="lessonIntro"></p><br>
-
-  <div class="card" style="padding:10px">
-    <div style="display:flex;gap:6px;flex-wrap:wrap">
-      <button class="btn blue" id="modeLearnBtn" style="flex:1" onclick="setMode('learn')">📖 Learn (<span id="cntLearn">25</span>)</button>
-      <button class="btn white" id="modeExamBtn" style="flex:1" onclick="setMode('exam')">🎯 Past Qs (<span id="cntExam">10</span>)</button>
-      <button class="btn white" id="modeExBtn" style="flex:1" onclick="setMode('exercise')">✏️ Exercises (<span id="cntEx">60</span>)</button>
-    </div>
-  </div>
-
-  <div class="solveGrid">
-    <div>
-      <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px">
-          <div><span class="pill" id="qModePill">LEARN</span><span class="examBadge" id="qExamTag">WAEC 2023</span><span id="qSavedBadge"></span></div>
-          <span class="small" id="exCounter">Question 1 of 25</span>
-        </div><br>
-        <div class="progress"><div class="progressBar" id="exProgress" style="width:4%"></div></div><br>
-        <div class="qTitle" id="qTitle"></div>
-        <p class="small" id="qSource"></p>
-      </div>
-
-      <div class="card" id="diagramCard">
-        <b>📐 Diagram — Teacher Sketches First</b>
-        <p class="small">Study the diagram for this question before solving.</p><br>
-        <div class="diagramLabel" id="diagramLabel">Look at the diagram</div><br>
-        <canvas id="diagramCanvas" width="560" height="240"></canvas>
-      </div>
-
-      <div class="card">
-        <b>✍️ Whiteboard — Extended Walkthrough: Parameters → Rule &amp; Symbols → Deep Steps → Pitfalls &amp; Check</b>
-        <p class="small">Breaks down every parameter, explains formula symbols before solving, shows complete working &amp; arithmetic, highlights common exam traps, and erases side-work cleanly.</p><br>
-        <div class="boardWrap">
-          <canvas id="whiteboard" width="560" height="460"></canvas>
-          <div class="marker" id="marker">🖊️</div>
-        </div><br>
-        <div class="voiceCtrl">
-          <button class="btn blue" onclick="playLesson()">▶ Play Lesson</button>
-          <button class="btn white" onclick="pauseLesson()">⏸ Pause</button>
-          <button class="btn white" onclick="stopVoice()">⏹ Stop</button>
-          <button class="btn yellow" onclick="clearBoard()">🧹 Clear</button>
-        </div><br>
-        <div class="voiceCtrl">
-          <button class="btn white" onclick="setSpeed(0.52)">🐢 Very Slow</button>
-          <button class="btn green" onclick="setSpeed(0.58)">▶ Calm Teacher</button>
-          <button class="btn white" onclick="setSpeed(0.75)">🐇 Faster</button>
-          <button class="btn dark" onclick="testVoiceVolume()">🔊 Test Voice</button>
-        </div>
-        <p class="small" id="penStatus" style="margin-top:8px">Marker ready.</p>
-        <p class="small" id="nowReading">Now explaining: —</p>
-
-        <div style="margin-top:14px;padding-top:14px;border-top:1px solid #eee">
-          <b>❓ Ask About This Question or Type Your Own Question</b>
-
-          <div id="photoSubscriberControls" class="photoBar">
-            <div style="display:flex;gap:8px;flex-wrap:wrap">
-              <button type="button" class="btn blue" style="flex:1" onclick="triggerPhotoInput('snapInput')">📷 Snap Question</button>
-              <button type="button" class="btn white" style="flex:1" onclick="triggerPhotoInput('uploadPhotoInput')">🖼️ Upload Photo</button>
-              <button type="button" class="btn white" onclick="clearPhotoPreview()">✕ Clear Photo</button>
-            </div>
-            <input id="snapInput" type="file" accept="image/*" capture="environment" class="hidden" onchange="onPhotoSelected(this)">
-            <input id="uploadPhotoInput" type="file" accept="image/*" class="hidden" onchange="onPhotoSelected(this)">
-            <img id="photoPreview" class="prev hidden" alt="Uploaded question photo">
-            <p class="small" id="photoStatus" style="margin-top:6px">Subscriber perk: Snap or upload a question image, type/confirm the question below, and solve with an extended step-by-step explanation.</p>
-          </div>
-
-          <div id="photoLockedNotice" class="photoLockedBox hidden">
-            <b>🔒 Photo Snap &amp; Upload — Subscribers Only</b>
-            <p class="small" style="color:#78350f;margin:4px 0 8px">Snapping or uploading photos to solve questions is available only to active monthly subscribers (₦5,000 / month). You can still type questions below.</p>
-            <button type="button" class="btn yellow" style="padding:8px 14px;font-size:13px" onclick="goToSubscribeForPhoto()">🔓 Subscribe / Enter PIN to Unlock Photo Solver</button>
-          </div>
-
-          <textarea id="askBox" placeholder="Type any maths question or ask why a step works..."></textarea>
-          <div style="display:flex;gap:8px;flex-wrap:wrap">
-            <button class="btn yellow" style="flex:1" onclick="askTeacher()">Ask Teacher — Explain WHY &amp; Pitfalls</button>
-            <button class="btn green" style="flex:1" onclick="solveQuestion()">Solve Question + Full Explanation →</button>
-            <button class="btn white" onclick="askVoice()">🎙️ Voice</button>
-          </div>
-          <div id="askAns"></div>
-          <div id="qAns"></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div style="display:flex;gap:8px">
-          <button class="btn white" style="flex:1" onclick="prevQuestion()">← Previous</button>
-          <button class="btn green" style="flex:1" onclick="nextQuestion()">Next Question →</button>
-        </div><br>
-        <button class="btn yellow" style="width:100%" onclick="replayCurrent()">🔁 Replay This Question</button>
-      </div>
-
-      <div class="card">
-        <button class="btn white" style="width:100%" onclick="toggleAssignmentDrawer()" id="toggleAssignBtn">🏆 Show End-of-Lesson Challenge (10 Tough Items)</button>
-        <div id="assignmentDrawer" class="hidden" style="margin-top:12px">
-          <div class="assignBox">
-            <b>🏆 End-of-Lesson Tough Assignment</b>
-            <p class="small" style="color:#7f1d1d">Click any challenge below to load it as the single active question on the board.</p>
-            <div id="finalAssignmentList"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <aside class="card">
-      <b>📋 Topic Questions (Click a Box to Pick)</b>
-      <p class="small" style="margin-bottom:10px" id="sideCountHint">Select any question box to solve it on the board.</p>
-      <div class="sideList" id="topicQueueList"></div>
-    </aside>
-  </div>
-</div>
-
-<div id="adminDash" class="hidden wrap">
-  <button class="btn white" onclick="adminLogout()">← Logout</button>
-  <button class="btn yellow" onclick="showSections()">👀 Switch to Student View →</button><br><br>
-  <h2>👑 Admin Dashboard</h2>
-  <p class="small">Welcome Ekpo Bassey!</p><br>
-
-  <div class="card payBox"><b>💳 Your Payment Details</b><br><b>Account:</b> 8147699555<br><b>Name:</b> Ekpo Bassey<br><b>WhatsApp:</b> 08147699555<br><b>Price:</b> ₦5,000 / Section / MONTH<br><b>PIN:</b> 1 Phone Only. NOT transferable.</div>
-
-  <div class="card">
-    <b id="qFormHeading">➕ Type &amp; Save Question to Section / Topic</b>
-    <p class="small">Saved questions automatically add to the question count in that section &amp; topic.</p>
-    <label class="small"><b>Section</b></label>
-    <select id="bankCat" onchange="populateBankTopics()">
-      <option value="JSS">📗 Junior Secondary (JSS)</option>
-      <option value="SSS">📘 Senior Secondary (SSS)</option>
-      <option value="JAMB">🎯 JAMB Mathematics</option>
-    </select>
-    <label class="small"><b>Topic</b></label>
-    <select id="bankTopic" onchange="renderSavedQuestionCells()"></select>
-    <label class="small"><b>Tab / Mode</b></label>
-    <select id="bankMode">
-      <option value="learn">📖 Learn</option>
-      <option value="exam">🎯 Past Qs</option>
-      <option value="exercise">✏️ Exercises</option>
-    </select>
-    <input id="bankExam" placeholder="Exam Tag (e.g. WAEC 2024, BECE 2023, JAMB 2024)">
-    <textarea id="bankQ" placeholder="Type the full question here (use standard symbols like ×, ÷, −, ², √, ∠, θ)..."></textarea>
-    <input id="bankFormula" placeholder="Rule / Formula (e.g. Area = ½ × b × h or x = (−b ± √(b² − 4ac)) ÷ 2a)">
-    <textarea id="bankAnswer" placeholder="Final Answer & Step-by-Step Working / Explanation..."></textarea>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button class="btn green" style="flex:1" onclick="saveBankQuestion()" id="saveBankBtn">💾 Save &amp; Add to Section Count</button>
-      <button class="btn white" onclick="resetBankForm()">Cancel Edit</button>
-    </div>
-    <p class="small" id="bankMsg" style="margin-top:8px"></p>
-  </div>
-
-  <div class="card">
-    <b>🗂️ Saved Questions Cells (Edit or Delete)</b>
-    <p class="small" id="cellSummary">Showing saved questions for selected section/topic.</p><br>
-    <div id="savedQuestionsCells"></div>
-  </div>
-
-  <div class="card"><b>Generate New PIN — NOT Transferable</b><select id="pinCat"><option value="JSS">Junior (JSS)</option><option value="SSS">Senior (SSS)</option><option value="JAMB">JAMB Mathematics</option></select><input id="studentName" placeholder="Student Name"><button class="btn green" style="width:100%" onclick="genPIN()">Generate PIN →</button><div id="genResult"></div></div>
-  <div class="card"><b>📋 All PINs</b><div id="pinList"></div></div>
-  <div class="card"><b>⚙️ Change Password</b><input id="newAdminPass" type="password" placeholder="New Password"><button class="btn blue" style="width:100%" onclick="changeAdminPass()">Change Password</button><p class="small" id="changeMsg"></p></div>
-</div>
-
+<div id="lesson" class="hidden lessonWrap"><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="btn white" onclick="backToTopics()">← Topics</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn3" style="display:none">👑 Back to Admin</button></div><br><span class="pill" id="lessonPill">TOPIC</span><br><br><h2 id="lessonTitle"></h2><p class="small" id="lessonIntro"></p><br><div class="card" style="padding:10px"><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn blue" id="modeLearnBtn" style="flex:1" onclick="setMode('learn')">📖 Learn (<span id="cntLearn">25</span>)</button><button class="btn white" id="modeExamBtn" style="flex:1" onclick="setMode('exam')">🎯 Past Qs (<span id="cntExam">10</span>)</button><button class="btn white" id="modeExBtn" style="flex:1" onclick="setMode('exercise')">✏️ Exercises (<span id="cntEx">60</span>)</button></div></div><div class="solveGrid"><div><div class="card"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><div><span class="pill" id="qModePill">LEARN</span><span class="examBadge" id="qExamTag">WAEC 2023</span><span id="qSavedBadge"></span></div><span class="small" id="exCounter">Question 1 of 25</span></div><br><div class="progress"><div class="progressBar" id="exProgress" style="width:4%"></div></div><br><div class="qTitle" id="qTitle"></div><p class="small" id="qSource"></p></div><div class="card" id="diagramCard"><b>📐 Diagram — Teacher Sketches First</b><p class="small">Study the diagram for this question before solving.</p><br><div class="diagramLabel" id="diagramLabel">Look at the diagram</div><br><canvas id="diagramCanvas" width="560" height="240"></canvas></div><div class="card"><b>✍️ Whiteboard — Extended Walkthrough</b><p class="small">Parameters → Rule &amp; Symbols → Deep Steps → Pitfalls &amp; Check</p><br><div class="boardWrap"><canvas id="whiteboard" width="560" height="460"></canvas><div class="marker" id="marker">🖊️</div></div><br><div class="voiceCtrl"><button class="btn blue" onclick="playLesson()">▶ Play Lesson</button><button class="btn white" onclick="pauseLesson()">⏸ Pause</button><button class="btn white" onclick="stopVoice()">⏹ Stop</button><button class="btn yellow" onclick="clearBoard()">🧹 Clear</button></div><br><div class="voiceCtrl"><button class="btn white" onclick="setSpeed(0.52)">🐢 Very Slow</button><button class="btn green" onclick="setSpeed(0.58)">▶ Calm Teacher</button><button class="btn white" onclick="setSpeed(0.75)">🐇 Faster</button><button class="btn dark" onclick="testVoiceVolume()">🔊 Test Voice</button></div><p class="small" id="penStatus" style="margin-top:8px">Marker ready.</p><p class="small" id="nowReading">Now explaining: —</p><div style="margin-top:14px;padding-top:14px;border-top:1px solid #eee"><b>❓ Ask About This Question or Type Your Own Question</b><div id="photoSubscriberControls" class="photoBar"><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn blue" style="flex:1" onclick="triggerPhotoInput('snapInput')">📷 Snap Question</button><button type="button" class="btn white" style="flex:1" onclick="triggerPhotoInput('uploadPhotoInput')">🖼️ Upload Photo</button><button type="button" class="btn white" onclick="clearPhotoPreview()">✕ Clear Photo</button></div><input id="snapInput" type="file" accept="image/*" capture="environment" class="hidden" onchange="onPhotoSelected(this)"><input id="uploadPhotoInput" type="file" accept="image/*" class="hidden" onchange="onPhotoSelected(this)"><img id="photoPreview" class="prev hidden" alt="Uploaded question photo"><p class="small" id="photoStatus" style="margin-top:6px">Subscriber perk: Snap or upload a question image, type/confirm the question below, and solve with an extended step-by-step explanation.</p></div><div id="photoLockedNotice" class="photoLockedBox hidden"><b>🔒 Photo Snap &amp; Upload — Subscribers Only</b><p class="small" style="color:#78350f;margin:4px 0 8px">Snapping or uploading photos to solve questions is available only to active monthly subscribers (₦5,000 / month). You can still type questions below.</p><button type="button" class="btn yellow" style="padding:8px 14px;font-size:13px" onclick="goToSubscribeForPhoto()">🔓 Subscribe / Enter PIN to Unlock Photo Solver</button></div><textarea id="askBox" placeholder="Type any maths question or ask why a step works..."></textarea><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn yellow" style="flex:1" onclick="askTeacher()">Ask Teacher — Explain WHY &amp; Pitfalls</button><button class="btn green" style="flex:1" onclick="solveQuestion()">Solve Question + Full Explanation →</button><button class="btn white" onclick="askVoice()">🎙️ Voice</button></div><div id="askAns"></div><div id="qAns"></div></div></div><div class="card"><div style="display:flex;gap:8px"><button class="btn white" style="flex:1" onclick="prevQuestion()">← Previous</button><button class="btn green" style="flex:1" onclick="nextQuestion()">Next Question →</button></div><br><button class="btn yellow" style="width:100%" onclick="replayCurrent()">🔁 Replay This Question</button></div><div class="card"><button class="btn white" style="width:100%" onclick="toggleAssignmentDrawer()" id="toggleAssignBtn">🏆 Show End-of-Lesson Challenge (10 Tough Items)</button><div id="assignmentDrawer" class="hidden" style="margin-top:12px"><div class="assignBox"><b>🏆 End-of-Lesson Tough Assignment</b><p class="small" style="color:#7f1d1d">Click any challenge below to load it as the single active question on the board.</p><div id="finalAssignmentList"></div></div></div></div></div><aside class="card"><b>📋 Topic Questions (Click a Box to Pick)</b><p class="small" style="margin-bottom:10px" id="sideCountHint">Select any question box to solve it on the board.</p><div class="sideList" id="topicQueueList"></div></aside></div></div>
+<div id="adminDash" class="hidden wrap"><button class="btn white" onclick="adminLogout()">← Logout</button><button class="btn yellow" onclick="showSections()">👀 Switch to Student View →</button><br><br><h2>👑 Admin Dashboard</h2><p class="small">Welcome Ekpo Bassey!</p><br><div class="card payBox"><b>💳 Your Payment Details</b><br><b>Account:</b> 8147699555<br><b>Name:</b> Ekpo Bassey<br><b>WhatsApp:</b> 08147699555<br><b>Price:</b> ₦5,000 / Section / MONTH<br><b>PIN:</b> 1 Phone Only. NOT transferable.</div><div class="card"><b id="qFormHeading">➕ Type Question Only - Machine Will Auto-Move It To Correct Topic &amp; Solve It</b><p class="small">Just type the question and press Save. Machine finds the topic in JSS / SSS / JAMB and solves it on the whiteboard. You don't need to choose Section, Topic, Formula or Answer.</p><label class="small"><b>Tab / Mode</b></label><select id="bankMode"><option value="learn">📖 Learn</option><option value="exam">🎯 Past Qs</option><option value="exercise">✏️ Exercises</option></select><input id="bankExam" placeholder="Exam Tag (e.g. WAEC 2024, BECE 2023, JAMB 2024)"><textarea id="bankQ" placeholder="Type the full question here... e.g. Solve 2x + 3 = 11  OR  Find the bearing of B from A..."></textarea><input id="bankFormula" placeholder="Optional - leave empty, machine will fill it"><textarea id="bankAnswer" placeholder="Optional - leave empty, machine will solve it"></textarea><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn green" style="flex:1" onclick="saveBankQuestion()" id="saveBankBtn">💾 Save - Machine Auto-Moves &amp; Solves</button><button class="btn white" onclick="resetBankForm()">Cancel Edit</button></div><p class="small" id="bankMsg" style="margin-top:8px"></p><input type="hidden" id="bankCat" value="JSS"><input type="hidden" id="bankTopic" value=""></div><div class="card"><b>🗂️ Saved Questions Cells (Edit or Delete)</b><p class="small" id="cellSummary">Showing saved questions.</p><br><div id="savedQuestionsCells"></div></div><div class="card"><b>Generate New PIN — NOT Transferable</b><select id="pinCat"><option value="JSS">Junior (JSS)</option><option value="SSS">Senior (SSS)</option><option value="JAMB">JAMB Mathematics</option></select><input id="studentName" placeholder="Student Name"><button class="btn green" style="width:100%" onclick="genPIN()">Generate PIN →</button><div id="genResult"></div></div><div class="card"><b>📋 All PINs</b><div id="pinList"></div></div><div class="card"><b>⚙️ Change Password</b><input id="newAdminPass" type="password" placeholder="New Password"><button class="btn blue" style="width:100%" onclick="changeAdminPass()">Change Password</button><p class="small" id="changeMsg"></p></div></div>
 <div id="adminBox" onclick="if(event.target==this) closeAdmin()"><div class="popup"><div id="adminLoginForm"><h3 id="adminTitle">Admin 🔐</h3><p class="small" id="adminHint">Create your Admin Password first time.</p><input id="adminPass" type="password" placeholder="Admin Password"><input id="adminPass2" type="password" placeholder="Confirm Password" class="hidden"><button class="btn blue" style="width:100%" onclick="checkAdmin()" id="adminBtn">Continue →</button><p id="adminMsg" style="color:red;font-size:13px"></p><button class="btn" onclick="closeAdmin()">Cancel</button></div><div id="adminSuccess" class="hidden" style="text-align:center"><h2>✅ Welcome Admin!</h2><br><button class="btn green" style="width:100%;padding:14px" onclick="goToAdminDash()">Go to Admin Dashboard →</button></div></div></div>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 window.CUSTOM_PAST_QUESTIONS = window.CUSTOM_PAST_QUESTIONS || [];
-
+const SUPABASE_URL = "https://kzckiabaieqztzzbddxl.supabase.co";
+const SUPABASE_KEY = "sb_publishable_0sqlwhizxXtuQ5X6-tXMWQ_imXq_4Zc";
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+async function syncFromSupabase(){ try{ const {data,error}=await supabaseClient.from("custom_questions").select("*").order("created_at",{ascending:false}); if(error||!data) return; localStorage.setItem("customQuestionBank_v1", JSON.stringify(data)); if(typeof renderSavedQuestionCells==="function" && document.getElementById("savedQuestionsCells")) renderSavedQuestionCells(); }catch(e){} }
+async function pushToSupabase(item){ try{ if(item) await supabaseClient.from("custom_questions").upsert(item); }catch(e){} }
+async function deleteFromSupabase(id){ try{ await supabaseClient.from("custom_questions").delete().eq("id",id); }catch(e){} }
+syncFromSupabase(); setInterval(syncFromSupabase, 15000);
 const TOPICS={
-JSS:[
-  "JS1 | First Term: Whole Numbers — Counting, Reading & Writing up to Billions",
-  "JS1 | First Term: Place Value, Roman Numerals & Ordering of Numbers",
-  "JS1 | First Term: Factors, Multiples, Prime Numbers & Prime Factorisation",
-  "JS1 | First Term: Highest Common Factor (HCF) & Lowest Common Multiple (LCM)",
-  "JS1 | First Term: Fractions — Proper, Improper, Mixed & Equivalent Fractions",
-  "JS1 | First Term: Operations on Fractions (Addition, Subtraction, Multiplication & Division)",
-  "JS1 | First Term: Decimals & Conversion between Fractions, Decimals & Percentages",
-  "JS1 | First Term: Estimation, Rounding Off & Approximation",
-  "JS1 | Second Term: Binary Numbers (Base 2) — Conversion & Basic Operations",
-  "JS1 | Second Term: Directed Numbers — Number Line, Addition & Subtraction",
-  "JS1 | Second Term: Multiplication & Division of Directed Numbers",
-  "JS1 | Second Term: Order of Operations (BODMAS) with Fractions & Integers",
-  "JS1 | Second Term: Use of Symbols & Open Sentences",
-  "JS1 | Second Term: Algebraic Expressions — Collecting Like Terms & Simplification",
-  "JS1 | Second Term: Simple Linear Equations in One Variable",
-  "JS1 | Second Term: Word Problems Leading to Simple Equations",
-  "JS1 | Third Term: Plane Shapes — Properties of Triangles, Quadrilaterals & Circles",
-  "JS1 | Third Term: Perimeter of Rectangles, Squares, Triangles & Compound Shapes",
-  "JS1 | Third Term: Area of Rectangles, Squares, Parallelograms & Triangles",
-  "JS1 | Third Term: Three-Dimensional Shapes — Properties & Volume of Cubes & Cuboids",
-  "JS1 | Third Term: Angles — Identification, Measurement & Angles on a Straight Line / Point",
-  "JS1 | Third Term: Construction of Parallel & Perpendicular Lines",
-  "JS1 | Third Term: Statistics — Data Collection, Frequency Tables, Pictograms & Bar Charts",
-  "JS1 | Third Term: Averages — Mean, Median & Mode of Ungrouped Data",
-  "JS2 | First Term: Standard Form (Scientific Notation) & Large/Small Numbers",
-  "JS2 | First Term: Squares, Square Roots, Cubes & Cube Roots by Factorisation",
-  "JS2 | First Term: Ratio, Rate & Direct/Inverse Proportion",
-  "JS2 | First Term: Commercial Arithmetic — Profit, Loss, Discount & Commission",
-  "JS2 | First Term: Simple Interest, Principal, Rate & Time",
-  "JS2 | First Term: Number Bases — Conversion between Base 2, 5, 8 & Base 10",
-  "JS2 | First Term: Laws of Indices (Positive & Zero Indices)",
-  "JS2 | Second Term: Expansion of Algebraic Expressions & Brackets",
-  "JS2 | Second Term: Factorisation of Algebraic Expressions (Common Factors & Grouping)",
-  "JS2 | Second Term: Algebraic Fractions — Simplification & LCM of Denominators",
-  "JS2 | Second Term: Linear Equations with Brackets & Fractions",
-  "JS2 | Second Term: Linear Inequalities in One Variable & Number Line Graphs",
-  "JS2 | Second Term: Cartesian Plane — Plotting Points & Graphs of Linear Equations",
-  "JS2 | Second Term: Distance-Time & Conversion Graphs",
-  "JS2 | Third Term: Angles in Parallel Lines (Alternate, Corresponding & Co-interior)",
-  "JS2 | Third Term: Angles in Triangles & Polygons (Interior & Exterior Angle Sums)",
-  "JS2 | Third Term: Pythagoras' Theorem & Pythagorean Triples",
-  "JS2 | Third Term: Mensuration of Cylinders & Cones (Curved Surface Area & Volume)",
-  "JS2 | Third Term: Scale Drawing, Bearings & Distances",
-  "JS2 | Third Term: Geometric Construction of Special Angles (90°, 60°, 45°, 30°)",
-  "JS2 | Third Term: Probability — Experimental & Theoretical Probability of Single Events",
-  "JS3 | First Term: Binary Number System — Addition, Subtraction & Multiplication in Base 2",
-  "JS3 | First Term: Rational & Irrational Numbers, Surds & Number Line",
-  "JS3 | First Term: Direct, Inverse, Joint & Partial Variation",
-  "JS3 | First Term: Compound Interest, Depreciation & Hire Purchase",
-  "JS3 | First Term: Factorisation of Quadratic Expressions (ax² + bx + c)",
-  "JS3 | First Term: Equations Involving Algebraic Fractions",
-  "JS3 | Second Term: Simultaneous Linear Equations — Substitution & Elimination Methods",
-  "JS3 | Second Term: Graphical Solution of Simultaneous Linear Equations",
-  "JS3 | Second Term: Similar Shapes — Length, Area & Volume Scale Factors",
-  "JS3 | Second Term: Trigonometry — Sine, Cosine & Tangent of Acute Angles",
-  "JS3 | Second Term: Applications of Trigonometry to Right-Angled Triangles",
-  "JS3 | Second Term: Area of Sector, Segment & Length of Arc of a Circle",
-  "JS3 | Third Term: Construction of Triangles, Quadrilaterals & Loci",
-  "JS3 | Third Term: Statistics — Pie Charts, Histograms & Frequency Polygons",
-  "JS3 | Third Term: Measures of Dispersion — Range, Mean Deviation & Variance Intro",
-  "JS3 | Third Term: Sets & Two-Set Venn Diagrams",
-  "JS3 | Third Term: Functions, Mapping & Coordinate Gradient",
-  "Junior WAEC / BECE: Number, Bases, Indices & Commercial Maths Past Questions",
-  "Junior WAEC / BECE: Algebraic Processes, Equations & Variation Past Questions",
-  "Junior WAEC / BECE: Geometry, Trigonometry & Mensuration Past Questions",
-  "Junior WAEC / BECE: Statistics, Probability & Sets Past Questions",
-  "Junior WAEC / BECE: Full 50-Question Exam Simulation Drill"
-],
-SSS:[
-  "SS1 | First Term: Number Bases — Conversion & Arithmetic in All Bases",
-  "SS1 | First Term: Modular Arithmetic — Operations & Equations in Modulo m",
-  "SS1 | First Term: Indices — Fractional, Negative & Exponential Equations",
-  "SS1 | First Term: Logarithms — Laws, Tables & Antilogarithms in Calculations",
-  "SS1 | First Term: Sets — Set Builder Notation, Operations & Two/Three-Set Venn Diagrams",
-  "SS1 | First Term: Change of Subject of Formulae & Substitution",
-  "SS1 | First Term: Direct, Inverse, Joint & Partial Variation",
-  "SS1 | Second Term: Quadratic Equations — Factorisation, Completing Square & Formula",
-  "SS1 | Second Term: Construction of Quadratic Equations from Given Roots",
-  "SS1 | Second Term: Logical Reasoning — Statements, Negation, Implication & Truth Tables",
-  "SS1 | Second Term: Trigonometry — Sine, Cosine & Tangent for Angles 0° to 360°",
-  "SS1 | Second Term: Special Angles (30°, 45°, 60°) & Trigonometric Graphs",
-  "SS1 | Second Term: Mensuration — Lengths of Arcs, Perimeters of Sectors & Segments",
-  "SS1 | Second Term: Surface Area & Volume of Cones, Pyramids, Prisms & Frustums",
-  "SS1 | Third Term: Deductive Proofs — Triangles, Parallelograms & Intercept Theorem",
-  "SS1 | Third Term: Circle Theorems — Chord Properties, Centre & Circumference Angles",
-  "SS1 | Third Term: Cyclic Quadrilaterals & Tangent-Chord (Alternate Segment) Theorems",
-  "SS1 | Third Term: Geometric Construction & Loci in Two Dimensions",
-  "SS1 | Third Term: Statistics — Grouped Frequency Distribution, Histograms & Ogive",
-  "SS1 | Third Term: Measures of Central Tendency for Grouped Data (Mean, Median, Mode)",
-  "SS2 | First Term: Logarithms of Numbers Less Than 1 & Logarithmic Equations",
-  "SS2 | First Term: Approximations, Percentage Error & Significant Figures",
-  "SS2 | First Term: Sequences & Series — Arithmetic Progression (AP)",
-  "SS2 | First Term: Geometric Progression (GP) & Sum to Infinity",
-  "SS2 | First Term: Simultaneous Linear & Quadratic Equations",
-  "SS2 | First Term: Quadratic Graphs — Turning Points, Roots & Line of Symmetry",
-  "SS2 | Second Term: Linear & Quadratic Inequalities in One and Two Variables",
-  "SS2 | Second Term: Algebraic Fractions — Simplification & Undefined Values",
-  "SS2 | Second Term: Circle Geometry — Tangents from an External Point & Intersecting Chords",
-  "SS2 | Second Term: Trigonometry — Sine Rule & Cosine Rule Applications",
-  "SS2 | Second Term: Bearings, Angles of Elevation & Depression in 2D and 3D",
-  "SS2 | Third Term: Measures of Dispersion — Range, Quartiles, Variance & Standard Deviation",
-  "SS2 | Third Term: Cumulative Frequency Curve (Ogive) & Percentiles",
-  "SS2 | Third Term: Probability — Addition & Multiplication Laws, Tree Diagrams",
-  "SS2 | Third Term: Permutations & Combinations",
-  "SS2 | Third Term: Coordinate Geometry — Distance, Midpoint, Gradient & Equation of Line",
-  "SS3 | First Term: Surds — Simplification, Rationalising Denominators & Surd Equations",
-  "SS3 | First Term: Matrices & Determinants (2×2 and 3×3) & Simultaneous Equations",
-  "SS3 | First Term: Arithmetic of Finance — Compound Interest, Annuities & Amortisation",
-  "SS3 | First Term: Longitude & Latitude — Distance Along Great & Small Circles",
-  "SS3 | First Term: Mensuration of Earth as a Sphere & Time Differences",
-  "SS3 | Second Term: Differentiation — Limits, First Principles & Standard Derivatives",
-  "SS3 | Second Term: Applications of Differentiation — Tangents, Normals & Maxima/Minima",
-  "SS3 | Second Term: Integration — Indefinite & Definite Integrals, Area Under Curves",
-  "SS3 | Second Term: Vectors in 2D — Position Vectors, Dot Product & Magnitude",
-  "SS3 | Second Term: Transformations — Translation, Reflection, Rotation & Enlargement",
-  "SS3 | Third Term: Polynomials — Remainder Theorem, Factor Theorem & Cubic Equations",
-  "SS3 | Third Term: Partial Fractions & Binomial Expansion",
-  "SS3 | Third Term: Trigonometry — Compound Angles, Double Angles & Identities",
-  "SS3 | Third Term: Conic Sections — Equation of Circle, Parabola & Ellipse",
-  "WAEC & NECO: Number Bases, Modular Arithmetic, Indices, Surds & Logarithms",
-  "WAEC & NECO: Algebra, Quadratics, Inequalities, Sequences & Variation",
-  "WAEC & NECO: Plane Geometry, Circle Theorems, Construction & Mensuration",
-  "WAEC & NECO: Trigonometry, Bearings, Elevation/Depression & Longitude/Latitude",
-  "WAEC & NECO: Coordinate Geometry, Calculus, Vectors & Matrices",
-  "WAEC & NECO: Statistics, Cumulative Frequency & Probability",
-  "WAEC & NECO: Theory & Objective Past Questions Drill (2018–2025)"
-],
-JAMB:[
-  "JAMB: Number Bases & Modular Arithmetic",
-  "JAMB: Fractions, Decimals, Approximations & Percentage Error",
-  "JAMB: Indices, Logarithms & Surds",
-  "JAMB: Sets & Three-Set Venn Diagrams",
-  "JAMB: Polynomials — Remainder & Factor Theorems",
-  "JAMB: Partial Fractions",
-  "JAMB: Change of Subject of Formulae & Variation",
-  "JAMB: Quadratic Equations — Roots, Discriminant & Symmetric Functions",
-  "JAMB: Simultaneous Equations (Linear & Quadratic)",
-  "JAMB: Linear & Quadratic Inequalities",
-  "JAMB: Sequences & Series — AP, GP & Sum to Infinity",
-  "JAMB: Binomial Theorem & Expansions",
-  "JAMB: Binary Operations & Algebraic Structures",
-  "JAMB: Matrices & Determinants (2×2 and 3×3) & Inverse Matrix",
-  "JAMB: Euclidean Geometry — Angles, Triangles & Polygons",
-  "JAMB: Circle Theorems & Tangent Properties",
-  "JAMB: Mensuration — Plane Figures, Sectors, Segments & 3D Solids",
-  "JAMB: Loci & Geometric Constructions",
-  "JAMB: Coordinate Geometry — Straight Lines, Parallel & Perpendicular Lines",
-  "JAMB: Coordinate Geometry — Equation of a Circle & Conics",
-  "JAMB: Trigonometry — Ratios, Special Angles & Identities",
-  "JAMB: Trigonometry — Sine & Cosine Rules, Compound & Double Angles",
-  "JAMB: Bearings, Angles of Elevation & Depression",
-  "JAMB: Limits & Differentiation of Algebraic and Trigonometric Functions",
-  "JAMB: Applications of Differentiation — Rate of Change, Tangents & Turning Points",
-  "JAMB: Integration — Indefinite, Definite & Area Bounded by Curves",
-  "JAMB: Vectors in Two Dimensions",
-  "JAMB: Representation of Data — Histograms, Bar & Pie Charts",
-  "JAMB: Measures of Location — Mean, Median & Mode (Grouped & Ungrouped)",
-  "JAMB: Measures of Dispersion — Range, Mean Deviation, Variance & Standard Deviation",
-  "JAMB: Permutations & Combinations",
-  "JAMB: Probability — Mutually Exclusive, Independent & Conditional Events",
-  "JAMB: Commercial Mathematics — Profit/Loss, Simple & Compound Interest",
-  "JAMB: Past Questions 2016–2019 Intensive Drill",
-  "JAMB: Past Questions 2020–2024 Intensive Drill",
-  "JAMB: Full 40-Question UTME Mock Simulation"
-]
+JSS:["JS1 | First Term: Whole Numbers — Counting, Reading & Writing up to Billions","JS1 | First Term: Place Value, Roman Numerals & Ordering of Numbers","JS1 | First Term: Factors, Multiples, Prime Numbers & Prime Factorisation","JS1 | First Term: Highest Common Factor (HCF) & Lowest Common Multiple (LCM)","JS1 | First Term: Fractions — Proper, Improper, Mixed & Equivalent Fractions","JS1 | First Term: Operations on Fractions (Addition, Subtraction, Multiplication & Division)","JS1 | First Term: Decimals & Conversion between Fractions, Decimals & Percentages","JS1 | First Term: Estimation, Rounding Off & Approximation","JS1 | Second Term: Binary Numbers (Base 2) — Conversion & Basic Operations","JS1 | Second Term: Directed Numbers — Number Line, Addition & Subtraction","JS1 | Second Term: Multiplication & Division of Directed Numbers","JS1 | Second Term: Order of Operations (BODMAS) with Fractions & Integers","JS1 | Second Term: Use of Symbols & Open Sentences","JS1 | Second Term: Algebraic Expressions — Collecting Like Terms & Simplification","JS1 | Second Term: Simple Linear Equations in One Variable","JS1 | Second Term: Word Problems Leading to Simple Equations","JS1 | Third Term: Plane Shapes — Properties of Triangles, Quadrilaterals & Circles","JS1 | Third Term: Perimeter of Rectangles, Squares, Triangles & Compound Shapes","JS1 | Third Term: Area of Rectangles, Squares, Parallelograms & Triangles","JS1 | Third Term: Three-Dimensional Shapes — Properties & Volume of Cubes & Cuboids","JS1 | Third Term: Angles — Identification, Measurement & Angles on a Straight Line / Point","JS1 | Third Term: Construction of Parallel & Perpendicular Lines","JS1 | Third Term: Statistics — Data Collection, Frequency Tables, Pictograms & Bar Charts","JS1 | Third Term: Averages — Mean, Median & Mode of Ungrouped Data","JS2 | First Term: Standard Form (Scientific Notation) & Large/Small Numbers","JS2 | First Term: Squares, Square Roots, Cubes & Cube Roots by Factorisation","JS2 | First Term: Ratio, Rate & Direct/Inverse Proportion","JS2 | First Term: Commercial Arithmetic — Profit, Loss, Discount & Commission","JS2 | First Term: Simple Interest, Principal, Rate & Time","JS2 | First Term: Number Bases — Conversion between Base 2, 5, 8 & Base 10","JS2 | First Term: Laws of Indices (Positive & Zero Indices)","JS2 | Second Term: Expansion of Algebraic Expressions & Brackets","JS2 | Second Term: Factorisation of Algebraic Expressions (Common Factors & Grouping)","JS2 | Second Term: Algebraic Fractions — Simplification & LCM of Denominators","JS2 | Second Term: Linear Equations with Brackets & Fractions","JS2 | Second Term: Linear Inequalities in One Variable & Number Line Graphs","JS2 | Second Term: Cartesian Plane — Plotting Points & Graphs of Linear Equations","JS2 | Second Term: Distance-Time & Conversion Graphs","JS2 | Third Term: Angles in Parallel Lines (Alternate, Corresponding & Co-interior)","JS2 | Third Term: Angles in Triangles & Polygons (Interior & Exterior Angle Sums)","JS2 | Third Term: Pythagoras' Theorem & Pythagorean Triples","JS2 | Third Term: Mensuration of Cylinders & Cones (Curved Surface Area & Volume)","JS2 | Third Term: Scale Drawing, Bearings & Distances","JS2 | Third Term: Geometric Construction of Special Angles (90°, 60°, 45°, 30°)","JS2 | Third Term: Probability — Experimental & Theoretical Probability of Single Events","JS3 | First Term: Binary Number System — Addition, Subtraction & Multiplication in Base 2","JS3 | First Term: Rational & Irrational Numbers, Surds & Number Line","JS3 | First Term: Direct, Inverse, Joint & Partial Variation","JS3 | First Term: Compound Interest, Depreciation & Hire Purchase","JS3 | First Term: Factorisation of Quadratic Expressions (ax² + bx + c)","JS3 | First Term: Equations Involving Algebraic Fractions","JS3 | Second Term: Simultaneous Linear Equations — Substitution & Elimination Methods","JS3 | Second Term: Graphical Solution of Simultaneous Linear Equations","JS3 | Second Term: Similar Shapes — Length, Area & Volume Scale Factors","JS3 | Second Term: Trigonometry — Sine, Cosine & Tangent of Acute Angles","JS3 | Second Term: Applications of Trigonometry to Right-Angled Triangles","JS3 | Second Term: Area of Sector, Segment & Length of Arc of a Circle","JS3 | Third Term: Construction of Triangles, Quadrilaterals & Loci","JS3 | Third Term: Statistics — Pie Charts, Histograms & Frequency Polygons","JS3 | Third Term: Measures of Dispersion — Range, Mean Deviation & Variance Intro","JS3 | Third Term: Sets & Two-Set Venn Diagrams","JS3 | Third Term: Functions, Mapping & Coordinate Gradient","Junior WAEC / BECE: Number, Bases, Indices & Commercial Maths Past Questions","Junior WAEC / BECE: Algebraic Processes, Equations & Variation Past Questions","Junior WAEC / BECE: Geometry, Trigonometry & Mensuration Past Questions","Junior WAEC / BECE: Statistics, Probability & Sets Past Questions","Junior WAEC / BECE: Full 50-Question Exam Simulation Drill"],
+SSS:["SS1 | First Term: Number Bases — Conversion & Arithmetic in All Bases","SS1 | First Term: Modular Arithmetic — Operations & Equations in Modulo m","SS1 | First Term: Indices — Fractional, Negative & Exponential Equations","SS1 | First Term: Logarithms — Laws, Tables & Antilogarithms in Calculations","SS1 | First Term: Sets — Set Builder Notation, Operations & Two/Three-Set Venn Diagrams","SS1 | First Term: Change of Subject of Formulae & Substitution","SS1 | First Term: Direct, Inverse, Joint & Partial Variation","SS1 | Second Term: Quadratic Equations — Factorisation, Completing Square & Formula","SS1 | Second Term: Construction of Quadratic Equations from Given Roots","SS1 | Second Term: Logical Reasoning — Statements, Negation, Implication & Truth Tables","SS1 | Second Term: Trigonometry — Sine, Cosine & Tangent for Angles 0° to 360°","SS1 | Second Term: Special Angles (30°, 45°, 60°) & Trigonometric Graphs","SS1 | Second Term: Mensuration — Lengths of Arcs, Perimeters of Sectors & Segments","SS1 | Second Term: Surface Area & Volume of Cones, Pyramids, Prisms & Frustums","SS1 | Third Term: Deductive Proofs — Triangles, Parallelograms & Intercept Theorem","SS1 | Third Term: Circle Theorems — Chord Properties, Centre & Circumference Angles","SS1 | Third Term: Cyclic Quadrilaterals & Tangent-Chord (Alternate Segment) Theorems","SS1 | Third Term: Geometric Construction & Loci in Two Dimensions","SS1 | Third Term: Statistics — Grouped Frequency Distribution, Histograms & Ogive","SS1 | Third Term: Measures of Central Tendency for Grouped Data (Mean, Median, Mode)","SS2 | First Term: Logarithms of Numbers Less Than 1 & Logarithmic Equations","SS2 | First Term: Approximations, Percentage Error & Significant Figures","SS2 | First Term: Sequences & Series — Arithmetic Progression (AP)","SS2 | First Term: Geometric Progression (GP) & Sum to Infinity","SS2 | First Term: Simultaneous Linear & Quadratic Equations","SS2 | First Term: Quadratic Graphs — Turning Points, Roots & Line of Symmetry","SS2 | Second Term: Linear & Quadratic Inequalities in One and Two Variables","SS2 | Second Term: Algebraic Fractions — Simplification & Undefined Values","SS2 | Second Term: Circle Geometry — Tangents from an External Point & Intersecting Chords","SS2 | Second Term: Trigonometry — Sine Rule & Cosine Rule Applications","SS2 | Second Term: Bearings, Angles of Elevation & Depression in 2D and 3D","SS2 | Third Term: Measures of Dispersion — Range, Quartiles, Variance & Standard Deviation","SS2 | Third Term: Cumulative Frequency Curve (Ogive) & Percentiles","SS2 | Third Term: Probability — Addition & Multiplication Laws, Tree Diagrams","SS2 | Third Term: Permutations & Combinations","SS2 | Third Term: Coordinate Geometry — Distance, Midpoint, Gradient & Equation of Line","SS3 | First Term: Surds — Simplification, Rationalising Denominators & Surd Equations","SS3 | First Term: Matrices & Determinants (2×2 and 3×3) & Simultaneous Equations","SS3 | First Term: Arithmetic of Finance — Compound Interest, Annuities & Amortisation","SS3 | First Term: Longitude & Latitude — Distance Along Great & Small Circles","SS3 | First Term: Mensuration of Earth as a Sphere & Time Differences","SS3 | Second Term: Differentiation — Limits, First Principles & Standard Derivatives","SS3 | Second Term: Applications of Differentiation — Tangents, Normals & Maxima/Minima","SS3 | Second Term: Integration — Indefinite & Definite Integrals, Area Under Curves","SS3 | Second Term: Vectors in 2D — Position Vectors, Dot Product & Magnitude","SS3 | Second Term: Transformations — Translation, Reflection, Rotation & Enlargement","SS3 | Third Term: Polynomials — Remainder Theorem, Factor Theorem & Cubic Equations","SS3 | Third Term: Partial Fractions & Binomial Expansion","SS3 | Third Term: Trigonometry — Compound Angles, Double Angles & Identities","SS3 | Third Term: Conic Sections — Equation of Circle, Parabola & Ellipse","WAEC & NECO: Number Bases, Modular Arithmetic, Indices, Surds & Logarithms","WAEC & NECO: Algebra, Quadratics, Inequalities, Sequences & Variation","WAEC & NECO: Plane Geometry, Circle Theorems, Construction & Mensuration","WAEC & NECO: Trigonometry, Bearings, Elevation/Depression & Longitude/Latitude","WAEC & NECO: Coordinate Geometry, Calculus, Vectors & Matrices","WAEC & NECO: Statistics, Cumulative Frequency & Probability","WAEC & NECO: Theory & Objective Past Questions Drill (2018–2025)"],
+JAMB:["JAMB: Number Bases & Modular Arithmetic","JAMB: Fractions, Decimals, Approximations & Percentage Error","JAMB: Indices, Logarithms & Surds","JAMB: Sets & Three-Set Venn Diagrams","JAMB: Polynomials — Remainder & Factor Theorems","JAMB: Partial Fractions","JAMB: Change of Subject of Formulae & Variation","JAMB: Quadratic Equations — Roots, Discriminant & Symmetric Functions","JAMB: Simultaneous Equations (Linear & Quadratic)","JAMB: Linear & Quadratic Inequalities","JAMB: Sequences & Series — AP, GP & Sum to Infinity","JAMB: Binomial Theorem & Expansions","JAMB: Binary Operations & Algebraic Structures","JAMB: Matrices & Determinants (2×2 and 3×3) & Inverse Matrix","JAMB: Euclidean Geometry — Angles, Triangles & Polygons","JAMB: Circle Theorems & Tangent Properties","JAMB: Mensuration — Plane Figures, Sectors, Segments & 3D Solids","JAMB: Loci & Geometric Constructions","JAMB: Coordinate Geometry — Straight Lines, Parallel & Perpendicular Lines","JAMB: Coordinate Geometry — Equation of a Circle & Conics","JAMB: Trigonometry — Ratios, Special Angles & Identities","JAMB: Trigonometry — Sine & Cosine Rules, Compound & Double Angles","JAMB: Bearings, Angles of Elevation & Depression","JAMB: Limits & Differentiation of Algebraic and Trigonometric Functions","JAMB: Applications of Differentiation — Rate of Change, Tangents & Turning Points","JAMB: Integration — Indefinite, Definite & Area Bounded by Curves","JAMB: Vectors in Two Dimensions","JAMB: Representation of Data — Histograms, Bar & Pie Charts","JAMB: Measures of Location — Mean, Median & Mode (Grouped & Ungrouped)","JAMB: Measures of Dispersion — Range, Mean Deviation, Variance & Standard Deviation","JAMB: Permutations & Combinations","JAMB: Probability — Mutually Exclusive, Independent & Conditional Events","JAMB: Commercial Mathematics — Profit/Loss, Simple & Compound Interest","JAMB: Past Questions 2016–2019 Intensive Drill","JAMB: Past Questions 2020–2024 Intensive Drill","JAMB: Full 40-Question UTME Mock Simulation"]
 };
-
-function getCustomBank(){
-  try{ return JSON.parse(localStorage.getItem("customQuestionBank_v1") || "[]"); }
-  catch(e){ return []; }
-}
-function saveCustomBank(list){
-  localStorage.setItem("customQuestionBank_v1", JSON.stringify(list));
-}
-function getTopicCustomList(cat, topic, mode){
-  return getCustomBank().filter(item => item.cat === cat && item.topic === topic && (!mode || item.mode === mode));
-}
-
-function customItemToQuestion(item, idx){
-  const ansText = item.answer || "Apply the topic rule systematically and simplify carefully.";
-  const formText = item.formula || "Identify the relevant mathematical rule or relationship for this topic";
-  return {
-    title: item.q,
-    params: [
-      { sym: item.q, meaning: "problem statement to solve", why: "Read every word and symbol carefully so no condition or unit is missed." },
-      { sym: `Topic: ${item.topic}`, meaning: "syllabus context", why: "Connecting the question to its topic tells us which rules and standard methods apply." }
-    ],
-    formula: {
-      eq: formText,
-      parts: [
-        { part: "Rule / Formula", desc: formText },
-        { part: "Goal", desc: "isolate the unknown or compute the required value cleanly" }
-      ]
-    },
-    steps: [
-      {
-        line: `Set up the problem using: ${formText}`,
-        why: "Writing the governing rule first keeps our working structured and prevents skipped steps.",
-        arith: `Substitute given values into ${formText}.`
-      },
-      {
-        line: `Working & Result: ${ansText}`,
-        why: "Carry out each operation in order and verify signs, brackets, and units.",
-        arith: ansText
-      }
-    ],
-    pitfall: "Common mistake: rushing through arithmetic or ignoring signs/units. Always re-check each step before writing the final answer.",
-    check: `Re-read the question and verify that ${ansText} satisfies all conditions given.`,
-    source: `${item.examTag || "CUSTOM"} (Saved Question) • ${item.topic}`,
-    examTag: item.examTag || "CUSTOM",
-    key: topicKey(item.topic),
-    idx,
-    diagram: "none",
-    diagramLabel: "",
-    sideWorkLines: [formText, ansText],
-    sideWorkExpl: "Let me check the working and verification on the board, then erase them.",
-    isCustomSaved: true,
-    customId: item.id
-  };
-}
-
+function getCustomBank(){ try{ return JSON.parse(localStorage.getItem("customQuestionBank_v1") || "[]"); }catch(e){ return []; } }
+function saveCustomBank(list){ localStorage.setItem("customQuestionBank_v1", JSON.stringify(list)); }
+function getTopicCustomList(cat, topic, mode){ return getCustomBank().filter(item => item.cat === cat && item.topic === topic && (!mode || item.mode === mode)); }
+function customItemToQuestion(item, idx){ const ansText = item.answer || "Apply the topic rule systematically and simplify carefully."; const formText = item.formula || "Identify the relevant mathematical rule or relationship for this topic"; return { title: item.q, params: [{ sym: item.q, meaning: "problem statement to solve", why: "Read every word and symbol carefully so no condition or unit is missed." },{ sym: `Topic: ${item.topic}`, meaning: "syllabus context", why: "Connecting the question to its topic tells us which rules and standard methods apply." }], formula: { eq: formText, parts: [{ part: "Rule / Formula", desc: formText },{ part: "Goal", desc: "isolate the unknown or compute the required value cleanly" }] }, steps: [{ line: `Set up the problem using: ${formText}`, why: "Writing the governing rule first keeps our working structured and prevents skipped steps.", arith: `Substitute given values into ${formText}.` },{ line: `Working & Result: ${ansText}`, why: "Carry out each operation in order and verify signs, brackets, and units.", arith: ansText }], pitfall: "Common mistake: rushing through arithmetic or ignoring signs/units. Always re-check each step before writing the final answer.", check: `Re-read the question and verify that ${ansText} satisfies all conditions given.`, source: `${item.examTag || "CUSTOM"} (Saved Question) • ${item.topic}`, examTag: item.examTag || "CUSTOM", key: topicKey(item.topic), idx, diagram: "none", diagramLabel: "", sideWorkLines: [formText, ansText], sideWorkExpl: "Let me check the working and verification on the board, then erase them.", isCustomSaved: true, customId: item.id }; }
 let editingCustomId = null;
-
-function populateBankTopics(){
-  const cat = document.getElementById("bankCat").value;
-  const sel = document.getElementById("bankTopic");
-  const prevVal = sel.value;
-  sel.innerHTML = (TOPICS[cat] || []).map(t => `<option value="${t.replace(/"/g,"&quot;")}">${t}</option>`).join("");
-  if(prevVal && (TOPICS[cat] || []).includes(prevVal)) sel.value = prevVal;
-  renderSavedQuestionCells();
+function populateBankTopics(){ const sel = document.getElementById("bankTopic"); if(!sel) return; const cat = document.getElementById("bankCat") ? document.getElementById("bankCat").value : "JSS"; try{ sel.value = cat; }catch(e){} renderSavedQuestionCells(); }
+function resetBankForm(){ editingCustomId = null; document.getElementById("qFormHeading").innerText = "➕ Type Question Only - Machine Will Auto-Move It To Correct Topic & Solve It"; const b=document.getElementById("saveBankBtn"); if(b) b.innerText = "💾 Save - Machine Auto-Moves & Solves"; document.getElementById("bankExam").value = ""; document.getElementById("bankQ").value = ""; document.getElementById("bankFormula").value = ""; document.getElementById("bankAnswer").value = ""; }
+// ===== AUTO-TOPIC + AUTO-SOLVE - ALREADY INSIDE THIS ONE CODE =====
+function autoDetectTopic(q){
+  const text = (" " + (q||"").toLowerCase() + " ");
+  let best = {cat:"JSS", topic:TOPICS["JSS"][0], score:0};
+  const keywords = {
+    "bearing": ["bearing","elevation","depression","longitude","latitude"],
+    "circle": ["circle","cyclic","chord","tangent","sector","arc"],
+    "trigonometry": ["sine","cosine","tangent","sin ","cos ","tan ","trigonometry","soh","cah","toa"],
+    "calculus": ["differentiation","differentiate","integration","integrate","limit","dy/dx","gradient"],
+    "matrices": ["matrix","matrices","determinant","singular"],
+    "probability": ["probability","die","coin","bag","balls","permutation","combination"],
+    "simultaneous": ["simultaneously","simultaneous"],
+    "sets": ["venn","set ","sets","union","intersection","complement"],
+    "statistics": ["mean","median","mode","histogram","pie chart","ogive","variance","standard deviation","frequency","range"],
+    "sequences": ["sequence","series","progression","arithmetic progression","geometric progression","a.p","g.p"],
+    "log_indices": ["logarithm","indices","surd","standard form","square root","indices"],
+    "vectors": ["vector","coordinate","midpoint","gradient","distance"],
+    "polynomials": ["polynomial","remainder","factor theorem","partial fraction","binomial","quadratic","factorise","factorize"],
+    "algebra": ["solve for","equation","inequality","variation","subject of","expand","simplify","algebra"],
+    "finance": ["interest","profit","loss","discount","commission","hire purchase","compound interest","simple interest","depreciation"],
+    "mensuration": ["area","perimeter","volume","surface area","cylinder","cone","sphere","prism","pyramid","mensuration"],
+    "angles": ["angle","polygon","pythagoras","triangle","parallel lines","corresponding","alternate","construction","loci"],
+    "ratio": ["ratio","proportion","share"],
+    "fractions": ["fraction","decimal","percentage","percent","estimation","rounding","approximation"],
+    "bases": ["binary","base 2","base 5","base 8","number base","modular","modulo"],
+    "directed": ["directed","negative","integer"],
+    "bodmas": ["bodmas","order of operations","bracket"],
+    "factors": ["hcf","lcm","prime","factor","multiple"],
+    "counting": ["place value","roman","billion","million","whole number","counting"]
+  };
+  for(let cat of ["JSS","SSS","JAMB"]){
+    for(let topic of TOPICS[cat]){
+      let score = 0;
+      const lowTopic = topic.toLowerCase();
+      lowTopic.split(/[^a-z0-9]+/).forEach(w=>{ if(w.length>3 && text.includes(w)) score += 3; });
+      for(let g in keywords){
+        if(lowTopic.includes(g) || topicKey(topic)===g || (g==="angles"&&topicKey(topic)==="angles_geom") || (g==="mensuration"&&topicKey(topic)==="area_mens") || (g==="fractions"&&topicKey(topic)==="fractions_dec") || (g==="factors"&&topicKey(topic)==="factors_hcf_lcm") || (g==="counting"&&topicKey(topic)==="counting_place")){
+          keywords[g].forEach(k=>{ if(text.includes(k)) score += 5; });
+        }
+      }
+      if(text.includes("jamb") && cat==="JAMB") score += 2;
+      if((text.includes("waec")||text.includes("neco")) && cat==="SSS") score += 2;
+      if((text.includes("bece")||text.includes("junior waec")) && cat==="JSS") score += 2;
+      if(score > best.score) best = {cat, topic, score};
+    }
+  }
+  return best;
 }
-
-function resetBankForm(){
-  editingCustomId = null;
-  document.getElementById("qFormHeading").innerText = "➕ Type & Save Question to Section / Topic";
-  document.getElementById("saveBankBtn").innerText = "💾 Save & Add to Section Count";
-  document.getElementById("bankExam").value = "";
-  document.getElementById("bankQ").value = "";
-  document.getElementById("bankFormula").value = "";
-  document.getElementById("bankAnswer").value = "";
-  document.getElementById("bankMsg").innerText = "";
+function autoSolveForTopic(topic, q){
+  try{
+    const gen = generateGeneratedQuestion(topic, 0, "learn");
+    const stepsText = (gen.steps||[]).map((s,i)=>`Step ${i+1}: ${s.line} - ${s.why} [${s.arith||""}]`).join("\n");
+    return { formula: gen.formula ? gen.formula.eq : "Apply the topic rule step by step", answer: stepsText + "\nCheck: " + (gen.check||"") };
+  }catch(e){ return {formula:"Apply the topic rule step by step", answer:"Solve step by step using the topic rule, check signs, BODMAS and units."}; }
 }
-
 function saveBankQuestion(){
-  const cat = document.getElementById("bankCat").value;
-  const topic = document.getElementById("bankTopic").value;
-  const mode = document.getElementById("bankMode").value;
-  const examTag = (document.getElementById("bankExam").value || "WAEC 2024").trim();
   const q = document.getElementById("bankQ").value.trim();
-  const formula = document.getElementById("bankFormula").value.trim();
-  const answer = document.getElementById("bankAnswer").value.trim();
-  if(!q){
-    document.getElementById("bankMsg").innerText = "⚠️ Please type a question before saving.";
-    return;
+  if(!q){ document.getElementById("bankMsg").innerText = "⚠️ Please type a question before saving."; return; }
+  const detected = autoDetectTopic(q);
+  const cat = detected.cat;
+  const topic = detected.topic;
+  const mode = document.getElementById("bankMode").value || "learn";
+  const examTag = (document.getElementById("bankExam").value || "WAEC 2024").trim();
+  let formula = document.getElementById("bankFormula").value.trim();
+  let answer = document.getElementById("bankAnswer").value.trim();
+  if(!formula || !answer){
+    const solved = autoSolveForTopic(topic, q);
+    if(!formula) formula = solved.formula;
+    if(!answer) answer = solved.answer;
   }
   const bank = getCustomBank();
+  let savedItem = null;
   if(editingCustomId){
     const idx = bank.findIndex(x => x.id === editingCustomId);
-    if(idx !== -1){
-      bank[idx] = { ...bank[idx], cat, topic, mode, examTag, q, formula, answer };
-    }
+    if(idx !== -1){ bank[idx] = {...bank[idx], cat, topic, mode, examTag, q, formula, answer}; savedItem = bank[idx]; }
     saveCustomBank(bank);
-    document.getElementById("bankMsg").innerText = "✅ Question updated!";
   } else {
-    bank.unshift({
-      id: "Q-" + Date.now() + "-" + Math.floor(Math.random()*1000),
-      cat, topic, mode, examTag, q, formula, answer,
-      createdAt: new Date().toLocaleDateString()
-    });
+    savedItem = { id:"Q-"+Date.now()+"-"+Math.floor(Math.random()*1000), cat, topic, mode, examTag, q, formula, answer, createdAt:new Date().toLocaleDateString() };
+    bank.unshift(savedItem);
     saveCustomBank(bank);
-    document.getElementById("bankMsg").innerText = "✅ Saved! Question count in this section & topic increased automatically.";
   }
+  if(savedItem) pushToSupabase(savedItem);
+  const bc=document.getElementById("bankCat"); if(bc) bc.value=cat;
+  const bt=document.getElementById("bankTopic"); if(bt) bt.value=topic;
+  const msg = `✅ Saved! Machine moved it to ${cat} → ${topic}`;
   resetBankForm();
+  document.getElementById("bankMsg").innerText = msg;
   renderSavedQuestionCells();
 }
-
-function editBankQuestion(id){
-  const item = getCustomBank().find(x => x.id === id);
-  if(!item) return;
-  editingCustomId = item.id;
-  document.getElementById("bankCat").value = item.cat;
-  populateBankTopics();
-  document.getElementById("bankTopic").value = item.topic;
-  document.getElementById("bankMode").value = item.mode || "learn";
-  document.getElementById("bankExam").value = item.examTag || "";
-  document.getElementById("bankQ").value = item.q || "";
-  document.getElementById("bankFormula").value = item.formula || "";
-  document.getElementById("bankAnswer").value = item.answer || "";
-  document.getElementById("qFormHeading").innerText = "✏️ Editing Saved Question (" + item.id + ")";
-  document.getElementById("saveBankBtn").innerText = "💾 Update Question";
-  document.getElementById("qFormHeading").scrollIntoView({behavior:"smooth"});
-  renderSavedQuestionCells();
-}
-
-function deleteBankQuestion(id){
-  const bank = getCustomBank().filter(x => x.id !== id);
-  saveCustomBank(bank);
-  if(editingCustomId === id) resetBankForm();
-  renderSavedQuestionCells();
-}
-
-function renderSavedQuestionCells(){
-  const cat = document.getElementById("bankCat").value;
-  const topic = document.getElementById("bankTopic").value;
-  const allBank = getCustomBank();
-  const matching = allBank.filter(x => x.cat === cat && (!topic || x.topic === topic));
-  const listToShow = matching.length ? matching : allBank;
-  document.getElementById("cellSummary").innerText = matching.length
-    ? `${matching.length} saved question(s) in ${cat} → ${topic} (Total across all sections: ${allBank.length})`
-    : `No questions saved yet for this specific topic (${allBank.length} total saved across all sections).`;
-
-  if(!listToShow.length){
-    document.getElementById("savedQuestionsCells").innerHTML = `<p class="small">No saved questions yet. Type and save a question above to see it here.</p>`;
-    return;
-  }
-
-  let html = "";
-  listToShow.forEach((item, i) => {
-    const safeQ = (item.q || "").replace(/</g,"&lt;");
-    const safeA = (item.answer || "").replace(/</g,"&lt;");
-    const safeF = (item.formula || "").replace(/</g,"&lt;");
-    html += `<div class="qCell">
-      <div class="qCellTop">
-        <div>
-          <span class="pill">${item.cat} • ${(item.mode||"learn").toUpperCase()}</span>
-          <span class="examBadge">${item.examTag || "CUSTOM"}</span>
-        </div>
-        <span class="small">#${i+1}</span>
-      </div>
-      <div class="small" style="color:#1E4DA1;font-weight:700;margin-bottom:4px">${item.topic}</div>
-      <div style="font-weight:800;font-size:15px">${safeQ}</div>
-      ${safeF ? `<div class="small" style="margin-top:4px"><b>Formula:</b> ${safeF}</div>` : ""}
-      ${safeA ? `<div class="small" style="margin-top:4px;color:#065f46"><b>Solution/Answer:</b> ${safeA}</div>` : ""}
-      <div class="qCellActions">
-        <button class="btn blue" style="padding:7px 14px;font-size:13px" onclick="editBankQuestion('${item.id}')">✏️ Edit</button>
-        <button class="btn red" style="padding:7px 14px;font-size:13px" onclick="deleteBankQuestion('${item.id}')">🗑️ Delete</button>
-      </div>
-    </div>`;
-  });
-  document.getElementById("savedQuestionsCells").innerHTML = html;
-}
-
-// Photo upload / snap handlers (STRICTLY FOR SUBSCRIBERS / ADMIN)
+function editBankQuestion(id){ const item = getCustomBank().find(x => x.id === id); if(!item) return; editingCustomId = item.id; document.getElementById("bankQ").value = item.q || ""; document.getElementById("bankFormula").value = item.formula || ""; document.getElementById("bankAnswer").value = item.answer || ""; document.getElementById("qFormHeading").innerText = "✏️ Editing Saved Question (" + item.id + ")"; document.getElementById("saveBankBtn").innerText = "💾 Update Question"; document.getElementById("qFormHeading").scrollIntoView({behavior:"smooth"}); renderSavedQuestionCells(); }
+function deleteBankQuestion(id){ const bank = getCustomBank().filter(x => x.id !== id); saveCustomBank(bank); deleteFromSupabase(id); if(editingCustomId === id) resetBankForm(); renderSavedQuestionCells(); }
+function renderSavedQuestionCells(){ const allBank = getCustomBank(); document.getElementById("cellSummary").innerText = `${allBank.length} saved question(s) total - machine auto-sorted them into topics.`; if(!allBank.length){ document.getElementById("savedQuestionsCells").innerHTML = `<p class="small">No saved questions yet. Type a question above and press Save.</p>`; return; } let html = ""; allBank.forEach((item, i) => { const safeQ = (item.q || "").replace(/</g,"&lt;"); const safeA = (item.answer || "").replace(/</g,"&lt;"); const safeF = (item.formula || "").replace(/</g,"&lt;"); html += `<div class="qCell"><div class="qCellTop"><div><span class="pill">${item.cat} • ${(item.mode||"learn").toUpperCase()}</span><span class="examBadge">${item.examTag || "CUSTOM"}</span></div><span class="small">#${i+1}</span></div><div class="small" style="color:#1E4DA1;font-weight:700;margin-bottom:4px">${item.topic}</div><div style="font-weight:800;font-size:15px">${safeQ}</div>${safeF ? `<div class="small" style="margin-top:4px"><b>Formula:</b> ${safeF}</div>` : ""}${safeA ? `<div class="small" style="margin-top:4px;color:#065f46"><b>Solution/Answer:</b> ${safeA}</div>` : ""}<div class="qCellActions"><button class="btn blue" style="padding:7px 14px;font-size:13px" onclick="editBankQuestion('${item.id}')">✏️ Edit</button><button class="btn red" style="padding:7px 14px;font-size:13px" onclick="deleteBankQuestion('${item.id}')">🗑️ Delete</button></div></div>`; }); document.getElementById("savedQuestionsCells").innerHTML = html; }
 let attachedPhotoData = "";
-
-function canUsePhotoSolver(){
-  return Boolean(isAdmin() || hasSub(curCat));
-}
-
-function updatePhotoAccessUI(){
-  const unlocked = canUsePhotoSolver();
-  const controls = document.getElementById("photoSubscriberControls");
-  const notice = document.getElementById("photoLockedNotice");
-  if(controls) controls.classList.toggle("hidden", !unlocked);
-  if(notice) notice.classList.toggle("hidden", unlocked);
-  if(!unlocked){
-    clearPhotoPreview();
-  }
-}
-
-function triggerPhotoInput(inputId){
-  if(!canUsePhotoSolver()){
-    updatePhotoAccessUI();
-    alert("🔒 Photo Snap & Upload is only available to active subscribers.\n\nSubscribe for ₦5,000 / MONTH or enter an active PIN to unlock photo snapping & uploading.");
-    return;
-  }
-  const el = document.getElementById(inputId);
-  if(el) el.click();
-}
-
-function goToSubscribeForPhoto(){
-  cancelAllPlayback();
-  openCategory(curCat);
-  setTimeout(()=>{
-    const pc = document.getElementById("payCard");
-    if(pc) pc.scrollIntoView({behavior:"smooth"});
-  }, 80);
-}
-
-function onPhotoSelected(input){
-  if(!canUsePhotoSolver()){
-    input.value = "";
-    clearPhotoPreview();
-    updatePhotoAccessUI();
-    alert("🔒 Photo Snap & Upload is only for subscribed students.");
-    return;
-  }
-  const file = input.files && input.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = function(ev){
-    attachedPhotoData = ev.target.result || "";
-    const img = document.getElementById("photoPreview");
-    img.src = attachedPhotoData;
-    img.classList.remove("hidden");
-    document.getElementById("photoStatus").innerText = `📷 Photo attached (${file.name}). Type or confirm the question text below, then click "Solve Question + Full Explanation →".`;
-  };
-  reader.readAsDataURL(file);
-}
-
-function clearPhotoPreview(){
-  attachedPhotoData = "";
-  const s = document.getElementById("snapInput");
-  const u = document.getElementById("uploadPhotoInput");
-  if(s) s.value = "";
-  if(u) u.value = "";
-  const img = document.getElementById("photoPreview");
-  if(img){
-    img.src = "";
-    img.classList.add("hidden");
-  }
-  const st = document.getElementById("photoStatus");
-  if(st) st.innerText = "Subscriber perk: Snap or upload a question image, type/confirm the question below, and solve with an extended step-by-step explanation.";
-}
-
-function toSup(n){
-  const map = {"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹","-":"⁻"};
-  return String(n).split("").map(ch => map[ch] || ch).join("");
-}
-
-function topicKey(topic){
-  const t = (" " + topic.toLowerCase() + " ");
-  if(t.includes("mock") || t.includes("simulation") || t.includes("past questions")) return "past_drill";
-  if(t.includes("bodmas") || t.includes("order of operations")) return "bodmas";
-  if(t.includes("factors, multiples") || t.includes("prime numbers") || t.includes("hcf") || t.includes("lcm")) return "factors_hcf_lcm";
-  if(t.includes("ratio") || t.includes("proportion")) return "ratio_prop";
-  if(t.includes("place value") || t.includes("roman") || t.includes("whole numbers") || t.includes("counting") || t.includes("billions")) return "counting_place";
-  if(t.includes("binary") || t.includes("number bases") || t.includes("modular")) return "bases";
-  if(t.includes("directed numbers")) return "directed";
-  if(t.includes("fraction") || t.includes("decimal") || t.includes("percentage") || t.includes("estimation") || t.includes("rounding") || t.includes("approximation")) return "fractions_dec";
-  if(t.includes("interest") || t.includes("profit") || t.includes("commercial") || t.includes("hire purchase")) return "finance";
-  if(t.includes("angle") || t.includes("polygon") || t.includes("pythagoras") || t.includes("construction") || t.includes("loci") || t.includes("deductive")) return "angles_geom";
-  if(t.includes("area") || t.includes("perimeter") || t.includes("volume") || t.includes("mensuration") || t.includes("plane shapes") || t.includes("3d") || t.includes("sector") || t.includes("similar")) return "area_mens";
-  if(t.includes("polynomial") || t.includes("remainder") || t.includes("factor theorem") || t.includes("partial fraction") || t.includes("binomial")) return "polynomials";
-  if(t.includes("probability") || t.includes("permutation")) return "probability";
-  if(t.includes("simultaneous")) return "simultaneous";
-  if(t.includes("set") || t.includes("venn") || t.includes("logical")) return "sets";
-  if(t.includes("matrix") || t.includes("matrices") || t.includes("determinant")) return "matrices";
-  if(t.includes("vector") || t.includes("transformation") || t.includes("coordinate") || t.includes("conic") || t.includes("cartesian") || t.includes("distance-time") || t.includes("functions")) return "coord_vec";
-  if(t.includes("statistic") || t.includes("mean") || t.includes("average") || t.includes("dispersion") || t.includes("pie chart") || t.includes("histogram") || t.includes("ogive")) return "stats";
-  if(t.includes("logarithm") || t.includes("indices") || t.includes("surd") || t.includes("standard form") || t.includes("squares, square roots")) return "log_indices";
-  if(t.includes("bearing") || t.includes("elevation") || t.includes("depression") || t.includes("longitude") || t.includes("latitude")) return "bearings";
-  if(t.includes("circle") || t.includes("cyclic") || t.includes("chord") || t.includes("tangent")) return "circles";
-  if(t.includes("trigonometry") || t.includes("sine") || t.includes("cosine")) return "trigonometry";
-  if(t.includes("calculus") || t.includes("differentiation") || t.includes("integration") || t.includes("limit")) return "calculus";
-  if(t.includes("sequence") || t.includes("series") || t.includes("progression")) return "sequences";
-  if(t.includes("algebra") || t.includes("equation") || t.includes("inequalit") || t.includes("variation") || t.includes("quadratic") || t.includes("open sentences") || t.includes("subject of formulae") || t.includes("binary operations")) return "algebra";
-  return "counting_place";
-}
-
-function seededRng(seed){
-  let s = (Math.abs(Math.floor(seed)) + 1337) % 2147483647;
-  if(s === 0) s = 42;
-  return function(){ s = (s * 48271) % 2147483647; return (s - 1) / 2147483646; };
-}
-function rInt(rng, min, max){ return Math.floor(rng() * (max - min + 1)) + min; }
-function pick(rng, arr){ return arr[Math.floor(rng() * arr.length)]; }
-
-function pickExamYear(cat, rng, idx){
-  if(cat === "JSS"){
-    const yrs = ["BECE 2023", "Junior WAEC 2022", "BECE 2024", "Junior WAEC 2021", "BECE 2020", "Junior WAEC 2019"];
-    return yrs[(idx + Math.floor(rng()*yrs.length)) % yrs.length];
-  }
-  if(cat === "JAMB"){
-    const yrs = ["JAMB 2024", "JAMB 2023", "JAMB 2022", "JAMB 2021", "JAMB 2020", "JAMB 2019", "JAMB 2018"];
-    return yrs[(idx + Math.floor(rng()*yrs.length)) % yrs.length];
-  }
-  const yrs = ["WAEC 2024", "NECO 2023", "WAEC 2023", "NECO 2022", "WAEC 2022", "WAEC 2021", "NECO 2020"];
-  return yrs[(idx + Math.floor(rng()*yrs.length)) % yrs.length];
-}
-
-function makeStructuredQ(q, params, formula, steps, diagram, label, sideWorkLines, sideWorkExpl, examTag, pitfall, check){
-  return {
-    q, params, formula, steps,
-    diagram: diagram || "none",
-    label: label || "",
-    sideWorkLines: sideWorkLines || null,
-    sideWorkExpl: sideWorkExpl || "",
-    examTag: examTag || "WAEC 2023",
-    pitfall: pitfall || "Watch out for sign mistakes, wrong order of operations, or forgetting units.",
-    check: check || "Substitute your result back into the rule to confirm it makes mathematical sense."
-  };
-}
-
-function genCountingPlaceQ(rng, idx, examTag){
-  const pat = idx % 4;
-  if(pat === 0){
-    const b = rInt(rng, 2, 9), m = rInt(rng, 105, 890), k = rInt(rng, 40, 750), u = rInt(rng, 120, 950);
-    const numStr = `${b},${String(m).padStart(3,"0")},${String(k).padStart(3,"0")},${String(u).padStart(3,"0")}`;
-    return makeStructuredQ(
-      `Write in figures: ${b} billion, ${m} million, ${k} thousand and ${u}. State the place value of ${b}.`,
-      [
-        { sym: `${b} billion = ${b},000,000,000`, meaning: "billions place", why: "In standard place value, 1 billion = 10⁹, which has 9 zeros after the leading digit." },
-        { sym: `${m}M, ${k}K, ${u}`, meaning: "millions, thousands, and units groups", why: "Each group occupies 3 digits; missing hundreds or tens get a 0 placeholder so columns stay aligned." }
-      ],
-      { eq: `Figures = Billions + Millions + Thousands + Units`, parts: [{ part: "Billions", desc: `${b} in the billions column (× 10⁹)` }, { part: "Place value", desc: `digit × positional value of its column` }] },
-      [
-        { line: `Assemble groups: ${b},000,000,000 + ${m},000,000 + ${k},000 + ${u}`, why: "Line up each group carefully from highest place value on the left to units on the right.", arith: `${b}000000000 + ${m}000000 + ${k}000 + ${u} = ${numStr}` },
-        { line: `In figures = ${numStr};  Place value of ${b} = ${b} billion`, why: `Because ${b} sits in the billions slot (9 digits after it), its place value is ${b} × 10⁹.`, arith: `${b} × 10⁹ = ${b},000,000,000` }
-      ],
-      "none", "", [`${b} × 10⁹ = ${b},000,000,000`, `Sum = ${numStr}`], "Let me verify the place-value columns on the board, then erase them.", examTag,
-      "Students often drop a zero when a number has fewer than 3 digits in the thousands or hundreds group.",
-      `Count the digits in ${numStr}: billions (${b}), millions (${String(m).padStart(3,"0")}), thousands (${String(k).padStart(3,"0")}), units (${String(u).padStart(3,"0")}).`
-    );
-  }
-  if(pat === 1){
-    const romans = [{ r: "CDXLIV", v: 444, br: "400 + 40 + 4" }, { r: "CMXC", v: 990, br: "900 + 90" }, { r: "DCCXXV", v: 725, br: "500 + 200 + 20 + 5" }];
-    const item = pick(rng, romans);
-    return makeStructuredQ(
-      `Convert the Roman numeral ${item.r} to Hindu-Arabic numeral.`,
-      [{ sym: `Roman = ${item.r}`, meaning: "Roman numeral expression", why: `In Roman numerals, a smaller symbol placed before a larger one means subtraction (such as CD = 400, CM = 900, XL = 40), while a smaller symbol after means addition.` }],
-      { eq: `Value = Sum of Roman place groups`, parts: [{ part: "Subtractive/Additive pairs", desc: `broken into ${item.br}` }] },
-      [
-        { line: `Break ${item.r} into parts: ${item.br}`, why: "Separate hundreds, tens, and units groups before adding.", arith: `Parts = ${item.br}` },
-        { line: `${item.r} = ${item.br} = ${item.v}`, why: "Add all parts together to get the Hindu-Arabic value.", arith: `${item.br} = ${item.v}` }
-      ],
-      "none", "", [`${item.br} = ${item.v}`], "Let me add the Roman parts on the board, then erase them.", examTag,
-      "Do not treat every letter independently without checking subtractive pairs like CM (900) or CD (400).",
-      `Converting ${item.v} back into Roman numerals gives ${item.r}.`
-    );
-  }
-  if(pat === 2){
-    const val = rInt(rng, 45, 95) * 1000000 + rInt(rng, 120, 890) * 1000 + rInt(rng, 25, 90);
-    const d = String(val)[2], z = String(val).length - 3, pv = Number(d) * Math.pow(10, z);
-    return makeStructuredQ(
-      `Find the place value of the digit ${d} in ${val.toLocaleString()}.`,
-      [{ sym: `Digit = ${d}, n = ${z}`, meaning: "target digit and number of digits to its right", why: `Each step to the left multiplies column value by 10, so ${z} digits after ${d} gives multiplier 10${toSup(z)}.` }],
-      { eq: `Place Value = Digit × 10ⁿ`, parts: [{ part: "Digit", desc: `${d} (face value)` }, { part: "n", desc: `${z} digits to the right of ${d}` }] },
-      [
-        { line: `Count ${z} digits after ${d}  ⇒  multiplier = 10${toSup(z)}`, why: "Place value depends on position, not just the face value of the digit.", arith: `10${toSup(z)} = ${Math.pow(10,z).toLocaleString()}` },
-        { line: `Place value = ${d} × 10${toSup(z)} = ${pv.toLocaleString()}`, why: `Multiply the digit ${d} by its column value.`, arith: `${d} × ${Math.pow(10,z).toLocaleString()} = ${pv.toLocaleString()}` }
-      ],
-      "none", "", [`${d} × 10${toSup(z)} = ${pv.toLocaleString()}`], "Let me count the trailing digits on the board, then erase them.", examTag,
-      "Do not confuse face value (the digit itself) with place value (the digit multiplied by its column).",
-      `${pv.toLocaleString()} matches the exact contribution of ${d} in ${val.toLocaleString()}.`
-    );
-  }
-  const a = rInt(rng, 1200000, 4500000), b = rInt(rng, 500000, 1800000);
-  return makeStructuredQ(
-    `Total funds are ₦${(a+b).toLocaleString()}. If ₦${b.toLocaleString()} is spent, how much remains?`,
-    [
-      { sym: `Total = ₦${(a+b).toLocaleString()}`, meaning: "starting amount of money", why: "This is the whole quantity before any deduction." },
-      { sym: `Spent = ₦${b.toLocaleString()}`, meaning: "amount taken away", why: "Spending reduces the available total, so we subtract." }
-    ],
-    { eq: `Remaining = Total − Spent`, parts: [{ part: "Total", desc: "initial amount" }, { part: "Spent", desc: "amount deducted" }] },
-    [
-      { line: `Set up subtraction: ₦${(a+b).toLocaleString()} − ₦${b.toLocaleString()}`, why: "Align digits by place value (units under units, tens under tens, etc.).", arith: `${a+b} − ${b} = ${a}` },
-      { line: `Remaining = ₦${a.toLocaleString()}`, why: "State the final balance clearly with the Naira symbol (₦).", arith: `${a} + ${b} = ${a+b}` }
-    ],
-    "none", "", [`${a+b} − ${b} = ${a}`], "Let me subtract on the board, then erase it.", examTag,
-    "Avoid borrowing errors across zeros when subtracting large multi-digit amounts.",
-    `Adding remaining ₦${a.toLocaleString()} and spent ₦${b.toLocaleString()} returns total ₦${(a+b).toLocaleString()}.`
-  );
-}
-
-function genBodmasQ(rng, idx, examTag){
-  const pat = idx % 4;
-  if(pat === 0){
-    const a = rInt(rng, 6, 12), b = rInt(rng, 2, 5), c = rInt(rng, 3, 7), d = rInt(rng, 4, 10), mult = a*b;
-    return makeStructuredQ(
-      `Simplify using BODMAS: ${d} + ${a} × ${b} − ${c}.`,
-      [{ sym: `${a} × ${b}`, meaning: "multiplication term", why: "In BODMAS, Multiplication comes before Addition and Subtraction, so we evaluate this product first." }],
-      { eq: `Brackets → Of → Division/Multiplication → Addition/Subtraction`, parts: [{ part: "×", desc: "evaluated before + and −" }, { part: "+ and −", desc: "worked from left to right" }] },
-      [
-        { line: `First multiply: ${a} × ${b} = ${mult}  ⇒  ${d} + ${mult} − ${c}`, why: "Multiplication binds tighter than + or −.", arith: `${a} × ${b} = ${mult}` },
-        { line: `Left to right: ${d} + ${mult} = ${d+mult}, then ${d+mult} − ${c} = ${d+mult-c}`, why: "Once only + and − remain, work cleanly from left to right.", arith: `${d} + ${mult} = ${d+mult};  ${d+mult} − ${c} = ${d+mult-c}` }
-      ],
-      "none", "", [`${a} × ${b} = ${mult}`, `${d+mult} − ${c} = ${d+mult-c}`], "Let me check BODMAS order on the board, then erase it.", examTag,
-      "A common mistake is adding left-to-right first (doing + before ×).",
-      `Working from left to right after × gives ${d + mult - c}.`
-    );
-  }
-  if(pat === 1){
-    const x = rInt(rng, 4, 9), y = rInt(rng, 2, 5), dv = rInt(rng, 2, 4), m2 = dv * rInt(rng, 2, 4), br = x + y;
-    return makeStructuredQ(
-      `Evaluate using BODMAS: (${x} + ${y}) × ${dv} − ${m2} ÷ ${dv}.`,
-      [{ sym: `(${x} + ${y})`, meaning: "expression inside brackets", why: "Brackets (B) always come first so we get a single number before multiplying." }],
-      { eq: `B → D/M → A/S`, parts: [{ part: "B", desc: `bracket (${x} + ${y} = ${br})` }, { part: "D/M", desc: "multiplication and division" }, { part: "A/S", desc: "final subtraction" }] },
-      [
-        { line: `Bracket first: ${x} + ${y} = ${br}  ⇒  ${br} × ${dv} − ${m2} ÷ ${dv}`, why: "Simplify inside parentheses before applying × or ÷.", arith: `${x} + ${y} = ${br}` },
-        { line: `Multiply & divide: (${br} × ${dv}) − (${m2} ÷ ${dv}) = ${br*dv} − ${m2/dv} = ${br*dv - m2/dv}`, why: "Complete × and ÷ before subtracting.", arith: `${br} × ${dv} = ${br*dv};  ${m2} ÷ ${dv} = ${m2/dv};  ${br*dv} − ${m2/dv} = ${br*dv - m2/dv}` }
-      ],
-      "none", "", [`${br} × ${dv} = ${br*dv}`, `${m2} ÷ ${dv} = ${m2/dv}`], "Let me compute each BODMAS group on the board, then erase it.", examTag,
-      "Do not subtract before finishing both the multiplication and division parts.",
-      `${br*dv - m2/dv} + ${m2/dv} = ${br*dv}, which matches ${br} × ${dv}.`
-    );
-  }
-  if(pat === 2){
-    const half = rInt(rng, 6, 15) * 2, m1 = rInt(rng, 2, 5), m2 = rInt(rng, 3, 6), ans = half/2 + m1*m2;
-    return makeStructuredQ(
-      `Calculate using BODMAS: ½ of ${half} + ${m1} × ${m2}.`,
-      [{ sym: `½ of ${half}`, meaning: "fraction 'of' a quantity", why: "In BODMAS, 'Of' means multiplication and comes before ordinary +." }],
-      { eq: `Of & Multiplication → Addition`, parts: [{ part: "½ of N", desc: "N ÷ 2" }, { part: "×", desc: `${m1} × ${m2}` }] },
-      [
-        { line: `½ of ${half} = ${half} ÷ 2 = ${half/2}`, why: "Taking half of a number divides it by 2.", arith: `${half} ÷ 2 = ${half/2}` },
-        { line: `${m1} × ${m2} = ${m1*m2};  Total = ${half/2} + ${m1*m2} = ${ans}`, why: "Add the two separate results together.", arith: `${m1} × ${m2} = ${m1*m2};  ${half/2} + ${m1*m2} = ${ans}` }
-      ],
-      "none", "", [`${half} ÷ 2 = ${half/2}`, `${m1} × ${m2} = ${m1*m2}`], "Let me evaluate 'of' and multiplication on the board, then erase them.", examTag,
-      "Do not add ½ to the next number before taking half of the given total.",
-      `${ans} − ${m1*m2} = ${half/2}, which is half of ${half}.`
-    );
-  }
-  const d = rInt(rng, 3, 6), q = rInt(rng, 4, 9), a = rInt(rng, 5, 12), s = rInt(rng, 2, 6), divEnd = d*q;
-  return makeStructuredQ(
-    `Simplify: ${a} + ${divEnd} ÷ ${d} − ${s}.`,
-    [{ sym: `${divEnd} ÷ ${d}`, meaning: "division expression", why: "Division (D) comes before Addition and Subtraction." }],
-    { eq: `Division → Addition → Subtraction`, parts: [{ part: "÷", desc: `${divEnd} ÷ ${d} = ${q}` }] },
-    [
-      { line: `Divide first: ${divEnd} ÷ ${d} = ${q}  ⇒  ${a} + ${q} − ${s}`, why: "Division is performed ahead of + and −.", arith: `${divEnd} ÷ ${d} = ${q}` },
-      { line: `Simplify: ${a} + ${q} = ${a+q}, then ${a+q} − ${s} = ${a + q - s}`, why: "Add then subtract in order from left to right.", arith: `${a} + ${q} = ${a+q};  ${a+q} − ${s} = ${a+q-s}` }
-    ],
-    "none", "", [`${divEnd} ÷ ${d} = ${q}`, `${a+q} − ${s} = ${a+q-s}`], "Let me show the division step on the board, then erase it.", examTag,
-    "Do not add before dividing.",
-    `${a + q - s} + ${s} − ${a} = ${q}, which equals ${divEnd} ÷ ${d}.`
-  );
-}
-
-function genFactorsHcfLcmQ(rng, idx, examTag){
-  const hcf = rInt(rng, 4, 9), a = hcf*2, b = hcf*3, lcm = hcf*6;
-  if(idx % 2 === 0){
-    return makeStructuredQ(
-      `Two numbers have HCF = ${hcf} and LCM = ${lcm}. If one number is ${a}, find n.`,
-      [{ sym: `HCF = ${hcf}, LCM = ${lcm}, First = ${a}`, meaning: "highest common factor, lowest common multiple, and one number", why: "For any two positive integers, the product of the two numbers equals HCF × LCM." }],
-      { eq: `n = (HCF × LCM) ÷ First`, parts: [{ part: "HCF × LCM", desc: "product of both numbers" }, { part: "÷ First", desc: "divides out the known number" }] },
-      [
-        { line: `Multiply HCF × LCM: ${hcf} × ${lcm} = ${hcf*lcm}`, why: "First find the product of both numbers.", arith: `${hcf} × ${lcm} = ${hcf*lcm}` },
-        { line: `Divide by ${a}: n = ${hcf*lcm} ÷ ${a} = ${b}`, why: "Divide the product by the given number to isolate n.", arith: `${hcf*lcm} ÷ ${a} = ${b}` }
-      ],
-      "none", "", [`${hcf} × ${lcm} = ${hcf*lcm}`, `${hcf*lcm} ÷ ${a} = ${b}`], "Let me solve for n on the board, then erase it.", examTag,
-      "Do not add HCF and LCM; use multiplication (HCF × LCM).",
-      `Check: ${a} × ${b} = ${a*b}, which equals ${hcf} × ${lcm}.`
-    );
-  }
-  return makeStructuredQ(
-    `Express ${a*b} as a product of prime factors in index form.`,
-    [{ sym: `Number = ${a*b}`, meaning: "target integer to factorise", why: "Prime numbers (2, 3, 5, 7, 11...) are numbers with only two factors: 1 and themselves." }],
-    { eq: `N = p₁ᵃ × p₂ᵇ ...`, parts: [{ part: "p₁, p₂", desc: "prime bases" }, { part: "a, b", desc: "indices showing how many times each prime repeats" }] },
-    [
-      { line: `Divide repeatedly by prime factors starting from the smallest prime`, why: "Keep dividing until the quotient is 1.", arith: `2² = 4;  3³ = 27` },
-      { line: `Write repeated factors using powers (indices)`, why: "Index form is compact and makes HCF/LCM easy to spot.", arith: `Product of primes = ${a*b}` }
-    ],
-    "none", "", ["2² = 4, 3³ = 27"], "Let me write the prime factorisation on the board, then erase it.", examTag,
-    "Make sure every base in the final product is prime (for example, use 2 × 2 instead of 4).",
-    `Multiplying out the prime powers gives back ${a*b}.`
-  );
-}
-
-function genRatioPropQ(rng, idx, examTag){
-  const r1 = rInt(rng, 2, 5), r2 = rInt(rng, 3, 6), totalRatio = r1 + r2, shareUnit = rInt(rng, 200, 600), totalAmt = totalRatio * shareUnit;
-  const hi = Math.max(r1, r2), lo = Math.min(r1, r2);
-  return makeStructuredQ(
-    `Divide ₦${totalAmt} in the ratio ${r1} : ${r2}. Find the larger share.`,
-    [
-      { sym: `Ratio = ${r1} : ${r2}`, meaning: "proportional parts", why: `Adding the parts (${r1} + ${r2} = ${totalRatio}) gives the total number of equal shares.` },
-      { sym: `Total = ₦${totalAmt}`, meaning: "full amount to share", why: "Dividing the total amount by total ratio parts gives the value of 1 share." }
-    ],
-    { eq: `Share = (Part ÷ Total Parts) × Total Amount`, parts: [{ part: "Part", desc: `${hi} (larger ratio share)` }, { part: "Total Parts", desc: `${totalRatio}` }] },
-    [
-      { line: `Total ratio parts = ${r1} + ${r2} = ${totalRatio};  1 share = ₦${totalAmt} ÷ ${totalRatio} = ₦${shareUnit}`, why: "Find the value of one single part first.", arith: `${totalAmt} ÷ ${totalRatio} = ${shareUnit}` },
-      { line: `Larger share = ${hi} × ₦${shareUnit} = ₦${hi*shareUnit}`, why: `Multiply one part by the larger ratio number (${hi}).`, arith: `${shareUnit} × ${hi} = ${hi*shareUnit}` }
-    ],
-    "none", "", [`${totalAmt} ÷ ${totalRatio} = ${shareUnit}`, `${hi*shareUnit} + ${lo*shareUnit} = ${totalAmt}`], "Let me find one ratio part on the board, then erase it.", examTag,
-    "Do not divide by only one part of the ratio—divide by the sum of all ratio parts.",
-    `Larger share (₦${hi*shareUnit}) + smaller share (₦${lo*shareUnit}) = ₦${totalAmt}.`
-  );
-}
-
-function genFractionsDecQ(rng, idx, examTag){
-  const pct = pick(rng, [15, 20, 25, 40]), amt = rInt(rng, 2, 8) * 100, ans = (pct * amt) / 100;
-  return makeStructuredQ(
-    `Find ${pct}% of ${amt}.`,
-    [{ sym: `${pct}%, Total = ${amt}`, meaning: "percentage rate and base amount", why: "Percent means 'out of 100', so ${pct}% = ${pct} ÷ 100." }],
-    { eq: `Value = (p ÷ 100) × Total`, parts: [{ part: "p", desc: `${pct}` }, { part: "Total", desc: `${amt}` }] },
-    [
-      { line: `Convert ${pct}% to fraction: ${pct} ÷ 100, then multiply by ${amt}`, why: "Multiplying first and dividing by 100 avoids rounding errors.", arith: `${pct} × ${amt} = ${pct*amt}` },
-      { line: `Result = ${pct*amt} ÷ 100 = ${ans}`, why: "Divide by 100 by shifting two decimal places left.", arith: `${pct*amt} ÷ 100 = ${ans}` }
-    ],
-    "none", "", [`${pct} × ${amt} = ${pct*amt}`, `${pct*amt} ÷ 100 = ${ans}`], "Let me compute that percentage on the board, then erase it.", examTag,
-    "Do not forget to divide by 100 after multiplying by the percentage number.",
-    `${ans} is ${pct}% of ${amt}.`
-  );
-}
-
-function genBasesQ(rng, idx, examTag){
-  const b2 = pick(rng, ["1011", "1101", "10110", "11101"]);
-  let dec = 0;
-  for(let i=0; i<b2.length; i++) dec = dec * 2 + Number(b2[i]);
-  return makeStructuredQ(
-    `Convert ${b2}₂ to base 10.`,
-    [{ sym: `Binary = ${b2}₂`, meaning: "base-2 numeral", why: "In base 2, each digit position from right to left represents a power of 2: 2⁰ = 1, 2¹ = 2, 2² = 4, 2³ = 8, and so on." }],
-    { eq: `N₁₀ = Σ(dᵢ × 2ⁱ)`, parts: [{ part: "2ⁱ", desc: "place values in base 2 starting from i = 0 on the right" }] },
-    [
-      { line: `Expand ${b2}₂ using powers of 2 from right to left`, why: "Only digits equal to 1 contribute to the sum, though every position has a weight.", arith: `Base-2 weights: 1, 2, 4, 8, 16...` },
-      { line: `Add the active place values  ⇒  ${b2}₂ = ${dec}₁₀`, why: "Sum the weighted digits to get the base-10 equivalent.", arith: `${b2}₂ = ${dec}₁₀` }
-    ],
-    "none", "", [`${b2}₂ ⇒ ${dec}₁₀`], "Let me convert to base 10 on the board, then erase it.", examTag,
-    "Start the exponent at 0 on the rightmost digit, not 1.",
-    `Converting ${dec}₁₀ back to binary gives ${b2}₂.`
-  );
-}
-
-function genDirectedQ(rng, idx, examTag){
-  const a = rInt(rng, 6, 15), b = rInt(rng, 4, 12);
-  return makeStructuredQ(
-    `Evaluate: (−${a}) − (−${b}).`,
-    [{ sym: `−(−${b}) = +${b}`, meaning: "subtracting a negative number", why: "Subtracting a negative is the same as adding its positive opposite." }],
-    { eq: `(−a) − (−b) = −a + b`, parts: [{ part: "−(−b)", desc: `simplifies to +${b}` }] },
-    [
-      { line: `Rewrite signs: (−${a}) − (−${b}) = −${a} + ${b}`, why: "Two adjacent minus signs become a plus sign.", arith: `−(−${b}) = +${b}` },
-      { line: `Combine −${a} and +${b}  ⇒  ${-a + b}`, why: "Compare magnitudes: move right on the number line by ${b} from −${a}.", arith: `−${a} + ${b} = ${-a+b}` }
-    ],
-    "none", "", [`−${a} + ${b} = ${-a+b}`], "Let me simplify signs on the board, then erase it.", examTag,
-    "Students frequently turn −(−b) into −b instead of +b.",
-    `(${-a+b}) − (${b}) = ${-a}, confirming the result.`
-  );
-}
-
-function genAlgebraQ(rng, idx, examTag){
-  const u = ["k", "n", "p", "y", "r", "x"][(idx + rInt(rng,0,5)) % 6];
-  const val = rInt(rng, 3, 9), c = rInt(rng, 4, 15), rhs = 4 * val + c;
-  return makeStructuredQ(
-    `Solve for ${u}: 4${u} + ${c} = ${rhs}.`,
-    [{ sym: `4${u} + ${c} = ${rhs}`, meaning: `linear equation with unknown ${u}`, why: `To isolate ${u}, undo operations in reverse order: first subtract ${c}, then divide by 4.` }],
-    { eq: `${u} = (${rhs} − ${c}) ÷ 4`, parts: [{ part: u, desc: "unknown variable to find" }, { part: "÷ 4", desc: "undoes multiplication by 4" }] },
-    [
-      { line: `Subtract ${c} from both sides: 4${u} = ${rhs} − ${c} = ${4*val}`, why: "Keep the equation balanced by performing the same operation on both sides.", arith: `${rhs} − ${c} = ${4*val}` },
-      { line: `Divide both sides by 4: ${u} = ${4*val} ÷ 4 = ${val}`, why: "Isolate ${u} completely.", arith: `${4*val} ÷ 4 = ${val}` }
-    ],
-    "balance", `⚖️ ${u} = ${val}`, [`${rhs} − ${c} = ${4*val}`, `${4*val} ÷ 4 = ${val}`], `Let me solve for ${u} on the board, then erase it.`, examTag,
-    "Do not divide by 4 before subtracting the constant term ${c}.",
-    `Substitute ${u} = ${val}: 4(${val}) + ${c} = ${4*val + c} = ${rhs}.`
-  );
-}
-
-function genAnglesGeomQ(rng, idx, examTag){
-  if(idx % 2 === 0){
-    const ang1 = rInt(rng, 35, 75), ang2 = rInt(rng, 30, 65), ang3 = 180 - ang1 - ang2;
-    return makeStructuredQ(
-      `In ΔABC, ∠A = ${ang1}° and ∠B = ${ang2}°. Find ∠C (θ).`,
-      [{ sym: `∠A = ${ang1}°, ∠B = ${ang2}°`, meaning: "two interior angles of triangle ABC", why: "The sum of the three interior angles of any triangle is always 180°." }],
-      { eq: `θ = 180° − (∠A + ∠B)`, parts: [{ part: "180°", desc: "total interior angle sum of a triangle" }] },
-      [
-        { line: `Add the two known angles: ${ang1}° + ${ang2}° = ${ang1+ang2}°`, why: "Find how much of the 180° is already used.", arith: `${ang1} + ${ang2} = ${ang1+ang2}` },
-        { line: `Subtract from 180°: θ = 180° − ${ang1+ang2}° = ${ang3}°`, why: "The remaining angle is ∠C.", arith: `180 − ${ang1+ang2} = ${ang3}` }
-      ],
-      "righttriangle", `📐 θ = ${ang3}°`, [`${ang1} + ${ang2} = ${ang1+ang2}`, `180 − ${ang1+ang2} = ${ang3}`], "Let me subtract from 180° on the board, then erase it.", examTag,
-      "Do not subtract from 90° unless it is a right-angled triangle with one angle already 90°.",
-      `${ang1}° + ${ang2}° + ${ang3}° = 180°.`
-    );
-  }
-  const b = 3, h = 4, hyp = 5;
-  return makeStructuredQ(
-    `In a right-angled triangle, base = ${b} cm and height = ${h} cm. Find hypotenuse c.`,
-    [{ sym: `Base = ${b} cm, Height = ${h} cm`, meaning: "two perpendicular legs meeting at 90°", why: "In a right triangle, the square on the hypotenuse equals the sum of the squares on the other two sides." }],
-    { eq: `c² = a² + b²`, parts: [{ part: "c", desc: "hypotenuse (longest side opposite 90°)" }, { part: "a, b", desc: "the two shorter perpendicular sides" }] },
-    [
-      { line: `Square and add the legs: c² = ${b}² + ${h}² = ${b*b} + ${h*h} = ${b*b+h*h}`, why: "Square each side before adding.", arith: `${b*b} + ${h*h} = ${b*b+h*h}` },
-      { line: `Take the positive square root: c = √${b*b+h*h} = ${hyp} cm`, why: "Length is positive, so take +√.", arith: `√${b*b+h*h} = ${hyp}` }
-    ],
-    "righttriangle", `📐 c = ${hyp} cm`, [`${b*b} + ${h*h} = ${b*b+h*h}`], "Let me apply Pythagoras on the board, then erase it.", examTag,
-    "Forgetting to take the square root at the end leaves c² instead of c.",
-    `${b}² + ${h}² = ${b*b+h*h} = ${hyp}².`
-  );
-}
-
-function genAreaMensQ(rng, idx, examTag){
-  const b = rInt(rng, 6, 14), h = rInt(rng, 5, 12), area = 0.5 * b * h;
-  return makeStructuredQ(
-    `A triangle has base = ${b} cm and area = ${area} cm². Find height h.`,
-    [{ sym: `b = ${b} cm, Area = ${area} cm²`, meaning: "base length and area of the triangle", why: "Because Area = ½ × base × height, multiplying Area by 2 undoes the ½." }],
-    { eq: `h = (2 × Area) ÷ b`, parts: [{ part: "2 × Area", desc: "undoes the ½ factor" }, { part: "÷ b", desc: "isolates height h" }] },
-    [
-      { line: `Multiply area by 2: 2 × ${area} = ${2*area}`, why: "Clearing the ½ makes division straightforward.", arith: `2 × ${area} = ${2*area}` },
-      { line: `Divide by base ${b}: h = ${2*area} ÷ ${b} = ${h} cm`, why: "Include cm because height is a linear length.", arith: `${2*area} ÷ ${b} = ${h}` }
-    ],
-    "righttriangle", `📐 h = ${h} cm`, [`2 × ${area} = ${2*area}`, `${2*area} ÷ ${b} = ${h}`], "Let me solve for h on the board, then erase it.", examTag,
-    "Do not divide area by base without multiplying by 2 first.",
-    `Check area: ½ × ${b} × ${h} = ${area} cm².`
-  );
-}
-
-function genFinanceQ(rng, idx, examTag){
-  const cp = rInt(rng, 4, 10) * 1000, pct = pick(rng, [10, 20, 25]), sp = cp + (pct/100)*cp;
-  return makeStructuredQ(
-    `An item sold for ₦${sp} gave a profit of ${pct}%. Find cost price CP.`,
-    [{ sym: `SP = ₦${sp}, Profit = ${pct}%`, meaning: "selling price and percentage profit on cost", why: `A ${pct}% profit means SP is (100 + ${pct})% = ${100+pct}% of the cost price CP.` }],
-    { eq: `CP = (SP × 100) ÷ (100 + p%)`, parts: [{ part: "100 + p%", desc: `total percentage representing SP (${100+pct}%)` }] },
-    [
-      { line: `Set up fraction: CP = (${sp} × 100) ÷ ${100+pct}`, why: "100% represents CP, so ${100+pct}% represents SP.", arith: `100 + ${pct} = ${100+pct}` },
-      { line: `Compute: ${sp*100} ÷ ${100+pct} = ₦${cp}`, why: "Divide to get the original cost price.", arith: `${sp*100} ÷ ${100+pct} = ${cp}` }
-    ],
-    "none", "", [`100 + ${pct} = ${100+pct}`, `${sp*100} ÷ ${100+pct} = ${cp}`], "Let me find cost price on the board, then erase it.", examTag,
-    "Percentage profit is calculated on Cost Price (CP), not Selling Price (SP).",
-    `Adding ${pct}% of ₦${cp} (₦${(pct/100)*cp}) to ₦${cp} gives ₦${sp}.`
-  );
-}
-
-function genPolynomialsQ(rng, idx, examTag){
-  const a = rInt(rng, 2, 4), rem = rInt(rng, 5, 16), a3 = a*a*a, rhs = rem + 2*a*a - 5, kVal = (rhs/a3).toFixed(2).replace(/\.00$/,"");
-  return makeStructuredQ(`P(x) = kx³ − 2x² + 5 leaves remainder ${rem} when divided by (x − ${a}). Find k.`, [{ sym: `x = ${a}, R = ${rem}`, meaning: "value from divisor (x − a) and remainder", why: "By the Remainder Theorem, dividing P(x) by (x − a) gives remainder P(a)." }], { eq: `P(a) = R`, parts: [{ part: "P(a)", desc: "polynomial evaluated at x = a" }, { part: "R", desc: "given remainder" }] }, [{ line: `Substitute x = ${a}: ${a3}k − 2(${a}²) + 5 = ${rem}`, why: "Evaluate each power of ${a} carefully.", arith: `${a}³ = ${a3};  2(${a}²) = ${2*a*a}` }, { line: `Solve for k: ${a3}k = ${rhs}  ⇒  k = ${kVal}`, why: "Move constants to the right-hand side and divide by ${a3}.", arith: `${rhs} ÷ ${a3} = ${kVal}` }], "none", "", [`${rhs} ÷ ${a3} = ${kVal}`], "Let me solve for k on the board, then erase it.", examTag, "For divisor (x − a), substitute x = +a (opposite sign).", `Substituting k = ${kVal} and x = ${a} into P(x) yields ${rem}.`);
-}
-function genProbabilityQ(rng, idx, examTag){
-  return makeStructuredQ(`A bag has 4 red and 3 blue balls. Two are drawn without replacement. Find P(R₁ ∩ B₂).`, [{ sym: `R = 4, B = 3, Total = 7`, meaning: "counts of red, blue, and total balls", why: "'Without replacement' means the first ball is not put back, reducing total balls to 6 for the second draw." }], { eq: `P(R₁ ∩ B₂) = P(R₁) × P(B₂ | R₁)`, parts: [{ part: "P(R₁)", desc: "probability of red on 1st draw (4 ÷ 7)" }, { part: "P(B₂ | R₁)", desc: "probability of blue on 2nd draw (3 ÷ 6)" }] }, [{ line: `First draw P(R₁) = 4 ÷ 7; second draw P(B₂ | R₁) = 3 ÷ 6`, why: "All 3 blue balls remain among the 6 remaining balls.", arith: `4 × 3 = 12;  7 × 6 = 42` }, { line: `Multiply and simplify: 12 ÷ 42 = 2 ÷ 7`, why: "Divide numerator and denominator by their HCF (6).", arith: `12 ÷ 6 = 2;  42 ÷ 6 = 7` }], "none", "", ["12 ÷ 42 = 2 ÷ 7"], "Let me reduce the fraction on the board, then erase it.", examTag, "Do not keep the denominator at 7 on the second draw when there is no replacement.", `2 ÷ 7 is in lowest terms since HCF(2, 7) = 1.`);
-}
-function genSimultaneousQ(rng, idx, examTag){
-  const x = rInt(rng, 2, 6), y = rInt(rng, 1, 5), c1 = 2*x + 3*y, c2 = 3*x - y;
-  return makeStructuredQ(`Solve simultaneously: 2x + 3y = ${c1} and 3x − y = ${c2}.`, [{ sym: `Two linear equations in x and y`, meaning: "system of equations", why: "Eliminating one variable reduces two equations to a single equation in one unknown." }], { eq: `Multiply Eq 2 by 3 to match 3y, then add`, parts: [{ part: "×3", desc: "makes y-coefficients opposite (−3y and +3y)" }] }, [{ line: `3 × (3x − y = ${c2})  ⇒  9x − 3y = ${3*c2}`, why: "Multiply every term on both sides of the second equation by 3.", arith: `3 × ${c2} = ${3*c2}` }, { line: `Add to 2x + 3y = ${c1}: 11x = ${11*x}  ⇒  x = ${x};  y = ${y}`, why: "Substitute x back into an original equation to find y.", arith: `${c1} + ${3*c2} = ${11*x};  ${11*x} ÷ 11 = ${x}` }], "balance", `⚖️ x = ${x}, y = ${y}`, [`${c1} + ${3*c2} = ${11*x}`], "Let me solve on the board, then erase it.", examTag, "Multiply the entire equation—including the right-hand side—by the multiplier.", `Check: 2(${x}) + 3(${y}) = ${c1} and 3(${x}) − (${y}) = ${c2}.`);
-}
-function genSetsQ(rng, idx, examTag){
-  const onlyA = rInt(rng, 6, 12), both = rInt(rng, 3, 7), onlyB = rInt(rng, 5, 11), neither = rInt(rng, 2, 5);
-  const nA = onlyA + both, nB = onlyB + both, total = onlyA + both + onlyB + neither;
-  return makeStructuredQ(`In a universal set U of ${total} students, n(P) = ${nA}, n(C) = ${nB}, and n(P ∩ C) = ${both}. Find n(P ∪ C)′.`, [{ sym: `n(U) = ${total}, n(P) = ${nA}, n(C) = ${nB}, n(P ∩ C) = ${both}`, meaning: "set sizes and intersection", why: "Adding n(P) + n(C) counts the intersection twice, so subtract n(P ∩ C) once to get n(P ∪ C)." }], { eq: `n(P ∪ C)′ = n(U) − [n(P) + n(C) − n(P ∩ C)]`, parts: [{ part: "n(P ∪ C)", desc: "students in P or C or both" }, { part: "′ (complement)", desc: "students outside P ∪ C" }] }, [{ line: `n(P ∪ C) = ${nA} + ${nB} − ${both} = ${nA+nB-both}`, why: "Remove double-counted overlap first.", arith: `${nA} + ${nB} − ${both} = ${nA+nB-both}` }, { line: `n(P ∪ C)′ = ${total} − ${nA+nB-both} = ${neither}`, why: "Subtract the union from the universal set.", arith: `${total} − ${nA+nB-both} = ${neither}` }], "none", "", [`${total} − ${nA+nB-both} = ${neither}`], "Let me compute the complement on the board, then erase it.", examTag, "Do not add n(P) + n(C) without subtracting n(P ∩ C).", `All four disjoint regions add up: ${onlyA} + ${both} + ${onlyB} + ${neither} = ${total}.`);
-}
-function genMatricesQ(rng, idx, examTag){
-  const a = rInt(rng, 2, 5), b = rInt(rng, 1, 3), c = rInt(rng, 1, 3);
-  return makeStructuredQ(`Find k if [[${a}, ${b}], [${c}, k]] is singular (det = 0).`, [{ sym: `det = 0`, meaning: "condition for a singular matrix", why: "A matrix has no inverse and is called singular when its determinant equals zero." }], { eq: `ad − bc = 0`, parts: [{ part: "ad", desc: "product of main diagonal (${a} × k)" }, { part: "bc", desc: "product of other diagonal (${b} × ${c})" }] }, [{ line: `${a}k − (${b} × ${c}) = 0  ⇒  ${a}k = ${b*c}`, why: "Subtract the secondary diagonal product from the main diagonal product.", arith: `${b} × ${c} = ${b*c}` }, { line: `Divide by ${a}: k = ${(b*c/a).toFixed(2).replace(/\.00$/,"")}`, why: "Isolate k.", arith: `${b*c} ÷ ${a} = ${(b*c/a).toFixed(2).replace(/\.00$/,"")}` }], "none", "", [`${b} × ${c} = ${b*c}`], "Let me solve for k on the board, then erase it.", examTag, "Remember the minus sign in ad − bc; do not add ad + bc.", `Substituting k back into ad − bc gives 0.`);
-}
-function genCoordVecQ(rng, idx, examTag){
-  const ax = rInt(rng, 1, 4), ay = rInt(rng, 2, 5), bx = rInt(rng, 5, 8), by = rInt(rng, 6, 9), dx = bx-ax, dy = by-ay, mag = Math.hypot(dx,dy).toFixed(2);
-  return makeStructuredQ(`Given A(${ax}, ${ay}) and B(${bx}, ${by}), find AB and |AB|.`, [{ sym: `A(${ax}, ${ay}), B(${bx}, ${by})`, meaning: "start point A and end point B", why: "Displacement vector AB goes from A to B, so subtract coordinates of A from B." }], { eq: `AB = (x₂ − x₁, y₂ − y₁);  |AB| = √(x² + y²)`, parts: [{ part: "AB", desc: "column/ordered displacement vector" }, { part: "|AB|", desc: "magnitude (length) of vector AB" }] }, [{ line: `AB = (${bx} − ${ax}, ${by} − ${ay}) = (${dx}, ${dy})`, why: "Subtract x-coordinates and y-coordinates separately.", arith: `${bx} − ${ax} = ${dx};  ${by} − ${ay} = ${dy}` }, { line: `|AB| = √(${dx}² + ${dy}²) = √${dx*dx+dy*dy} ≈ ${mag}`, why: "Apply Pythagoras' theorem to the components.", arith: `${dx}² + ${dy}² = ${dx*dx+dy*dy}` }], "arrow", `➡️ (${dx}, ${dy}), |AB| ≈ ${mag}`, [`${dx}² + ${dy}² = ${dx*dx+dy*dy}`], "Let me compute on the board, then erase it.", examTag, "Do not do A − B when asked for AB; AB always means B − A.", `Vector components (${dx}, ${dy}) and length ${mag} match distance between A and B.`);
-}
-function genStatsQ(rng, idx, examTag){
-  const n = 5, mean = rInt(rng, 8, 14), total = n*mean, firstFour = [mean-2, mean+1, mean-1, mean+2], sum4 = firstFour.reduce((a,b)=>a+b,0);
-  return makeStructuredQ(`Mean (x̄) of 5 numbers is ${mean}. Four numbers are ${firstFour.join(", ")}. Find the 5th number.`, [{ sym: `x̄ = ${mean}, n = 5`, meaning: "arithmetic mean and total count of items", why: "Since Mean = Sum ÷ n, the total sum of all 5 numbers is Mean × 5." }], { eq: `x₅ = (x̄ × n) − Σx₄`, parts: [{ part: "x̄ × n", desc: "total sum of all 5 numbers" }, { part: "Σx₄", desc: "sum of the 4 known numbers" }] }, [{ line: `Total sum of 5 numbers = ${mean} × 5 = ${total};  Sum of first 4 = ${sum4}`, why: "Find both totals before subtracting.", arith: `${mean} × 5 = ${total};  sum4 = ${sum4}` }, { line: `5th number = ${total} − ${sum4} = ${total-sum4}`, why: "The difference gives the missing value.", arith: `${total} − ${sum4} = ${total-sum4}` }], "none", "", [`${total} − ${sum4} = ${total-sum4}`], "Let me solve on the board, then erase it.", examTag, "Do not divide by 4 when finding the total sum of 5 numbers.", `Sum of all 5 numbers (${sum4} + ${total-sum4}) = ${total}, so mean = ${total} ÷ 5 = ${mean}.`);
-}
-function genLogIndicesQ(rng, idx, examTag){
-  const base = pick(rng, [2, 3, 5]), exp = rInt(rng, 3, 5), val = Math.pow(base, exp), xAns = (exp + 1) / 2;
-  return makeStructuredQ(`Solve for x: ${base}²ˣ⁻¹ = ${val}.`, [{ sym: `Base = ${base}, ${val} = ${base}${toSup(exp)}`, meaning: "exponential equation with expressible common base", why: "When both sides are written with the same positive base (≠ 1), their exponents must be equal." }], { eq: `aᵐ = aⁿ  ⇒  m = n`, parts: [{ part: "m", desc: "exponent on left (2x − 1)" }, { part: "n", desc: `exponent on right (${exp})` }] }, [{ line: `Rewrite ${val} as ${base}${toSup(exp)}:  ${base}²ˣ⁻¹ = ${base}${toSup(exp)}`, why: "Matching bases lets us equate the powers.", arith: `${base}${toSup(exp)} = ${val}` }, { line: `Equate powers: 2x − 1 = ${exp}  ⇒  2x = ${exp+1}  ⇒  x = ${xAns}`, why: "Add 1 to both sides, then divide by 2.", arith: `${exp} + 1 = ${exp+1};  ${exp+1} ÷ 2 = ${xAns}` }], "none", "", [`${exp+1} ÷ 2 = ${xAns}`], "Let me solve for x on the board, then erase it.", examTag, "Do not forget to add 1 to ${exp} before dividing by 2.", `Check: ${base}^(2(${xAns}) − 1) = ${base}${toSup(exp)} = ${val}.`);
-}
-function genBearingsQ(rng, idx, examTag){
-  const b = rInt(rng, 25, 145), pad = String(b).padStart(3, "0");
-  return makeStructuredQ(`Bearing of B from A is ${pad}°. Find the back bearing of A from B.`, [{ sym: `Forward = ${pad}°`, meaning: "three-figure clockwise angle measured from North", why: "Because ${b}° is less than 180°, the exact opposite direction is obtained by adding 180°." }], { eq: `Back bearing = Forward + 180°  (if Forward < 180°)`, parts: [{ part: "+ 180°", desc: "half-turn to the opposite direction" }] }, [{ line: `Check angle: ${b}° < 180°`, why: "If a bearing is over 180°, we subtract 180° instead.", arith: `${b} < 180` }, { line: `Back bearing = ${b}° + 180° = ${b + 180}°`, why: "Add 180° for the reverse bearing.", arith: `${b} + 180 = ${b+180}` }], "compass", `🧭 Back = ${b+180}°`, [`${b} + 180 = ${b+180}`], "Let me add 180° on the board, then erase it.", examTag, "Always measure bearings clockwise from North, and check whether to +180° or −180°.", `The difference between ${b+180}° and ${b}° is 180° (a straight line).`);
-}
-function genCirclesQ(rng, idx, examTag){
-  const ang = rInt(rng, 35, 65);
-  return makeStructuredQ(`Angle at centre O on arc AB is ∠AOB = ${2*ang}°. Find ∠ACB at circumference.`, [{ sym: `∠AOB = ${2*ang}°`, meaning: "central angle subtended by arc AB", why: "By the circle theorem, the angle subtended by an arc at the centre is twice the angle at the circumference on the same arc." }], { eq: `∠ACB = ½ × ∠AOB`, parts: [{ part: "½", desc: "circumference angle is half the central angle" }] }, [{ line: `Apply circle theorem: ∠ACB = ½ × ${2*ang}°`, why: "Both angles stand on the same arc AB.", arith: `${2*ang} ÷ 2 = ${ang}` }, { line: `∠ACB = ${ang}°`, why: "State the angle clearly in degrees.", arith: `${ang} × 2 = ${2*ang}` }], "circle", `⭕ ∠ACB = ${ang}°`, [`${2*ang} ÷ 2 = ${ang}`], "Let me divide by 2 on the board, then erase it.", examTag, "Do not double the central angle; halve it to get the angle at the circumference.", `Doubling ${ang}° gives ${2*ang}°, matching ∠AOB.`);
-}
-function genTrigQ(rng, idx, examTag){
-  const opp = 3, adj = 4, hyp = 5;
-  return makeStructuredQ(`In a right triangle, opposite = ${opp}, adjacent = ${adj}, hypotenuse = ${hyp}. Find sin θ + cos θ.`, [{ sym: `Opp = ${opp}, Adj = ${adj}, Hyp = ${hyp}`, meaning: "sides relative to angle θ in a right triangle", why: "SOH-CAH-TOA gives sin θ = Opposite ÷ Hypotenuse and cos θ = Adjacent ÷ Hypotenuse." }], { eq: `sin θ + cos θ = (Opp + Adj) ÷ Hyp`, parts: [{ part: "sin θ", desc: `Opp ÷ Hyp = ${opp} ÷ ${hyp}` }, { part: "cos θ", desc: `Adj ÷ Hyp = ${adj} ÷ ${hyp}` }] }, [{ line: `Write ratios: sin θ = ${opp}÷${hyp}, cos θ = ${adj}÷${hyp}`, why: "Both fractions already share the same denominator (${hyp}).", arith: `${opp} + ${adj} = ${opp+adj}` }, { line: `Add ratios: (${opp} + ${adj}) ÷ ${hyp} = ${opp+adj} ÷ ${hyp}`, why: "Add numerators directly when denominators are equal.", arith: `${opp} + ${adj} = ${opp+adj}` }], "righttriangle", `📐 sin θ + cos θ = ${opp+adj} ÷ ${hyp}`, [`${opp} + ${adj} = ${opp+adj}`], "Let me add the trig ratios on the board, then erase it.", examTag, "Do not confuse Opposite with Adjacent relative to the angle θ being examined.", `${opp}÷${hyp} + ${adj}÷${hyp} = (${opp}+${adj})÷${hyp}.`);
-}
-function genCalculusQ(rng, idx, examTag){
-  const n = rInt(rng, 3, 6), c = rInt(rng, 2, 7), xVal = 2, deriv = n * Math.pow(xVal, n - 1);
-  return makeStructuredQ(`Differentiate y = x${toSup(n)} + ${c}x with respect to x, and find dy/dx at x = ${xVal}.`, [{ sym: `y = x${toSup(n)} + ${c}x`, meaning: "polynomial expression in x", why: "Differentiating term by term finds the rate of change (gradient function) dy/dx." }], { eq: `dy/dx = nxⁿ⁻¹ + c`, parts: [{ part: "nxⁿ⁻¹", desc: "power rule: bring power down and subtract 1 from exponent" }, { part: "c", desc: "derivative of cx with respect to x is c" }] }, [{ line: `Differentiate term by term: dy/dx = ${n}x${toSup(n-1)} + ${c}`, why: "Apply the power rule to x^n and differentiate ${c}x to ${c}.", arith: `Power ${n} ⇒ ${n}x${toSup(n-1)}` }, { line: `Substitute x = ${xVal}: ${n}(${xVal}${toSup(n-1)}) + ${c} = ${deriv + c}`, why: "Evaluate the power first before multiplying by ${n} and adding ${c}.", arith: `${n} × ${Math.pow(xVal,n-1)} + ${c} = ${deriv+c}` }], "none", "", [`${deriv} + ${c} = ${deriv+c}`], "Let me evaluate dy/dx on the board, then erase it.", examTag, "Do not forget to reduce the power by 1 (n − 1) when differentiating.", `At x = ${xVal}, ${n}×${Math.pow(xVal,n-1)} + ${c} = ${deriv+c}.`);
-}
-function genSequencesQ(rng, idx, examTag){
-  const a = rInt(rng, 3, 8), d = rInt(rng, 2, 5), t3 = a+2*d, t7 = a+6*d;
-  return makeStructuredQ(`In an A.P., T₃ = ${t3} and T₇ = ${t7}. Find common difference d and first term a.`, [{ sym: `T₃ = ${t3}, T₇ = ${t7}`, meaning: "3rd and 7th terms of an Arithmetic Progression", why: "In an A.P., each step adds d, so moving from T₃ to T₇ adds (7 − 3)d = 4d." }], { eq: `Tₙ = a + (n − 1)d`, parts: [{ part: "a", desc: "first term (T₁)" }, { part: "d", desc: "constant common difference" }] }, [{ line: `Subtract terms: T₇ − T₃ = ${t7} − ${t3} = ${t7-t3}  ⇒  4d = ${t7-t3}`, why: "Eliminate 'a' by subtracting the two term equations.", arith: `${t7} − ${t3} = ${t7-t3}` }, { line: `Find d = ${t7-t3} ÷ 4 = ${d}; then a = ${t3} − 2(${d}) = ${a}`, why: "Substitute d back into T₃ = a + 2d to get first term a.", arith: `${t7-t3} ÷ 4 = ${d};  ${t3} − ${2*d} = ${a}` }], "none", "", [`${t7} − ${t3} = ${t7-t3}`, `${t3} − ${2*d} = ${a}`], "Let me solve for d and a on the board, then erase it.", examTag, "For the nth term, use (n − 1)d, not nd (so T₃ = a + 2d, not a + 3d).", `Check T₇ = ${a} + 6(${d}) = ${t7}.`);
-}
-
-function generateGeneratedQuestion(topic, idx, mode){
-  const key = topicKey(topic);
-  const modeSalt = mode === "learn" ? 137 : mode === "exam" ? 577 : 991;
-  let topicHash = 0;
-  for(let i=0; i<topic.length; i++) topicHash = (topicHash * 31 + topic.charCodeAt(i)) % 1000003;
-  const rng = seededRng(topicHash * 17 + idx * 1009 + modeSalt);
-  const pIdx = idx + (mode === "exam" ? 1 : mode === "exercise" ? 2 : 0);
-  const examTag = pickExamYear(curCat, rng, idx);
-
-  const map = {
-    counting_place: genCountingPlaceQ,
-    bodmas: genBodmasQ,
-    factors_hcf_lcm: genFactorsHcfLcmQ,
-    ratio_prop: genRatioPropQ,
-    fractions_dec: genFractionsDecQ,
-    bases: genBasesQ,
-    directed: genDirectedQ,
-    algebra: genAlgebraQ,
-    angles_geom: genAnglesGeomQ,
-    area_mens: genAreaMensQ,
-    finance: genFinanceQ,
-    polynomials: genPolynomialsQ,
-    probability: genProbabilityQ,
-    simultaneous: genSimultaneousQ,
-    sets: genSetsQ,
-    matrices: genMatricesQ,
-    coord_vec: genCoordVecQ,
-    stats: genStatsQ,
-    log_indices: genLogIndicesQ,
-    bearings: genBearingsQ,
-    circles: genCirclesQ,
-    trigonometry: genTrigQ,
-    calculus: genCalculusQ,
-    sequences: genSequencesQ
-  };
-
-  let built;
-  if(map[key]){
-    built = map[key](rng, pIdx, examTag);
-  } else {
-    const all = Object.values(map);
-    built = all[(idx + topicHash) % all.length](rng, pIdx, examTag);
-  }
-
-  const labelType = mode === "exam" ? "Past Exam" : (mode === "exercise" ? "Exam Exercise" : "Guided Past-Style");
-  return {
-    title: built.q,
-    params: built.params,
-    formula: built.formula,
-    steps: built.steps,
-    pitfall: built.pitfall,
-    check: built.check,
-    source: `${built.examTag} (${labelType}) • ${topic}`,
-    examTag: built.examTag,
-    key, idx,
-    diagram: built.diagram,
-    diagramLabel: built.label,
-    sideWorkLines: built.sideWorkLines,
-    sideWorkExpl: built.sideWorkExpl,
-    isCustomSaved: false
-  };
-}
-
-function getBaseTotalForMode(mode){
-  return mode === "learn" ? 25 : mode === "exam" ? 10 : 60;
-}
-
-function getTotalForMode(cat, topic, mode){
-  const base = getBaseTotalForMode(mode);
-  const customCount = getTopicCustomList(cat, topic, mode).length;
-  return base + customCount;
-}
-
-function getTotal(){
-  const title = TOPICS[curCat][curTopic];
-  return getTotalForMode(curCat, title, curMode);
-}
-
-function updateModeCounts(){
-  const title = TOPICS[curCat][curTopic];
-  document.getElementById("cntLearn").innerText = getTotalForMode(curCat, title, "learn");
-  document.getElementById("cntExam").innerText = getTotalForMode(curCat, title, "exam");
-  document.getElementById("cntEx").innerText = getTotalForMode(curCat, title, "exercise");
-}
-
-function generateTopicQuestion(topic, idx, mode){
-  const customList = getTopicCustomList(curCat, topic, mode);
-  if(idx < customList.length){
-    return customItemToQuestion(customList[idx], idx);
-  }
-  return generateGeneratedQuestion(topic, idx - customList.length, mode);
-}
-
-function renderSideQuestionBoxes(){
-  const title = TOPICS[curCat][curTopic];
-  const total = getTotal();
-  const customCount = getTopicCustomList(curCat, title, curMode).length;
-  document.getElementById("sideCountHint").innerText = customCount > 0
-    ? `${total} questions available (${customCount} saved by you + ${getBaseTotalForMode(curMode)} generated). Click a box to pick.`
-    : `${total} topic questions available. Click any box to pick.`;
-  let html = "";
-  for(let i = 0; i < total; i++){
-    const item = generateTopicQuestion(title, i, curMode);
-    const active = i === curIdx;
-    html += `<div class="qPickRow ${active ? "activePick" : ""}" onclick="pickQuestionFromBox(${i})">
-      <div class="qPickBox">${active ? "✓" : ""}</div>
-      <div style="flex:1">
-        <span class="small" style="font-weight:800;color:#1E4DA1">#${i+1} • ${item.examTag}${item.isCustomSaved ? " • SAVED" : ""}</span><br>
-        <span style="font-size:13px;font-weight:600">${item.title}</span>
-      </div>
-    </div>`;
-  }
-  document.getElementById("topicQueueList").innerHTML = html;
-}
-
-function pickQuestionFromBox(i){ curIdx = i; renderCurrent(); playLesson(); }
-
-function toggleAssignmentDrawer(){
-  const d = document.getElementById("assignmentDrawer");
-  const btn = document.getElementById("toggleAssignBtn");
-  const isHidden = d.classList.contains("hidden");
-  d.classList.toggle("hidden", !isHidden);
-  btn.innerText = isHidden ? "▲ Hide End-of-Lesson Challenge" : "🏆 Show End-of-Lesson Challenge (10 Tough Items)";
-}
-
-function renderAssignmentForTopic(title){
-  document.getElementById("assignmentDrawer").classList.add("hidden");
-  document.getElementById("toggleAssignBtn").innerText = "🏆 Show End-of-Lesson Challenge (10 Tough Items)";
-  let html = "";
-  for(let i = 0; i < 10; i++){
-    const base = generateGeneratedQuestion(title, i + 40, "exam");
-    html += `<div class="assignItem"><b>#${i+1} [${base.examTag}]</b> ${base.title}<br><br><button class="btn blue" style="padding:8px 14px;font-size:13px" onclick="loadChallengeToBoard(${i})">Solve This Challenge on Board</button></div>`;
-  }
-  document.getElementById("finalAssignmentList").innerHTML = html;
-}
-
-function loadChallengeToBoard(i){
-  const title = TOPICS[curCat][curTopic];
-  curQuestion = generateGeneratedQuestion(title, i + 40, "exam");
-  document.getElementById("qExamTag").innerText = curQuestion.examTag;
-  document.getElementById("qSavedBadge").innerHTML = "";
-  document.getElementById("qTitle").innerText = curQuestion.title;
-  document.getElementById("qSource").innerText = "Challenge #" + (i+1) + " • " + curQuestion.source;
-  drawDiagram(curQuestion.diagram || "none", curQuestion.diagramLabel || "");
-  document.getElementById("whiteboard").scrollIntoView({behavior:"smooth"});
-  writeStructuredLesson(curQuestion, null);
-}
-
-function drawDiagram(type, label){
-  const card = document.getElementById("diagramCard"), c = document.getElementById("diagramCanvas");
-  if(!c) return;
-  const ctx = c.getContext("2d");
-  ctx.clearRect(0, 0, c.width, c.height);
-  if(!type || type === "none"){ card.style.display = "none"; return; }
-  card.style.display = "block";
-  document.getElementById("diagramLabel").innerText = label || "Look at the diagram";
-  ctx.lineWidth = 3; ctx.strokeStyle = "#1E4DA1"; ctx.fillStyle = "#111"; ctx.font = "bold 15px Arial";
-  function line(x1,y1,x2,y2,color){ ctx.strokeStyle=color||"#1E4DA1"; ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke(); }
-  function txt(t,x,y,color){ ctx.fillStyle=color||"#111"; ctx.fillText(t,x,y); }
-  function circ(x,y,r,color){ ctx.strokeStyle=color||"#1E4DA1"; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.stroke(); }
-  if(type==="righttriangle"){ line(110,195,430,195); line(110,195,110,55); line(110,55,430,195); ctx.strokeRect(110,169,26,26); txt("90°",142,186); txt("h",75,130); txt("b",265,218); }
-  else if(type==="circle"){ circ(280,122,78); line(280,122,358,122,"#e11"); ctx.beginPath(); ctx.arc(280,122,4,0,Math.PI*2); ctx.fill(); txt("O",264,138); txt("r",316,112,"#e11"); }
-  else if(type==="arrow"){ line(110,122,430,122,"#e11"); ctx.beginPath(); ctx.moveTo(430,122); ctx.lineTo(408,111); ctx.lineTo(408,133); ctx.closePath(); ctx.fillStyle="#e11"; ctx.fill(); txt("Vector",235,96,"#e11"); }
-  else { line(115,72,445,72); line(280,72,280,195); txt("Left",145,56); txt("Right",365,56); txt("Keep Balanced",228,220); }
-}
-
-let voiceRate=0.58, curCat="JSS", curTopic=0, curMode="learn", curIdx=0, curQuestion=null, boardTimer=null, isPlaying=false, boardCtx=null, activeRunId=0;
-let deviceId=localStorage.getItem("deviceId");
-if(!deviceId){ deviceId="PHONE-"+Math.random().toString(36).slice(2,8).toUpperCase()+"-"+Date.now().toString().slice(-4); localStorage.setItem("deviceId",deviceId); }
-
-function cancelAllPlayback(){ activeRunId++; isPlaying = false; clearInterval(boardTimer); try{ speechSynthesis.cancel(); }catch(e){} }
-function testVoiceVolume(){ cancelAllPlayback(); const myRun = activeRunId; document.getElementById("penStatus").innerText = "🔊 Testing teacher voice..."; speakSlow("Hello! I walk through every parameter, explain each formula symbol, show clear step-by-step arithmetic, warn you about common exam traps, and check the final answer.", ()=>{ if(myRun === activeRunId) document.getElementById("penStatus").innerText = "✅ Voice ready."; }, myRun); }
+function canUsePhotoSolver(){ return Boolean(isAdmin() || hasSub(curCat)); }
+function updatePhotoAccessUI(){ const unlocked = canUsePhotoSolver(); const controls = document.getElementById("photoSubscriberControls"); const notice = document.getElementById("photoLockedNotice"); if(controls) controls.classList.toggle("hidden", !unlocked); if(notice) notice.classList.toggle("hidden", unlocked); if(!unlocked){ clearPhotoPreview(); } }
+function triggerPhotoInput(inputId){ if(!canUsePhotoSolver()){ updatePhotoAccessUI(); alert("🔒 Photo Snap & Upload is only available to active subscribers."); return; } const el = document.getElementById(inputId); if(el) el.click(); }
+function goToSubscribeForPhoto(){ cancelAllPlayback(); openCategory(curCat); setTimeout(()=>{ const pc = document.getElementById("payCard"); if(pc) pc.scrollIntoView({behavior:"smooth"}); }, 80); }
+function onPhotoSelected(input){ if(!canUsePhotoSolver()){ input.value = ""; clearPhotoPreview(); updatePhotoAccessUI(); alert("🔒 Photo Snap & Upload is only for subscribed students."); return; } const file = input.files && input.files[0]; if(!file) return; const reader = new FileReader(); reader.onload = function(ev){ attachedPhotoData = ev.target.result || ""; const img = document.getElementById("photoPreview"); img.src = attachedPhotoData; img.classList.remove("hidden"); document.getElementById("photoStatus").innerText = `📷 Photo attached (${file.name}). Type or confirm the question text below, then click "Solve Question + Full Explanation →".`; }; reader.readAsDataURL(file); }
+function clearPhotoPreview(){ attachedPhotoData = ""; const s = document.getElementById("snapInput"); const u = document.getElementById("uploadPhotoInput"); if(s) s.value = ""; if(u) u.value = ""; const img = document.getElementById("photoPreview"); if(img){ img.src = ""; img.classList.add("hidden"); } const st = document.getElementById("photoStatus"); if(st) st.innerText = "Subscriber perk: Snap or upload a question image, type/confirm the question below, and solve with an extended step-by-step explanation."; }
+function toSup(n){ const map = {"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹","-":"⁻"}; return String(n).split("").map(ch => map[ch] || ch).join(""); }
+function topicKey(topic){ topic=(topic||"").toLowerCase(); if(topic.includes("count")||topic.includes("place")||topic.includes("whole number")) return "counting_place"; if(topic.includes("bodmas")||topic.includes("basic oper")) return "bodmas"; if(topic.includes("hcf")||topic.includes("lcm")||topic.includes("factor")) return "factors_hcf_lcm"; if(topic.includes("ratio")||topic.includes("proportion")) return "ratio_prop"; if(topic.includes("fraction")||topic.includes("decimal")||topic.includes("percent")) return "fractions_dec"; if(topic.includes("base")||topic.includes("binary")) return "bases"; if(topic.includes("directed")) return "directed"; if(topic.includes("algebra")||topic.includes("equation")||topic.includes("variation")) return "algebra"; if(topic.includes("angle")||topic.includes("geometry")||topic.includes("shape")||topic.includes("construction")||topic.includes("loci")) return "angles_geom"; if(topic.includes("area")||topic.includes("mensuration")||topic.includes("volume")||topic.includes("perimeter")||topic.includes("sector")) return "area_mens"; if(topic.includes("finance")||topic.includes("interest")||topic.includes("profit")||topic.includes("commercial")||topic.includes("hire")) return "finance"; if(topic.includes("polynomial")||topic.includes("quadratic")||topic.includes("factoris")) return "polynomials"; if(topic.includes("probability")||topic.includes("permutation")||topic.includes("combination")) return "probability"; if(topic.includes("simultaneous")) return "simultaneous"; if(topic.includes("set")) return "sets"; if(topic.includes("matr")) return "matrices"; if(topic.includes("vector")||topic.includes("coordinate")||topic.includes("graph")||topic.includes("function")||topic.includes("mapping")) return "coord_vec"; if(topic.includes("stat")||topic.includes("mean")||topic.includes("mode")||topic.includes("median")||topic.includes("dispersion")||topic.includes("data")) return "stats"; if(topic.includes("log")||topic.includes("indices")||topic.includes("surd")||topic.includes("exponent")||topic.includes("standard form")) return "log_indices"; if(topic.includes("bearing")||topic.includes("elevation")||topic.includes("longitude")) return "bearings"; if(topic.includes("circle")) return "circles"; if(topic.includes("trig")) return "trigonometry"; if(topic.includes("calculus")||topic.includes("differentiation")||topic.includes("integration")||topic.includes("limit")) return "calculus"; if(topic.includes("sequence")||topic.includes("series")||topic.includes("progression")||topic.includes("binomial")) return "sequences"; return "algebra"; }
+function seededRng(seed){ let s=seed%2147483647; if(s<=0) s+=2147483646; return function(){ s=s*16807%2147483647; return (s-1)/2147483646; }; }
+function rInt(rng,a,b){ return Math.floor(rng()*(b-a+1))+a; }
+function pick(rng,arr){ return arr[Math.floor(rng()*arr.length)]; }
+function pickExamYear(cat,rng,idx){ const y=["WAEC 2024","WAEC 2023","WAEC 2022","NECO 2024","NECO 2023","BECE 2024","BECE 2023","JAMB 2024","JAMB 2023"]; return y[Math.floor(rng()*y.length)]; }
+function makeStructuredQ(q,params,formula,steps,diagram,label,sideWorkLines,sideWorkExpl,examTag,pitfall,check){ return {q,params,formula,steps,diagram,label,sideWorkLines,sideWorkExpl,examTag,pitfall,check}; }
+let curCat="JSS",curTopic=0,curMode="learn",curIdx=0,curQuestion=null,voiceRate=0.58,boardTimer=null,isPlaying=false,boardCtx=null,activeRunId=0;
+let deviceId=localStorage.getItem("deviceId"); if(!deviceId){ deviceId="PHONE-"+Math.random().toString(36).slice(2,8).toUpperCase()+"-"+Date.now().toString().slice(-4); localStorage.setItem("deviceId",deviceId); }
+function genCountingPlaceQ(rng,idx,examTag){ const a=rInt(rng,20,90); return makeStructuredQ(`Find ${a} + ${a} = ?`,[{sym:`${a}`,meaning:"given number",why:"Add carefully."}],{eq:`a + a`,parts:[{part:"a",desc:"given"}]},[{line:`${a} + ${a} = ${a*2}`,why:"Add.",arith:`${a} + ${a} = ${a*2}`}],"none","",[],"Let me solve.",examTag,"Watch addition.","Check "+(a*2)); }
+function genBodmasQ(rng,idx,examTag){ const a=rInt(rng,3,9),b=rInt(rng,2,5),c=rInt(rng,2,6); const ans=a+b*c; return makeStructuredQ(`Evaluate ${a} + ${b} × ${c}.`,[{sym:`${a} + ${b} × ${c}`,meaning:"BODMAS",why:"Multiply first."}],{eq:`Multiply first, then add`,parts:[{part:"×",desc:"first"},{part:"+",desc:"next"}]},[{line:`${b} × ${c} = ${b*c}`,why:"Multiplication first.",arith:`${b} × ${c} = ${b*c}`},{line:`${a} + ${b*c} = ${ans}`,why:"Then add.",arith:`${a} + ${b*c} = ${ans}`}],"none","",[],"Let me solve.",examTag,"Do not add first.","Check "+ans); }
+function genFactorsHcfLcmQ(rng,idx,examTag){ const a=rInt(rng,6,12),b=a*2; return makeStructuredQ(`Find HCF of ${a} and ${b}.`,[{sym:`HCF`,meaning:"highest common factor",why:"Largest dividing both."}],{eq:`HCF`,parts:[{part:"Factors",desc:"list"}]},[{line:`HCF(${a}, ${b}) = ${a}`,why:"Common largest.",arith:`HCF = ${a}`}],"none","",[],"Let me solve.",examTag,"Do not confuse HCF with LCM.","Check "+a); }
+function genRatioPropQ(rng,idx,examTag){ const a=2,b=3,c=10; return makeStructuredQ(`Share ₦${c*5} in ratio ${a}:${b}. Find smaller share.`,[{sym:`Ratio ${a}:${b}`,meaning:"sharing ratio",why:"Total parts = "+(a+b)}],{eq:`Share = ratio/total × total`,parts:[{part:"Total",desc:`${a+b}`} ]},[{line:`Total = ${a+b}`,why:"Add parts.",arith:`${a}+${b}=${a+b}`},{line:`Smaller = ${a}/${a+b} × ${c*5} = ${a*c}`,why:"Multiply.",arith:`${a} × ${c} = ${a*c}`}],"none","",[],"Let me solve.",examTag,"Divide by total parts.","Check "+(a*c)); }
+function genFractionsDecQ(rng,idx,examTag){ return makeStructuredQ(`Simplify 1/2 + 1/4.`,[{sym:`1/2 + 1/4`,meaning:"fractions",why:"Common denominator 4."}],{eq:`a/b + c/d`,parts:[{part:"LCM",desc:"4"}]},[{line:`1/2 = 2/4`,why:"Convert.",arith:`1/2 = 2/4`},{line:`2/4 + 1/4 = 3/4`,why:"Add numerators.",arith:`2+1=3`}],"none","",[],"Let me solve.",examTag,"Do not add denominators.","Check 3/4"); }
+function genBasesQ(rng,idx,examTag){ return makeStructuredQ(`Convert 101₂ to base 10.`,[{sym:`101₂`,meaning:"binary",why:"Place values 4,2,1."}],{eq:`1×4 + 0×2 + 1×1`,parts:[{part:"4,2,1",desc:"binary"}]},[{line:`1×4 + 0×2 + 1×1 = 5`,why:"Multiply and add.",arith:`4+0+1=5`}],"none","",[],"Let me solve.",examTag,"Read binary left to right.","Check 5"); }
+function genDirectedQ(rng,idx,examTag){ return makeStructuredQ(`Evaluate (−3) + (+5).`,[{sym:`−3 + 5`,meaning:"directed",why:"Different signs: subtract."}],{eq:`−a + b`,parts:[{part:"Sign",desc:"bigger"}]},[{line:`5 − 3 = 2`,why:"Subtract.",arith:`5−3=2`}],"none","",[],"Let me solve.",examTag,"Watch signs.","Check 2"); }
+function genAlgebraQ(rng,idx,examTag){ const a=rInt(rng,2,5),x=rInt(rng,3,9); return makeStructuredQ(`Solve ${a}x = ${a*x}.`,[{sym:`${a}x = ${a*x}`,meaning:"linear equation",why:"Divide by "+a}],{eq:`x = value ÷ ${a}`,parts:[{part:"x",desc:"unknown"}]},[{line:`x = ${a*x} ÷ ${a} = ${x}`,why:"Divide.",arith:`${a*x} ÷ ${a} = ${x}`}],"none","",[],"Let me solve.",examTag,"Divide both sides.","Check "+(a*x)); }
+function genAnglesGeomQ(rng,idx,examTag){ const a=rInt(rng,30,70); return makeStructuredQ(`Two angles on a straight line are ${a}° and x. Find x.`,[{sym:`${a}° + x = 180°`,meaning:"straight line",why:"Sum 180°."}],{eq:`x = 180° − ${a}°`,parts:[{part:"180°",desc:"straight"}]},[{line:`x = 180 − ${a} = ${180-a}`,why:"Subtract.",arith:`180 − ${a} = ${180-a}`}],"none","",[],"Let me solve.",examTag,"Do not use 90°.","Check 180"); }
+function genAreaMensQ(rng,idx,examTag){ const b=rInt(rng,4,9),h=rInt(rng,3,8); return makeStructuredQ(`Area of triangle base ${b} cm height ${h} cm.`,[{sym:`b=${b}, h=${h}`,meaning:"base height",why:"Area = ½ × b × h."}],{eq:`Area = ½ × b × h`,parts:[{part:"½",desc:"half"}]},[{line:`Area = ½ × ${b} × ${h} = ${(b*h/2)}`,why:"Multiply.",arith:`${b} × ${h} = ${b*h}`}],"none","",[],"Let me solve.",examTag,"Do not forget ½.","Check "+(b*h/2)); }
+function genFinanceQ(rng,idx,examTag){ return makeStructuredQ(`Simple interest on ₦1000 at 5% for 2 years.`,[{sym:`P=1000, R=5%, T=2`,meaning:"principal rate time",why:"I = PRT/100."}],{eq:`I = PRT ÷ 100`,parts:[{part:"PRT",desc:"1000×5×2"}]},[{line:`I = 1000×5×2 ÷ 100 = 100`,why:"Calculate.",arith:`10000 ÷ 100 = 100`}],"none","",[],"Let me solve.",examTag,"Divide by 100.","Check ₦100"); }
+function genPolynomialsQ(rng,idx,examTag){ return makeStructuredQ(`Factorise x² + 5x + 6.`,[{sym:`x²+5x+6`,meaning:"quadratic",why:"Sum 5, product 6."}],{eq:`(x+a)(x+b)`,parts:[{part:"a,b",desc:"2 and 3"}]},[{line:`(x+2)(x+3)`,why:"2+3=5, 2×3=6.",arith:`2+3=5`}],"none","",[],"Let me solve.",examTag,"Check product.","Check (x+2)(x+3)"); }
+function genProbabilityQ(rng,idx,examTag){ return makeStructuredQ(`A fair die is thrown. Find P(6).`,[{sym:`P(6)`,meaning:"probability",why:"1 out of 6."}],{eq:`P = favourable/total`,parts:[{part:"1",desc:"one 6"},{part:"6",desc:"total"}]},[{line:`P(6) = 1/6`,why:"Divide.",arith:`1 ÷ 6 = 1/6`}],"none","",[],"Let me solve.",examTag,"Total is 6.","Check 1/6"); }
+function genSimultaneousQ(rng,idx,examTag){ return makeStructuredQ(`Solve x + y = 5, x − y = 1.`,[{sym:`x+y=5, x−y=1`,meaning:"simultaneous",why:"Add to eliminate y."}],{eq:`Add equations`,parts:[{part:"Add",desc:"2x=6"}]},[{line:`2x = 6 ⇒ x = 3`,why:"Add.",arith:`2x=6`},{line:`3 + y = 5 ⇒ y = 2`,why:"Substitute.",arith:`5−3=2`}],"none","",[],"Let me solve.",examTag,"Add or subtract.","Check 3+2=5"); }
+function genSetsQ(rng,idx,examTag){ const onlyA=rInt(rng,6,12),both=rInt(rng,3,7),onlyB=rInt(rng,5,11),neither=rInt(rng,2,5); const nA=onlyA+both,nB=onlyB+both,total=onlyA+both+onlyB+neither; return makeStructuredQ(`In U of ${total} students, n(P)=${nA}, n(C)=${nB}, n(P∩C)=${both}. Find n(P∪C)′.`,[{sym:`n(U)=${total}, n(P)=${nA}, n(C)=${nB}, n(P∩C)=${both}`,meaning:"set sizes",why:"Subtract intersection once."}],{eq:`n(P∪C)′ = n(U) − [n(P)+n(C)−n(P∩C)]`,parts:[{part:"n(P∪C)",desc:"P or C"},{part:"′",desc:"outside"}]},[{line:`n(P∪C)=${nA}+${nB}−${both}=${nA+nB-both}`,why:"Remove overlap.",arith:`${nA}+${nB}−${both}=${nA+nB-both}`},{line:`n(P∪C)′=${total}−${nA+nB-both}=${neither}`,why:"Subtract from U.",arith:`${total}−${nA+nB-both}=${neither}`}],"none","",[`${total}−${nA+nB-both}=${neither}`],"Let me compute.",examTag,"Do not add without subtracting intersection.",`Total ${total}`); }
+function genMatricesQ(rng,idx,examTag){ const a=rInt(rng,2,5),b=rInt(rng,1,3),c=rInt(rng,1,3); return makeStructuredQ(`Find k if [[${a}, ${b}], [${c}, k]] is singular (det=0).`,[{sym:`det=0`,meaning:"singular",why:"No inverse when det=0."}],{eq:`ad − bc = 0`,parts:[{part:"ad",desc:a+" × k"},{part:"bc",desc:b+" × "+c}]},[{line:`${a}k − (${b}×${c})=0 ⇒ ${a}k=${b*c}`,why:"Subtract.",arith:`${b}×${c}=${b*c}`},{line:`k = ${(b*c/a).toFixed(2).replace(/\.00$/,"")}`,why:"Isolate k.",arith:`${b*c} ÷ ${a} = ${(b*c/a).toFixed(2).replace(/\.00$/,"")}`}],"none","",[`${b}×${c}=${b*c}`],"Let me solve.",examTag,"Remember minus in ad−bc.","Check det=0"); }
+function genCoordVecQ(rng,idx,examTag){ const ax=rInt(rng,1,4),ay=rInt(rng,2,5),bx=rInt(rng,5,8),by=rInt(rng,6,9),dx=bx-ax,dy=by-ay,mag=Math.hypot(dx,dy).toFixed(2); return makeStructuredQ(`Given A(${ax},${ay}) and B(${bx},${by}), find AB and |AB|.`,[{sym:`A(${ax},${ay}), B(${bx},${by})`,meaning:"start A end B",why:"AB = B − A."}],{eq:`AB=(x₂−x₁,y₂−y₁); |AB|=√(x²+y²)`,parts:[{part:"AB",desc:"displacement"},{part:"|AB|",desc:"length"}]},[{line:`AB=(${bx}−${ax},${by}−${ay})=(${dx},${dy})`,why:"Subtract.",arith:`${bx}−${ax}=${dx}; ${by}−${ay}=${dy}`},{line:`|AB|=√(${dx}²+${dy}²)=√${dx*dx+dy*dy}≈${mag}`,why:"Pythagoras.",arith:`${dx}²+${dy}²=${dx*dx+dy*dy}`}],"arrow",`➡️ (${dx},${dy}), |AB|≈${mag}`,[`${dx}²+${dy}²=${dx*dx+dy*dy}`],"Let me compute.",examTag,"AB = B − A.","Check "+mag); }
+function genStatsQ(rng,idx,examTag){ const mean=rInt(rng,8,14),total=5*mean,firstFour=[mean-2,mean+1,mean-1,mean+2],sum4=firstFour.reduce((a,b)=>a+b,0); return makeStructuredQ(`Mean of 5 numbers is ${mean}. Four are ${firstFour.join(", ")}. Find 5th.`,[{sym:`x̄=${mean}, n=5`,meaning:"mean and count",why:"Sum = Mean × 5."}],{eq:`x₅=(x̄×n)−Σx₄`,parts:[{part:"x̄×n",desc:"total sum"},{part:"Σx₄",desc:"sum of 4"}]},[{line:`Total=${mean}×5=${total}; Sum4=${sum4}`,why:"Find totals.",arith:`${mean}×5=${total}`},{line:`5th=${total}−${sum4}=${total-sum4}`,why:"Subtract.",arith:`${total}−${sum4}=${total-sum4}`}],"none","",[`${total}−${sum4}=${total-sum4}`],"Let me solve.",examTag,"Do not divide by 4.","Check mean "+mean); }
+function genLogIndicesQ(rng,idx,examTag){ const base=pick(rng,[2,3,5]),exp=rInt(rng,3,5),val=Math.pow(base,exp),xAns=(exp+1)/2; return makeStructuredQ(`Solve ${base}²ˣ⁻¹ = ${val}.`,[{sym:`Base=${base}, ${val}=${base}${toSup(exp)}`,meaning:"same base",why:"Equal bases ⇒ equal exponents."}],{eq:`aᵐ=aⁿ ⇒ m=n`,parts:[{part:"m",desc:"2x−1"},{part:"n",desc:`${exp}`} ]},[{line:`${base}²ˣ⁻¹=${base}${toSup(exp)}`,why:"Match bases.",arith:`${base}${toSup(exp)}=${val}`},{line:`2x−1=${exp} ⇒ x=${xAns}`,why:"Add 1, divide 2.",arith:`${exp}+1=${exp+1}; ÷2=${xAns}`}],"none","",[`${exp+1} ÷ 2 = ${xAns}`],"Let me solve.",examTag,"Add 1 before dividing.","Check "+val); }
+function genBearingsQ(rng,idx,examTag){ const b=rInt(rng,25,145),pad=String(b).padStart(3,"0"); return makeStructuredQ(`Bearing of B from A is ${pad}°. Find back bearing.`,[{sym:`Forward=${pad}°`,meaning:"from North",why:"<180° ⇒ +180°."}],{eq:`Back = Forward + 180°`,parts:[{part:"+180°",desc:"opposite"}]},[{line:`${b}° < 180°`,why:"Check.",arith:`${b}<180`},{line:`Back=${b}+180=${b+180}°`,why:"Add 180.",arith:`${b}+180=${b+180}`}],"compass",`🧭 Back=${b+180}°`,[`${b}+180=${b+180}`],"Let me add.",examTag,"Measure clockwise from North.","Check difference 180°"); }
+function genCirclesQ(rng,idx,examTag){ const ang=rInt(rng,35,65); return makeStructuredQ(`∠AOB=${2*ang}° at centre. Find ∠ACB at circumference.`,[{sym:`∠AOB=${2*ang}°`,meaning:"central",why:"Centre = 2 × circumference."}],{eq:`∠ACB=½×∠AOB`,parts:[{part:"½",desc:"half"}]},[{line:`∠ACB=½×${2*ang}°`,why:"Same arc.",arith:`${2*ang}÷2=${ang}`},{line:`∠ACB=${ang}°`,why:"State.",arith:`${ang}×2=${2*ang}`}],"circle",`⭕ ∠ACB=${ang}°`,[`${2*ang}÷2=${ang}`],"Let me divide.",examTag,"Halve, do not double.","Check "+(2*ang)); }
+function genTrigQ(rng,idx,examTag){ return makeStructuredQ(`Right triangle opp=3, adj=4, hyp=5. Find sinθ+cosθ.`,[{sym:`Opp=3, Adj=4, Hyp=5`,meaning:"sides",why:"SOH-CAH-TOA."}],{eq:`sinθ+cosθ=(Opp+Adj)÷Hyp`,parts:[{part:"sinθ",desc:"3÷5"},{part:"cosθ",desc:"4÷5"}]},[{line:`sinθ=3÷5, cosθ=4÷5`,why:"Same denominator.",arith:`3+4=7`},{line:`(3+4)÷5=7÷5`,why:"Add numerators.",arith:`3+4=7`}],"righttriangle",`📐 sinθ+cosθ=7÷5`,[`3+4=7`],"Let me add.",examTag,"Do not confuse Opp/Adj.","Check 7÷5"); }
+function genCalculusQ(rng,idx,examTag){ const n=rInt(rng,3,6),c=rInt(rng,2,7),xVal=2,deriv=n*Math.pow(xVal,n-1); return makeStructuredQ(`Differentiate y=x${toSup(n)}+${c}x, find dy/dx at x=${xVal}.`,[{sym:`y=x${toSup(n)}+${c}x`,meaning:"polynomial",why:"Differentiate term by term."}],{eq:`dy/dx=nxⁿ⁻¹+c`,parts:[{part:"nxⁿ⁻¹",desc:"power rule"},{part:"c",desc:"derivative of cx"}]},[{line:`dy/dx=${n}x${toSup(n-1)}+${c}`,why:"Power rule.",arith:`Power ${n} ⇒ ${n}x${toSup(n-1)}`},{line:`At x=${xVal}: ${n}(${xVal}${toSup(n-1)})+${c}=${deriv+c}`,why:"Evaluate.",arith:`${n}×${Math.pow(xVal,n-1)}+${c}=${deriv+c}`}],"none","",[`${deriv}+${c}=${deriv+c}`],"Let me evaluate.",examTag,"Reduce power by 1.","Check "+(deriv+c)); }
+function genSequencesQ(rng,idx,examTag){ const a=rInt(rng,3,8),d=rInt(rng,2,5),t3=a+2*d,t7=a+6*d; return makeStructuredQ(`In A.P., T₃=${t3} and T₇=${t7}. Find d and a.`,[{sym:`T₃=${t3}, T₇=${t7}`,meaning:"3rd and 7th",why:"T₇−T₃=4d."}],{eq:`Tₙ=a+(n−1)d`,parts:[{part:"a",desc:"first term"},{part:"d",desc:"difference"}]},[{line:`T₇−T₃=${t7}−${t3}=${t7-t3} ⇒ 4d=${t7-t3}`,why:"Eliminate a.",arith:`${t7}−${t3}=${t7-t3}`},{line:`d=${t7-t3}÷4=${d}; a=${t3}−2(${d})=${a}`,why:"Substitute.",arith:`${t7-t3}÷4=${d}; ${t3}−${2*d}=${a}`}],"none","",[`${t7}−${t3}=${t7-t3}`],"Let me solve.",examTag,"Use (n−1)d.","Check T₇="+t7); }
+function generateGeneratedQuestion(topic, idx, mode){ const key=topicKey(topic); const modeSalt=mode==="learn"?137:mode==="exam"?577:991; let topicHash=0; for(let i=0;i<topic.length;i++) topicHash=(topicHash*31+topic.charCodeAt(i))%1000003; const rng=seededRng(topicHash*17+idx*1009+modeSalt); const pIdx=idx+(mode==="exam"?1:mode==="exercise"?2:0); const examTag=pickExamYear(curCat,rng,idx); const map={counting_place:genCountingPlaceQ,bodmas:genBodmasQ,factors_hcf_lcm:genFactorsHcfLcmQ,ratio_prop:genRatioPropQ,fractions_dec:genFractionsDecQ,bases:genBasesQ,directed:genDirectedQ,algebra:genAlgebraQ,angles_geom:genAnglesGeomQ,area_mens:genAreaMensQ,finance:genFinanceQ,polynomials:genPolynomialsQ,probability:genProbabilityQ,simultaneous:genSimultaneousQ,sets:genSetsQ,matrices:genMatricesQ,coord_vec:genCoordVecQ,stats:genStatsQ,log_indices:genLogIndicesQ,bearings:genBearingsQ,circles:genCirclesQ,trigonometry:genTrigQ,calculus:genCalculusQ,sequences:genSequencesQ}; let built=map[key]?map[key](rng,pIdx,examTag):Object.values(map)[(idx+topicHash)%Object.values(map).length](rng,pIdx,examTag); const labelType=mode==="exam"?"Past Exam":(mode==="exercise"?"Exam Exercise":"Guided Past-Style"); return {title:built.q,params:built.params,formula:built.formula,steps:built.steps,pitfall:built.pitfall,check:built.check,source:`${built.examTag} (${labelType}) • ${topic}`,examTag:built.examTag,key,idx,diagram:built.diagram,diagramLabel:built.label,sideWorkLines:built.sideWorkLines,sideWorkExpl:built.sideWorkExpl,isCustomSaved:false}; }
+function getBaseTotalForMode(mode){ return mode==="learn"?25:mode==="exam"?10:60; }
+function getTotalForMode(cat,topic,mode){ return getBaseTotalForMode(mode)+getTopicCustomList(cat,topic,mode).length; }
+function getTotal(){ return getTotalForMode(curCat,TOPICS[curCat][curTopic],curMode); }
+function updateModeCounts(){ const t=TOPICS[curCat][curTopic]; document.getElementById("cntLearn").innerText=getTotalForMode(curCat,t,"learn"); document.getElementById("cntExam").innerText=getTotalForMode(curCat,t,"exam"); document.getElementById("cntEx").innerText=getTotalForMode(curCat,t,"exercise"); }
+function generateTopicQuestion(topic,idx,mode){ const cl=getTopicCustomList(curCat,topic,mode); if(idx<cl.length) return customItemToQuestion(cl[idx],idx); return generateGeneratedQuestion(topic,idx-cl.length,mode); }
+function renderSideQuestionBoxes(){ const title=TOPICS[curCat][curTopic]; const total=getTotal(); const cc=getTopicCustomList(curCat,title,curMode).length; document.getElementById("sideCountHint").innerText=cc>0?`${total} questions (${cc} saved + ${getBaseTotalForMode(curMode)} generated). Click a box.`:`${total} topic questions. Click any box.`; let html=""; for(let i=0;i<total;i++){ const item=generateTopicQuestion(title,i,curMode); const active=i===curIdx; html+=`<div class="qPickRow ${active?"activePick":""}" onclick="pickQuestionFromBox(${i})"><div class="qPickBox">${active?"✓":""}</div><div style="flex:1"><span class="small" style="font-weight:800;color:#1E4DA1">#${i+1} • ${item.examTag}${item.isCustomSaved?" • SAVED":""}</span><br><span style="font-size:13px;font-weight:600">${item.title}</span></div></div>`; } document.getElementById("topicQueueList").innerHTML=html; }
+function pickQuestionFromBox(i){ curIdx=i; renderCurrent(); playLesson(); }
+function toggleAssignmentDrawer(){ const d=document.getElementById("assignmentDrawer"); const b=document.getElementById("toggleAssignBtn"); const h=d.classList.contains("hidden"); d.classList.toggle("hidden",!h); b.innerText=h?"▲ Hide End-of-Lesson Challenge":"🏆 Show End-of-Lesson Challenge (10 Tough Items)"; }
+function renderAssignmentForTopic(title){ document.getElementById("assignmentDrawer").classList.add("hidden"); document.getElementById("toggleAssignBtn").innerText="🏆 Show End-of-Lesson Challenge (10 Tough Items)"; let html=""; for(let i=0;i<10;i++){ const base=generateGeneratedQuestion(title,i+40,"exam"); html+=`<div class="assignItem"><b>#${i+1} [${base.examTag}]</b> ${base.title}<br><br><button class="btn blue" style="padding:8px 14px;font-size:13px" onclick="loadChallengeToBoard(${i})">Solve This Challenge on Board</button></div>`; } document.getElementById("finalAssignmentList").innerHTML=html; }
+function loadChallengeToBoard(i){ const title=TOPICS[curCat][curTopic]; curQuestion=generateGeneratedQuestion(title,i+40,"exam"); document.getElementById("qExamTag").innerText=curQuestion.examTag; document.getElementById("qSavedBadge").innerHTML=""; document.getElementById("qTitle").innerText=curQuestion.title; document.getElementById("qSource").innerText="Challenge #"+(i+1)+" • "+curQuestion.source; drawDiagram(curQuestion.diagram||"none",curQuestion.diagramLabel||""); document.getElementById("whiteboard").scrollIntoView({behavior:"smooth"}); writeStructuredLesson(curQuestion,null); }
+function drawDiagram(type,label){ const card=document.getElementById("diagramCard"),c=document.getElementById("diagramCanvas"); if(!c) return; const ctx=c.getContext("2d"); ctx.clearRect(0,0,c.width,c.height); if(!type||type==="none"){ card.style.display="none"; return; } card.style.display="block"; document.getElementById("diagramLabel").innerText=label||"Look at the diagram"; ctx.lineWidth=3; ctx.strokeStyle="#1E4DA1"; ctx.fillStyle="#111"; ctx.font="bold 15px Arial"; function line(x1,y1,x2,y2,color){ ctx.strokeStyle=color||"#1E4DA1"; ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke(); } function txt(t,x,y,color){ ctx.fillStyle=color||"#111"; ctx.fillText(t,x,y); } function circ(x,y,r,color){ ctx.strokeStyle=color||"#1E4DA1"; ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.stroke(); } if(type==="righttriangle"){ line(110,195,430,195); line(110,195,110,55); line(110,55,430,195); ctx.strokeRect(110,169,26,26); txt("90°",142,186); txt("h",75,130); txt("b",265,218); } else if(type==="circle"){ circ(280,122,78); line(280,122,358,122,"#e11"); ctx.beginPath(); ctx.arc(280,122,4,0,Math.PI*2); ctx.fill(); txt("O",264,138); txt("r",316,112,"#e11"); } else if(type==="arrow"){ line(110,122,430,122,"#e11"); ctx.beginPath(); ctx.moveTo(430,122); ctx.lineTo(408,111); ctx.lineTo(408,133); ctx.closePath(); ctx.fillStyle="#e11"; ctx.fill(); txt("Vector",235,96,"#e11"); } else { line(115,72,445,72); line(280,72,280,195); txt("Left",145,56); txt("Right",365,56); txt("Keep Balanced",228,220); } }
+function cancelAllPlayback(){ activeRunId++; isPlaying=false; clearInterval(boardTimer); try{speechSynthesis.cancel();}catch(e){} }
+function testVoiceVolume(){ cancelAllPlayback(); const myRun=activeRunId; document.getElementById("penStatus").innerText="🔊 Testing teacher voice..."; speakSlow("Hello! I walk through every parameter, explain each formula symbol, show clear step-by-step arithmetic, warn you about common exam traps, and check the final answer.",()=>{ if(myRun===activeRunId) document.getElementById("penStatus").innerText="✅ Voice ready."; },myRun); }
 function setSpeed(r){ voiceRate=r; document.getElementById("penStatus").innerText="Pace updated."; }
 function initBoard(){ const c=document.getElementById("whiteboard"); boardCtx=c.getContext("2d"); boardCtx.clearRect(0,0,c.width,c.height); boardCtx.font="bold 16px Arial"; boardCtx.fillStyle="#111"; }
 function clearBoard(){ cancelAllPlayback(); initBoard(); document.getElementById("penStatus").innerText="Marker ready."; document.getElementById("marker").style.display="none"; document.getElementById("nowReading").innerText="Now explaining: —"; }
-
-function speakSlow(txt, onEnd, runToken){
-  try{
-    speechSynthesis.cancel();
-    const u=new SpeechSynthesisUtterance(txt);
-    u.rate = voiceRate; u.pitch = 0.94; u.volume = 1.0;
-    u.onend=()=>{ if(runToken === activeRunId && onEnd) onEnd(); };
-    u.onerror=()=>{ if(runToken === activeRunId && onEnd) onEnd(); };
-    speechSynthesis.speak(u);
-  }catch(e){ if(runToken === activeRunId && onEnd) onEnd(); }
-}
-
-function expandForVoice(line){
-  return line
-    .replace(/∠/g," angle ")
-    .replace(/Δ/g," triangle ")
-    .replace(/⊥/g," perpendicular to ")
-    .replace(/∥/g," parallel to ")
-    .replace(/θ/g," theta ")
-    .replace(/π/g," pi ")
-    .replace(/√/g," square root of ")
-    .replace(/²/g," squared, ")
-    .replace(/³/g," cubed, ")
-    .replace(/⁹/g," to the power of 9, ")
-    .replace(/ⁿ/g," to the power of n, ")
-    .replace(/∪/g," union ")
-    .replace(/∩/g," intersection ")
-    .replace(/≤/g," less than or equal to ")
-    .replace(/≥/g," greater than or equal to ")
-    .replace(/≠/g," not equal to ")
-    .replace(/×/g," times ")
-    .replace(/÷/g," divided by ")
-    .replace(/−/g," minus ")
-    .replace(/\+/g," plus ")
-    .replace(/=/g," equals ")
-    .replace(/%/g," percent ")
-    .replace(/°/g," degrees ")
-    .replace(/⇒/g," therefore, ")
-    .replace(/½/g," one half ")
-    .replace(/¾/g," three quarters ");
-}
-
-function drawFittedText(ctx, text, x, y, maxW, baseSize, color){
-  let size = baseSize;
-  ctx.font = `bold ${size}px Arial`;
-  while(ctx.measureText(text).width > maxW && size > 11){ size--; ctx.font = `bold ${size}px Arial`; }
-  ctx.fillStyle = color; ctx.fillText(text, x, y);
-  return ctx.measureText(text).width;
-}
-
-function buildBoardSequence(qObj){
-  const items = [
-    { stage: "PARAMETERS", boardText: `📌 STEP 1: GIVEN PARAMETERS (${qObj.examTag || "EXAM"})`, color: "#b45309", voice: `Let us take a thorough, step-by-step look at this ${qObj.examTag || "exam"} question. First, let us examine every given piece of information and understand what it means.` }
-  ];
-  (qObj.params || []).forEach(p=>{
-    items.push({ stage: "PARAMETERS", boardText: `• ${p.sym} → ${p.meaning}`, color: "#111", voice: `Here ${expandForVoice(p.sym)} represents ${p.meaning}. Why does this matter? ${expandForVoice(p.why)}` });
-  });
-  items.push({ stage: "FORMULA", boardText: `📐 STEP 2: RULE / FORMULA → ${qObj.formula.eq}`, color: "#1E4DA1", voice: `Before calculating, let us state the rule or formula that connects what we know to what we need: ${expandForVoice(qObj.formula.eq)}.` });
-  (qObj.formula.parts || []).forEach(pt=>{
-    items.push({ stage: "FORMULA", boardText: `  ◦ ${pt.part}: ${pt.desc}`, color: "#1E4DA1", voice: `Looking closely at the rule, ${expandForVoice(pt.part)} means ${expandForVoice(pt.desc)}.` });
-  });
-  items.push({ stage: "SOLUTION", boardText: "✍️ STEP 3: FULL WORKING & ARITHMETIC", color: "#0a9d5c", voice: "Now let us work through the solution carefully, explaining each step and checking the arithmetic as we go." });
-  (qObj.steps || []).forEach((st, i)=>{
-    items.push({
-      stage: "SOLUTION", boardText: `Step ${i+1}: ${st.line}`, color: "#111",
-      voice: `In step ${i+1}, we write ${expandForVoice(st.line)}. We do this because ${expandForVoice(st.why)}`,
-      arithLine: st.arith ? `Arithmetic: ${st.arith}` : null,
-      arithVoice: st.arith ? `Let us verify the arithmetic: ${expandForVoice(st.arith)}.` : null
-    });
-  });
-  if(qObj.pitfall){
-    items.push({
-      stage: "PITFALL", boardText: `⚠️ WATCH OUT: ${qObj.pitfall}`, color: "#b91c1c",
-      voice: `Important exam warning: ${expandForVoice(qObj.pitfall)}`
-    });
-  }
-  if(qObj.check){
-    items.push({
-      stage: "CHECK", boardText: `✅ FINAL CHECK: ${qObj.check}`, color: "#047857",
-      voice: `Finally, let us verify our answer: ${expandForVoice(qObj.check)}`
-    });
-  }
-  return items;
-}
-
-function writeStructuredLesson(qObj, done){
-  cancelAllPlayback();
-  const myRun = activeRunId;
-  initBoard();
-  isPlaying = true;
-  const marker = document.getElementById("marker");
-  marker.style.display = "block";
-  const seq = buildBoardSequence(qObj);
-  const completedLines = [];
-  let tempSideBox = null, sideUsed = false;
-  const sideTriggerIdx = Math.max(2, seq.length - 3);
-
-  function renderBoard(currentText, currentChars, currentColor){
-    boardCtx.clearRect(0, 0, 560, 460);
-    const startIdx = Math.max(0, completedLines.length - 6);
-    const visibleDone = completedLines.slice(startIdx);
-    visibleDone.forEach((item, idx)=>drawFittedText(boardCtx, item.text, 16, 36 + idx * 46, 528, 16, item.color || "#111"));
-    const activeRow = visibleDone.length;
-    let lastW = 0;
-    if(currentText !== null) lastW = drawFittedText(boardCtx, currentText.slice(0, currentChars), 16, 36 + activeRow * 46, 528, 16, currentColor || "#1E4DA1");
-    if(tempSideBox && tempSideBox.length){
-      boardCtx.save();
-      boardCtx.fillStyle = "#fffbeb"; boardCtx.strokeStyle = "#d97706"; boardCtx.lineWidth = 2;
-      boardCtx.fillRect(16, 336, 528, 108); boardCtx.strokeRect(16, 336, 528, 108);
-      drawFittedText(boardCtx, "📝 SIDE WORK (Written for clarity — will be erased):", 26, 358, 508, 13, "#b45309");
-      tempSideBox.forEach((sl, idx)=>drawFittedText(boardCtx, sl, 26, 384 + idx * 22, 508, 14, "#111"));
-      boardCtx.restore();
-    }
-    return { lastW, activeRow };
-  }
-
-  function runSideWorkAndErase(afterFn){
-    if(!isPlaying || myRun !== activeRunId) return;
-    if(!qObj.sideWorkLines || !qObj.sideWorkLines.length || sideUsed){ afterFn(); return; }
-    sideUsed = true; tempSideBox = [...qObj.sideWorkLines]; renderBoard(null, 0, "#111");
-    marker.style.left = "490px"; marker.style.top = "348px";
-    const sv = qObj.sideWorkExpl || "Let me write this side working on the board, then erase it.";
-    document.getElementById("nowReading").innerText = "Side-work: " + sv;
-    speakSlow(sv, ()=>{
-      setTimeout(()=>{
-        if(!isPlaying || myRun !== activeRunId) return;
-        tempSideBox = null; renderBoard(null, 0, "#111");
-        setTimeout(afterFn, 450);
-      }, 600);
-    }, myRun);
-  }
-
-  function runItem(idx){
-    if(!isPlaying || myRun !== activeRunId) return;
-    if(idx >= seq.length){
-      isPlaying = false; marker.style.display = "none";
-      document.getElementById("penStatus").innerText = "✅ Full explanation complete.";
-      document.getElementById("nowReading").innerText = "Now explaining: —";
-      if(done) done();
-      return;
-    }
-    const item = seq[idx]; let ci = 0;
-    document.getElementById("penStatus").innerText = `✍️ [${item.stage}] Writing ${idx + 1}/${seq.length}...`;
-    boardTimer = setInterval(()=>{
-      if(!isPlaying || myRun !== activeRunId){ clearInterval(boardTimer); return; }
-      const { lastW, activeRow } = renderBoard(item.boardText, ci, item.color);
-      marker.style.left = Math.min(520, 18 + lastW) + "px";
-      marker.style.top = (14 + activeRow * 46) + "px";
-      ci++;
-      if(ci > item.boardText.length){
-        clearInterval(boardTimer); completedLines.push({ text: item.boardText, color: item.color }); renderBoard(null, 0, item.color);
-        document.getElementById("nowReading").innerText = `[${item.stage}] ${item.voice}`;
-        speakSlow(item.voice, ()=>{
-          if(!isPlaying || myRun !== activeRunId) return;
-          if(item.arithLine){
-            completedLines.push({ text: "  ↳ " + item.arithLine, color: "#0f766e" });
-            renderBoard(null, 0, "#0f766e");
-            document.getElementById("nowReading").innerText = item.arithVoice;
-            speakSlow(item.arithVoice, ()=>{
-              setTimeout(()=>{
-                if(myRun !== activeRunId) return;
-                if(idx === sideTriggerIdx && qObj.sideWorkLines && !sideUsed) runSideWorkAndErase(()=>runItem(idx + 1));
-                else runItem(idx + 1);
-              }, 450);
-            }, myRun);
-          } else {
-            setTimeout(()=>{
-              if(myRun !== activeRunId) return;
-              if(idx === sideTriggerIdx && qObj.sideWorkLines && !sideUsed) runSideWorkAndErase(()=>runItem(idx + 1));
-              else runItem(idx + 1);
-            }, 400);
-          }
-        }, myRun);
-      }
-    }, 110);
-  }
-  runItem(0);
-}
-
+function speakSlow(txt,onEnd,runToken){ try{ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(txt); u.rate=voiceRate; u.pitch=0.94; u.volume=1.0; u.onend=()=>{ if(runToken===activeRunId&&onEnd) onEnd(); }; u.onerror=()=>{ if(runToken===activeRunId&&onEnd) onEnd(); }; speechSynthesis.speak(u); }catch(e){ if(runToken===activeRunId&&onEnd) onEnd(); } }
+function expandForVoice(line){ return line.replace(/∠/g," angle ").replace(/Δ/g," triangle ").replace(/⊥/g," perpendicular to ").replace(/∥/g," parallel to ").replace(/θ/g," theta ").replace(/π/g," pi ").replace(/√/g," square root of ").replace(/²/g," squared, ").replace(/³/g," cubed, ").replace(/⁹/g," to the power of 9, ").replace(/ⁿ/g," to the power of n, ").replace(/∪/g," union ").replace(/∩/g," intersection ").replace(/≤/g," less than or equal to ").replace(/≥/g," greater than or equal to ").replace(/≠/g," not equal to ").replace(/×/g," times ").replace(/÷/g," divided by ").replace(/−/g," minus ").replace(/\+/g," plus ").replace(/=/g," equals ").replace(/%/g," percent ").replace(/°/g," degrees ").replace(/⇒/g," therefore, ").replace(/½/g," one half ").replace(/¾/g," three quarters "); }
+function drawFittedText(ctx,text,x,y,maxW,baseSize,color){ let size=baseSize; ctx.font=`bold ${size}px Arial`; while(ctx.measureText(text).width>maxW&&size>11){ size--; ctx.font=`bold ${size}px Arial`; } ctx.fillStyle=color; ctx.fillText(text,x,y); return ctx.measureText(text).width; }
+function buildBoardSequence(qObj){ const items=[{stage:"PARAMETERS",boardText:`📌 STEP 1: GIVEN PARAMETERS (${qObj.examTag||"EXAM"})`,color:"#b45309",voice:`Let us look at this ${qObj.examTag||"exam"} question step by step. First, the given information.`}]; (qObj.params||[]).forEach(p=>{ items.push({stage:"PARAMETERS",boardText:`• ${p.sym} → ${p.meaning}`,color:"#111",voice:`Here ${expandForVoice(p.sym)} represents ${p.meaning}. ${expandForVoice(p.why)}`}); }); items.push({stage:"FORMULA",boardText:`📐 STEP 2: RULE / FORMULA → ${qObj.formula.eq}`,color:"#1E4DA1",voice:`The rule is: ${expandForVoice(qObj.formula.eq)}.`}); (qObj.formula.parts||[]).forEach(pt=>{ items.push({stage:"FORMULA",boardText:`  ◦ ${pt.part}: ${pt.desc}`,color:"#1E4DA1",voice:`${expandForVoice(pt.part)} means ${expandForVoice(pt.desc)}.`}); }); items.push({stage:"SOLUTION",boardText:"✍️ STEP 3: FULL WORKING & ARITHMETIC",color:"#0a9d5c",voice:"Now let us work through the solution carefully."}); (qObj.steps||[]).forEach((st,i)=>{ items.push({stage:"SOLUTION",boardText:`Step ${i+1}: ${st.line}`,color:"#111",voice:`In step ${i+1}, we write ${expandForVoice(st.line)}. We do this because ${expandForVoice(st.why)}`,arithLine:st.arith?`Arithmetic: ${st.arith}`:null,arithVoice:st.arith?`Check arithmetic: ${expandForVoice(st.arith)}.` :null}); }); if(qObj.pitfall) items.push({stage:"PITFALL",boardText:`⚠️ WATCH OUT: ${qObj.pitfall}`,color:"#b91c1c",voice:`Warning: ${expandForVoice(qObj.pitfall)}`}); if(qObj.check) items.push({stage:"CHECK",boardText:`✅ FINAL CHECK: ${qObj.check}`,color:"#047857",voice:`Finally, verify: ${expandForVoice(qObj.check)}`}); return items; }
+function writeStructuredLesson(qObj,done){ cancelAllPlayback(); const myRun=activeRunId; initBoard(); isPlaying=true; const marker=document.getElementById("marker"); marker.style.display="block"; const seq=buildBoardSequence(qObj); const completedLines=[]; let tempSideBox=null,sideUsed=false; const sideTriggerIdx=Math.max(2,seq.length-3); function renderBoard(ct,cc,col){ boardCtx.clearRect(0,0,560,460); const si=Math.max(0,completedLines.length-6); const vd=completedLines.slice(si); vd.forEach((it,ix)=>drawFittedText(boardCtx,it.text,16,36+ix*46,528,16,it.color||"#111")); const ar=vd.length; let lw=0; if(ct!==null) lw=drawFittedText(boardCtx,ct.slice(0,cc),16,36+ar*46,528,16,col||"#1E4DA1"); if(tempSideBox&&tempSideBox.length){ boardCtx.save(); boardCtx.fillStyle="#fffbeb"; boardCtx.strokeStyle="#d97706"; boardCtx.lineWidth=2; boardCtx.fillRect(16,336,528,108); boardCtx.strokeRect(16,336,528,108); drawFittedText(boardCtx,"📝 SIDE WORK:",26,358,508,13,"#b45309"); tempSideBox.forEach((sl,ix)=>drawFittedText(boardCtx,sl,26,384+ix*22,508,14,"#111")); boardCtx.restore(); } return {lastW:lw,activeRow:ar}; } function runSide(afterFn){ if(!isPlaying||myRun!==activeRunId) return; if(!qObj.sideWorkLines||!qObj.sideWorkLines.length||sideUsed){ afterFn(); return; } sideUsed=true; tempSideBox=[...qObj.sideWorkLines]; renderBoard(null,0,"#111"); marker.style.left="490px"; marker.style.top="348px"; const sv=qObj.sideWorkExpl||"Let me write side working, then erase it."; document.getElementById("nowReading").innerText="Side-work: "+sv; speakSlow(sv,()=>{ setTimeout(()=>{ if(!isPlaying||myRun!==activeRunId) return; tempSideBox=null; renderBoard(null,0,"#111"); setTimeout(afterFn,450); },600); },myRun); } function runItem(idx){ if(!isPlaying||myRun!==activeRunId) return; if(idx>=seq.length){ isPlaying=false; marker.style.display="none"; document.getElementById("penStatus").innerText="✅ Full explanation complete."; document.getElementById("nowReading").innerText="Now explaining: —"; if(done) done(); return; } const item=seq[idx]; let ci=0; document.getElementById("penStatus").innerText=`✍️ [${item.stage}] Writing ${idx+1}/${seq.length}...`; boardTimer=setInterval(()=>{ if(!isPlaying||myRun!==activeRunId){ clearInterval(boardTimer); return; } const {lastW,activeRow}=renderBoard(item.boardText,ci,item.color); marker.style.left=Math.min(520,18+lastW)+"px"; marker.style.top=(14+activeRow*46)+"px"; ci++; if(ci>item.boardText.length){ clearInterval(boardTimer); completedLines.push({text:item.boardText,color:item.color}); renderBoard(null,0,item.color); document.getElementById("nowReading").innerText=`[${item.stage}] ${item.voice}`; speakSlow(item.voice,()=>{ if(!isPlaying||myRun!==activeRunId) return; if(item.arithLine){ completedLines.push({text:"  ↳ "+item.arithLine,color:"#0f766e"}); renderBoard(null,0,"#0f766e"); document.getElementById("nowReading").innerText=item.arithVoice; speakSlow(item.arithVoice,()=>{ setTimeout(()=>{ if(myRun!==activeRunId) return; if(idx===sideTriggerIdx&&qObj.sideWorkLines&&!sideUsed) runSide(()=>runItem(idx+1)); else runItem(idx+1); },450); },myRun); } else { setTimeout(()=>{ if(myRun!==activeRunId) return; if(idx===sideTriggerIdx&&qObj.sideWorkLines&&!sideUsed) runSide(()=>runItem(idx+1)); else runItem(idx+1); },400); } },myRun); } },110); } runItem(0); }
 function isAdmin(){ return localStorage.getItem("isAdmin")==="1"; }
 function getPins(){ try{return JSON.parse(localStorage.getItem("pins")||"{}")}catch(e){return{}} }
 function savePins(p){ localStorage.setItem("pins",JSON.stringify(p)); }
@@ -1442,132 +241,22 @@ function hideAll(){ ["home","sections","topics","lesson","adminDash"].forEach(id
 function updateStats(){ document.getElementById("myDevice").innerText="Your Phone ID: "+deviceId+" • PIN works ONLY on this phone."; ["JSS","SSS","JAMB"].forEach(c=>{const el=document.getElementById("stat"+c);if(isAdmin())el.innerText="👑 ADMIN - All FREE";else if(hasSub(c))el.innerText="✅ Subscribed - "+daysLeft(getSubInfo(c))+" days left • Locked to this phone";else{const old=getSubInfo(c);el.innerText=old?"⏰ Expired - Renew ₦5,000 / month":"🔒 Topic 1 FREE • Others ₦5,000 / month • PIN NOT transferable"}}); document.getElementById("subStatus").innerText=isAdmin()?"👑 Admin Mode - All FREE.":"PIN = 1 Phone Only. NOT transferable. Expires after 1 month."; }
 function openWhatsApp(){ window.open("https://wa.me/2348147699555?text="+encodeURIComponent("Hello Admin, I want to subscribe. I have paid ₦5,000. Here is my receipt."),"_blank"); }
 function openCategory(cat){ cancelAllPlayback(); curCat=cat; hideAll(); document.getElementById("topics").classList.remove("hidden"); updateAdminUI(); document.getElementById("catTitle").innerText=cat==="JSS"?"📗 Junior Secondary (JS1–JS3 & Junior WAEC / BECE)":cat==="SSS"?"📘 Senior Secondary (SS1–SS3 & WAEC/NECO)":"🎯 JAMB Mathematics (UTME Syllabus)"; document.getElementById("catSub").innerText=hasSub(cat)?(isAdmin()?"👑 Admin - All unlocked":"✅ Subscribed - Locked to this phone"):"Topic 1 FREE. Others locked."; const info=getSubInfo(cat); document.getElementById("expiryInfo").innerText=isAdmin()?"👑 No expiry":info?(isExpired(info)?"⏰ EXPIRED. Renew.":"⏰ Expires in "+daysLeft(info)+" days • PIN NOT transferable."):""; document.getElementById("topicSearch").value=""; renderTopicList(""); document.getElementById("payCard").style.display=hasSub(cat)?"none":"block"; }
-
-function getGroupHeader(t){
-  if(t.includes("|")){
-    const parts = t.split("|").map(s=>s.trim());
-    return (parts[0] + " — " + parts[1].split(":")[0]).toUpperCase();
-  }
-  if(t.startsWith("Junior WAEC")) return "JUNIOR WAEC / BECE EXAM PREP";
-  if(t.startsWith("WAEC & NECO")) return "SENIOR WAEC & NECO EXAM PREP";
-  return "JAMB UTME COMPLETE SYLLABUS";
-}
-
-function renderTopicList(filter){
-  let html="", curGrp="";
-  TOPICS[curCat].forEach((t,i)=>{
-    if(filter && !t.toLowerCase().includes(filter.toLowerCase())) return;
-    const grp=getGroupHeader(t);
-    if(grp!==curGrp){ curGrp=grp; html+=`<div class="classHead">${grp}</div>`; }
-    const locked=i>0&&!hasSub(curCat);
-    const addedCount = getTopicCustomList(curCat, t).length;
-    const extraBadge = addedCount > 0 ? ` • <b style="color:#0a9d5c">+${addedCount} Added</b>` : "";
-    html+=`<div class="topicRow"><input type="checkbox" onchange="onTick(${i},this)"><span style="flex:1"><b>${i+1}. ${t}</b><br><span class="small">${i===0?"🟢 FREE":locked?"🔒 Locked":"🟢 Unlocked"}${extraBadge}</span></span><span>${locked?"🔒":"→"}</span></div>`;
-  });
-  document.getElementById("topicList").innerHTML=html;
-}
-
+function getGroupHeader(t){ if(t.includes("|")){ const parts=t.split("|").map(s=>s.trim()); return (parts[0]+" — "+parts[1].split(":")[0]).toUpperCase(); } if(t.startsWith("Junior WAEC")) return "JUNIOR WAEC / BECE EXAM PREP"; if(t.startsWith("WAEC & NECO")) return "SENIOR WAEC & NECO EXAM PREP"; return "JAMB UTME COMPLETE SYLLABUS"; }
+function renderTopicList(filter){ let html="",curGrp=""; TOPICS[curCat].forEach((t,i)=>{ if(filter&&!t.toLowerCase().includes(filter.toLowerCase())) return; const grp=getGroupHeader(t); if(grp!==curGrp){ curGrp=grp; html+=`<div class="classHead">${grp}</div>`; } const locked=i>0&&!hasSub(curCat); const addedCount=getTopicCustomList(curCat,t).length; const extraBadge=addedCount>0?` • <b style="color:#0a9d5c">+${addedCount} Added</b>`:""; html+=`<div class="topicRow"><input type="checkbox" onchange="onTick(${i},this)"><span style="flex:1"><b>${i+1}. ${t}</b><br><span class="small">${i===0?"🟢 FREE":locked?"🔒 Locked":"🟢 Unlocked"}${extraBadge}</span></span><span>${locked?"🔒":"→"}</span></div>`; }); document.getElementById("topicList").innerHTML=html; }
 function filterTopics(){ renderTopicList(document.getElementById("topicSearch").value); }
 function onTick(i,cb){ if(i>0&&!hasSub(curCat)){cb.checked=false;alert("🔒 Locked.\n\nPay ₦5,000 / MONTH to:\n8147699555 - Ekpo Bassey\n\nPIN = 1 PHONE ONLY. NOT transferable.");document.getElementById("payCard").scrollIntoView({behavior:"smooth"});return} openTopic(i); }
 function openTopic(i){ cancelAllPlayback(); curTopic=i; if(i>0&&!hasSub(curCat)){alert("🔒 Locked");return} const title=TOPICS[curCat][i]; hideAll(); document.getElementById("lesson").classList.remove("hidden"); updateAdminUI(); updatePhotoAccessUI(); document.getElementById("lessonTitle").innerText=title; document.getElementById("lessonPill").innerText=getGroupHeader(title); document.getElementById("lessonIntro").innerText="Extended step-by-step explanations with standard mathematical symbols, common exam pitfalls, verification checks, subscriber photo/snap solver, and custom saved questions."; renderAssignmentForTopic(title); setMode("learn"); }
 function setMode(mode){ cancelAllPlayback(); curMode=mode; curIdx=0; document.getElementById("modeLearnBtn").className=mode==="learn"?"btn blue":"btn white"; document.getElementById("modeExamBtn").className=mode==="exam"?"btn blue":"btn white"; document.getElementById("modeExBtn").className=mode==="exercise"?"btn blue":"btn white"; document.getElementById("qModePill").innerText=mode==="learn"?"📖 LEARN":mode==="exam"?"🎯 PAST Q":"✏️ EXERCISE"; updateModeCounts(); renderCurrent(); renderSideQuestionBoxes(); clearBoard(); }
-
-function renderCurrent(){
-  updateModeCounts();
-  updatePhotoAccessUI();
-  const title=TOPICS[curCat][curTopic];
-  curQuestion=generateTopicQuestion(title,curIdx,curMode);
-  const total=getTotal();
-  document.getElementById("exCounter").innerText=`Question ${curIdx+1} of ${total}`;
-  document.getElementById("exProgress").style.width=((curIdx+1)/total*100)+"%";
-  document.getElementById("qExamTag").innerText=curQuestion.examTag||"EXAM";
-  document.getElementById("qSavedBadge").innerHTML = curQuestion.isCustomSaved ? `<span class="savedBadge">SAVED Q</span>` : "";
-  document.getElementById("qTitle").innerText=curQuestion.title;
-  document.getElementById("qSource").innerText=curQuestion.source;
-  document.getElementById("askBox").value="";
-  document.getElementById("askAns").innerHTML="";
-  document.getElementById("qAns").innerHTML="";
-  drawDiagram(curQuestion.diagram||"none",curQuestion.diagramLabel||"Look at the diagram");
-  renderSideQuestionBoxes();
-}
-
-function playLesson(){ if(!curQuestion) return; drawDiagram(curQuestion.diagram||"none",curQuestion.diagramLabel||"Look at the diagram"); writeStructuredLesson(curQuestion, null); }
+function renderCurrent(){ updateModeCounts(); updatePhotoAccessUI(); const title=TOPICS[curCat][curTopic]; curQuestion=generateTopicQuestion(title,curIdx,curMode); const total=getTotal(); document.getElementById("exCounter").innerText=`Question ${curIdx+1} of ${total}`; document.getElementById("exProgress").style.width=((curIdx+1)/total*100)+"%"; document.getElementById("qExamTag").innerText=curQuestion.examTag||"EXAM"; document.getElementById("qSavedBadge").innerHTML=curQuestion.isCustomSaved?`<span class="savedBadge">SAVED Q</span>`:""; document.getElementById("qTitle").innerText=curQuestion.title; document.getElementById("qSource").innerText=curQuestion.source; document.getElementById("askBox").value=""; document.getElementById("askAns").innerHTML=""; document.getElementById("qAns").innerHTML=""; drawDiagram(curQuestion.diagram||"none",curQuestion.diagramLabel||"Look at the diagram"); renderSideQuestionBoxes(); }
+function playLesson(){ if(!curQuestion) return; drawDiagram(curQuestion.diagram||"none",curQuestion.diagramLabel||"Look at the diagram"); writeStructuredLesson(curQuestion,null); }
 function replayCurrent(){ playLesson(); }
 function nextQuestion(){ cancelAllPlayback(); const total=getTotal(); if(curIdx<total-1){curIdx++;renderCurrent();playLesson()}else alert("✅ Finished all "+total+" for this topic."); }
 function prevQuestion(){ cancelAllPlayback(); if(curIdx>0){curIdx--;renderCurrent();playLesson()} }
 function pauseLesson(){ cancelAllPlayback(); document.getElementById("penStatus").innerText="⏸ Paused."; }
 function stopVoice(){ cancelAllPlayback(); document.getElementById("penStatus").innerText="Stopped."; }
-
-function askTeacher(){
-  if(!curQuestion) return;
-  const typed = document.getElementById("askBox").value.trim();
-  const pHtml = (curQuestion.params||[]).map(p=>`• <b>${p.sym}</b> (${p.meaning}): ${p.why}`).join("<br>");
-  const fHtml = (curQuestion.formula.parts||[]).map(pt=>`• <b>${pt.part}</b>: ${pt.desc}`).join("<br>");
-  const sHtml = (curQuestion.steps||[]).map((st,i)=>`• <b>Step ${i+1}:</b> ${st.line} — <i>${st.why}</i>${st.arith ? ` <span style="color:#0f766e">[${st.arith}]</span>` : ""}`).join("<br>");
-  document.getElementById("askAns").innerHTML=`<div class="card" style="background:#eef7ff;margin-top:10px">
-    <b>Detailed Breakdown${typed ? " — Your Note: "+typed : ""}:</b><br><br>
-    <b>1. Given Parameters &amp; Why They Matter:</b><br>${pHtml}<br><br>
-    <b>2. Formula &amp; Meaning of Parts (${curQuestion.formula.eq}):</b><br>${fHtml}<br><br>
-    <b>3. Step-by-Step Reasoning:</b><br>${sHtml}<br><br>
-    <b>4. Common Trap:</b> ${curQuestion.pitfall || ""}<br>
-    <b>5. Final Check:</b> ${curQuestion.check || ""}
-  </div>`;
-  writeStructuredLesson(curQuestion, null);
-}
-
-function askVoice(){ try{const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){alert("Type your question in the box.");return}const r=new R();r.lang="en-NG";r.onresult=e=>{document.getElementById("askBox").value=e.results[0][0].transcript;askTeacher()};r.start()}catch(e){alert("Type your question in the box.")} }
-
-function solveQuestion(){
-  const typedQ = document.getElementById("askBox").value.trim();
-  const hasPhoto = Boolean(attachedPhotoData && canUsePhotoSolver());
-  const q = typedQ || (hasPhoto ? "Question from snapped/uploaded photo" : (curQuestion ? curQuestion.title : "Custom question"));
-  const title = TOPICS[curCat] && TOPICS[curCat][curTopic] ? TOPICS[curCat][curTopic] : "Mathematics";
-  const tag = hasPhoto ? "PHOTO / SNAP Q" : "TYPED Q";
-  curQuestion = {
-    title: q,
-    examTag: tag,
-    source: `${hasPhoto ? "Photo/Snap Solver" : "Typed Question"} • ${title}`,
-    params: [
-      { sym: q, meaning: hasPhoto ? "problem captured from photo" : "given problem statement", why: "Reading every condition and symbol carefully prevents misinterpreting what is asked." },
-      { sym: `Topic: ${title}`, meaning: "mathematical context", why: "Identifying the topic helps select the right formula, theorem, or standard procedure." }
-    ],
-    formula: {
-      eq: "1. Extract Given & Unknown → 2. Apply Governing Rule → 3. Simplify & Verify",
-      parts: [
-        { part: "Given values/conditions", desc: "known numbers, angles, expressions, or constraints in the problem" },
-        { part: "Target quantity", desc: "what the question asks us to find, prove, or simplify" },
-        { part: "Applicable rule", desc: "the formula, identity, or arithmetic law linking given values to the answer" }
-      ]
-    },
-    steps: [
-      {
-        line: `Identify known quantities and target in: ${q}`,
-        why: "Separating what is given from what is required avoids confusion on multi-part questions.",
-        arith: "List each value and its unit or sign clearly."
-      },
-      {
-        line: `Substitute into the appropriate rule and simplify step by step`,
-        why: "Working one operation at a time in proper order keeps calculations accurate and easy to trace.",
-        arith: "Check every multiplication, division, addition, subtraction, and sign change."
-      }
-    ],
-    pitfall: "Rushing through signs (+ / −), order of operations (BODMAS), or forgetting to answer the exact question asked (e.g., finding x instead of 2x).",
-    check: "Re-read the original question from start to finish and verify that the steps and final answer match all conditions.",
-    sideWorkLines: ["List given vs. required", "Check signs, powers & units", "Verify final answer"],
-    sideWorkExpl: "Let me write out the structured check on the board, then erase it."
-  };
-  document.getElementById("qExamTag").innerText = tag;
-  document.getElementById("qSavedBadge").innerHTML = "";
-  document.getElementById("qTitle").innerText = curQuestion.title;
-  document.getElementById("qSource").innerText = curQuestion.source;
-  document.getElementById("qAns").innerHTML = `<div class="card" style="background:#eafff1;margin-top:10px">
-    <b>✅ Extended Explanation Loaded on Whiteboard:</b><br>
-    <span class="small">Includes parameters, rule &amp; parts, multi-step working, common pitfalls, and final verification check.</span>
-  </div>`;
-  drawDiagram("none", "");
-  writeStructuredLesson(curQuestion, null);
-}
-
+function askTeacher(){ if(!curQuestion) return; const typed=document.getElementById("askBox").value.trim(); const pHtml=(curQuestion.params||[]).map(p=>`• <b>${p.sym}</b> (${p.meaning}): ${p.why}`).join("<br>"); const fHtml=(curQuestion.formula.parts||[]).map(pt=>`• <b>${pt.part}</b>: ${pt.desc}`).join("<br>"); const sHtml=(curQuestion.steps||[]).map((st,i)=>`• <b>Step ${i+1}:</b> ${st.line} — <i>${st.why}</i>${st.arith?` <span style="color:#0f766e">[${st.arith}]</span>`:""}`).join("<br>"); document.getElementById("askAns").innerHTML=`<div class="card" style="background:#eef7ff;margin-top:10px"><b>Detailed Breakdown${typed?" — Your Note: "+typed:""}:</b><br><br><b>1. Given Parameters:</b><br>${pHtml}<br><br><b>2. Formula (${curQuestion.formula.eq}):</b><br>${fHtml}<br><br><b>3. Steps:</b><br>${sHtml}<br><br><b>4. Trap:</b> ${curQuestion.pitfall||""}<br><b>5. Check:</b> ${curQuestion.check||""}</div>`; writeStructuredLesson(curQuestion,null); }
+function askVoice(){ try{const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){alert("Type your question.");return}const r=new R();r.lang="en-NG";r.onresult=e=>{document.getElementById("askBox").value=e.results[0][0].transcript;askTeacher()};r.start()}catch(e){alert("Type your question.");} }
+function solveQuestion(){ const typedQ=document.getElementById("askBox").value.trim(); const hasPhoto=Boolean(attachedPhotoData&&canUsePhotoSolver()); const q=typedQ||(hasPhoto?"Question from snapped/uploaded photo":(curQuestion?curQuestion.title:"Custom question")); const title=TOPICS[curCat]&&TOPICS[curCat][curTopic]?TOPICS[curCat][curTopic]:"Mathematics"; const tag=hasPhoto?"PHOTO / SNAP Q":"TYPED Q"; curQuestion={title:q,examTag:tag,source:`${hasPhoto?"Photo/Snap Solver":"Typed Question"} • ${title}`,params:[{sym:q,meaning:hasPhoto?"problem captured from photo":"given problem statement",why:"Reading every condition carefully prevents misinterpreting."},{sym:`Topic: ${title}`,meaning:"mathematical context",why:"Identifying topic helps select right formula."}],formula:{eq:"1. Extract Given & Unknown → 2. Apply Governing Rule → 3. Simplify & Verify",parts:[{part:"Given",desc:"known numbers/conditions"},{part:"Target",desc:"what is asked"},{part:"Rule",desc:"formula linking given to answer"}]},steps:[{line:`Identify known and target in: ${q}`,why:"Separating given from required avoids confusion.",arith:"List each value clearly."},{line:`Substitute into rule and simplify step by step`,why:"One operation at a time keeps it accurate.",arith:"Check every operation and sign."}],pitfall:"Rushing signs (+/−), BODMAS, or forgetting exact question asked.",check:"Re-read original question and verify steps and answer match all conditions.",sideWorkLines:["List given vs required","Check signs, powers & units","Verify final answer"],sideWorkExpl:"Let me write structured check, then erase it."}; document.getElementById("qExamTag").innerText=tag; document.getElementById("qSavedBadge").innerHTML=""; document.getElementById("qTitle").innerText=curQuestion.title; document.getElementById("qSource").innerText=curQuestion.source; document.getElementById("qAns").innerHTML=`<div class="card" style="background:#eafff1;margin-top:10px"><b>✅ Extended Explanation Loaded on Whiteboard:</b><br><span class="small">Includes parameters, rule & parts, multi-step working, pitfalls, and check.</span></div>`; drawDiagram("none",""); writeStructuredLesson(curQuestion,null); }
 function backToTopics(){ cancelAllPlayback(); openCategory(curCat); }
 function openAdmin(){ document.getElementById("adminBox").classList.add("show"); document.getElementById("adminLoginForm").classList.remove("hidden"); document.getElementById("adminSuccess").classList.add("hidden"); const saved=localStorage.getItem("adminPass"); if(!saved){document.getElementById("adminTitle").innerText="Create Admin Password 🔐";document.getElementById("adminHint").innerText="First time only.";document.getElementById("adminPass2").classList.remove("hidden");document.getElementById("adminBtn").innerText="Create & Continue →"}else{document.getElementById("adminTitle").innerText="Admin Login 🔐";document.getElementById("adminHint").innerText="Enter your password.";document.getElementById("adminPass2").classList.add("hidden");document.getElementById("adminBtn").innerText="Login →"} document.getElementById("adminMsg").innerText=""; }
 function closeAdmin(){ document.getElementById("adminBox").classList.remove("show"); }
@@ -1581,6 +270,5 @@ function renderPinList(){ const pins=getPins(); let html=""; for(let k in pins){
 function activatePIN(){ const pin=document.getElementById("pinInput").value.trim().toUpperCase(); doActivate(pin,"pinMsg"); }
 function activatePIN2(){ const pin=document.getElementById("pinInput2").value.trim().toUpperCase(); doActivate(pin,"pinMsg2"); if(getPins()[pin]&&getPins()[pin].device===deviceId&&!isExpired(getPins()[pin])){ updatePhotoAccessUI(); openCategory(curCat); } }
 function doActivate(pin,msgId){ const pins=getPins(); const p=pins[pin]; if(!p){document.getElementById(msgId).innerText="❌ Invalid PIN.";return} if(p.device&&p.device!==deviceId){document.getElementById(msgId).innerText="❌ BLOCKED: PIN locked to another phone. NOT transferable.";alert("❌ PIN NOT TRANSFERABLE");return} if(!p.device){p.device=deviceId;p.start=Date.now();pins[pin]=p;savePins(pins);document.getElementById(msgId).innerText="✅ Success! PIN locked to THIS phone. NOT transferable. 1 MONTH started.";updateStats();updatePhotoAccessUI();return} if(isExpired(p)){document.getElementById(msgId).innerText="⏰ EXPIRED after 1 month. Renew.";return} document.getElementById(msgId).innerText=`✅ Welcome back! ${p.cat} unlocked. ${daysLeft(p)} days left.`; updateStats(); updatePhotoAccessUI(); }
-
-showHome(); initBoard(); updateAdminUI();
+showHome(); initBoard(); updateAdminUI(); syncFromSupabase();
 </script></body></html>
