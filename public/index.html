@@ -50,18 +50,17 @@ video.teacherVid{width:100%;max-height:360px;border-radius:12px;margin-top:8px;b
 </style></head><body>
 <div id="adminBar" class="hidden topBar">👑 ADMIN • <button class="btn yellow" style="padding:4px 12px" onclick="goToAdminDash()">↩ Back to Admin</button> <button class="btn white" style="padding:4px 12px" onclick="adminLogout()">Logout</button></div>
 <header><div class="logo"><div class="m">M</div><div><b>Maths Machine</b><br><small>BECE • WAEC • NECO • JAMB Past Qs</small></div></div><div><button class="btn blue" onclick="showHome()">Home</button> <button class="btn purple" onclick="openAdmin()">Admin</button></div></header>
-<div id="home"><div class="hero"><div class="bigM">M</div><h2>Maths Machine</h2><p>Direct step-by-step solutions with your uploaded solving &amp; explanation videos, pen-only whiteboard mode, male voice reading your exact explanation, expanded all-topic math solver, subscriber photo/snap OCR solver, and custom topic question bank.</p><br><button class="btn yellow" style="width:100%;padding:14px" onclick="showSections()">Continue as Student →</button><br><br><button class="btn white" style="width:100%;padding:13px" onclick="openAdmin()">Login as Admin 🔐</button></div>
+<div id="home"><div class="hero"><div class="bigM">M</div><h2>Maths Machine</h2><p>Direct step-by-step solutions with your uploaded solving &amp; explanation videos, pen-only whiteboard mode, male voice reading your exact explanation, expanded all-topic math solver, subscriber photo/snap solver, and custom topic question bank.</p><br><button class="btn yellow" style="width:100%;padding:14px" onclick="showSections()">Continue as Student →</button><br><br><button class="btn white" style="width:100%;padding:13px" onclick="openAdmin()">Login as Admin 🔐</button></div>
 <div class="wrap"><div class="card"><b>📚 Sections</b><br><br><div class="sec" onclick="openCategory('JSS')">📗 Junior Secondary (JS1–JS3 Terms 1–3 &amp; Junior WAEC / BECE)</div><div class="sec" onclick="openCategory('SSS')">📘 Senior Secondary (SS1–SS3 Terms 1–3 &amp; WAEC/NECO)</div><div class="sec" onclick="openCategory('JAMB')">🎯 JAMB Mathematics (Complete UTME Syllabus)</div></div>
 <div class="card warnBox">🔒 PIN RULE<br><span style="font-weight:400;color:#333;font-size:13px">1 PIN = 1 PHONE ONLY. NOT transferable. Expires after 1 month.</span></div></div><p style="text-align:center;color:#888;font-size:12px;padding:10px">Quizora Maths Machine • © 2026</p></div>
 <div id="sections" class="hidden wrap"><button class="btn white" onclick="showHome()">← Back</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn" style="display:none">👑 Back to Admin</button><br><br><h2>Choose Your Section</h2><p class="small" id="subStatus"></p><p class="small" id="myDevice"></p><br><div class="card"><div class="sec" onclick="openCategory('JSS')">📗 Junior Secondary (JS1–JS3 &amp; Junior WAEC / BECE)<br><span class="small" id="statJSS"></span></div><div class="sec" onclick="openCategory('SSS')">📘 Senior Secondary (SS1–SS3 &amp; WAEC/NECO)<br><span class="small" id="statSSS"></span></div><div class="sec" onclick="openCategory('JAMB')">🎯 JAMB Mathematics<br><span class="small" id="statJAMB"></span></div></div>
 <div class="card"><b>🔑 Have a PIN?</b><div class="warnBox" style="font-size:13px">⚠️ PIN locks to THIS phone only. NOT transferable.</div><input id="pinInput" placeholder="Enter PIN"><button class="btn blue" style="width:100%" onclick="activatePIN()">Activate PIN - This Phone Only</button><p class="small" id="pinMsg"></p></div></div>
 <div id="topics" class="hidden wrap"><button class="btn white" onclick="showSections()">← Sections</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn2" style="display:none">👑 Back to Admin</button><br><br><h2 id="catTitle"></h2><p class="small" id="catSub"></p><p class="small" id="expiryInfo"></p><br><div class="searchBox"><input id="topicSearch" placeholder="🔍 Search topic or term..." oninput="filterTopics()"></div><br><div class="card"><b>☑️ Tick a Topic to Open It</b><div id="topicList"></div></div>
 <div class="card payBox" id="payCard"><b>🔒 Unlock - ₦5,000 / MONTH</b><br><br><b>Pay to:</b><br><b>8147699555</b><br><b>Ekpo Bassey</b><br><div class="warnBox" style="margin-top:10px">⚠️ 1 PIN = 1 PHONE ONLY. NOT transferable.</div><br><button class="btn green" style="width:100%" onclick="openWhatsApp()">💬 Send Receipt - WhatsApp</button><br><br><input id="pinInput2" placeholder="Enter PIN"><button class="btn blue" style="width:100%" onclick="activatePIN2()">Activate PIN</button><p class="small" id="pinMsg2"></p></div></div>
-<div id="lesson" class="hidden lessonWrap"><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="btn white" onclick="backToTopics()">← Topics</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn3" style="display:none">👑 Back to Admin</button></div><br><span class="pill" id="lessonPill">TOPIC</span><br><br><h2 id="lessonTitle"></h2><p class="small" id="lessonIntro"></p><br><div class="card" style="padding:10px"><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn blue" id="modeLearnBtn" style="flex:1" onclick="setMode('learn')">📖 Learn (<span id="cntLearn">0</span>)</button><button class="btn white" id="modeExamBtn" style="flex:1" onclick="setMode('exam')">🎯 Past Qs (<span id="cntExam">0</span>)</button><button class="btn white" id="modeExBtn" style="flex:1" onclick="setMode('exercise')">✏️ Exercises (<span id="cntEx">0</span>)</button></div></div><div class="solveGrid"><div><div class="card"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><div><span class="pill" id="qModePill">LEARN</span><span class="examBadge" id="qExamTag">WAEC 2023</span><span id="qSavedBadge"></span></div><span class="small" id="exCounter">Question 1 of 1</span></div><br><div class="progress"><div class="progressBar" id="exProgress" style="width:100%"></div></div><br><div class="qTitle" id="qTitle"></div><p class="small" id="qSource"></p><img id="questionPhotoPreview" class="prev hidden" alt="Uploaded question photo"><div id="questionVideoWrap" class="hidden" style="margin-top:12px"><b>🎥 Your Uploaded Solving &amp; Explanation Video</b><video id="questionVideoPlayer" class="teacherVid" controls playsinline></video></div></div><div class="card" id="diagramCard"><b>📐 Diagram — Teacher Sketches First</b><p class="small">Study the diagram for this question before solving.</p><br><div class="diagramLabel" id="diagramLabel">Look at the diagram</div><br><canvas id="diagramCanvas" width="560" height="240"></canvas></div><div class="card"><b>✍️ Whiteboard — Pen-Only Writing + Explanation</b><p class="small">Uses your explanation when provided, or automatically solves &amp; explains snapped/uploaded questions.</p><br><div class="boardWrap"><canvas id="whiteboard" width="560" height="460"></canvas><div class="marker" id="marker">🖊️</div></div><br><div class="voiceCtrl"><button class="btn blue" onclick="playLesson()">▶ Play Pen</button><button class="btn white" onclick="pauseLesson()">⏸ Pause</button><button class="btn white" onclick="stopVoice()">⏹ Stop</button><button class="btn yellow" onclick="clearBoard()">🧹 Clear</button></div><br><div class="voiceCtrl"><button class="btn green" id="maleVoiceBtn" onclick="setNarrationMode('male')">🎙️ Male Voice (Exact Words)</button><button class="btn white" id="silentPenBtn" onclick="setNarrationMode('silent')">🖊️ Pen Only (No Voice)</button><button class="btn dark" onclick="testVoiceVolume()">🔊 Test Male Voice</button></div><br><div class="voiceCtrl"><button class="btn white" onclick="setSpeed(0.52)">🐢 Very Slow</button><button class="btn white" onclick="setSpeed(0.62)">▶ Calm</button><button class="btn white" onclick="setSpeed(0.78)">🐇 Faster</button></div><p class="small" id="penStatus" style="margin-top:8px">Pen ready.</p><p class="small" id="nowReading">Exact line: —</p><div style="margin-top:14px;padding-top:14px;border-top:1px solid #eee"><b>❓ Ask About This Question or Type Your Own Question</b><div id="photoSubscriberControls" class="photoBar"><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn blue" style="flex:1" onclick="triggerPhotoInput('snapInput')">📷 Snap Bulk Qs</button><button type="button" class="btn white" style="flex:1" onclick="triggerPhotoInput('uploadPhotoInput')">🖼️ Upload Bulk Photos</button><button type="button" class="btn white" onclick="clearPhotoPreview()">✕ Clear Photo</button></div><input id="snapInput" type="file" accept="image/*" capture="environment" multiple class="hidden" onchange="onPhotoSelected(this)"><input id="uploadPhotoInput" type="file" accept="image/*" multiple class="hidden" onchange="onPhotoSelected(this)"><img id="photoPreview" class="prev hidden" alt="Uploaded question photo"><p class="small" id="photoStatus" style="margin-top:6px">Subscriber perk: Snap or upload bulk question photos — OCR reads text if present, routes &amp; solves automatically.</p></div><div id="photoLockedNotice" class="photoLockedBox hidden"><b>🔒 Photo Snap &amp; Upload — Subscribers Only</b><p class="small" style="color:#78350f;margin:4px 0 8px">Snapping or uploading photos to solve questions is available only to active monthly subscribers (₦5,000 / month). You can still type questions below.</p><button type="button" class="btn yellow" style="padding:8px 14px;font-size:13px" onclick="goToSubscribeForPhoto()">🔓 Subscribe / Enter PIN to Unlock Photo Solver</button></div><textarea id="askBox" placeholder="Type ANY maths question (round 4872 to nearest thousand, base 2/8/16, simple/compound interest, profit/loss, AP/GP, nPr/nCr, matrices, inequalities, cubics, calculus, %, etc.)..."></textarea><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn yellow" style="flex:1" onclick="askTeacher()">Ask Teacher — Formula &amp; Steps</button><button class="btn green" style="flex:1" onclick="solveQuestion()">Solve Question + Full Explanation →</button><button class="btn white" onclick="askVoice()">🎙️ Voice</button></div><div id="askAns"></div><div id="qAns"></div></div></div><div class="card"><div style="display:flex;gap:8px"><button class="btn white" style="flex:1" onclick="prevQuestion()">← Previous</button><button class="btn green" style="flex:1" onclick="nextQuestion()">Next Question →</button></div><br><button class="btn yellow" style="width:100%" onclick="replayCurrent()">🔁 Replay This Question</button></div><div class="card"><button class="btn white" style="width:100%" onclick="toggleAssignmentDrawer()" id="toggleAssignBtn">🏆 Show End-of-Lesson Challenge</button><div id="assignmentDrawer" class="hidden" style="margin-top:12px"><div class="assignBox"><b>🏆 End-of-Lesson Tough Assignment</b><p class="small" style="color:#7f1d1d">Uploaded/saved topic challenges appear here when added.</p><div id="finalAssignmentList"></div></div></div></div></div><aside class="card"><b>📋 Topic Questions (Click a Box to Pick)</b><p class="small" style="margin-bottom:10px" id="sideCountHint">Select any question box to solve it on the board.</p><div class="sideList" id="topicQueueList"></div></aside></div></div>
-<div id="adminDash" class="hidden wrap"><button class="btn white" onclick="adminLogout()">← Logout</button><button class="btn yellow" onclick="showSections()">👀 Switch to Student View →</button><br><br><h2>👑 Admin Dashboard</h2><p class="small">Welcome Ekpo Bassey!</p><br><div class="card payBox"><b>💳 Your Payment Details</b><br><b>Account:</b> 8147699555<br><b>Name:</b> Ekpo Bassey<br><b>WhatsApp:</b> 08147699555<br><b>Price:</b> ₦5,000 / Section / MONTH<br><b>PIN:</b> 1 Phone Only. NOT transferable.</div><div class="card"><b id="qFormHeading">➕ Upload Question, Photo &amp; Your Solving Video</b><p class="small">Tap a class/exam question bank below, type your question, upload bulk photos or your solving/explanation video, and press Save.</p><label class="small"><b>Question Bank (Click to Open)</b></label><div class="bankGrid" id="bankSelectorGrid"><button type="button" class="bankBtn activeBank" data-bank="JS1" onclick="selectQuestionBank('JS1')">JS1</button><button type="button" class="bankBtn" data-bank="JS2" onclick="selectQuestionBank('JS2')">JS2</button><button type="button" class="bankBtn" data-bank="JS3" onclick="selectQuestionBank('JS3')">JS3</button><button type="button" class="bankBtn" data-bank="SS1" onclick="selectQuestionBank('SS1')">SS1</button><button type="button" class="bankBtn" data-bank="SS2" onclick="selectQuestionBank('SS2')">SS2</button><button type="button" class="bankBtn" data-bank="SS3" onclick="selectQuestionBank('SS3')">SS3</button><button type="button" class="bankBtn" data-bank="WAEC" onclick="selectQuestionBank('WAEC')">WAEC</button><button type="button" class="bankBtn" data-bank="JAMB" onclick="selectQuestionBank('JAMB')">JAMB</button></div><label class="small"><b>Tab / Mode</b></label><select id="bankMode"><option value="learn">📖 Learn</option><option value="exam">🎯 Past Qs</option><option value="exercise">✏️ Exercises</option></select><input id="bankExam" placeholder="Exam Tag (e.g. WAEC 2024, BECE 2023, JAMB 2024)"><textarea id="bankQ" placeholder="Type the full question here (or snap/upload bulk photos below)..."></textarea><label class="small"><b>Formula Box (Leave blank to auto-generate when unexplained)</b></label><textarea id="bankFormula" placeholder="Write your exact formula (kept as-is when you explain it yourself)..."></textarea><label class="small"><b>Your Step-by-Step Solution &amp; Explanation (Leave blank for auto-solve &amp; explain)</b></label><textarea id="bankAnswer" placeholder="Write your exact steps & explanation when you solve it yourself; leave blank so the system solves & explains automatically..."></textarea><div class="vidUploadBox"><label class="small"><b>📷 Snap or Upload Bulk Photos of Questions</b></label><input id="bankPhotoFile" type="file" accept="image/*" capture="environment" multiple onchange="onAdminPhotoSelected(this)"><img id="bankPhotoPreview" class="prev hidden" alt="Uploaded admin photo"><p class="small" id="bankPhotoStatus">Optional: Snap or upload single/bulk photos — OCR extracts text if present, routes &amp; solves directly.</p><button type="button" class="btn white" style="padding:6px 12px;font-size:12px" onclick="clearAdminPhoto()">✕ Remove Photo</button><br><br><label class="small"><b>🎥 Upload Video of How You Solve &amp; Explain</b></label><input id="bankVideoFile" type="file" accept="video/*" onchange="onAdminVideoSelected(this)"><video id="bankVideoPreview" class="teacherVid hidden" controls playsinline></video><p class="small" id="bankVideoStatus">Optional: Upload a video of you solving and explaining this question.</p><button type="button" class="btn white" style="padding:6px 12px;font-size:12px" onclick="clearAdminVideo()">✕ Remove Video</button></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn green" style="flex:1" onclick="saveBankQuestion()" id="saveBankBtn">💾 Save Question, Photo &amp; Video</button><button class="btn white" onclick="resetBankForm()">Cancel Edit</button></div><p class="small" id="bankMsg" style="margin-top:8px"></p><input type="hidden" id="bankCat" value="JSS"><input type="hidden" id="bankTopic" value=""><input type="hidden" id="activeBankCode" value="JS1"></div><div class="card"><b>📚 Unbundle PDF / Book / Booklet (UME • JAMB • WAEC • NECO • Exercises)</b><p class="small">Upload a PDF booklet or text/markdown/JSON file. The system extracts questions, detects the exam body &amp; strongest topic, expands solved patterns, and solves unsolved exercises with expanded explanations.</p><div class="bookUploadBox"><input id="bookletFileInput" type="file" accept=".pdf,.txt,.md,.csv,.json" onchange="onBookletFileSelected(this)"><p class="small" id="bookletStatus">Select a PDF booklet or text/book file to unbundle automatically.</p><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><button type="button" class="btn blue" style="flex:1" onclick="unbundleBookletFile()">⚡ Unbundle, Expand &amp; Route Questions</button><button type="button" class="btn red" onclick="clearBookletFile()">✕ Remove File</button></div></div><div id="bookletReport" class="small" style="margin-top:8px"></div></div><div class="card"><b>🗂️ Saved Questions Cells (Edit, Next or Delete)</b><p class="small" id="cellSummary">Showing saved questions.</p><br><div id="savedQuestionsCells"></div></div><div class="card"><b>Generate New PIN — NOT Transferable</b><select id="pinCat"><option value="JSS">Junior (JSS)</option><option value="SSS">Senior (SSS)</option><option value="JAMB">JAMB Mathematics</option></select><input id="studentName" placeholder="Student Name"><button class="btn green" style="width:100%" onclick="genPIN()">Generate PIN →</button><div id="genResult"></div></div><div class="card"><b>📋 All PINs</b><div id="pinList"></div></div><div class="card"><b>⚙️ Change Password</b><input id="newAdminPass" type="password" placeholder="New Password"><button class="btn blue" style="width:100%" onclick="changeAdminPass()">Change Password</button><p class="small" id="changeMsg"></p></div></div>
+<div id="lesson" class="hidden lessonWrap"><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="btn white" onclick="backToTopics()">← Topics</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn3" style="display:none">👑 Back to Admin</button></div><br><span class="pill" id="lessonPill">TOPIC</span><br><br><h2 id="lessonTitle"></h2><p class="small" id="lessonIntro"></p><br><div class="card" style="padding:10px"><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn blue" id="modeLearnBtn" style="flex:1" onclick="setMode('learn')">📖 Learn (<span id="cntLearn">0</span>)</button><button class="btn white" id="modeExamBtn" style="flex:1" onclick="setMode('exam')">🎯 Past Qs (<span id="cntExam">0</span>)</button><button class="btn white" id="modeExBtn" style="flex:1" onclick="setMode('exercise')">✏️ Exercises (<span id="cntEx">0</span>)</button></div></div><div class="solveGrid"><div><div class="card"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><div><span class="pill" id="qModePill">LEARN</span><span class="examBadge" id="qExamTag">WAEC 2023</span><span id="qSavedBadge"></span></div><span class="small" id="exCounter">Question 1 of 1</span></div><br><div class="progress"><div class="progressBar" id="exProgress" style="width:100%"></div></div><br><div class="qTitle" id="qTitle"></div><p class="small" id="qSource"></p><img id="questionPhotoPreview" class="prev hidden" alt="Uploaded question photo"><div id="questionVideoWrap" class="hidden" style="margin-top:12px"><b>🎥 Your Uploaded Solving &amp; Explanation Video</b><video id="questionVideoPlayer" class="teacherVid" controls playsinline></video></div></div><div class="card" id="diagramCard"><b>📐 Diagram — Teacher Sketches First</b><p class="small">Study the diagram for this question before solving.</p><br><div class="diagramLabel" id="diagramLabel">Look at the diagram</div><br><canvas id="diagramCanvas" width="560" height="240"></canvas></div><div class="card"><b>✍️ Whiteboard — Pen-Only Writing + Explanation</b><p class="small">Uses your explanation when provided, or automatically solves &amp; explains typed/selected questions directly.</p><br><div class="boardWrap"><canvas id="whiteboard" width="560" height="460"></canvas><div class="marker" id="marker">🖊️</div></div><br><div class="voiceCtrl"><button class="btn blue" onclick="playLesson()">▶ Play Pen</button><button class="btn white" onclick="pauseLesson()">⏸ Pause</button><button class="btn white" onclick="stopVoice()">⏹ Stop</button><button class="btn yellow" onclick="clearBoard()">🧹 Clear</button></div><br><div class="voiceCtrl"><button class="btn green" id="maleVoiceBtn" onclick="setNarrationMode('male')">🎙️ Male Voice (Exact Words)</button><button class="btn white" id="silentPenBtn" onclick="setNarrationMode('silent')">🖊️ Pen Only (No Voice)</button><button class="btn dark" onclick="testVoiceVolume()">🔊 Test Male Voice</button></div><br><div class="voiceCtrl"><button class="btn white" onclick="setSpeed(0.52)">🐢 Very Slow</button><button class="btn white" onclick="setSpeed(0.62)">▶ Calm</button><button class="btn white" onclick="setSpeed(0.78)">🐇 Faster</button></div><p class="small" id="penStatus" style="margin-top:8px">Pen ready.</p><p class="small" id="nowReading">Exact line: —</p><div style="margin-top:14px;padding-top:14px;border-top:1px solid #eee"><b>❓ Ask About This Question or Type Your Own Question</b><div id="photoSubscriberControls" class="photoBar"><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn blue" style="flex:1" onclick="triggerPhotoInput('snapInput')">📷 Snap Bulk Qs</button><button type="button" class="btn white" style="flex:1" onclick="triggerPhotoInput('uploadPhotoInput')">🖼️ Upload Bulk Photos</button><button type="button" class="btn white" onclick="clearPhotoPreview()">✕ Clear Photo</button></div><input id="snapInput" type="file" accept="image/*" capture="environment" multiple class="hidden" onchange="onPhotoSelected(this)"><input id="uploadPhotoInput" type="file" accept="image/*" multiple class="hidden" onchange="onPhotoSelected(this)"><img id="photoPreview" class="prev hidden" alt="Uploaded question photo"><p class="small" id="photoStatus" style="margin-top:6px">Subscriber perk: Snap or upload bulk question photos and type/enter the question text to solve directly.</p></div><div id="photoLockedNotice" class="photoLockedBox hidden"><b>🔒 Photo Snap &amp; Upload — Subscribers Only</b><p class="small" style="color:#78350f;margin:4px 0 8px">Snapping or uploading photos to solve questions is available only to active monthly subscribers (₦5,000 / month). You can still type questions below.</p><button type="button" class="btn yellow" style="padding:8px 14px;font-size:13px" onclick="goToSubscribeForPhoto()">🔓 Subscribe / Enter PIN to Unlock Photo Solver</button></div><textarea id="askBox" placeholder="Type ANY maths question (round 4872 to nearest thousand, base 2/8/16, simple/compound interest, profit/loss, AP/GP, nPr/nCr, matrices, inequalities, cubics, calculus, %, etc.)..."></textarea><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn yellow" style="flex:1" onclick="askTeacher()">Ask Teacher — Formula &amp; Steps</button><button class="btn green" style="flex:1" onclick="solveQuestion()">Solve Question + Full Explanation →</button><button class="btn white" onclick="askVoice()">🎙️ Voice</button></div><div id="askAns"></div><div id="qAns"></div></div></div><div class="card"><div style="display:flex;gap:8px"><button class="btn white" style="flex:1" onclick="prevQuestion()">← Previous</button><button class="btn green" style="flex:1" onclick="nextQuestion()">Next Question →</button></div><br><button class="btn yellow" style="width:100%" onclick="replayCurrent()">🔁 Replay This Question</button></div><div class="card"><button class="btn white" style="width:100%" onclick="toggleAssignmentDrawer()" id="toggleAssignBtn">🏆 Show End-of-Lesson Challenge</button><div id="assignmentDrawer" class="hidden" style="margin-top:12px"><div class="assignBox"><b>🏆 End-of-Lesson Tough Assignment</b><p class="small" style="color:#7f1d1d">Uploaded/saved topic challenges appear here when added.</p><div id="finalAssignmentList"></div></div></div></div></div><aside class="card"><b>📋 Topic Questions (Click a Box to Pick)</b><p class="small" style="margin-bottom:10px" id="sideCountHint">Select any question box to solve it on the board.</p><div class="sideList" id="topicQueueList"></div></aside></div></div>
+<div id="adminDash" class="hidden wrap"><button class="btn white" onclick="adminLogout()">← Logout</button><button class="btn yellow" onclick="showSections()">👀 Switch to Student View →</button><br><br><h2>👑 Admin Dashboard</h2><p class="small">Welcome Ekpo Bassey!</p><br><div class="card payBox"><b>💳 Your Payment Details</b><br><b>Account:</b> 8147699555<br><b>Name:</b> Ekpo Bassey<br><b>WhatsApp:</b> 08147699555<br><b>Price:</b> ₦5,000 / Section / MONTH<br><b>PIN:</b> 1 Phone Only. NOT transferable.</div><div class="card"><b id="qFormHeading">➕ Upload Question, Photo &amp; Your Solving Video</b><p class="small">Tap a class/exam question bank below, type your question, upload bulk photos or your solving/explanation video, and press Save.</p><label class="small"><b>Question Bank (Click to Open)</b></label><div class="bankGrid" id="bankSelectorGrid"><button type="button" class="bankBtn activeBank" data-bank="JS1" onclick="selectQuestionBank('JS1')">JS1</button><button type="button" class="bankBtn" data-bank="JS2" onclick="selectQuestionBank('JS2')">JS2</button><button type="button" class="bankBtn" data-bank="JS3" onclick="selectQuestionBank('JS3')">JS3</button><button type="button" class="bankBtn" data-bank="SS1" onclick="selectQuestionBank('SS1')">SS1</button><button type="button" class="bankBtn" data-bank="SS2" onclick="selectQuestionBank('SS2')">SS2</button><button type="button" class="bankBtn" data-bank="SS3" onclick="selectQuestionBank('SS3')">SS3</button><button type="button" class="bankBtn" data-bank="WAEC" onclick="selectQuestionBank('WAEC')">WAEC</button><button type="button" class="bankBtn" data-bank="JAMB" onclick="selectQuestionBank('JAMB')">JAMB</button></div><label class="small"><b>Tab / Mode</b></label><select id="bankMode"><option value="learn">📖 Learn</option><option value="exam">🎯 Past Qs</option><option value="exercise">✏️ Exercises</option></select><input id="bankExam" placeholder="Exam Tag (e.g. WAEC 2024, BECE 2023, JAMB 2024)"><textarea id="bankQ" placeholder="Type the full question here (or attach bulk photos below)..."></textarea><label class="small"><b>Formula Box (Leave blank to auto-generate when unexplained)</b></label><textarea id="bankFormula" placeholder="Write your exact formula (kept as-is when you explain it yourself)..."></textarea><label class="small"><b>Your Step-by-Step Solution &amp; Explanation (Leave blank for auto-solve &amp; explain)</b></label><textarea id="bankAnswer" placeholder="Write your exact steps & explanation when you solve it yourself; leave blank so the system solves & explains automatically..."></textarea><div class="vidUploadBox"><label class="small"><b>📷 Snap or Upload Bulk Photos of Questions</b></label><input id="bankPhotoFile" type="file" accept="image/*" capture="environment" multiple onchange="onAdminPhotoSelected(this)"><img id="bankPhotoPreview" class="prev hidden" alt="Uploaded admin photo"><p class="small" id="bankPhotoStatus">Optional: Snap or upload single/bulk photos and type the question above to route &amp; solve directly.</p><button type="button" class="btn white" style="padding:6px 12px;font-size:12px" onclick="clearAdminPhoto()">✕ Remove Photo</button><br><br><label class="small"><b>🎥 Upload Video of How You Solve &amp; Explain</b></label><input id="bankVideoFile" type="file" accept="video/*" onchange="onAdminVideoSelected(this)"><video id="bankVideoPreview" class="teacherVid hidden" controls playsinline></video><p class="small" id="bankVideoStatus">Optional: Upload a video of you solving and explaining this question.</p><button type="button" class="btn white" style="padding:6px 12px;font-size:12px" onclick="clearAdminVideo()">✕ Remove Video</button></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn green" style="flex:1" onclick="saveBankQuestion()" id="saveBankBtn">💾 Save Question, Photo &amp; Video</button><button class="btn white" onclick="resetBankForm()">Cancel Edit</button></div><p class="small" id="bankMsg" style="margin-top:8px"></p><input type="hidden" id="bankCat" value="JSS"><input type="hidden" id="bankTopic" value=""><input type="hidden" id="activeBankCode" value="JS1"></div><div class="card"><b>📚 Unbundle PDF / Book / Booklet (UME • JAMB • WAEC • NECO • Exercises)</b><p class="small">Upload a PDF booklet or text/markdown/JSON file. The system extracts questions, detects the exam body &amp; strongest topic, expands solved patterns, and solves unsolved exercises with expanded explanations.</p><div class="bookUploadBox"><input id="bookletFileInput" type="file" accept=".pdf,.txt,.md,.csv,.json" onchange="onBookletFileSelected(this)"><p class="small" id="bookletStatus">Select a PDF booklet or text/book file to unbundle automatically.</p><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><button type="button" class="btn blue" style="flex:1" onclick="unbundleBookletFile()">⚡ Unbundle, Expand &amp; Route Questions</button><button type="button" class="btn red" onclick="clearBookletFile()">✕ Remove File</button></div></div><div id="bookletReport" class="small" style="margin-top:8px"></div></div><div class="card"><b>🗂️ Saved Questions Cells (Edit, Next or Delete)</b><p class="small" id="cellSummary">Showing saved questions.</p><br><div id="savedQuestionsCells"></div></div><div class="card"><b>Generate New PIN — NOT Transferable</b><select id="pinCat"><option value="JSS">Junior (JSS)</option><option value="SSS">Senior (SSS)</option><option value="JAMB">JAMB Mathematics</option></select><input id="studentName" placeholder="Student Name"><button class="btn green" style="width:100%" onclick="genPIN()">Generate PIN →</button><div id="genResult"></div></div><div class="card"><b>📋 All PINs</b><div id="pinList"></div></div><div class="card"><b>⚙️ Change Password</b><input id="newAdminPass" type="password" placeholder="New Password"><button class="btn blue" style="width:100%" onclick="changeAdminPass()">Change Password</button><p class="small" id="changeMsg"></p></div></div>
 <div id="adminBox" onclick="if(event.target==this) closeAdmin()"><div class="popup"><div id="adminLoginForm"><h3 id="adminTitle">Admin 🔐</h3><p class="small" id="adminHint">Create your Admin Password first time.</p><input id="adminPass" type="password" placeholder="Admin Password"><input id="adminPass2" type="password" placeholder="Confirm Password" class="hidden"><button class="btn blue" style="width:100%" onclick="checkAdmin()" id="adminBtn">Continue →</button><p id="adminMsg" style="color:red;font-size:13px"></p><button class="btn" onclick="closeAdmin()">Cancel</button></div><div id="adminSuccess" class="hidden" style="text-align:center"><h2>✅ Welcome Admin!</h2><br><button class="btn green" style="width:100%;padding:14px" onclick="goToAdminDash()">Go to Admin Dashboard →</button></div></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
 <script>
 window.CUSTOM_PAST_QUESTIONS = window.CUSTOM_PAST_QUESTIONS || [];
@@ -79,23 +78,15 @@ let draftVideoUrl = "";
 let draftVideoName = "";
 let draftPhotoUrl = "";
 let draftPhotoName = "";
-let draftOcrText = "";
 let draftBulkPhotos = [];
 
-function cleanOcrMathText(raw){
-  const cleaned = (raw || "")
+function cleanDirectMathText(raw){
+  return (raw || "")
     .replace(/\r/g, " ")
     .replace(/question\s*:?/gi, "")
     .replace(/evaluate\s+the\s+definite\s+integral\s*:?/gi, "∫ ")
-    .replace(/π/gi, "π")
-    .replace(/θ/gi, "θ")
-    .replace(/√/g, "√")
     .replace(/\s+/g, " ")
     .trim();
-  const alphaNumCount = (cleaned.match(/[a-zA-Z0-9]/g) || []).length;
-  const wordLikeCount = (cleaned.match(/[a-zA-Z0-9]{2,}/g) || []).length;
-  if(alphaNumCount < 2 || wordLikeCount < 1) return "";
-  return cleaned;
 }
 
 function splitSnappedQuestions(rawText){
@@ -106,16 +97,6 @@ function splitSnappedQuestions(rawText){
     .map(s => s.replace(/^(?:question\s*\d+|q\.?\s*\d+|\d{1,2}\s*[.)])\s*/i, "").trim())
     .filter(Boolean);
   return parts.length > 1 ? parts : [t];
-}
-
-async function runOcrIfPresent(imageSrc){
-  if(!imageSrc || !window.Tesseract) return "";
-  try{
-    const res = await window.Tesseract.recognize(imageSrc, "eng");
-    return cleanOcrMathText((res && res.data && res.data.text) || "");
-  }catch(e){
-    return "";
-  }
 }
 
 function readFileAsDataUrl(file){
@@ -146,15 +127,13 @@ async function onAdminPhotoSelected(input){
   const files = Array.from((input && input.files) || []);
   if(!files.length) return;
   draftBulkPhotos = [];
-  draftOcrText = "";
   const statusEl = document.getElementById("bankPhotoStatus");
-  if(statusEl) statusEl.innerText = `📷 Processing ${files.length} photo(s)...`;
+  if(statusEl) statusEl.innerText = `📷 Attaching ${files.length} photo(s)...`;
 
   for(let i = 0; i < files.length; i++){
     const f = files[i];
     const dataUrl = await readFileAsDataUrl(f);
-    const ocr = await runOcrIfPresent(dataUrl);
-    draftBulkPhotos.push({ name: f.name, dataUrl, ocr });
+    draftBulkPhotos.push({ name: f.name, dataUrl });
   }
 
   draftPhotoUrl = draftBulkPhotos[0].dataUrl;
@@ -162,29 +141,20 @@ async function onAdminPhotoSelected(input){
   const img = document.getElementById("bankPhotoPreview");
   if(img){ img.src = draftPhotoUrl; img.classList.remove("hidden"); }
 
-  const combinedOcr = draftBulkPhotos.map(p => p.ocr).filter(Boolean).join(" ; ");
-  draftOcrText = combinedOcr;
-  const qBox = document.getElementById("bankQ");
-  if(combinedOcr && qBox && !qBox.value.trim()){
-    qBox.value = combinedOcr;
-  }
   if(statusEl){
-    statusEl.innerText = combinedOcr
-      ? `✅ OCR (${files.length} photo(s)): "${combinedOcr}" — press Save to unbundle, route & solve.`
-      : `📷 ${files.length} photo(s) attached. No OCR text — press Save to route & solve directly.`;
+    statusEl.innerText = `📷 ${files.length} photo(s) attached. Type the question above and press Save to route & solve directly.`;
   }
 }
 
 function clearAdminPhoto(){
   draftPhotoUrl = "";
   draftPhotoName = "";
-  draftOcrText = "";
   draftBulkPhotos = [];
   const inp = document.getElementById("bankPhotoFile");
   if(inp) inp.value = "";
   const img = document.getElementById("bankPhotoPreview");
   if(img){ img.src = ""; img.classList.add("hidden"); }
-  document.getElementById("bankPhotoStatus").innerText = "Optional: Snap or upload single/bulk photos — OCR extracts text if present, routes & solves directly.";
+  document.getElementById("bankPhotoStatus").innerText = "Optional: Snap or upload single/bulk photos and type the question above to route & solve directly.";
 }
 
 function onAdminVideoSelected(input){
@@ -561,33 +531,33 @@ function saveBankQuestion(){
   if(draftBulkPhotos.length > 1 && !editingCustomId){
     const bank = getCustomBank();
     let count = 0;
-    for(const ph of draftBulkPhotos){
-      const subQs = ph.ocr ? splitSnappedQuestions(ph.ocr) : [`Photo Question: ${ph.name}`];
-      for(const sq of subQs){
-        const detected = autoDetectTopic(sq, bankCode);
-        const solved = hasManualExpl ? { formula: manualFormula, answer: manualAnswer } : autoSolveForTopic(detected.topic, sq);
-        const newId = "Q-"+Date.now()+"-"+Math.floor(Math.random()*100000);
-        uploadedPhotoUrls[newId] = ph.dataUrl;
-        if(draftVideoUrl) uploadedVideoUrls[newId] = draftVideoUrl;
-        const item = {
-          id: newId, bankCode, cat: detected.cat, topic: detected.topic, mode, examTag,
-          q: sq, formula: solved.formula, answer: solved.answer, hasManualExpl,
-          videoName: draftVideoName || "", photoName: ph.name, createdAt: new Date().toLocaleDateString()
-        };
-        bank.unshift(item);
-        const { videoUrl, photoUrl, ...dbPayload } = { ...item, videoUrl: draftVideoUrl || "", photoUrl: ph.dataUrl };
-        pushToSupabase(dbPayload);
-        count++;
-      }
+    const subQs = typedQ ? splitSnappedQuestions(typedQ) : [];
+    for(let i = 0; i < draftBulkPhotos.length; i++){
+      const ph = draftBulkPhotos[i];
+      const qLabel = subQs[i] || (typedQ ? typedQ : `Photo Question ${i + 1} (${ph.name})`);
+      const detected = autoDetectTopic(qLabel, bankCode);
+      const solved = hasManualExpl ? { formula: manualFormula, answer: manualAnswer } : autoSolveForTopic(detected.topic, qLabel);
+      const newId = "Q-"+Date.now()+"-"+Math.floor(Math.random()*100000);
+      uploadedPhotoUrls[newId] = ph.dataUrl;
+      if(draftVideoUrl) uploadedVideoUrls[newId] = draftVideoUrl;
+      const item = {
+        id: newId, bankCode, cat: detected.cat, topic: detected.topic, mode, examTag,
+        q: qLabel, formula: solved.formula, answer: solved.answer, hasManualExpl,
+        videoName: draftVideoName || "", photoName: ph.name, createdAt: new Date().toLocaleDateString()
+      };
+      bank.unshift(item);
+      const { videoUrl, photoUrl, ...dbPayload } = { ...item, videoUrl: draftVideoUrl || "", photoUrl: ph.dataUrl };
+      pushToSupabase(dbPayload);
+      count++;
     }
     saveCustomBank(bank);
     resetBankForm();
-    document.getElementById("bankMsg").innerText = `✅ Unbundled & routed ${count} question(s) across their topics.`;
+    document.getElementById("bankMsg").innerText = `✅ Saved & routed ${count} photo question(s) across their topics.`;
     renderSavedQuestionCells();
     return;
   }
 
-  const baseSource = typedQ || draftOcrText || (draftPhotoName ? `Photo Question: ${draftPhotoName}` : (draftVideoName ? `Video Solution: ${draftVideoName}` : ""));
+  const baseSource = typedQ || (draftPhotoName ? `Photo Question (${draftPhotoName})` : (draftVideoName ? `Video Solution: ${draftVideoName}` : ""));
   if(!baseSource){ document.getElementById("bankMsg").innerText = "⚠️ Please type a question or attach a photo/video before saving."; return; }
 
   const splitQs = (!editingCustomId && typedQ) ? splitSnappedQuestions(typedQ) : [baseSource];
@@ -898,7 +868,6 @@ async function unbundleBookletFile(){
 }
 
 let attachedPhotoData = "";
-let attachedPhotoOcrText = "";
 let attachedBulkPhotos = [];
 function canUsePhotoSolver(){ return Boolean(isAdmin() || hasSub(curCat)); }
 function updatePhotoAccessUI(){ const unlocked = canUsePhotoSolver(); const controls = document.getElementById("photoSubscriberControls"); const notice = document.getElementById("photoLockedNotice"); if(controls) controls.classList.toggle("hidden", !unlocked); if(notice) notice.classList.toggle("hidden", unlocked); if(!unlocked){ clearPhotoPreview(); } }
@@ -910,14 +879,12 @@ async function onPhotoSelected(input){
   const files = Array.from((input && input.files) || []);
   if(!files.length) return;
   attachedBulkPhotos = [];
-  attachedPhotoOcrText = "";
   const statusEl = document.getElementById("photoStatus");
-  statusEl.innerText = `📷 Reading ${files.length} photo(s)...`;
+  statusEl.innerText = `📷 Attaching ${files.length} photo(s)...`;
 
   for(const f of files){
     const dataUrl = await readFileAsDataUrl(f);
-    const ocr = await runOcrIfPresent(dataUrl);
-    attachedBulkPhotos.push({ name: f.name, dataUrl, ocr });
+    attachedBulkPhotos.push({ name: f.name, dataUrl });
   }
 
   attachedPhotoData = attachedBulkPhotos[0].dataUrl;
@@ -925,18 +892,10 @@ async function onPhotoSelected(input){
   img.src = attachedPhotoData;
   img.classList.remove("hidden");
 
-  const combinedOcr = attachedBulkPhotos.map(p => p.ocr).filter(Boolean).join(" ; ");
-  attachedPhotoOcrText = combinedOcr;
-  const box = document.getElementById("askBox");
-  if(combinedOcr && box && !box.value.trim()){
-    box.value = combinedOcr;
-  }
-  statusEl.innerText = combinedOcr
-    ? `✅ OCR (${files.length} photo(s)): "${combinedOcr}". Click "Solve Question + Full Explanation →".`
-    : `📷 ${files.length} photo(s) attached. No OCR text — click "Solve Question + Full Explanation →" to solve directly.`;
+  statusEl.innerText = `📷 ${files.length} photo(s) attached. Type the question below and click "Solve Question + Full Explanation →".`;
 }
 
-function clearPhotoPreview(){ attachedPhotoData = ""; attachedPhotoOcrText = ""; attachedBulkPhotos = []; const s = document.getElementById("snapInput"); const u = document.getElementById("uploadPhotoInput"); if(s) s.value = ""; if(u) u.value = ""; const img = document.getElementById("photoPreview"); if(img){ img.src = ""; img.classList.add("hidden"); } const st = document.getElementById("photoStatus"); if(st) st.innerText = "Subscriber perk: Snap or upload bulk question photos — OCR reads text if present, routes & solves automatically."; }
+function clearPhotoPreview(){ attachedPhotoData = ""; attachedBulkPhotos = []; const s = document.getElementById("snapInput"); const u = document.getElementById("uploadPhotoInput"); if(s) s.value = ""; if(u) u.value = ""; const img = document.getElementById("photoPreview"); if(img){ img.src = ""; img.classList.add("hidden"); } const st = document.getElementById("photoStatus"); if(st) st.innerText = "Subscriber perk: Snap or upload bulk question photos and type/enter the question text to solve directly."; }
 
 function toSup(n){ const map = {"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹","-":"⁻"}; return String(n).split("").map(ch => map[ch] || ch).join(""); }
 
@@ -1376,7 +1335,7 @@ function setMode(mode){ cancelAllPlayback(); curMode=mode; curIdx=0; document.ge
 function renderCurrent(){ updateModeCounts(); updatePhotoAccessUI(); const title=TOPICS[curCat][curTopic]; curQuestion=generateTopicQuestion(title,curIdx,curMode); const total=Math.max(1,getTotal()); document.getElementById("exCounter").innerText=getTotal()>0?`Question ${curIdx+1} of ${getTotal()}`:"Empty Topic (0 Questions)"; document.getElementById("exProgress").style.width=getTotal()>0?((curIdx+1)/total*100)+"%":"0%"; document.getElementById("qExamTag").innerText=curQuestion.examTag||"EXAM"; document.getElementById("qSavedBadge").innerHTML=curQuestion.isCustomSaved?`<span class="savedBadge">SAVED Q</span>`:""; document.getElementById("qTitle").innerText=curQuestion.title; document.getElementById("qSource").innerText=curQuestion.source; document.getElementById("askBox").value=""; document.getElementById("askAns").innerHTML=""; document.getElementById("qAns").innerHTML=""; renderQuestionVideoPlayer(curQuestion); drawDiagram(curQuestion.diagram||"none",curQuestion.diagramLabel||"Look at the diagram"); renderSideQuestionBoxes(); }
 function playLesson(){ if(!curQuestion) return; drawDiagram(curQuestion.diagram||"none",curQuestion.diagramLabel||"Look at the diagram"); writeStructuredLesson(curQuestion,null); }
 function replayCurrent(){ playLesson(); }
-function nextQuestion(){ cancelAllPlayback(); const total=getTotal(); if(total<=0){alert("This topic is currently empty. Type or snap a question below to solve it, or upload questions in Admin.");return} if(curIdx<total-1){curIdx++;renderCurrent();playLesson()}else alert("✅ Finished all "+total+" for this topic."); }
+function nextQuestion(){ cancelAllPlayback(); const total=getTotal(); if(total<=0){alert("This topic is currently empty. Type a question below to solve it, or upload questions in Admin.");return} if(curIdx<total-1){curIdx++;renderCurrent();playLesson()}else alert("✅ Finished all "+total+" for this topic."); }
 function prevQuestion(){ cancelAllPlayback(); if(curIdx>0){curIdx--;renderCurrent();playLesson()} }
 function pauseLesson(){ cancelAllPlayback(); const vid=document.getElementById("questionVideoPlayer"); if(vid && !vid.paused) vid.pause(); document.getElementById("penStatus").innerText="⏸ Paused."; }
 function stopVoice(){ cancelAllPlayback(); const vid=document.getElementById("questionVideoPlayer"); if(vid){ vid.pause(); vid.currentTime=0; } document.getElementById("penStatus").innerText="Stopped."; }
@@ -1829,7 +1788,7 @@ function solveSeqStatsMatEngine(qText, sourceLabel){
 }
 
 function solveIntegralEngine(qText, sourceLabel){
-  const norm = cleanOcrMathText(normalizeMathExpr(qText));
+  const norm = cleanDirectMathText(normalizeMathExpr(qText));
   const low = norm.toLowerCase();
   const boundsMatch = low.match(/(?:from\s*)?(-?\d+(?:\.\d+)?)\s*(?:to|,)\s*(-?\d+(?:\.\d+)?)/);
   const exprMatch = norm.match(/\(([^()]+)\)\s*dx/i) || norm.match(/(?:of|evaluate|integrate|integral)\s+(.+?)(?:\s+dx|\s+from|$)/i);
@@ -2226,8 +2185,8 @@ function solveAnyMathQuestion(q, sourceLabel){
 function solveQuestion(){
   const typedQ = document.getElementById("askBox").value.trim();
   const hasPhoto = Boolean(attachedPhotoData && canUsePhotoSolver());
-  const effectiveQ = typedQ || attachedPhotoOcrText || (hasPhoto ? "Photo Math Question" : (curQuestion ? curQuestion.title : "Custom question"));
-  const sourceLabel = hasPhoto ? (attachedPhotoOcrText ? "Photo OCR + Auto-Solve" : "Photo Direct Auto-Solve") : "Typed Question";
+  const effectiveQ = typedQ || (hasPhoto ? "Photo Math Question" : (curQuestion ? curQuestion.title : "Custom question"));
+  const sourceLabel = hasPhoto ? "Photo + Typed Question" : "Typed Question";
   const solved = solveAnyMathQuestion(effectiveQ, sourceLabel);
   const autoExp = buildAutoExplanation(effectiveQ, (curQuestion && curQuestion.key) || "Mathematics");
 
