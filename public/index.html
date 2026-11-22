@@ -1,22 +1,27 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Quizora Math Machine</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial;background:#f1f5f9;color:#0f172a}
-header{background:#1E4DA1;color:#fff;padding:14px 16px;position:sticky;top:0;z-index:10}
-header b{font-size:20px}.small{font-size:12px;color:#475569}.wrap{max-width:900px;margin:auto;padding:12px}
-.card{background:#fff;border-radius:14px;padding:14px;margin:10px 0;box-shadow:0 2px 10px rgba(0,0,0,.06)}
-.btn{border:none;border-radius:10px;padding:10px 12px;cursor:pointer;font-weight:700}.blue{background:#1E4DA1;color:#fff}.white{background:#e2e8f0}.green{background:#16a34a;color:#fff}.purple{background:#7c3aed;color:#fff}.red{background:#dc2626;color:#fff}
-input,select,textarea{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:10px;margin:6px 0;font-size:15px}textarea{min-height:70px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.topic{padding:10px;border:1px solid #e2e8f0;border-radius:10px;cursor:pointer;background:#f8fafc}.topic b{font-size:14px}
-.board{background:#0f172a;color:#fff;border-radius:14px;padding:16px;white-space:pre-wrap;line-height:1.6;font-size:15px;min-height:180px}
+*{box-sizing:border-box;max-width:100%}
+html,body{margin:0;padding:0;width:100%;overflow-x:hidden;font-family:Arial;background:#f1f5f9;color:#0f172a}
+header{background:#1E4DA1;color:#fff;padding:14px 12px;position:sticky;top:0;z-index:10;width:100%}
+header b{font-size:19px;display:block;white-space:normal}.small{font-size:12px;color:#475569}
+.wrap{width:100%;max-width:900px;margin:0 auto;padding:10px;overflow-x:hidden}
+.card{background:#fff;border-radius:14px;padding:12px;margin:10px 0;box-shadow:0 2px 10px rgba(0,0,0,.06);width:100%;overflow:hidden}
+.btn{border:none;border-radius:10px;padding:11px 8px;cursor:pointer;font-weight:700;width:100%;font-size:14px;white-space:normal;word-break:break-word}.blue{background:#1E4DA1;color:#fff}.white{background:#e2e8f0;color:#0f172a}.green{background:#16a34a;color:#fff}.purple{background:#7c3aed;color:#fff}.red{background:#dc2626;color:#fff}
+.topbtns{display:flex;gap:8px;width:100%}.topbtns .btn{flex:1}
+input,select,textarea{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:10px;margin:6px 0;font-size:15px;display:block}textarea{min-height:70px;resize:vertical}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+.topic{padding:10px;border:1px solid #e2e8f0;border-radius:10px;cursor:pointer;background:#f8fafc;width:100%;overflow-wrap:break-word}.topic b{font-size:14px}
+.board{background:#0f172a;color:#fff;border-radius:14px;padding:14px;white-space:pre-wrap;word-break:break-word;overflow-wrap:break-word;line-height:1.6;font-size:15px;min-height:180px;width:100%;overflow-x:hidden}
 .hide{display:none}.pill{display:inline-block;background:#dbeafe;color:#1E4DA1;padding:3px 8px;border-radius:99px;font-size:11px;font-weight:700}
+.row{display:flex;gap:8px;width:100%}.row .btn{flex:1}
+@media(max-width:360px){.btn{font-size:13px;padding:10px 5px}header b{font-size:17px}}
 </style></head><body>
 <header><b>🧮 Quizora Math Machine</b><div class="small" style="color:#dbeafe">WAEC • NECO • JAMB • BECE - Learn, Practice, Master</div></header>
 <div class="wrap">
-<div class="card"><div style="display:flex;gap:8px"><button class="btn blue" onclick="show('student')" id="tStudent">👨‍🎓 Student</button><button class="btn white" onclick="show('admin')" id="tAdmin">👨‍🏫 Admin / Teacher</button></div></div>
+<div class="card"><div class="topbtns"><button class="btn blue" onclick="show('student')" id="tStudent">👨‍🎓 Student</button><button class="btn white" onclick="show('admin')" id="tAdmin">👨‍🏫 Admin / Teacher</button></div></div>
 
-<!-- STUDENT -->
 <div id="studentView">
 <div class="card"><b>Choose Your Class</b><div class="grid" style="margin-top:10px">
 <button class="btn white" onclick="pickClass('JSS','JS1')">JS1</button><button class="btn white" onclick="pickClass('JSS','JS2')">JS2</button>
@@ -26,10 +31,9 @@ input,select,textarea{width:100%;padding:10px;border:1px solid #cbd5e1;border-ra
 </div><p class="small" id="classHint">Tap a class to see its topics.</p></div>
 <div class="card"><b id="topicHead">Topics</b><div id="topicList"></div></div>
 <div class="card"><b>📋 Whiteboard - Solution</b><div class="board" id="board">Tap a topic to start learning. Your solution will appear here step-by-step.</div>
-<div style="display:flex;gap:8px;margin-top:10px"><button class="btn green" onclick="nextQ()">Next Question ➜</button><button class="btn white" onclick="speakBoard()">🔊 Speak</button></div></div>
+<div class="row" style="margin-top:10px"><button class="btn green" onclick="nextQ()">Next Question ➜</button><button class="btn white" onclick="speakBoard()">🔊 Speak</button></div></div>
 </div>
 
-<!-- ADMIN -->
 <div id="adminView" class="hide">
 <div class="card"><b>🏦 Question Banks - Tap Any Bank To Open It</b><p class="small">Tap a bank, then type/paste your question. Machine will move it to the correct topic INSIDE that bank only.</p>
 <div class="grid">
@@ -38,19 +42,18 @@ input,select,textarea{width:100%;padding:10px;border:1px solid #cbd5e1;border-ra
 <button class="btn white" id="bankBtn-SS2" onclick="selectBank('SS2')">📘 SS2 Bank</button><button class="btn white" id="bankBtn-SS3" onclick="selectBank('SS3')">📘 SS3 Bank</button>
 <button class="btn white" id="bankBtn-WAEC" onclick="selectBank('WAEC')">📝 WAEC / NECO Bank</button><button class="btn purple" id="bankBtn-JAMB" onclick="selectBank('JAMB')">🎯 JAMB Bank</button>
 </div>
-<div style="background:#eef2ff;border:2px solid #1E4DA1;border-radius:12px;padding:12px;margin-top:10px">
+<div style="background:#eef2ff;border:2px solid #1E4DA1;border-radius:12px;padding:12px;margin-top:10px;width:100%">
 <b id="qFormHeading">📗 JS1 Question Bank Open</b><p class="small" id="bankOpenHint">You are inside JS1 Bank. Paste any JS1 question. Machine will find the JS1 topic for it.</p>
 <label class="small"><b>Tab / Mode</b></label><select id="bankMode"><option value="learn">📖 Learn</option><option value="exam">🎯 Past Qs</option><option value="exercise">✏️ Exercises</option></select>
 <input id="bankExam" placeholder="Exam Tag (e.g. WAEC 2024, BECE 2023, JAMB 2024)"><textarea id="bankQ" placeholder="Type or paste question... e.g. If (x − 2) is a factor of x³ + ax² − 4x + 4, find the value of a."></textarea>
 <input id="bankFormula" placeholder="Optional - leave empty, machine will fill it"><textarea id="bankAnswer" placeholder="Optional - leave empty, machine will solve it"></textarea>
-<div style="display:flex;gap:8px"><button class="btn green" style="flex:1" onclick="saveBankQuestion()">💾 Save - Machine Moves It Inside This Bank</button><button class="btn white" onclick="resetBankForm()">Cancel Edit</button></div>
-<p class="small" id="bankMsg"></p><input type="hidden" id="bankCat" value="JSS"><input type="hidden" id="bankTopic" value="">
+<div class="row"><button class="btn green" onclick="saveBankQuestion()">💾 Save - Machine Moves It Inside This Bank</button><button class="btn white" onclick="resetBankForm()">Cancel Edit</button></div>
+<p class="small" id="bankMsg"></p>
 </div></div>
 <div class="card"><b>🗂️ Saved Questions Cells</b><p class="small">All saved questions. Tap View to see whiteboard, Edit to change, Delete to remove.</p><div id="savedCells"></div></div>
 </div>
 </div>
 <script>
-// ===== TOPICS - ALL CLASSES - QUIZORA MATH MACHINE =====
 const TOPICS={
 JSS:["JS1: Number & Numeration","JS1: Factors, Multiples, HCF & LCM","JS1: Fractions","JS1: Decimals & Percentages","JS1: Estimation & Rounding","JS1: Directed Numbers","JS1: BODMAS / Order of Operations","JS1: Ratio & Proportion","JS1: Simple Interest & Commercial Arithmetic","JS1: Place Value & Counting","JS1: Basic Geometry - Angles & Lines","JS1: Perimeter & Area","JS1: Introduction to Algebra","JS2: Number Bases","JS2: Fractions & Decimals","JS2: Ratio, Proportion & Rates","JS2: Percentages & Profit/Loss","JS2: Simple Interest","JS2: Indices","JS2: Algebraic Expressions","JS2: Linear Equations","JS2: Angles & Polygons","JS2: Pythagoras Theorem","JS2: Mensuration - Area & Volume","JS2: Statistics - Data Presentation","JS2: Probability - Introduction","JS3: Number Bases & Modular Arithmetic","JS3: Indices & Logarithms","JS3: Surds","JS3: Algebraic Expressions & Factorisation","JS3: Linear Equations & Inequalities","JS3: Simultaneous Equations","JS3: Quadratic Equations","JS3: Variation","JS3: Geometry - Angles, Polygons & Circles","JS3: Construction & Loci","JS3: Trigonometry - Right Angle","JS3: Mensuration - Area, Volume, Surface Area","JS3: Statistics - Mean, Median, Mode","JS3: Probability","JS3: Sets & Venn Diagrams","BECE: BECE Revision Mix"],
 SSS:["SS1: Indices & Logarithms","SS1: Surds","SS1: Number Bases","SS1: Modular Arithmetic","SS1: Algebraic Expressions & Factorisation","SS1: Linear Equations & Inequalities","SS1: Simultaneous Equations","SS1: Quadratic Equations","SS1: Variation","SS1: Sets & Venn Diagrams","SS1: Angles, Polygons & Geometry","SS1: Construction & Loci","SS1: Trigonometry - Ratios & Graphs","SS1: Mensuration","SS1: Statistics - Central Tendency","SS1: Probability","SS1: Logical Reasoning","SS2: Indices, Logarithms & Surds","SS2: Quadratic Equations & Inequalities","SS2: Sequences & Series - AP & GP","SS2: Matrices & Determinants","SS2: Trigonometry - Identities & Equations","SS2: Geometry - Circle Theorems","SS2: Vectors & Coordinate Geometry","SS2: Mensuration - 3D Shapes","SS2: Statistics - Dispersion","SS2: Probability - Combined Events","SS2: Calculus - Differentiation (Intro)","SS2: Financial Mathematics","SS3: Polynomials - Remainder Theorem, Factor Theorem & Cubic Equations","SS3: Rational Functions & Partial Fractions","SS3: Binomial Theorem","SS3: Sequences & Series","SS3: Matrices & Determinants","SS3: Trigonometry - Advanced","SS3: Calculus - Differentiation & Integration","SS3: Circle Geometry - Advanced","SS3: Vectors & 3D Geometry","SS3: Statistics & Probability - Advanced","SS3: Bearing & Distances","SS3: Loci & Construction","SS3: Financial Mathematics","WAEC & NECO: WAEC Past Questions Mix","WAEC & NECO: NECO Past Questions Mix"],
@@ -59,7 +62,7 @@ JAMB:["JAMB: Number Bases","JAMB: Indices, Logarithms & Surds","JAMB: Sets & Ven
 let currentBank="JS1", editingCustomId=null, curCat="JSS", curTopic="", curQIndex=0;
 function show(v){document.getElementById("studentView").classList.toggle("hide",v!=="student");document.getElementById("adminView").classList.toggle("hide",v!=="admin");document.getElementById("tStudent").className=v==="student"?"btn blue":"btn white";document.getElementById("tAdmin").className=v==="admin"?"btn blue":"btn white";}
 function pickClass(cat,bank){curCat=cat;let list=document.getElementById("topicList");list.innerHTML="";let topics=getTopicsForBank(bank);document.getElementById("topicHead").innerText=bank+" Topics ("+topics.length+")";document.getElementById("classHint").innerText="Showing "+bank+" topics. Tap any topic.";topics.forEach(t=>{let d=document.createElement("div");d.className="topic";d.innerHTML="<b>"+t+"</b><div class='small'>Tap to learn • "+bank+"</div>";d.onclick=()=>openTopic(cat,t);list.appendChild(d);});}
-function getTopicsForBank(bank){if(bank==="JS1")return TOPICS.JSS.filter(t=>t.startsWith("JS1"));if(bank==="JS2")return TOPICS.JSS.filter(t=>t.startsWith("JS2"));if(bank==="JS3")return TOPICS.JSS.filter(t=>t.startsWith("JS3"));if(bank==="SS1")return TOPICS.SSS.filter(t=>t.startsWith("SS1"));if(bank==="SS2")return TOPICS.SSS.filter(t=>t.startsWith("SS2"));if(bank==="SS3")return TOPICS.SSS.filter(t=>t.startsWith("SS3"));if(bank==="WAEC")return TOPICS.SSS.filter(t=>t.startsWith("WAEC"));if(bank==="JAMB")return TOPICS.JAMB;if(bank==="JSS")return TOPICS.JSS;if(bank==="SSS")return TOPICS.SSS;return TOPICS.JSS;}
+function getTopicsForBank(bank){if(bank==="JS1")return TOPICS.JSS.filter(t=>t.startsWith("JS1"));if(bank==="JS2")return TOPICS.JSS.filter(t=>t.startsWith("JS2"));if(bank==="JS3")return TOPICS.JSS.filter(t=>t.startsWith("JS3"));if(bank==="SS1")return TOPICS.SSS.filter(t=>t.startsWith("SS1"));if(bank==="SS2")return TOPICS.SSS.filter(t=>t.startsWith("SS2"));if(bank==="SS3")return TOPICS.SSS.filter(t=>t.startsWith("SS3"));if(bank==="WAEC")return TOPICS.SSS.filter(t=>t.startsWith("WAEC"));if(bank==="JAMB")return TOPICS.JAMB;return TOPICS.JSS;}
 function getCatForBank(bank){if(["JS1","JS2","JS3"].includes(bank))return "JSS";if(["SS1","SS2","SS3","WAEC"].includes(bank))return "SSS";return "JAMB";}
 function selectBank(bank){currentBank=bank;["JS1","JS2","JS3","SS1","SS2","SS3","WAEC","JAMB"].forEach(b=>{let el=document.getElementById("bankBtn-"+b);if(el)el.className=(b===bank?"btn blue":"btn white");});let names={JS1:"📗 JS1 Question Bank Open",JS2:"📗 JS2 Question Bank Open",JS3:"📗 JS3 Question Bank Open",SS1:"📘 SS1 Question Bank Open",SS2:"📘 SS2 Question Bank Open",SS3:"📘 SS3 Question Bank Open",WAEC:"📝 WAEC / NECO Question Bank Open",JAMB:"🎯 JAMB Question Bank Open"};document.getElementById("qFormHeading").innerText=names[bank];document.getElementById("bankOpenHint").innerText="You are inside "+bank+" Bank. Paste any "+bank+" question. Machine will find the "+bank+" topic for it.";renderSavedQuestionCells();}
 function autoDetectTopicInBank(q,bank){let topics=getTopicsForBank(bank),cat=getCatForBank(bank),text=(" "+(q||"").toLowerCase()+" ");
@@ -82,7 +85,7 @@ else{savedItem={id:"Q-"+Date.now()+"-"+Math.floor(Math.random()*1000),cat,topic,
 document.getElementById("bankMsg").innerText="✅ Saved! "+currentBank+" Bank → "+topic;resetBankForm();renderSavedQuestionCells();}
 function resetBankForm(){document.getElementById("bankQ").value="";document.getElementById("bankFormula").value="";document.getElementById("bankAnswer").value="";document.getElementById("bankExam").value="";editingCustomId=null;}
 function renderSavedQuestionCells(){let bank=getCustomBank();let el=document.getElementById("savedCells");if(!bank.length){el.innerHTML="<p class='small'>No saved questions yet. Open a bank and save one.</p>";return;}
-el.innerHTML=bank.map((it,i)=>`<div class='card' style='border-left:4px solid #1E4DA1'><span class='pill'>${it.bank||it.cat}</span> <b>${it.topic}</b><div>${it.q}</div><div class='small'>${it.examTag} • ${it.mode}</div><div style='display:flex;gap:6px;margin-top:8px'><button class='btn green' onclick='viewSaved(${i})'>View</button><button class='btn white' onclick='editSaved(${i})'>Edit</button><button class='btn red' onclick='deleteSaved(${i})'>Delete</button></div></div>`).join("");}
+el.innerHTML=bank.map((it,i)=>`<div class='card' style='border-left:4px solid #1E4DA1'><span class='pill'>${it.bank||it.cat}</span> <b>${it.topic}</b><div>${it.q}</div><div class='small'>${it.examTag} • ${it.mode}</div><div class='row' style='margin-top:8px'><button class='btn green' onclick='viewSaved(${i})'>View</button><button class='btn white' onclick='editSaved(${i})'>Edit</button><button class='btn red' onclick='deleteSaved(${i})'>Delete</button></div></div>`).join("");}
 function viewSaved(i){let it=getCustomBank()[i];if(!it)return;curCat=it.cat;curTopic=it.topic;document.getElementById("board").innerText="📌 "+it.bank+" Bank → "+it.topic+"\n\n❓ QUESTION:\n"+it.q+"\n\n📐 RULE / FORMULA:\n"+it.formula+"\n\n✅ SOLUTION:\n"+it.answer;show("student");}
 function editSaved(i){let it=getCustomBank()[i];if(!it)return;selectBank(it.bank||"JS1");document.getElementById("bankQ").value=it.q;document.getElementById("bankFormula").value=it.formula;document.getElementById("bankAnswer").value=it.answer;document.getElementById("bankExam").value=it.examTag;document.getElementById("bankMode").value=it.mode;editingCustomId=it.id;document.getElementById("bankMsg").innerText="✏️ Editing - tap Save to update.";show("admin");}
 function deleteSaved(i){if(!confirm("Delete this question?"))return;let b=getCustomBank();b.splice(i,1);saveCustomBank(b);renderSavedQuestionCells();}
