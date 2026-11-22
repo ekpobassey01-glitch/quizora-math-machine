@@ -51,7 +51,7 @@ img.prev{width:100%;max-height:240px;object-fit:contain;border-radius:12px;margi
 <div class="card"><b>🔑 Have a PIN?</b><div class="warnBox" style="font-size:13px">⚠️ PIN locks to THIS phone only. NOT transferable.</div><input id="pinInput" placeholder="Enter PIN"><button class="btn blue" style="width:100%" onclick="activatePIN()">Activate PIN - This Phone Only</button><p class="small" id="pinMsg"></p></div></div>
 <div id="topics" class="hidden wrap"><button class="btn white" onclick="showSections()">← Sections</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn2" style="display:none">👑 Back to Admin</button><br><br><h2 id="catTitle"></h2><p class="small" id="catSub"></p><p class="small" id="expiryInfo"></p><br><div class="searchBox"><input id="topicSearch" placeholder="🔍 Search topic or term..." oninput="filterTopics()"></div><br><div class="card"><b>☑️ Tick a Topic to Open It</b><div id="topicList"></div></div>
 <div class="card payBox" id="payCard"><b>🔒 Unlock - ₦5,000 / MONTH</b><br><br><b>Pay to:</b><br><b>8147699555</b><br><b>Ekpo Bassey</b><br><div class="warnBox" style="margin-top:10px">⚠️ 1 PIN = 1 PHONE ONLY. NOT transferable.</div><br><button class="btn green" style="width:100%" onclick="openWhatsApp()">💬 Send Receipt - WhatsApp</button><br><br><input id="pinInput2" placeholder="Enter PIN"><button class="btn blue" style="width:100%" onclick="activatePIN2()">Activate PIN</button><p class="small" id="pinMsg2"></p></div></div>
-<div id="lesson" class="hidden lessonWrap"><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="btn white" onclick="backToTopics()">← Topics</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn3" style="display:none">👑 Back to Admin</button></div><br><span class="pill" id="lessonPill">TOPIC</span><br><br><h2 id="lessonTitle"></h2><p class="small" id="lessonIntro"></p><br><div class="card" style="padding:10px"><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn blue" id="modeLearnBtn" style="flex:1" onclick="setMode('learn')">📖 Learn (<span id="cntLearn">25</span>)</button><button class="btn white" id="modeExamBtn" style="flex:1" onclick="setMode('exam')">🎯 Past Qs (<span id="cntExam">10</span>)</button><button class="btn white" id="modeExBtn" style="flex:1" onclick="setMode('exercise')">✏️ Exercises (<span id="cntEx">60</span>)</button></div></div><div class="solveGrid"><div><div class="card"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><div><span class="pill" id="qModePill">LEARN</span><span class="examBadge" id="qExamTag">WAEC 2023</span><span id="qSavedBadge"></span></div><span class="small" id="exCounter">Question 1 of 25</span></div><br><div class="progress"><div class="progressBar" id="exProgress" style="width:4%"></div></div><br><div class="qTitle" id="qTitle"></div><p class="small" id="qSource"></p></div><div class="card" id="diagramCard"><b>📐 Diagram — Teacher Sketches First</b><p class="small">Study the diagram for this question before solving.</p><br><div class="diagramLabel" id="diagramLabel">Look at the diagram</div><br><canvas id="diagramCanvas" width="560" height="240"></canvas></div><div class="card"><b>✍️ Whiteboard — Extended Walkthrough</b><p class="small">Parameters → Rule &amp; Symbols → Deep Steps → Pitfalls &amp; Check</p><br><div class="boardWrap"><canvas id="whiteboard" width="560" height="460"></canvas><div class="marker" id="marker">🖊️</div></div><br><div class="voiceCtrl"><button class="btn blue" onclick="playLesson()">▶ Play Lesson</button><button class="btn white" onclick="pauseLesson()">⏸ Pause</button><button class="btn white" onclick="stopVoice()">⏹ Stop</button><button class="btn yellow" onclick="clearBoard()">🧹 Clear</button></div><br><div class="voiceCtrl"><button class="btn white" onclick="setSpeed(0.52)">🐢 Very Slow</button><button class="btn green" onclick="setSpeed(0.58)">▶ Calm Teacher</button><button class="btn white" onclick="setSpeed(0.75)">🐇 Faster</button><button class="btn dark" onclick="testVoiceVolume()">🔊 Test Voice</button></div><p class="small" id="penStatus" style="margin-top:8px">Marker ready.</p><p class="small" id="nowReading">Now explaining: —</p><div style="margin-top:14px;padding-top:14px;border-top:1px solid #eee"><b>❓ Ask About This Question or Type Your Own Question</b><div id="photoSubscriberControls" class="photoBar"><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn blue" style="flex:1" onclick="triggerPhotoInput('snapInput')">📷 Snap Question</button><button type="button" class="btn white" style="flex:1" onclick="triggerPhotoInput('uploadPhotoInput')">🖼️ Upload Photo</button><button type="button" class="btn white" onclick="clearPhotoPreview()">✕ Clear Photo</button></div><input id="snapInput" type="file" accept="image/*" capture="environment" class="hidden" onchange="onPhotoSelected(this)"><input id="uploadPhotoInput" type="file" accept="image/*" class="hidden" onchange="onPhotoSelected(this)"><img id="photoPreview" class="prev hidden" alt="Uploaded question photo"><p class="small" id="photoStatus" style="margin-top:6px">Subscriber perk: Snap or upload a question image, type/confirm the question below, and solve with an extended step-by-step explanation.</p></div><div id="photoLockedNotice" class="photoLockedBox hidden"><b>🔒 Photo Snap &amp; Upload — Subscribers Only</b><p class="small" style="color:#78350f;margin:4px 0 8px">Snapping or uploading photos to solve questions is available only to active monthly subscribers (₦5,000 / month). You can still type questions below.</p><button type="button" class="btn yellow" style="padding:8px 14px;font-size:13px" onclick="goToSubscribeForPhoto()">🔓 Subscribe / Enter PIN to Unlock Photo Solver</button></div><textarea id="askBox" placeholder="Type any maths question or ask why a step works..."></textarea><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn yellow" style="flex:1" onclick="askTeacher()">Ask Teacher — Explain WHY &amp; Pitfalls</button><button class="btn green" style="flex:1" onclick="solveQuestion()">Solve Question + Full Explanation →</button><button class="btn white" onclick="askVoice()">🎙️ Voice</button></div><div id="askAns"></div><div id="qAns"></div></div></div><div class="card"><div style="display:flex;gap:8px"><button class="btn white" style="flex:1" onclick="prevQuestion()">← Previous</button><button class="btn green" style="flex:1" onclick="nextQuestion()">Next Question →</button></div><br><button class="btn yellow" style="width:100%" onclick="replayCurrent()">🔁 Replay This Question</button></div><div class="card"><button class="btn white" style="width:100%" onclick="toggleAssignmentDrawer()" id="toggleAssignBtn">🏆 Show End-of-Lesson Challenge (10 Tough Items)</button><div id="assignmentDrawer" class="hidden" style="margin-top:12px"><div class="assignBox"><b>🏆 End-of-Lesson Tough Assignment</b><p class="small" style="color:#7f1d1d">Click any challenge below to load it as the single active question on the board.</p><div id="finalAssignmentList"></div></div></div></div></div><aside class="card"><b>📋 Topic Questions (Click a Box to Pick)</b><p class="small" style="margin-bottom:10px" id="sideCountHint">Select any question box to solve it on the board.</p><div class="sideList" id="topicQueueList"></div></aside></div></div>
+<div id="lesson" class="hidden lessonWrap"><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="btn white" onclick="backToTopics()">← Topics</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn3" style="display:none">👑 Back to Admin</button></div><br><span class="pill" id="lessonPill">TOPIC</span><br><br><h2 id="lessonTitle"></h2><p class="small" id="lessonIntro"></p><br><div class="card" style="padding:10px"><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn blue" id="modeLearnBtn" style="flex:1" onclick="setMode('learn')">📖 Learn (<span id="cntLearn">25</span>)</button><button class="btn white" id="modeExamBtn" style="flex:1" onclick="setMode('exam')">🎯 Past Qs (<span id="cntExam">10</span>)</button><button class="btn white" id="modeExBtn" style="flex:1" onclick="setMode('exercise')">✏️ Exercises (<span id="cntEx">60</span>)</button></div></div><div class="solveGrid"><div><div class="card"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><div><span class="pill" id="qModePill">LEARN</span><span class="examBadge" id="qExamTag">WAEC 2023</span><span id="qSavedBadge"></span></div><span class="small" id="exCounter">Question 1 of 25</span></div><br><div class="progress"><div class="progressBar" id="exProgress" style="width:4%"></div></div><br><div class="qTitle" id="qTitle"></div><p class="small" id="qSource"></p></div><div class="card" id="diagramCard"><b>📐 Diagram — Teacher Sketches First</b><p class="small">Study the diagram for this question before solving.</p><br><div class="diagramLabel" id="diagramLabel">Look at the diagram</div><br><canvas id="diagramCanvas" width="560" height="240"></canvas></div><div class="card"><b>✍️ Whiteboard — Extended Walkthrough</b><p class="small">Parameters → Rule &amp; Symbols → Deep Steps → Pitfalls &amp; Check</p><br><div class="boardWrap"><canvas id="whiteboard" width="560" height="460"></canvas><div class="marker" id="marker">🖊️</div></div><br><div class="voiceCtrl"><button class="btn blue" onclick="playLesson()">▶ Play Lesson</button><button class="btn white" onclick="pauseLesson()">⏸ Pause</button><button class="btn white" onclick="stopVoice()">⏹ Stop</button><button class="btn yellow" onclick="clearBoard()">🧹 Clear</button></div><br><div class="voiceCtrl"><button class="btn white" onclick="setSpeed(0.52)">🐢 Very Slow</button><button class="btn green" onclick="setSpeed(0.58)">▶ Calm Teacher</button><button class="btn white" onclick="setSpeed(0.75)">🐇 Faster</button><button class="btn dark" onclick="testVoiceVolume()">🔊 Test Voice</button></div><p class="small" id="penStatus" style="margin-top:8px">Marker ready.</p><p class="small" id="nowReading">Now explaining: —</p><div style="margin-top:14px;padding-top:14px;border-top:1px solid #eee"><b>❓ Ask About This Question or Type Your Own Question</b><div id="photoSubscriberControls" class="photoBar"><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn blue" style="flex:1" onclick="triggerPhotoInput('snapInput')">📷 Snap Question</button><button type="button" class="btn white" style="flex:1" onclick="triggerPhotoInput('uploadPhotoInput')">🖼️ Upload Photo</button><button type="button" class="btn white" onclick="clearPhotoPreview()">✕ Clear Photo</button></div><input id="snapInput" type="file" accept="image/*" capture="environment" class="hidden" onchange="onPhotoSelected(this)"><input id="uploadPhotoInput" type="file" accept="image/*" class="hidden" onchange="onPhotoSelected(this)"><img id="photoPreview" class="prev hidden" alt="Uploaded question photo"><p class="small" id="photoStatus" style="margin-top:6px">Subscriber perk: Snap or upload a question image, type/confirm the question below, and solve with an extended step-by-step explanation.</p></div><div id="photoLockedNotice" class="photoLockedBox hidden"><b>🔒 Photo Snap &amp; Upload — Subscribers Only</b><p class="small" style="color:#78350f;margin:4px 0 8px">Snapping or uploading photos to solve questions is available only to active monthly subscribers (₦5,000 / month). You can still type questions below.</p><button type="button" class="btn yellow" style="padding:8px 14px;font-size:13px" onclick="goToSubscribeForPhoto()">🔓 Subscribe / Enter PIN to Unlock Photo Solver</button></div><textarea id="askBox" placeholder="Type ANY maths question (integral, derivative, quadratic, linear, simultaneous, BODMAS, %, etc.)..."></textarea><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn yellow" style="flex:1" onclick="askTeacher()">Ask Teacher — Explain WHY &amp; Pitfalls</button><button class="btn green" style="flex:1" onclick="solveQuestion()">Solve Question + Full Explanation →</button><button class="btn white" onclick="askVoice()">🎙️ Voice</button></div><div id="askAns"></div><div id="qAns"></div></div></div><div class="card"><div style="display:flex;gap:8px"><button class="btn white" style="flex:1" onclick="prevQuestion()">← Previous</button><button class="btn green" style="flex:1" onclick="nextQuestion()">Next Question →</button></div><br><button class="btn yellow" style="width:100%" onclick="replayCurrent()">🔁 Replay This Question</button></div><div class="card"><button class="btn white" style="width:100%" onclick="toggleAssignmentDrawer()" id="toggleAssignBtn">🏆 Show End-of-Lesson Challenge (10 Tough Items)</button><div id="assignmentDrawer" class="hidden" style="margin-top:12px"><div class="assignBox"><b>🏆 End-of-Lesson Tough Assignment</b><p class="small" style="color:#7f1d1d">Click any challenge below to load it as the single active question on the board.</p><div id="finalAssignmentList"></div></div></div></div></div><aside class="card"><b>📋 Topic Questions (Click a Box to Pick)</b><p class="small" style="margin-bottom:10px" id="sideCountHint">Select any question box to solve it on the board.</p><div class="sideList" id="topicQueueList"></div></aside></div></div>
 <div id="adminDash" class="hidden wrap"><button class="btn white" onclick="adminLogout()">← Logout</button><button class="btn yellow" onclick="showSections()">👀 Switch to Student View →</button><br><br><h2>👑 Admin Dashboard</h2><p class="small">Welcome Ekpo Bassey!</p><br><div class="card payBox"><b>💳 Your Payment Details</b><br><b>Account:</b> 8147699555<br><b>Name:</b> Ekpo Bassey<br><b>WhatsApp:</b> 08147699555<br><b>Price:</b> ₦5,000 / Section / MONTH<br><b>PIN:</b> 1 Phone Only. NOT transferable.</div><div class="card"><b id="qFormHeading">➕ Type Question Only - Machine Will Auto-Move It To Correct Topic &amp; Solve It</b><p class="small">Tap a class/exam question bank below, type your question, and press Save. Newest questions go to the top and push older ones down.</p><label class="small"><b>Question Bank (Click to Open)</b></label><div class="bankGrid" id="bankSelectorGrid"><button type="button" class="bankBtn activeBank" data-bank="JS1" onclick="selectQuestionBank('JS1')">JS1</button><button type="button" class="bankBtn" data-bank="JS2" onclick="selectQuestionBank('JS2')">JS2</button><button type="button" class="bankBtn" data-bank="JS3" onclick="selectQuestionBank('JS3')">JS3</button><button type="button" class="bankBtn" data-bank="SS1" onclick="selectQuestionBank('SS1')">SS1</button><button type="button" class="bankBtn" data-bank="SS2" onclick="selectQuestionBank('SS2')">SS2</button><button type="button" class="bankBtn" data-bank="SS3" onclick="selectQuestionBank('SS3')">SS3</button><button type="button" class="bankBtn" data-bank="WAEC" onclick="selectQuestionBank('WAEC')">WAEC</button><button type="button" class="bankBtn" data-bank="JAMB" onclick="selectQuestionBank('JAMB')">JAMB</button></div><label class="small"><b>Tab / Mode</b></label><select id="bankMode"><option value="learn">📖 Learn</option><option value="exam">🎯 Past Qs</option><option value="exercise">✏️ Exercises</option></select><input id="bankExam" placeholder="Exam Tag (e.g. WAEC 2024, BECE 2023, JAMB 2024)"><textarea id="bankQ" placeholder="Type the full question here... e.g. Solve 2x + 3 = 11  OR  Find the bearing of B from A..."></textarea><input id="bankFormula" placeholder="Optional - leave empty, machine will fill it"><textarea id="bankAnswer" placeholder="Optional - leave empty, machine will solve it"></textarea><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn green" style="flex:1" onclick="saveBankQuestion()" id="saveBankBtn">💾 Save - Machine Auto-Moves &amp; Solves</button><button class="btn white" onclick="resetBankForm()">Cancel Edit</button></div><p class="small" id="bankMsg" style="margin-top:8px"></p><input type="hidden" id="bankCat" value="JSS"><input type="hidden" id="bankTopic" value=""><input type="hidden" id="activeBankCode" value="JS1"></div><div class="card"><b>🗂️ Saved Questions Cells (Edit or Delete)</b><p class="small" id="cellSummary">Showing saved questions.</p><br><div id="savedQuestionsCells"></div></div><div class="card"><b>Generate New PIN — NOT Transferable</b><select id="pinCat"><option value="JSS">Junior (JSS)</option><option value="SSS">Senior (SSS)</option><option value="JAMB">JAMB Mathematics</option></select><input id="studentName" placeholder="Student Name"><button class="btn green" style="width:100%" onclick="genPIN()">Generate PIN →</button><div id="genResult"></div></div><div class="card"><b>📋 All PINs</b><div id="pinList"></div></div><div class="card"><b>⚙️ Change Password</b><input id="newAdminPass" type="password" placeholder="New Password"><button class="btn blue" style="width:100%" onclick="changeAdminPass()">Change Password</button><p class="small" id="changeMsg"></p></div></div>
 <div id="adminBox" onclick="if(event.target==this) closeAdmin()"><div class="popup"><div id="adminLoginForm"><h3 id="adminTitle">Admin 🔐</h3><p class="small" id="adminHint">Create your Admin Password first time.</p><input id="adminPass" type="password" placeholder="Admin Password"><input id="adminPass2" type="password" placeholder="Confirm Password" class="hidden"><button class="btn blue" style="width:100%" onclick="checkAdmin()" id="adminBtn">Continue →</button><p id="adminMsg" style="color:red;font-size:13px"></p><button class="btn" onclick="closeAdmin()">Cancel</button></div><div id="adminSuccess" class="hidden" style="text-align:center"><h2>✅ Welcome Admin!</h2><br><button class="btn green" style="width:100%;padding:14px" onclick="goToAdminDash()">Go to Admin Dashboard →</button></div></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -326,7 +326,367 @@ function pauseLesson(){ cancelAllPlayback(); document.getElementById("penStatus"
 function stopVoice(){ cancelAllPlayback(); document.getElementById("penStatus").innerText="Stopped."; }
 function askTeacher(){ if(!curQuestion) return; const typed=document.getElementById("askBox").value.trim(); const pHtml=(curQuestion.params||[]).map(p=>`• <b>${p.sym}</b> (${p.meaning}): ${p.why}`).join("<br>"); const fHtml=(curQuestion.formula.parts||[]).map(pt=>`• <b>${pt.part}</b>: ${pt.desc}`).join("<br>"); const sHtml=(curQuestion.steps||[]).map((st,i)=>`• <b>Step ${i+1}:</b> ${st.line} — <i>${st.why}</i>${st.arith?` <span style="color:#0f766e">[${st.arith}]</span>`:""}`).join("<br>"); document.getElementById("askAns").innerHTML=`<div class="card" style="background:#eef7ff;margin-top:10px"><b>Detailed Breakdown${typed?" — Your Note: "+typed:""}:</b><br><br><b>1. Given Parameters:</b><br>${pHtml}<br><br><b>2. Formula (${curQuestion.formula.eq}):</b><br>${fHtml}<br><br><b>3. Steps:</b><br>${sHtml}<br><br><b>4. Trap:</b> ${curQuestion.pitfall||""}<br><b>5. Check:</b> ${curQuestion.check||""}</div>`; writeStructuredLesson(curQuestion,null); }
 function askVoice(){ try{const R=window.SpeechRecognition||window.webkitSpeechRecognition;if(!R){alert("Type your question.");return}const r=new R();r.lang="en-NG";r.onresult=e=>{document.getElementById("askBox").value=e.results[0][0].transcript;askTeacher()};r.start()}catch(e){alert("Type your question.");} }
-function solveQuestion(){ const typedQ=document.getElementById("askBox").value.trim(); const hasPhoto=Boolean(attachedPhotoData&&canUsePhotoSolver()); const q=typedQ||(hasPhoto?"Question from snapped/uploaded photo":(curQuestion?curQuestion.title:"Custom question")); const title=TOPICS[curCat]&&TOPICS[curCat][curTopic]?TOPICS[curCat][curTopic]:"Mathematics"; const tag=hasPhoto?"PHOTO / SNAP Q":"TYPED Q"; curQuestion={title:q,examTag:tag,source:`${hasPhoto?"Photo/Snap Solver":"Typed Question"} • ${title}`,params:[{sym:q,meaning:hasPhoto?"problem captured from photo":"given problem statement",why:"Reading every condition carefully prevents misinterpreting."},{sym:`Topic: ${title}`,meaning:"mathematical context",why:"Identifying topic helps select right formula."}],formula:{eq:"1. Extract Given & Unknown → 2. Apply Governing Rule → 3. Simplify & Verify",parts:[{part:"Given",desc:"known numbers/conditions"},{part:"Target",desc:"what is asked"},{part:"Rule",desc:"formula linking given to answer"}]},steps:[{line:`Identify known and target in: ${q}`,why:"Separating given from required avoids confusion.",arith:"List each value clearly."},{line:`Substitute into rule and simplify step by step`,why:"One operation at a time keeps it accurate.",arith:"Check every operation and sign."}],pitfall:"Rushing signs (+/−), BODMAS, or forgetting exact question asked.",check:"Re-read original question and verify steps and answer match all conditions.",sideWorkLines:["List given vs required","Check signs, powers & units","Verify final answer"],sideWorkExpl:"Let me write structured check, then erase it."}; document.getElementById("qExamTag").innerText=tag; document.getElementById("qSavedBadge").innerHTML=""; document.getElementById("qTitle").innerText=curQuestion.title; document.getElementById("qSource").innerText=curQuestion.source; document.getElementById("qAns").innerHTML=`<div class="card" style="background:#eafff1;margin-top:10px"><b>✅ Extended Explanation Loaded on Whiteboard:</b><br><span class="small">Includes parameters, rule & parts, multi-step working, pitfalls, and check.</span></div>`; drawDiagram("none",""); writeStructuredLesson(curQuestion,null); }
+
+function normalizeMathExpr(raw){
+  return (raw || "")
+    .replace(/−|–|—/g, "-")
+    .replace(/×/g, "*")
+    .replace(/÷/g, "/")
+    .replace(/²/g, "^2")
+    .replace(/³/g, "^3")
+    .replace(/⁴/g, "^4")
+    .replace(/∫/g, " integral ");
+}
+
+function fmtNum(n){
+  if(typeof n !== "number" || !Number.isFinite(n)) return String(n);
+  if(Math.abs(n - Math.round(n)) < 1e-9) return String(Math.round(n));
+  return String(Number(n.toFixed(4)));
+}
+
+function fmtSignedTerm(coeff, deg, isFirst){
+  const absC = Math.abs(coeff);
+  const sign = coeff < 0 ? "− " : (isFirst ? "" : "+ ");
+  const cStr = (deg > 0 && Math.abs(absC - 1) < 1e-9) ? "" : fmtNum(absC);
+  const xStr = deg === 0 ? "" : (deg === 1 ? "x" : "x" + toSup(deg));
+  return `${sign}${cStr}${xStr}`.trim();
+}
+
+function parsePolyTerms(expr){
+  const cleaned = (expr || "").replace(/\s+/g, "").replace(/dx$/i, "");
+  if(!cleaned || /[^0-9xX+\-.^]/.test(cleaned)) return null;
+  const withSigns = cleaned.startsWith("-") || cleaned.startsWith("+") ? cleaned : "+" + cleaned;
+  const parts = withSigns.match(/[+-][^+-]+/g) || [];
+  if(!parts.length) return null;
+  const merged = {};
+  for(const part of parts){
+    let coeff = 0, deg = 0;
+    if(/[xX]/.test(part)){
+      const [cRaw, pRaw] = part.split(/[xX]/);
+      if(cRaw === "+" || cRaw === "") coeff = 1;
+      else if(cRaw === "-") coeff = -1;
+      else coeff = parseFloat(cRaw);
+      if(pRaw && pRaw.startsWith("^")) deg = parseFloat(pRaw.slice(1));
+      else deg = 1;
+    } else {
+      coeff = parseFloat(part);
+      deg = 0;
+    }
+    if(Number.isNaN(coeff) || Number.isNaN(deg) || !Number.isInteger(deg) || deg < 0) return null;
+    merged[deg] = (merged[deg] || 0) + coeff;
+  }
+  const entries = Object.entries(merged)
+    .map(([d, c]) => ({ coeff: c, deg: Number(d) }))
+    .filter(t => Math.abs(t.coeff) > 1e-12)
+    .sort((a, b) => b.deg - a.deg);
+  return entries.length ? entries : [{ coeff: 0, deg: 0 }];
+}
+
+function solveIntegralEngine(qText, sourceLabel){
+  const norm = normalizeMathExpr(qText);
+  const low = norm.toLowerCase();
+  const boundsMatch = low.match(/(?:from\s*)?(-?\d+(?:\.\d+)?)\s*(?:to|,)\s*(-?\d+(?:\.\d+)?)/);
+  const exprMatch = norm.match(/\(([^()]+)\)\s*dx/i) || norm.match(/(?:of|evaluate|integrate|integral)\s+(.+?)(?:\s+dx|\s+from|$)/i);
+  const rawExpr = exprMatch ? exprMatch[1] : norm;
+  const terms = parsePolyTerms(rawExpr);
+  if(!terms) return null;
+
+  const anti = terms.map(t => ({ coeff: t.coeff / (t.deg + 1), deg: t.deg + 1 }));
+  const antiStr = anti.map((t, i) => fmtSignedTerm(t.coeff, t.deg, i === 0)).join(" ") || "0";
+
+  if(boundsMatch){
+    const a = parseFloat(boundsMatch[1]);
+    const b = parseFloat(boundsMatch[2]);
+    const evalAt = x => anti.reduce((s, t) => s + t.coeff * Math.pow(x, t.deg), 0);
+    const valB = evalAt(b);
+    const valA = evalAt(a);
+    const ans = valB - valA;
+    return {
+      examTag: "INTEGRAL",
+      source: sourceLabel,
+      params: [
+        { sym: `f(x) = ${rawExpr.trim()}`, meaning: "integrand", why: "Integrate each term by increasing exponent by 1 and dividing by new exponent." },
+        { sym: `Limits ${a} to ${b}`, meaning: "lower limit to upper limit", why: "Evaluate F(upper) − F(lower)." }
+      ],
+      formula: { eq: "∫ xⁿ dx = xⁿ⁺¹/(n+1);  ∫ₐᵇ f(x) dx = F(b) − F(a)", parts: [{ part: "Power rule", desc: "add 1 to power, divide by new power" }, { part: "F(b) − F(a)", desc: "substitute top limit minus bottom limit" }] },
+      steps: [
+        { line: `Antiderivative: F(x) = ${antiStr}`, why: "Apply power rule to each term.", arith: terms.map(t => `${fmtNum(t.coeff)}/${t.deg+1}`).join(", ") },
+        { line: `At x = ${b}: F(${b}) = ${fmtNum(valB)}`, why: "Substitute upper limit.", arith: `F(${b}) = ${fmtNum(valB)}` },
+        { line: `At x = ${a}: F(${a}) = ${fmtNum(valA)}`, why: "Substitute lower limit.", arith: `F(${a}) = ${fmtNum(valA)}` },
+        { line: `Result: ${fmtNum(valB)} − (${fmtNum(valA)}) = ${fmtNum(ans)}`, why: "Subtract lower value from upper value.", arith: `Answer = ${fmtNum(ans)}` }
+      ],
+      pitfall: "Subtracting in reverse order or mishandling minus signs on limits.",
+      check: `d/dx(${antiStr}) = ${rawExpr.trim()}, and ${fmtNum(valB)} − ${fmtNum(valA)} = ${fmtNum(ans)}.`,
+      sideWorkLines: [`F(${b}) = ${fmtNum(valB)}`, `F(${a}) = ${fmtNum(valA)}`, `Ans = ${fmtNum(ans)}`],
+      sideWorkExpl: "Let me verify the substitution on the side, then erase it."
+    };
+  }
+
+  return {
+    examTag: "INTEGRAL",
+    source: sourceLabel,
+    params: [{ sym: `∫ (${rawExpr.trim()}) dx`, meaning: "indefinite integral", why: "Find general antiderivative plus constant C." }],
+    formula: { eq: "∫ xⁿ dx = xⁿ⁺¹/(n+1) + C", parts: [{ part: "xⁿ⁺¹/(n+1)", desc: "power rule" }, { part: "+ C", desc: "constant of integration" }] },
+    steps: [{ line: `Integral = ${antiStr} + C`, why: "Add 1 to each power and divide by new power.", arith: `${antiStr} + C` }],
+    pitfall: "Forgetting + C on indefinite integrals.",
+    check: `Differentiating ${antiStr} + C gives ${rawExpr.trim()}.`,
+    sideWorkLines: [antiStr, "+ C"],
+    sideWorkExpl: "Let me check the integrated terms, then erase them."
+  };
+}
+
+function solveDerivativeEngine(qText, sourceLabel){
+  const norm = normalizeMathExpr(qText);
+  const atMatch = norm.match(/(?:at|when)\s*x\s*=\s*(-?\d+(?:\.\d+)?)/i);
+  const exprMatch = norm.match(/(?:y\s*=|differentiate|derivative of|d\/dx(?:\s+of)?)\s+(.+?)(?:,| at | when |$)/i);
+  const rawExpr = exprMatch ? exprMatch[1] : norm;
+  const terms = parsePolyTerms(rawExpr);
+  if(!terms) return null;
+
+  const deriv = terms.filter(t => t.deg >= 1).map(t => ({ coeff: t.coeff * t.deg, deg: t.deg - 1 }));
+  const derivStr = deriv.length ? deriv.map((t, i) => fmtSignedTerm(t.coeff, t.deg, i === 0)).join(" ") : "0";
+  const steps = [{ line: `dy/dx = ${derivStr}`, why: "Multiply each term by its power and reduce power by 1.", arith: terms.filter(t=>t.deg>=1).map(t=>`${fmtNum(t.coeff)}×${t.deg}`).join(", ") || "Constant → 0" }];
+  let checkText = `Power rule applied to ${rawExpr.trim()} gives ${derivStr}.`;
+
+  if(atMatch){
+    const x0 = parseFloat(atMatch[1]);
+    const val = deriv.reduce((s, t) => s + t.coeff * Math.pow(x0, t.deg), 0);
+    steps.push({ line: `At x = ${x0}: dy/dx = ${fmtNum(val)}`, why: "Substitute x = " + x0 + " into derivative.", arith: `dy/dx(${x0}) = ${fmtNum(val)}` });
+    checkText = `At x = ${x0}, dy/dx = ${fmtNum(val)}.`;
+  }
+
+  return {
+    examTag: "CALCULUS",
+    source: sourceLabel,
+    params: [{ sym: `f(x) = ${rawExpr.trim()}`, meaning: "function to differentiate", why: "Differentiate term by term using power rule." }],
+    formula: { eq: "d/dx(xⁿ) = n·xⁿ⁻¹", parts: [{ part: "n·xⁿ⁻¹", desc: "bring down power and subtract 1 from exponent" }] },
+    steps,
+    pitfall: "Forgetting that derivative of a constant is 0 or miscalculating n − 1.",
+    check: checkText,
+    sideWorkLines: [`dy/dx = ${derivStr}`],
+    sideWorkExpl: "Let me check the derivative rule on the side, then erase it."
+  };
+}
+
+function solveQuadraticEngine(qText, sourceLabel){
+  const norm = normalizeMathExpr(qText).replace(/\s+/g, "");
+  const eqMatch = norm.match(/([+-]?[0-9.x^+-]+)=([+-]?[0-9.x^+-]+)/i);
+  if(!eqMatch) return null;
+  const lhs = parsePolyTerms(eqMatch[1]);
+  const rhs = parsePolyTerms(eqMatch[2]);
+  if(!lhs || !rhs) return null;
+
+  const diff = {};
+  lhs.forEach(t => { diff[t.deg] = (diff[t.deg] || 0) + t.coeff; });
+  rhs.forEach(t => { diff[t.deg] = (diff[t.deg] || 0) - t.coeff; });
+
+  const a = diff[2] || 0;
+  const b = diff[1] || 0;
+  const c = diff[0] || 0;
+  const higherDeg = Object.keys(diff).map(Number).some(d => d > 2 && Math.abs(diff[d]) > 1e-9);
+  if(higherDeg) return null;
+
+  if(Math.abs(a) < 1e-9){
+    if(Math.abs(b) < 1e-9) return null;
+    const x = -c / b;
+    return {
+      examTag: "LINEAR EQ",
+      source: sourceLabel,
+      params: [{ sym: `${fmtNum(b)}x + (${fmtNum(c)}) = 0`, meaning: "linear equation in x", why: "Isolate x by moving constant and dividing by coefficient of x." }],
+      formula: { eq: "bx + c = 0 ⇒ x = −c / b", parts: [{ part: "b", desc: "coefficient of x" }, { part: "c", desc: "constant term" }] },
+      steps: [
+        { line: `${fmtNum(b)}x = ${fmtNum(-c)}`, why: "Move constant term to the right side.", arith: `Constant = ${fmtNum(-c)}` },
+        { line: `x = ${fmtNum(-c)} / ${fmtNum(b)} = ${fmtNum(x)}`, why: "Divide both sides by " + fmtNum(b) + ".", arith: `x = ${fmtNum(x)}` }
+      ],
+      pitfall: "Flipping signs when moving terms across the '=' sign.",
+      check: `Substitute x = ${fmtNum(x)} back into the equation to confirm equality.`,
+      sideWorkLines: [`${fmtNum(b)}x = ${fmtNum(-c)}`, `x = ${fmtNum(x)}`],
+      sideWorkExpl: "Let me check isolating x on the side, then erase it."
+    };
+  }
+
+  const disc = b * b - 4 * a * c;
+  const steps = [
+    { line: `Standard form: ${fmtNum(a)}x² ${b>=0?"+":"−"} ${fmtNum(Math.abs(b))}x ${c>=0?"+":"−"} ${fmtNum(Math.abs(c))} = 0`, why: "Identify coefficients a, b, and c.", arith: `a=${fmtNum(a)}, b=${fmtNum(b)}, c=${fmtNum(c)}` },
+    { line: `Discriminant Δ = b² − 4ac = ${fmtNum(b*b)} − ${fmtNum(4*a*c)} = ${fmtNum(disc)}`, why: "Check discriminant under square root.", arith: `Δ = ${fmtNum(disc)}` }
+  ];
+
+  let checkStr = "";
+  if(disc < 0){
+    steps.push({ line: `Since Δ < 0, roots are complex: x = (${fmtNum(-b)} ± √(${fmtNum(disc)})) / ${fmtNum(2*a)}`, why: "Negative discriminant has no real roots.", arith: `2a = ${fmtNum(2*a)}` });
+    checkStr = "Discriminant is negative, so there are two complex roots.";
+  } else {
+    const sqrtD = Math.sqrt(disc);
+    const x1 = (-b + sqrtD) / (2 * a);
+    const x2 = (-b - sqrtD) / (2 * a);
+    steps.push({ line: `x₁ = ${fmtNum(x1)}  and  x₂ = ${fmtNum(x2)}`, why: "Apply x = (−b ± √Δ) / (2a).", arith: `x₁=${fmtNum(x1)}, x₂=${fmtNum(x2)}` });
+    checkStr = `Both x = ${fmtNum(x1)} and x = ${fmtNum(x2)} satisfy the quadratic equation.`;
+  }
+
+  return {
+    examTag: "QUADRATIC",
+    source: sourceLabel,
+    params: [{ sym: `a=${fmtNum(a)}, b=${fmtNum(b)}, c=${fmtNum(c)}`, meaning: "quadratic coefficients", why: "Use quadratic formula when factoring isn't immediate." }],
+    formula: { eq: "x = (−b ± √(b² − 4ac)) / (2a)", parts: [{ part: "b² − 4ac", desc: "discriminant" }, { part: "2a", desc: "twice leading coefficient" }] },
+    steps,
+    pitfall: "Forgetting the minus sign in −b or dividing only part of numerator by 2a.",
+    check: checkStr,
+    sideWorkLines: [`Δ = ${fmtNum(disc)}`, `2a = ${fmtNum(2*a)}`],
+    sideWorkExpl: "Let me check discriminant and denominator, then erase them."
+  };
+}
+
+function parseLinearXY(part){
+  const cleaned = part.replace(/\s+/g, "");
+  const withSigns = cleaned.startsWith("-") || cleaned.startsWith("+") ? cleaned : "+" + cleaned;
+  const tokens = withSigns.match(/[+-][^+-]+/g) || [];
+  let ax = 0, by = 0, c = 0;
+  for(const tok of tokens){
+    if(/x/i.test(tok)){
+      const s = tok.replace(/x/i, "");
+      ax += (s === "+" || s === "") ? 1 : (s === "-" ? -1 : parseFloat(s));
+    } else if(/y/i.test(tok)){
+      const s = tok.replace(/y/i, "");
+      by += (s === "+" || s === "") ? 1 : (s === "-" ? -1 : parseFloat(s));
+    } else {
+      c += parseFloat(tok);
+    }
+  }
+  return { ax, by, c };
+}
+
+function solveSimultaneousEngine(qText, sourceLabel){
+  const norm = normalizeMathExpr(qText);
+  const eqs = norm.match(/[^,;\n]+=[0-9.xXyY+\-\s]+/g);
+  if(!eqs || eqs.length < 2) return null;
+  const parseSide = str => {
+    const [l, r] = str.split("=");
+    const L = parseLinearXY(l);
+    const R = parseLinearXY(r);
+    return { a: L.ax - R.ax, b: L.by - R.by, rhs: R.c - L.c };
+  };
+  const e1 = parseSide(eqs[0]);
+  const e2 = parseSide(eqs[1]);
+  const det = e1.a * e2.b - e2.a * e1.b;
+  if(Math.abs(det) < 1e-9) return null;
+  const x = (e1.rhs * e2.b - e2.rhs * e1.b) / det;
+  const y = (e1.a * e2.rhs - e2.a * e1.rhs) / det;
+
+  return {
+    examTag: "SIMULTANEOUS",
+    source: sourceLabel,
+    params: [
+      { sym: `Eq 1: ${fmtNum(e1.a)}x ${e1.b>=0?"+":"−"} ${fmtNum(Math.abs(e1.b))}y = ${fmtNum(e1.rhs)}`, meaning: "first linear equation", why: "Use elimination or substitution to find x and y." },
+      { sym: `Eq 2: ${fmtNum(e2.a)}x ${e2.b>=0?"+":"−"} ${fmtNum(Math.abs(e2.b))}y = ${fmtNum(e2.rhs)}`, meaning: "second linear equation", why: "Solve together with Eq 1." }
+    ],
+    formula: { eq: "Eliminate one variable (x or y) and substitute back", parts: [{ part: "x", desc: fmtNum(x) }, { part: "y", desc: fmtNum(y) }] },
+    steps: [
+      { line: `Solve for x: x = ${fmtNum(x)}`, why: "Eliminate y between the two equations.", arith: `x = ${fmtNum(x)}` },
+      { line: `Substitute to get y: y = ${fmtNum(y)}`, why: "Plug x back into either equation.", arith: `y = ${fmtNum(y)}` }
+    ],
+    pitfall: "Sign errors when subtracting equations or substituting back.",
+    check: `Both equations hold for x = ${fmtNum(x)} and y = ${fmtNum(y)}.`,
+    sideWorkLines: [`x = ${fmtNum(x)}`, `y = ${fmtNum(y)}`],
+    sideWorkExpl: "Let me check both values on the side, then erase them."
+  };
+}
+
+function solveArithmeticEngine(qText, sourceLabel){
+  const norm = normalizeMathExpr(qText);
+  const pctMatch = norm.match(/(-?\d+(?:\.\d+)?)\s*%\s*(?:of)\s*(-?\d+(?:\.\d+)?)/i);
+  if(pctMatch){
+    const p = parseFloat(pctMatch[1]);
+    const v = parseFloat(pctMatch[2]);
+    const res = (p / 100) * v;
+    return {
+      examTag: "PERCENTAGE",
+      source: sourceLabel,
+      params: [{ sym: `${fmtNum(p)}% of ${fmtNum(v)}`, meaning: "percentage of a value", why: "Convert percentage to fraction over 100 and multiply." }],
+      formula: { eq: "(p / 100) × value", parts: [{ part: "p/100", desc: `${fmtNum(p)} out of 100` }, { part: "value", desc: fmtNum(v) }] },
+      steps: [{ line: `(${fmtNum(p)} / 100) × ${fmtNum(v)} = ${fmtNum(res)}`, why: "Divide percentage by 100 and multiply.", arith: `Result = ${fmtNum(res)}` }],
+      pitfall: "Forgetting to divide the percentage by 100.",
+      check: `${fmtNum(p)}% of ${fmtNum(v)} equals ${fmtNum(res)}.`,
+      sideWorkLines: [`${fmtNum(p)}/100 = ${fmtNum(p/100)}`, `Ans = ${fmtNum(res)}`],
+      sideWorkExpl: "Let me check the percentage calculation, then erase it."
+    };
+  }
+
+  const exprCandidate = norm
+    .replace(/^(?:evaluate|simplify|calculate|find|what is|solve)\s+/i, "")
+    .replace(/[?.=]+$/g, "")
+    .trim();
+
+  if(/^[0-9+\-*/().^\s]+$/.test(exprCandidate) && /[0-9]/.test(exprCandidate) && /[+\-*/^]/.test(exprCandidate)){
+    const jsExpr = exprCandidate.replace(/\^/g, "**");
+    try{
+      const val = Function(`"use strict"; return (${jsExpr});`)();
+      if(typeof val === "number" && Number.isFinite(val)){
+        return {
+          examTag: "ARITHMETIC",
+          source: sourceLabel,
+          params: [{ sym: exprCandidate, meaning: "numerical expression", why: "Follow order of operations (brackets, powers, ×/÷, +/−)." }],
+          formula: { eq: "BODMAS: Brackets → Powers/Orders → Division/Multiplication → Addition/Subtraction", parts: [{ part: "Order", desc: "evaluate inner/higher priority operations first" }] },
+          steps: [{ line: `${exprCandidate} = ${fmtNum(val)}`, why: "Apply BODMAS rules step by step.", arith: `Answer = ${fmtNum(val)}` }],
+          pitfall: "Adding or subtracting before multiplying or dividing.",
+          check: `Re-evaluating ${exprCandidate} gives ${fmtNum(val)}.`,
+          sideWorkLines: [exprCandidate, `= ${fmtNum(val)}`],
+          sideWorkExpl: "Let me double-check the arithmetic on the side, then erase it."
+        };
+      }
+    }catch(e){}
+  }
+  return null;
+}
+
+function solveQuestion(){
+  const typedQ = document.getElementById("askBox").value.trim();
+  const hasPhoto = Boolean(attachedPhotoData && canUsePhotoSolver());
+  const q = typedQ || (hasPhoto ? "Question from snapped/uploaded photo" : (curQuestion ? curQuestion.title : "Custom question"));
+  const sourceLabel = hasPhoto ? "Photo / Snap Solver" : "Typed Question";
+
+  const solved =
+    (/integrat|integral|∫|\bdx\b/i.test(q) && solveIntegralEngine(q, sourceLabel)) ||
+    (/differentiat|derivative|dy\/dx|d\/dx/i.test(q) && solveDerivativeEngine(q, sourceLabel)) ||
+    (solveSimultaneousEngine(q, sourceLabel)) ||
+    (solveQuadraticEngine(q, sourceLabel)) ||
+    (solveArithmeticEngine(q, sourceLabel)) ||
+    {
+      examTag: hasPhoto ? "PHOTO / SNAP Q" : "TYPED Q",
+      source: sourceLabel,
+      params: [{ sym: q, meaning: hasPhoto ? "problem from photo" : "given problem statement", why: "Identify given values and target unknown." }],
+      formula: { eq: "1. Identify Given & Target → 2. Apply Governing Rule → 3. Simplify & Verify", parts: [{ part: "Given", desc: "known numbers/conditions" }, { part: "Rule", desc: "formula for this problem type" }] },
+      steps: [
+        { line: `Set up problem: ${q}`, why: "Write given quantities and unknown clearly.", arith: "Separate knowns from unknown." },
+        { line: `Apply rule and simplify step by step`, why: "Work carefully without skipping signs or units.", arith: "Verify result against question." }
+      ],
+      pitfall: "Sign mistakes, wrong formula selection, or skipping units.",
+      check: "Re-read the question and verify every step.",
+      sideWorkLines: ["Check signs", "Check units", "Verify answer"],
+      sideWorkExpl: "Let me check the working on the side, then erase it."
+    };
+
+  curQuestion = {
+    title: q,
+    examTag: solved.examTag,
+    source: solved.source,
+    params: solved.params,
+    formula: solved.formula,
+    steps: solved.steps,
+    pitfall: solved.pitfall,
+    check: solved.check,
+    sideWorkLines: solved.sideWorkLines,
+    sideWorkExpl: solved.sideWorkExpl
+  };
+
+  document.getElementById("qExamTag").innerText = curQuestion.examTag;
+  document.getElementById("qSavedBadge").innerHTML = "";
+  document.getElementById("qTitle").innerText = curQuestion.title;
+  document.getElementById("qSource").innerText = curQuestion.source;
+  document.getElementById("qAns").innerHTML = `<div class="card" style="background:#eafff1;margin-top:10px"><b>✅ Full Explanation Loaded on Whiteboard:</b><br><span class="small">Includes given parameters, rule &amp; parts, step-by-step working, pitfalls, and check.</span></div>`;
+  drawDiagram("none", "");
+  writeStructuredLesson(curQuestion, null);
+}
+
 function backToTopics(){ cancelAllPlayback(); openCategory(curCat); }
 function openAdmin(){ document.getElementById("adminBox").classList.add("show"); document.getElementById("adminLoginForm").classList.remove("hidden"); document.getElementById("adminSuccess").classList.add("hidden"); const saved=localStorage.getItem("adminPass"); if(!saved){document.getElementById("adminTitle").innerText="Create Admin Password 🔐";document.getElementById("adminHint").innerText="First time only.";document.getElementById("adminPass2").classList.remove("hidden");document.getElementById("adminBtn").innerText="Create & Continue →"}else{document.getElementById("adminTitle").innerText="Admin Login 🔐";document.getElementById("adminHint").innerText="Enter your password.";document.getElementById("adminPass2").classList.add("hidden");document.getElementById("adminBtn").innerText="Login →"} document.getElementById("adminMsg").innerText=""; }
 function closeAdmin(){ document.getElementById("adminBox").classList.remove("show"); }
