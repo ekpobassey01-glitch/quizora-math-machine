@@ -19,7 +19,6 @@ input,textarea,select{width:100%;padding:12px;border:1px solid #ddd;border-radiu
 input[type=checkbox]{width:22px;height:22px;accent-color:#1E4DA1;cursor:pointer;flex-shrink:0}.hidden{display:none!important}
 .payBox{background:#fff7d6;border:2px dashed #FFC21A;border-radius:14px;padding:14px}
 #adminBox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);place-items:center;z-index:99}#adminBox.show{display:grid}.popup{background:#fff;width:92%;max-width:380px;border-radius:16px;padding:20px;max-height:90vh;overflow:auto}
-img.prev{width:100%;max-height:240px;object-fit:contain;border-radius:12px;margin-top:8px;border:1px solid #e2e8f0;background:#f8fafc}
 video.teacherVid{width:100%;max-height:360px;border-radius:12px;margin-top:8px;background:#000;border:2px solid #1E4DA1}
 .topBar{background:#6a1b9a;color:#fff;text-align:center;padding:8px;font-size:13px;font-weight:700}
 .topicRow{display:flex;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid #eee}.classHead{background:#1E4DA1;color:#fff;padding:10px 12px;border-radius:10px;margin:14px 0 6px;font-weight:800}
@@ -37,8 +36,6 @@ video.teacherVid{width:100%;max-height:360px;border-radius:12px;margin-top:8px;b
 .qPickRow.activePick .qPickBox{background:#1E4DA1;color:#fff}
 .assignBox{background:#fef2f2;border:2px solid #dc2626;border-radius:14px;padding:16px}
 .assignItem{background:#fff;border:1px solid #fecaca;border-radius:10px;padding:12px;margin-top:10px}
-.photoBar{background:#f1f5f9;border:1px dashed #94a3b8;border-radius:12px;padding:12px;margin:8px 0}
-.photoLockedBox{background:#fff7ed;border:1.5px solid #f59e0b;border-radius:12px;padding:12px;margin:8px 0}
 .qCell{border:1px solid #cbd5e1;border-radius:12px;padding:12px;margin-bottom:10px;background:#f8fafc}
 .qCellTop{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
 .qCellActions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
@@ -50,15 +47,15 @@ video.teacherVid{width:100%;max-height:360px;border-radius:12px;margin-top:8px;b
 </style></head><body>
 <div id="adminBar" class="hidden topBar">👑 ADMIN • <button class="btn yellow" style="padding:4px 12px" onclick="goToAdminDash()">↩ Back to Admin</button> <button class="btn white" style="padding:4px 12px" onclick="adminLogout()">Logout</button></div>
 <header><div class="logo"><div class="m">M</div><div><b>Maths Machine</b><br><small>BECE • WAEC • NECO • JAMB Past Qs</small></div></div><div><button class="btn blue" onclick="showHome()">Home</button> <button class="btn purple" onclick="openAdmin()">Admin</button></div></header>
-<div id="home"><div class="hero"><div class="bigM">M</div><h2>Maths Machine</h2><p>Direct step-by-step solutions with your uploaded solving &amp; explanation videos, pen-only whiteboard mode, male voice reading your exact explanation, expanded all-topic math solver, subscriber photo/snap solver, and custom topic question bank.</p><br><button class="btn yellow" style="width:100%;padding:14px" onclick="showSections()">Continue as Student →</button><br><br><button class="btn white" style="width:100%;padding:13px" onclick="openAdmin()">Login as Admin 🔐</button></div>
+<div id="home"><div class="hero"><div class="bigM">M</div><h2>Maths Machine</h2><p>Direct step-by-step solutions with your uploaded solving &amp; explanation videos, pen-only whiteboard mode, male voice reading your exact explanation, expanded all-topic math solver, and custom topic question bank.</p><br><button class="btn yellow" style="width:100%;padding:14px" onclick="showSections()">Continue as Student →</button><br><br><button class="btn white" style="width:100%;padding:13px" onclick="openAdmin()">Login as Admin 🔐</button></div>
 <div class="wrap"><div class="card"><b>📚 Sections</b><br><br><div class="sec" onclick="openCategory('JSS')">📗 Junior Secondary (JS1–JS3 Terms 1–3 &amp; Junior WAEC / BECE)</div><div class="sec" onclick="openCategory('SSS')">📘 Senior Secondary (SS1–SS3 Terms 1–3 &amp; WAEC/NECO)</div><div class="sec" onclick="openCategory('JAMB')">🎯 JAMB Mathematics (Complete UTME Syllabus)</div></div>
 <div class="card warnBox">🔒 PIN RULE<br><span style="font-weight:400;color:#333;font-size:13px">1 PIN = 1 PHONE ONLY. NOT transferable. Expires after 1 month.</span></div></div><p style="text-align:center;color:#888;font-size:12px;padding:10px">Quizora Maths Machine • © 2026</p></div>
 <div id="sections" class="hidden wrap"><button class="btn white" onclick="showHome()">← Back</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn" style="display:none">👑 Back to Admin</button><br><br><h2>Choose Your Section</h2><p class="small" id="subStatus"></p><p class="small" id="myDevice"></p><br><div class="card"><div class="sec" onclick="openCategory('JSS')">📗 Junior Secondary (JS1–JS3 &amp; Junior WAEC / BECE)<br><span class="small" id="statJSS"></span></div><div class="sec" onclick="openCategory('SSS')">📘 Senior Secondary (SS1–SS3 &amp; WAEC/NECO)<br><span class="small" id="statSSS"></span></div><div class="sec" onclick="openCategory('JAMB')">🎯 JAMB Mathematics<br><span class="small" id="statJAMB"></span></div></div>
 <div class="card"><b>🔑 Have a PIN?</b><div class="warnBox" style="font-size:13px">⚠️ PIN locks to THIS phone only. NOT transferable.</div><input id="pinInput" placeholder="Enter PIN"><button class="btn blue" style="width:100%" onclick="activatePIN()">Activate PIN - This Phone Only</button><p class="small" id="pinMsg"></p></div></div>
 <div id="topics" class="hidden wrap"><button class="btn white" onclick="showSections()">← Sections</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn2" style="display:none">👑 Back to Admin</button><br><br><h2 id="catTitle"></h2><p class="small" id="catSub"></p><p class="small" id="expiryInfo"></p><br><div class="searchBox"><input id="topicSearch" placeholder="🔍 Search topic or term..." oninput="filterTopics()"></div><br><div class="card"><b>☑️ Tick a Topic to Open It</b><div id="topicList"></div></div>
 <div class="card payBox" id="payCard"><b>🔒 Unlock - ₦5,000 / MONTH</b><br><br><b>Pay to:</b><br><b>8147699555</b><br><b>Ekpo Bassey</b><br><div class="warnBox" style="margin-top:10px">⚠️ 1 PIN = 1 PHONE ONLY. NOT transferable.</div><br><button class="btn green" style="width:100%" onclick="openWhatsApp()">💬 Send Receipt - WhatsApp</button><br><br><input id="pinInput2" placeholder="Enter PIN"><button class="btn blue" style="width:100%" onclick="activatePIN2()">Activate PIN</button><p class="small" id="pinMsg2"></p></div></div>
-<div id="lesson" class="hidden lessonWrap"><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="btn white" onclick="backToTopics()">← Topics</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn3" style="display:none">👑 Back to Admin</button></div><br><span class="pill" id="lessonPill">TOPIC</span><br><br><h2 id="lessonTitle"></h2><p class="small" id="lessonIntro"></p><br><div class="card" style="padding:10px"><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn blue" id="modeLearnBtn" style="flex:1" onclick="setMode('learn')">📖 Learn (<span id="cntLearn">0</span>)</button><button class="btn white" id="modeExamBtn" style="flex:1" onclick="setMode('exam')">🎯 Past Qs (<span id="cntExam">0</span>)</button><button class="btn white" id="modeExBtn" style="flex:1" onclick="setMode('exercise')">✏️ Exercises (<span id="cntEx">0</span>)</button></div></div><div class="solveGrid"><div><div class="card"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><div><span class="pill" id="qModePill">LEARN</span><span class="examBadge" id="qExamTag">WAEC 2023</span><span id="qSavedBadge"></span></div><span class="small" id="exCounter">Question 1 of 1</span></div><br><div class="progress"><div class="progressBar" id="exProgress" style="width:100%"></div></div><br><div class="qTitle" id="qTitle"></div><p class="small" id="qSource"></p><img id="questionPhotoPreview" class="prev hidden" alt="Uploaded question photo"><div id="questionVideoWrap" class="hidden" style="margin-top:12px"><b>🎥 Your Uploaded Solving &amp; Explanation Video</b><video id="questionVideoPlayer" class="teacherVid" controls playsinline></video></div></div><div class="card" id="diagramCard"><b>📐 Diagram — Teacher Sketches First</b><p class="small">Study the diagram for this question before solving.</p><br><div class="diagramLabel" id="diagramLabel">Look at the diagram</div><br><canvas id="diagramCanvas" width="560" height="240"></canvas></div><div class="card"><b>✍️ Whiteboard — Pen-Only Writing + Explanation</b><p class="small">Uses your explanation when provided, or automatically solves &amp; explains typed/selected questions directly.</p><br><div class="boardWrap"><canvas id="whiteboard" width="560" height="460"></canvas><div class="marker" id="marker">🖊️</div></div><br><div class="voiceCtrl"><button class="btn blue" onclick="playLesson()">▶ Play Pen</button><button class="btn white" onclick="pauseLesson()">⏸ Pause</button><button class="btn white" onclick="stopVoice()">⏹ Stop</button><button class="btn yellow" onclick="clearBoard()">🧹 Clear</button></div><br><div class="voiceCtrl"><button class="btn green" id="maleVoiceBtn" onclick="setNarrationMode('male')">🎙️ Male Voice (Exact Words)</button><button class="btn white" id="silentPenBtn" onclick="setNarrationMode('silent')">🖊️ Pen Only (No Voice)</button><button class="btn dark" onclick="testVoiceVolume()">🔊 Test Male Voice</button></div><br><div class="voiceCtrl"><button class="btn white" onclick="setSpeed(0.52)">🐢 Very Slow</button><button class="btn white" onclick="setSpeed(0.62)">▶ Calm</button><button class="btn white" onclick="setSpeed(0.78)">🐇 Faster</button></div><p class="small" id="penStatus" style="margin-top:8px">Pen ready.</p><p class="small" id="nowReading">Exact line: —</p><div style="margin-top:14px;padding-top:14px;border-top:1px solid #eee"><b>❓ Ask About This Question or Type Your Own Question</b><div id="photoSubscriberControls" class="photoBar"><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn blue" style="flex:1" onclick="triggerPhotoInput('snapInput')">📷 Snap Bulk Qs</button><button type="button" class="btn white" style="flex:1" onclick="triggerPhotoInput('uploadPhotoInput')">🖼️ Upload Bulk Photos</button><button type="button" class="btn white" onclick="clearPhotoPreview()">✕ Clear Photo</button></div><input id="snapInput" type="file" accept="image/*" capture="environment" multiple class="hidden" onchange="onPhotoSelected(this)"><input id="uploadPhotoInput" type="file" accept="image/*" multiple class="hidden" onchange="onPhotoSelected(this)"><img id="photoPreview" class="prev hidden" alt="Uploaded question photo"><p class="small" id="photoStatus" style="margin-top:6px">Subscriber perk: Snap or upload bulk question photos and type/enter the question text to solve directly.</p></div><div id="photoLockedNotice" class="photoLockedBox hidden"><b>🔒 Photo Snap &amp; Upload — Subscribers Only</b><p class="small" style="color:#78350f;margin:4px 0 8px">Snapping or uploading photos to solve questions is available only to active monthly subscribers (₦5,000 / month). You can still type questions below.</p><button type="button" class="btn yellow" style="padding:8px 14px;font-size:13px" onclick="goToSubscribeForPhoto()">🔓 Subscribe / Enter PIN to Unlock Photo Solver</button></div><textarea id="askBox" placeholder="Type ANY maths question (round 4872 to nearest thousand, base 2/8/16, simple/compound interest, profit/loss, AP/GP, nPr/nCr, matrices, inequalities, cubics, calculus, %, etc.)..."></textarea><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn yellow" style="flex:1" onclick="askTeacher()">Ask Teacher — Formula &amp; Steps</button><button class="btn green" style="flex:1" onclick="solveQuestion()">Solve Question + Full Explanation →</button><button class="btn white" onclick="askVoice()">🎙️ Voice</button></div><div id="askAns"></div><div id="qAns"></div></div></div><div class="card"><div style="display:flex;gap:8px"><button class="btn white" style="flex:1" onclick="prevQuestion()">← Previous</button><button class="btn green" style="flex:1" onclick="nextQuestion()">Next Question →</button></div><br><button class="btn yellow" style="width:100%" onclick="replayCurrent()">🔁 Replay This Question</button></div><div class="card"><button class="btn white" style="width:100%" onclick="toggleAssignmentDrawer()" id="toggleAssignBtn">🏆 Show End-of-Lesson Challenge</button><div id="assignmentDrawer" class="hidden" style="margin-top:12px"><div class="assignBox"><b>🏆 End-of-Lesson Tough Assignment</b><p class="small" style="color:#7f1d1d">Uploaded/saved topic challenges appear here when added.</p><div id="finalAssignmentList"></div></div></div></div></div><aside class="card"><b>📋 Topic Questions (Click a Box to Pick)</b><p class="small" style="margin-bottom:10px" id="sideCountHint">Select any question box to solve it on the board.</p><div class="sideList" id="topicQueueList"></div></aside></div></div>
-<div id="adminDash" class="hidden wrap"><button class="btn white" onclick="adminLogout()">← Logout</button><button class="btn yellow" onclick="showSections()">👀 Switch to Student View →</button><br><br><h2>👑 Admin Dashboard</h2><p class="small">Welcome Ekpo Bassey!</p><br><div class="card payBox"><b>💳 Your Payment Details</b><br><b>Account:</b> 8147699555<br><b>Name:</b> Ekpo Bassey<br><b>WhatsApp:</b> 08147699555<br><b>Price:</b> ₦5,000 / Section / MONTH<br><b>PIN:</b> 1 Phone Only. NOT transferable.</div><div class="card"><b id="qFormHeading">➕ Upload Question, Photo &amp; Your Solving Video</b><p class="small">Tap a class/exam question bank below, type your question, upload bulk photos or your solving/explanation video, and press Save.</p><label class="small"><b>Question Bank (Click to Open)</b></label><div class="bankGrid" id="bankSelectorGrid"><button type="button" class="bankBtn activeBank" data-bank="JS1" onclick="selectQuestionBank('JS1')">JS1</button><button type="button" class="bankBtn" data-bank="JS2" onclick="selectQuestionBank('JS2')">JS2</button><button type="button" class="bankBtn" data-bank="JS3" onclick="selectQuestionBank('JS3')">JS3</button><button type="button" class="bankBtn" data-bank="SS1" onclick="selectQuestionBank('SS1')">SS1</button><button type="button" class="bankBtn" data-bank="SS2" onclick="selectQuestionBank('SS2')">SS2</button><button type="button" class="bankBtn" data-bank="SS3" onclick="selectQuestionBank('SS3')">SS3</button><button type="button" class="bankBtn" data-bank="WAEC" onclick="selectQuestionBank('WAEC')">WAEC</button><button type="button" class="bankBtn" data-bank="JAMB" onclick="selectQuestionBank('JAMB')">JAMB</button></div><label class="small"><b>Tab / Mode</b></label><select id="bankMode"><option value="learn">📖 Learn</option><option value="exam">🎯 Past Qs</option><option value="exercise">✏️ Exercises</option></select><input id="bankExam" placeholder="Exam Tag (e.g. WAEC 2024, BECE 2023, JAMB 2024)"><textarea id="bankQ" placeholder="Type the full question here (or attach bulk photos below)..."></textarea><label class="small"><b>Formula Box (Leave blank to auto-generate when unexplained)</b></label><textarea id="bankFormula" placeholder="Write your exact formula (kept as-is when you explain it yourself)..."></textarea><label class="small"><b>Your Step-by-Step Solution &amp; Explanation (Leave blank for auto-solve &amp; explain)</b></label><textarea id="bankAnswer" placeholder="Write your exact steps & explanation when you solve it yourself; leave blank so the system solves & explains automatically..."></textarea><div class="vidUploadBox"><label class="small"><b>📷 Snap or Upload Bulk Photos of Questions</b></label><input id="bankPhotoFile" type="file" accept="image/*" capture="environment" multiple onchange="onAdminPhotoSelected(this)"><img id="bankPhotoPreview" class="prev hidden" alt="Uploaded admin photo"><p class="small" id="bankPhotoStatus">Optional: Snap or upload single/bulk photos and type the question above to route &amp; solve directly.</p><button type="button" class="btn white" style="padding:6px 12px;font-size:12px" onclick="clearAdminPhoto()">✕ Remove Photo</button><br><br><label class="small"><b>🎥 Upload Video of How You Solve &amp; Explain</b></label><input id="bankVideoFile" type="file" accept="video/*" onchange="onAdminVideoSelected(this)"><video id="bankVideoPreview" class="teacherVid hidden" controls playsinline></video><p class="small" id="bankVideoStatus">Optional: Upload a video of you solving and explaining this question.</p><button type="button" class="btn white" style="padding:6px 12px;font-size:12px" onclick="clearAdminVideo()">✕ Remove Video</button></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn green" style="flex:1" onclick="saveBankQuestion()" id="saveBankBtn">💾 Save Question, Photo &amp; Video</button><button class="btn white" onclick="resetBankForm()">Cancel Edit</button></div><p class="small" id="bankMsg" style="margin-top:8px"></p><input type="hidden" id="bankCat" value="JSS"><input type="hidden" id="bankTopic" value=""><input type="hidden" id="activeBankCode" value="JS1"></div><div class="card"><b>📚 Unbundle PDF / Book / Booklet (UME • JAMB • WAEC • NECO • Exercises)</b><p class="small">Upload a PDF booklet or text/markdown/JSON file. The system extracts questions, detects the exam body &amp; strongest topic, expands solved patterns, and solves unsolved exercises with expanded explanations.</p><div class="bookUploadBox"><input id="bookletFileInput" type="file" accept=".pdf,.txt,.md,.csv,.json" onchange="onBookletFileSelected(this)"><p class="small" id="bookletStatus">Select a PDF booklet or text/book file to unbundle automatically.</p><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><button type="button" class="btn blue" style="flex:1" onclick="unbundleBookletFile()">⚡ Unbundle, Expand &amp; Route Questions</button><button type="button" class="btn red" onclick="clearBookletFile()">✕ Remove File</button></div></div><div id="bookletReport" class="small" style="margin-top:8px"></div></div><div class="card"><b>🗂️ Saved Questions Cells (Edit, Next or Delete)</b><p class="small" id="cellSummary">Showing saved questions.</p><br><div id="savedQuestionsCells"></div></div><div class="card"><b>Generate New PIN — NOT Transferable</b><select id="pinCat"><option value="JSS">Junior (JSS)</option><option value="SSS">Senior (SSS)</option><option value="JAMB">JAMB Mathematics</option></select><input id="studentName" placeholder="Student Name"><button class="btn green" style="width:100%" onclick="genPIN()">Generate PIN →</button><div id="genResult"></div></div><div class="card"><b>📋 All PINs</b><div id="pinList"></div></div><div class="card"><b>⚙️ Change Password</b><input id="newAdminPass" type="password" placeholder="New Password"><button class="btn blue" style="width:100%" onclick="changeAdminPass()">Change Password</button><p class="small" id="changeMsg"></p></div></div>
+<div id="lesson" class="hidden lessonWrap"><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><button class="btn white" onclick="backToTopics()">← Topics</button><button class="btn purple" onclick="goToAdminDash()" id="toAdminBtn3" style="display:none">👑 Back to Admin</button></div><br><span class="pill" id="lessonPill">TOPIC</span><br><br><h2 id="lessonTitle"></h2><p class="small" id="lessonIntro"></p><br><div class="card" style="padding:10px"><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn blue" id="modeLearnBtn" style="flex:1" onclick="setMode('learn')">📖 Learn (<span id="cntLearn">0</span>)</button><button class="btn white" id="modeExamBtn" style="flex:1" onclick="setMode('exam')">🎯 Past Qs (<span id="cntExam">0</span>)</button><button class="btn white" id="modeExBtn" style="flex:1" onclick="setMode('exercise')">✏️ Exercises (<span id="cntEx">0</span>)</button></div></div><div class="solveGrid"><div><div class="card"><div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px"><div><span class="pill" id="qModePill">LEARN</span><span class="examBadge" id="qExamTag">WAEC 2023</span><span id="qSavedBadge"></span></div><span class="small" id="exCounter">Question 1 of 1</span></div><br><div class="progress"><div class="progressBar" id="exProgress" style="width:100%"></div></div><br><div class="qTitle" id="qTitle"></div><p class="small" id="qSource"></p><div id="questionVideoWrap" class="hidden" style="margin-top:12px"><b>🎥 Your Uploaded Solving &amp; Explanation Video</b><video id="questionVideoPlayer" class="teacherVid" controls playsinline></video></div></div><div class="card" id="diagramCard"><b>📐 Diagram — Teacher Sketches First</b><p class="small">Study the diagram for this question before solving.</p><br><div class="diagramLabel" id="diagramLabel">Look at the diagram</div><br><canvas id="diagramCanvas" width="560" height="240"></canvas></div><div class="card"><b>✍️ Whiteboard — Pen-Only Writing + Explanation</b><p class="small">Uses your explanation when provided, or automatically solves &amp; explains typed/selected questions directly.</p><br><div class="boardWrap"><canvas id="whiteboard" width="560" height="460"></canvas><div class="marker" id="marker">🖊️</div></div><br><div class="voiceCtrl"><button class="btn blue" onclick="playLesson()">▶ Play Pen</button><button class="btn white" onclick="pauseLesson()">⏸ Pause</button><button class="btn white" onclick="stopVoice()">⏹ Stop</button><button class="btn yellow" onclick="clearBoard()">🧹 Clear</button></div><br><div class="voiceCtrl"><button class="btn green" id="maleVoiceBtn" onclick="setNarrationMode('male')">🎙️ Male Voice (Exact Words)</button><button class="btn white" id="silentPenBtn" onclick="setNarrationMode('silent')">🖊️ Pen Only (No Voice)</button><button class="btn dark" onclick="testVoiceVolume()">🔊 Test Male Voice</button></div><br><div class="voiceCtrl"><button class="btn white" onclick="setSpeed(0.52)">🐢 Very Slow</button><button class="btn white" onclick="setSpeed(0.62)">▶ Calm</button><button class="btn white" onclick="setSpeed(0.78)">🐇 Faster</button></div><p class="small" id="penStatus" style="margin-top:8px">Pen ready.</p><p class="small" id="nowReading">Exact line: —</p><div style="margin-top:14px;padding-top:14px;border-top:1px solid #eee"><b>❓ Ask About This Question or Type Your Own Question</b><textarea id="askBox" placeholder="Type ANY maths question (round 4872 to nearest thousand, base 2/8/16, simple/compound interest, profit/loss, AP/GP, nPr/nCr, matrices, inequalities, cubics, calculus, %, etc.)..."></textarea><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn yellow" style="flex:1" onclick="askTeacher()">Ask Teacher — Formula &amp; Steps</button><button class="btn green" style="flex:1" onclick="solveQuestion()">Solve Question + Full Explanation →</button><button class="btn white" onclick="askVoice()">🎙️ Voice</button></div><div id="askAns"></div><div id="qAns"></div></div></div><div class="card"><div style="display:flex;gap:8px"><button class="btn white" style="flex:1" onclick="prevQuestion()">← Previous</button><button class="btn green" style="flex:1" onclick="nextQuestion()">Next Question →</button></div><br><button class="btn yellow" style="width:100%" onclick="replayCurrent()">🔁 Replay This Question</button></div><div class="card"><button class="btn white" style="width:100%" onclick="toggleAssignmentDrawer()" id="toggleAssignBtn">🏆 Show End-of-Lesson Challenge</button><div id="assignmentDrawer" class="hidden" style="margin-top:12px"><div class="assignBox"><b>🏆 End-of-Lesson Tough Assignment</b><p class="small" style="color:#7f1d1d">Uploaded/saved topic challenges appear here when added.</p><div id="finalAssignmentList"></div></div></div></div></div><aside class="card"><b>📋 Topic Questions (Click a Box to Pick)</b><p class="small" style="margin-bottom:10px" id="sideCountHint">Select any question box to solve it on the board.</p><div class="sideList" id="topicQueueList"></div></aside></div></div>
+<div id="adminDash" class="hidden wrap"><button class="btn white" onclick="adminLogout()">← Logout</button><button class="btn yellow" onclick="showSections()">👀 Switch to Student View →</button><br><br><h2>👑 Admin Dashboard</h2><p class="small">Welcome Ekpo Bassey!</p><br><div class="card payBox"><b>💳 Your Payment Details</b><br><b>Account:</b> 8147699555<br><b>Name:</b> Ekpo Bassey<br><b>WhatsApp:</b> 08147699555<br><b>Price:</b> ₦5,000 / Section / MONTH<br><b>PIN:</b> 1 Phone Only. NOT transferable.</div><div class="card"><b id="qFormHeading">➕ Upload Question &amp; Your Solving Video</b><p class="small">Tap a class/exam question bank below, type your question, upload your solving/explanation video, and press Save.</p><label class="small"><b>Question Bank (Click to Open)</b></label><div class="bankGrid" id="bankSelectorGrid"><button type="button" class="bankBtn activeBank" data-bank="JS1" onclick="selectQuestionBank('JS1')">JS1</button><button type="button" class="bankBtn" data-bank="JS2" onclick="selectQuestionBank('JS2')">JS2</button><button type="button" class="bankBtn" data-bank="JS3" onclick="selectQuestionBank('JS3')">JS3</button><button type="button" class="bankBtn" data-bank="SS1" onclick="selectQuestionBank('SS1')">SS1</button><button type="button" class="bankBtn" data-bank="SS2" onclick="selectQuestionBank('SS2')">SS2</button><button type="button" class="bankBtn" data-bank="SS3" onclick="selectQuestionBank('SS3')">SS3</button><button type="button" class="bankBtn" data-bank="WAEC" onclick="selectQuestionBank('WAEC')">WAEC</button><button type="button" class="bankBtn" data-bank="JAMB" onclick="selectQuestionBank('JAMB')">JAMB</button></div><label class="small"><b>Tab / Mode</b></label><select id="bankMode"><option value="learn">📖 Learn</option><option value="exam">🎯 Past Qs</option><option value="exercise">✏️ Exercises</option></select><input id="bankExam" placeholder="Exam Tag (e.g. WAEC 2024, BECE 2023, JAMB 2024)"><textarea id="bankQ" placeholder="Type the full question here..."></textarea><label class="small"><b>Formula Box (Leave blank to auto-generate when unexplained)</b></label><textarea id="bankFormula" placeholder="Write your exact formula (kept as-is when you explain it yourself)..."></textarea><label class="small"><b>Your Step-by-Step Solution &amp; Explanation (Leave blank for auto-solve &amp; explain)</b></label><textarea id="bankAnswer" placeholder="Write your exact steps & explanation when you solve it yourself; leave blank so the system solves & explains automatically..."></textarea><div class="vidUploadBox"><label class="small"><b>🎥 Upload Video of How You Solve &amp; Explain</b></label><input id="bankVideoFile" type="file" accept="video/*" onchange="onAdminVideoSelected(this)"><video id="bankVideoPreview" class="teacherVid hidden" controls playsinline></video><p class="small" id="bankVideoStatus">Optional: Upload a video of you solving and explaining this question.</p><button type="button" class="btn white" style="padding:6px 12px;font-size:12px" onclick="clearAdminVideo()">✕ Remove Video</button></div><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn green" style="flex:1" onclick="saveBankQuestion()" id="saveBankBtn">💾 Save Question &amp; Video</button><button class="btn white" onclick="resetBankForm()">Cancel Edit</button></div><p class="small" id="bankMsg" style="margin-top:8px"></p><input type="hidden" id="bankCat" value="JSS"><input type="hidden" id="bankTopic" value=""><input type="hidden" id="activeBankCode" value="JS1"></div><div class="card"><b>📚 Unbundle PDF / Book / Booklet (UME • JAMB • WAEC • NECO • Exercises)</b><p class="small">Upload a PDF booklet or text/markdown/JSON file. The system extracts questions, detects the exam body &amp; strongest topic, expands solved patterns, and solves unsolved exercises with expanded explanations.</p><div class="bookUploadBox"><input id="bookletFileInput" type="file" accept=".pdf,.txt,.md,.csv,.json" onchange="onBookletFileSelected(this)"><p class="small" id="bookletStatus">Select a PDF booklet or text/book file to unbundle automatically.</p><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px"><button type="button" class="btn blue" style="flex:1" onclick="unbundleBookletFile()">⚡ Unbundle, Expand &amp; Route Questions</button><button type="button" class="btn red" onclick="clearBookletFile()">✕ Remove File</button></div></div><div id="bookletReport" class="small" style="margin-top:8px"></div></div><div class="card"><b>🗂️ Saved Questions Cells (Edit, Next or Delete)</b><p class="small" id="cellSummary">Showing saved questions.</p><br><div id="savedQuestionsCells"></div></div><div class="card"><b>Generate New PIN — NOT Transferable</b><select id="pinCat"><option value="JSS">Junior (JSS)</option><option value="SSS">Senior (SSS)</option><option value="JAMB">JAMB Mathematics</option></select><input id="studentName" placeholder="Student Name"><button class="btn green" style="width:100%" onclick="genPIN()">Generate PIN →</button><div id="genResult"></div></div><div class="card"><b>📋 All PINs</b><div id="pinList"></div></div><div class="card"><b>⚙️ Change Password</b><input id="newAdminPass" type="password" placeholder="New Password"><button class="btn blue" style="width:100%" onclick="changeAdminPass()">Change Password</button><p class="small" id="changeMsg"></p></div></div>
 <div id="adminBox" onclick="if(event.target==this) closeAdmin()"><div class="popup"><div id="adminLoginForm"><h3 id="adminTitle">Admin 🔐</h3><p class="small" id="adminHint">Create your Admin Password first time.</p><input id="adminPass" type="password" placeholder="Admin Password"><input id="adminPass2" type="password" placeholder="Confirm Password" class="hidden"><button class="btn blue" style="width:100%" onclick="checkAdmin()" id="adminBtn">Continue →</button><p id="adminMsg" style="color:red;font-size:13px"></p><button class="btn" onclick="closeAdmin()">Cancel</button></div><div id="adminSuccess" class="hidden" style="text-align:center"><h2>✅ Welcome Admin!</h2><br><button class="btn green" style="width:100%;padding:14px" onclick="goToAdminDash()">Go to Admin Dashboard →</button></div></div></div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
@@ -73,23 +70,10 @@ async function deleteFromSupabase(id){ try{ await supabaseClient.from("custom_qu
 syncFromSupabase(); setInterval(syncFromSupabase, 15000);
 
 const uploadedVideoUrls = {};
-const uploadedPhotoUrls = {};
 let draftVideoUrl = "";
 let draftVideoName = "";
-let draftPhotoUrl = "";
-let draftPhotoName = "";
-let draftBulkPhotos = [];
 
-function cleanDirectMathText(raw){
-  return (raw || "")
-    .replace(/\r/g, " ")
-    .replace(/question\s*:?/gi, "")
-    .replace(/evaluate\s+the\s+definite\s+integral\s*:?/gi, "∫ ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-function splitSnappedQuestions(rawText){
+function splitQuestions(rawText){
   const t = (rawText || "").trim();
   if(!t) return [];
   const parts = t
@@ -97,15 +81,6 @@ function splitSnappedQuestions(rawText){
     .map(s => s.replace(/^(?:question\s*\d+|q\.?\s*\d+|\d{1,2}\s*[.)])\s*/i, "").trim())
     .filter(Boolean);
   return parts.length > 1 ? parts : [t];
-}
-
-function readFileAsDataUrl(file){
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = ev => resolve(ev.target.result || "");
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
 }
 
 function buildAutoExplanation(qText, detectedTopic){
@@ -121,40 +96,6 @@ function buildAutoExplanation(qText, detectedTopic){
     formula: formulaEq,
     answer: answerLines.join("\n")
   };
-}
-
-async function onAdminPhotoSelected(input){
-  const files = Array.from((input && input.files) || []);
-  if(!files.length) return;
-  draftBulkPhotos = [];
-  const statusEl = document.getElementById("bankPhotoStatus");
-  if(statusEl) statusEl.innerText = `📷 Attaching ${files.length} photo(s)...`;
-
-  for(let i = 0; i < files.length; i++){
-    const f = files[i];
-    const dataUrl = await readFileAsDataUrl(f);
-    draftBulkPhotos.push({ name: f.name, dataUrl });
-  }
-
-  draftPhotoUrl = draftBulkPhotos[0].dataUrl;
-  draftPhotoName = files.length > 1 ? `${files.length} photos (${files[0].name})` : files[0].name;
-  const img = document.getElementById("bankPhotoPreview");
-  if(img){ img.src = draftPhotoUrl; img.classList.remove("hidden"); }
-
-  if(statusEl){
-    statusEl.innerText = `📷 ${files.length} photo(s) attached. Type the question above and press Save to route & solve directly.`;
-  }
-}
-
-function clearAdminPhoto(){
-  draftPhotoUrl = "";
-  draftPhotoName = "";
-  draftBulkPhotos = [];
-  const inp = document.getElementById("bankPhotoFile");
-  if(inp) inp.value = "";
-  const img = document.getElementById("bankPhotoPreview");
-  if(img){ img.src = ""; img.classList.add("hidden"); }
-  document.getElementById("bankPhotoStatus").innerText = "Optional: Snap or upload single/bulk photos and type the question above to route & solve directly.";
 }
 
 function onAdminVideoSelected(input){
@@ -191,12 +132,6 @@ function renderQuestionVideoPlayer(qObj){
       player.src = "";
       wrap.classList.add("hidden");
     }
-  }
-  const pImg = document.getElementById("questionPhotoPreview");
-  const pUrl = qObj && qObj.photoUrl ? qObj.photoUrl : "";
-  if(pImg){
-    if(pUrl){ pImg.src = pUrl; pImg.classList.remove("hidden"); }
-    else { pImg.src = ""; pImg.classList.add("hidden"); }
   }
 }
 
@@ -391,7 +326,6 @@ function customItemToQuestion(item, idx){
     arith: ""
   }));
   const vidUrl = item.videoUrl || uploadedVideoUrls[item.id] || "";
-  const pUrl = item.photoUrl || uploadedPhotoUrls[item.id] || "";
   return {
     title: item.q,
     params: [{ sym: item.q, meaning: "", why: "" }],
@@ -410,8 +344,7 @@ function customItemToQuestion(item, idx){
     isCustomSaved: true,
     hasManualExpl,
     customId: item.id,
-    videoUrl: vidUrl,
-    photoUrl: pUrl
+    videoUrl: vidUrl
   };
 }
 
@@ -435,7 +368,7 @@ function selectQuestionBank(bankCode){
   }
   const heading = document.getElementById("qFormHeading");
   if(heading && !editingCustomId){
-    heading.innerText = `➕ [${code} Bank] Upload Question, Photo & Your Solving Video`;
+    heading.innerText = `➕ [${code} Bank] Upload Question & Your Solving Video`;
   }
   renderSavedQuestionCells();
 }
@@ -452,13 +385,12 @@ function populateBankTopics(){
 function resetBankForm(){
   editingCustomId = null;
   const code = document.getElementById("activeBankCode") ? document.getElementById("activeBankCode").value : "JS1";
-  document.getElementById("qFormHeading").innerText = `➕ [${code} Bank] Upload Question, Photo & Your Solving Video`;
-  const b=document.getElementById("saveBankBtn"); if(b) b.innerText = "💾 Save Question, Photo & Video";
+  document.getElementById("qFormHeading").innerText = `➕ [${code} Bank] Upload Question & Your Solving Video`;
+  const b=document.getElementById("saveBankBtn"); if(b) b.innerText = "💾 Save Question & Video";
   document.getElementById("bankExam").value = code === "WAEC" ? "WAEC" : (code === "JAMB" ? "JAMB" : "");
   document.getElementById("bankQ").value = "";
   document.getElementById("bankFormula").value = "";
   document.getElementById("bankAnswer").value = "";
-  clearAdminPhoto();
   clearAdminVideo();
 }
 
@@ -528,39 +460,10 @@ function saveBankQuestion(){
   const hasManualExpl = Boolean(manualFormula || manualAnswer);
   const typedQ = document.getElementById("bankQ").value.trim();
 
-  if(draftBulkPhotos.length > 1 && !editingCustomId){
-    const bank = getCustomBank();
-    let count = 0;
-    const subQs = typedQ ? splitSnappedQuestions(typedQ) : [];
-    for(let i = 0; i < draftBulkPhotos.length; i++){
-      const ph = draftBulkPhotos[i];
-      const qLabel = subQs[i] || (typedQ ? typedQ : `Photo Question ${i + 1} (${ph.name})`);
-      const detected = autoDetectTopic(qLabel, bankCode);
-      const solved = hasManualExpl ? { formula: manualFormula, answer: manualAnswer } : autoSolveForTopic(detected.topic, qLabel);
-      const newId = "Q-"+Date.now()+"-"+Math.floor(Math.random()*100000);
-      uploadedPhotoUrls[newId] = ph.dataUrl;
-      if(draftVideoUrl) uploadedVideoUrls[newId] = draftVideoUrl;
-      const item = {
-        id: newId, bankCode, cat: detected.cat, topic: detected.topic, mode, examTag,
-        q: qLabel, formula: solved.formula, answer: solved.answer, hasManualExpl,
-        videoName: draftVideoName || "", photoName: ph.name, createdAt: new Date().toLocaleDateString()
-      };
-      bank.unshift(item);
-      const { videoUrl, photoUrl, ...dbPayload } = { ...item, videoUrl: draftVideoUrl || "", photoUrl: ph.dataUrl };
-      pushToSupabase(dbPayload);
-      count++;
-    }
-    saveCustomBank(bank);
-    resetBankForm();
-    document.getElementById("bankMsg").innerText = `✅ Saved & routed ${count} photo question(s) across their topics.`;
-    renderSavedQuestionCells();
-    return;
-  }
+  const baseSource = typedQ || (draftVideoName ? `Video Solution: ${draftVideoName}` : "");
+  if(!baseSource){ document.getElementById("bankMsg").innerText = "⚠️ Please type a question or attach a video before saving."; return; }
 
-  const baseSource = typedQ || (draftPhotoName ? `Photo Question (${draftPhotoName})` : (draftVideoName ? `Video Solution: ${draftVideoName}` : ""));
-  if(!baseSource){ document.getElementById("bankMsg").innerText = "⚠️ Please type a question or attach a photo/video before saving."; return; }
-
-  const splitQs = (!editingCustomId && typedQ) ? splitSnappedQuestions(typedQ) : [baseSource];
+  const splitQs = (!editingCustomId && typedQ) ? splitQuestions(typedQ) : [baseSource];
   const bank = getCustomBank();
 
   if(editingCustomId){
@@ -569,11 +472,9 @@ function saveBankQuestion(){
       const detected = autoDetectTopic(baseSource, bankCode);
       const solved = hasManualExpl ? { formula: manualFormula, answer: manualAnswer } : autoSolveForTopic(detected.topic, baseSource);
       const existingVid = draftVideoUrl || uploadedVideoUrls[editingCustomId] || bank[idx].videoUrl || "";
-      const existingPhoto = draftPhotoUrl || uploadedPhotoUrls[editingCustomId] || bank[idx].photoUrl || "";
       if(existingVid) uploadedVideoUrls[editingCustomId] = existingVid;
-      if(existingPhoto) uploadedPhotoUrls[editingCustomId] = existingPhoto;
-      bank[idx] = {...bank[idx], bankCode, cat: detected.cat, topic: detected.topic, mode, examTag, q: baseSource, formula: solved.formula, answer: solved.answer, hasManualExpl, videoName: draftVideoName || bank[idx].videoName || "", photoName: draftPhotoName || bank[idx].photoName || ""};
-      const { videoUrl, photoUrl, ...dbPayload } = {...bank[idx], videoUrl: existingVid, photoUrl: existingPhoto};
+      bank[idx] = {...bank[idx], bankCode, cat: detected.cat, topic: detected.topic, mode, examTag, q: baseSource, formula: solved.formula, answer: solved.answer, hasManualExpl, videoName: draftVideoName || bank[idx].videoName || ""};
+      const { videoUrl, ...dbPayload } = {...bank[idx], videoUrl: existingVid};
       pushToSupabase(dbPayload);
     }
     saveCustomBank(bank);
@@ -589,14 +490,13 @@ function saveBankQuestion(){
     const solved = hasManualExpl ? { formula: manualFormula, answer: manualAnswer } : autoSolveForTopic(detected.topic, sq);
     const newId = "Q-"+Date.now()+"-"+Math.floor(Math.random()*100000);
     if(draftVideoUrl) uploadedVideoUrls[newId] = draftVideoUrl;
-    if(draftPhotoUrl) uploadedPhotoUrls[newId] = draftPhotoUrl;
     const item = {
       id: newId, bankCode, cat: detected.cat, topic: detected.topic, mode, examTag,
       q: sq, formula: solved.formula, answer: solved.answer, hasManualExpl,
-      videoName: draftVideoName || "", photoName: draftPhotoName || "", createdAt: new Date().toLocaleDateString()
+      videoName: draftVideoName || "", createdAt: new Date().toLocaleDateString()
     };
     bank.unshift(item);
-    const { videoUrl, photoUrl, ...dbPayload } = { ...item, videoUrl: draftVideoUrl || "", photoUrl: draftPhotoUrl || "" };
+    const { videoUrl, ...dbPayload } = { ...item, videoUrl: draftVideoUrl || "" };
     pushToSupabase(dbPayload);
     savedCount++;
   }
@@ -614,16 +514,6 @@ function editBankQuestion(id){
   document.getElementById("bankQ").value = item.q || "";
   document.getElementById("bankFormula").value = item.formula || "";
   document.getElementById("bankAnswer").value = item.answer || "";
-  const existingPhoto = uploadedPhotoUrls[item.id] || item.photoUrl || "";
-  if(existingPhoto){
-    draftPhotoUrl = existingPhoto;
-    draftPhotoName = item.photoName || "Uploaded Photo";
-    const img = document.getElementById("bankPhotoPreview");
-    if(img){ img.src = draftPhotoUrl; img.classList.remove("hidden"); }
-    document.getElementById("bankPhotoStatus").innerText = `✅ Attached photo: ${draftPhotoName}`;
-  } else {
-    clearAdminPhoto();
-  }
   const existingVid = uploadedVideoUrls[item.id] || item.videoUrl || "";
   if(existingVid){
     draftVideoUrl = existingVid;
@@ -636,7 +526,7 @@ function editBankQuestion(id){
     clearAdminVideo();
   }
   document.getElementById("qFormHeading").innerText = "✏️ Editing Saved Question (" + item.id + ")";
-  document.getElementById("saveBankBtn").innerText = "💾 Update Question, Photo & Video";
+  document.getElementById("saveBankBtn").innerText = "💾 Update Question & Video";
   document.getElementById("qFormHeading").scrollIntoView({behavior:"smooth"});
   renderSavedQuestionCells();
 }
@@ -652,7 +542,6 @@ function nextSavedQuestionCell(currentId){
 
 function deleteBankQuestion(id){
   delete uploadedVideoUrls[id];
-  delete uploadedPhotoUrls[id];
   const bank = getCustomBank().filter(x => x.id !== id);
   saveCustomBank(bank);
   deleteFromSupabase(id);
@@ -687,9 +576,8 @@ function renderSavedQuestionCells(){
     const safeA = (item.answer || "").replace(/</g,"&lt;");
     const safeF = (item.formula || "").replace(/</g,"&lt;");
     const hasVid = Boolean(uploadedVideoUrls[item.id] || item.videoUrl || item.videoName);
-    const hasPhoto = Boolean(uploadedPhotoUrls[item.id] || item.photoUrl || item.photoName);
     const modeLabel = item.hasManualExpl ? `<span class="pill">YOUR EXPLANATION</span>` : `<span class="examBadge">AUTO-EXPLAINED</span>`;
-    html += `<div class="qCell"><div class="qCellTop"><div><span class="pill">[${code}] ${item.cat} • ${(item.mode||"learn").toUpperCase()}</span>${modeLabel}${hasPhoto?`<span class="savedBadge">📷 PHOTO</span>`:""}${hasVid?`<span class="savedBadge">🎥 VIDEO</span>`:""}</div><span class="small">#${i+1}</span></div><div class="small" style="color:#1E4DA1;font-weight:700;margin-bottom:4px">${item.topic}</div><div style="font-weight:800;font-size:15px">${safeQ}</div>${safeF ? `<div class="small" style="margin-top:4px"><b>Formula:</b> ${safeF}</div>` : ""}${safeA ? `<div class="small" style="margin-top:4px;color:#065f46"><b>Solution &amp; Explanation:</b> ${safeA}</div>` : ""}<div class="qCellActions"><button class="btn blue" style="padding:7px 14px;font-size:13px" onclick="editBankQuestion('${item.id}')">✏️ Edit</button><button class="btn green" style="padding:7px 14px;font-size:13px" onclick="nextSavedQuestionCell('${item.id}')">Next →</button><button class="btn red" style="padding:7px 14px;font-size:13px" onclick="deleteBankQuestion('${item.id}')">🗑️ Delete</button></div></div>`;
+    html += `<div class="qCell"><div class="qCellTop"><div><span class="pill">[${code}] ${item.cat} • ${(item.mode||"learn").toUpperCase()}</span>${modeLabel}${hasVid?`<span class="savedBadge">🎥 VIDEO</span>`:""}</div><span class="small">#${i+1}</span></div><div class="small" style="color:#1E4DA1;font-weight:700;margin-bottom:4px">${item.topic}</div><div style="font-weight:800;font-size:15px">${safeQ}</div>${safeF ? `<div class="small" style="margin-top:4px"><b>Formula:</b> ${safeF}</div>` : ""}${safeA ? `<div class="small" style="margin-top:4px;color:#065f46"><b>Solution &amp; Explanation:</b> ${safeA}</div>` : ""}<div class="qCellActions"><button class="btn blue" style="padding:7px 14px;font-size:13px" onclick="editBankQuestion('${item.id}')">✏️ Edit</button><button class="btn green" style="padding:7px 14px;font-size:13px" onclick="nextSavedQuestionCell('${item.id}')">Next →</button><button class="btn red" style="padding:7px 14px;font-size:13px" onclick="deleteBankQuestion('${item.id}')">🗑️ Delete</button></div></div>`;
   });
   document.getElementById("savedQuestionsCells").innerHTML = html;
 }
@@ -849,7 +737,6 @@ async function unbundleBookletFile(){
         answer: expanded.answer,
         hasManualExpl: Boolean(blk.rawSol && !blk.isExercise),
         videoName: "",
-        photoName: "",
         createdAt: new Date().toLocaleDateString()
       };
       bank.unshift(item);
@@ -866,36 +753,6 @@ async function unbundleBookletFile(){
     if(reportEl) reportEl.innerText = "❌ Could not unbundle file: " + (err && err.message ? err.message : "Unknown error");
   }
 }
-
-let attachedPhotoData = "";
-let attachedBulkPhotos = [];
-function canUsePhotoSolver(){ return Boolean(isAdmin() || hasSub(curCat)); }
-function updatePhotoAccessUI(){ const unlocked = canUsePhotoSolver(); const controls = document.getElementById("photoSubscriberControls"); const notice = document.getElementById("photoLockedNotice"); if(controls) controls.classList.toggle("hidden", !unlocked); if(notice) notice.classList.toggle("hidden", unlocked); if(!unlocked){ clearPhotoPreview(); } }
-function triggerPhotoInput(inputId){ if(!canUsePhotoSolver()){ updatePhotoAccessUI(); alert("🔒 Photo Snap & Upload is only available to active subscribers."); return; } const el = document.getElementById(inputId); if(el) el.click(); }
-function goToSubscribeForPhoto(){ cancelAllPlayback(); openCategory(curCat); setTimeout(()=>{ const pc = document.getElementById("payCard"); if(pc) pc.scrollIntoView({behavior:"smooth"}); }, 80); }
-
-async function onPhotoSelected(input){
-  if(!canUsePhotoSolver()){ input.value = ""; clearPhotoPreview(); updatePhotoAccessUI(); alert("🔒 Photo Snap & Upload is only for subscribed students."); return; }
-  const files = Array.from((input && input.files) || []);
-  if(!files.length) return;
-  attachedBulkPhotos = [];
-  const statusEl = document.getElementById("photoStatus");
-  statusEl.innerText = `📷 Attaching ${files.length} photo(s)...`;
-
-  for(const f of files){
-    const dataUrl = await readFileAsDataUrl(f);
-    attachedBulkPhotos.push({ name: f.name, dataUrl });
-  }
-
-  attachedPhotoData = attachedBulkPhotos[0].dataUrl;
-  const img = document.getElementById("photoPreview");
-  img.src = attachedPhotoData;
-  img.classList.remove("hidden");
-
-  statusEl.innerText = `📷 ${files.length} photo(s) attached. Type the question below and click "Solve Question + Full Explanation →".`;
-}
-
-function clearPhotoPreview(){ attachedPhotoData = ""; attachedBulkPhotos = []; const s = document.getElementById("snapInput"); const u = document.getElementById("uploadPhotoInput"); if(s) s.value = ""; if(u) u.value = ""; const img = document.getElementById("photoPreview"); if(img){ img.src = ""; img.classList.add("hidden"); } const st = document.getElementById("photoStatus"); if(st) st.innerText = "Subscriber perk: Snap or upload bulk question photos and type/enter the question text to solve directly."; }
 
 function toSup(n){ const map = {"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹","-":"⁻"}; return String(n).split("").map(ch => map[ch] || ch).join(""); }
 
@@ -980,8 +837,7 @@ function generateTopicQuestion(topic,idx,mode){
     sideWorkLines: [],
     sideWorkExpl: "",
     isCustomSaved: false,
-    videoUrl: "",
-    photoUrl: ""
+    videoUrl: ""
   };
 }
 
@@ -999,7 +855,7 @@ function renderSideQuestionBoxes(){
   cl.forEach((item, i) => {
     const qObj = customItemToQuestion(item, i);
     const active = i === curIdx;
-    html += `<div class="qPickRow ${active?"activePick":""}" onclick="pickQuestionFromBox(${i})"><div class="qPickBox">${active?"✓":""}</div><div style="flex:1"><span class="small" style="font-weight:800;color:#1E4DA1">#${i+1} • ${qObj.examTag}${qObj.photoUrl?" • 📷 PHOTO":""}${qObj.videoUrl?" • 🎥 VIDEO":""}</span><br><span style="font-size:13px;font-weight:600">${qObj.title}</span></div></div>`;
+    html += `<div class="qPickRow ${active?"activePick":""}" onclick="pickQuestionFromBox(${i})"><div class="qPickBox">${active?"✓":""}</div><div style="flex:1"><span class="small" style="font-weight:800;color:#1E4DA1">#${i+1} • ${qObj.examTag}${qObj.videoUrl?" • 🎥 VIDEO":""}</span><br><span style="font-size:13px;font-weight:600">${qObj.title}</span></div></div>`;
   });
   document.getElementById("topicQueueList").innerHTML = html;
 }
@@ -1330,9 +1186,9 @@ function getGroupHeader(t){ if(t.includes("|")){ const parts=t.split("|").map(s=
 function renderTopicList(filter){ let html="",curGrp=""; TOPICS[curCat].forEach((t,i)=>{ if(filter&&!t.toLowerCase().includes(filter.toLowerCase())) return; const grp=getGroupHeader(t); if(grp!==curGrp){ curGrp=grp; html+=`<div class="classHead">${grp}</div>`; } const locked=i>0&&!hasSub(curCat); const addedCount=getTopicCustomList(curCat,t).length; const extraBadge=addedCount>0?` • <b style="color:#0a9d5c">+${addedCount} Added</b>`:" • <span class='small'>Empty</span>"; html+=`<div class="topicRow"><input type="checkbox" onchange="onTick(${i},this)"><span style="flex:1"><b>${i+1}. ${t}</b><br><span class="small">${i===0?"🟢 FREE":locked?"🔒 Locked":"🟢 Unlocked"}${extraBadge}</span></span><span>${locked?"🔒":"→"}</span></div>`; }); document.getElementById("topicList").innerHTML=html; }
 function filterTopics(){ renderTopicList(document.getElementById("topicSearch").value); }
 function onTick(i,cb){ if(i>0&&!hasSub(curCat)){cb.checked=false;alert("🔒 Locked.\n\nPay ₦5,000 / MONTH to:\n8147699555 - Ekpo Bassey\n\nPIN = 1 PHONE ONLY. NOT transferable.");document.getElementById("payCard").scrollIntoView({behavior:"smooth"});return} openTopic(i); }
-function openTopic(i){ cancelAllPlayback(); curTopic=i; if(i>0&&!hasSub(curCat)){alert("🔒 Locked");return} const title=TOPICS[curCat][i]; hideAll(); document.getElementById("lesson").classList.remove("hidden"); updateAdminUI(); updatePhotoAccessUI(); document.getElementById("lessonTitle").innerText=title; document.getElementById("lessonPill").innerText=getGroupHeader(title); document.getElementById("lessonIntro").innerText="Watch your uploaded solving videos or play the pen-only whiteboard with your exact steps."; renderAssignmentForTopic(title); setMode("learn"); }
+function openTopic(i){ cancelAllPlayback(); curTopic=i; if(i>0&&!hasSub(curCat)){alert("🔒 Locked");return} const title=TOPICS[curCat][i]; hideAll(); document.getElementById("lesson").classList.remove("hidden"); updateAdminUI(); document.getElementById("lessonTitle").innerText=title; document.getElementById("lessonPill").innerText=getGroupHeader(title); document.getElementById("lessonIntro").innerText="Watch your uploaded solving videos or play the pen-only whiteboard with your exact steps."; renderAssignmentForTopic(title); setMode("learn"); }
 function setMode(mode){ cancelAllPlayback(); curMode=mode; curIdx=0; document.getElementById("modeLearnBtn").className=mode==="learn"?"btn blue":"btn white"; document.getElementById("modeExamBtn").className=mode==="exam"?"btn blue":"btn white"; document.getElementById("modeExBtn").className=mode==="exercise"?"btn blue":"btn white"; document.getElementById("qModePill").innerText=mode==="learn"?"📖 LEARN":mode==="exam"?"🎯 PAST Q":"✏️ EXERCISE"; updateModeCounts(); renderCurrent(); renderSideQuestionBoxes(); clearBoard(); }
-function renderCurrent(){ updateModeCounts(); updatePhotoAccessUI(); const title=TOPICS[curCat][curTopic]; curQuestion=generateTopicQuestion(title,curIdx,curMode); const total=Math.max(1,getTotal()); document.getElementById("exCounter").innerText=getTotal()>0?`Question ${curIdx+1} of ${getTotal()}`:"Empty Topic (0 Questions)"; document.getElementById("exProgress").style.width=getTotal()>0?((curIdx+1)/total*100)+"%":"0%"; document.getElementById("qExamTag").innerText=curQuestion.examTag||"EXAM"; document.getElementById("qSavedBadge").innerHTML=curQuestion.isCustomSaved?`<span class="savedBadge">SAVED Q</span>`:""; document.getElementById("qTitle").innerText=curQuestion.title; document.getElementById("qSource").innerText=curQuestion.source; document.getElementById("askBox").value=""; document.getElementById("askAns").innerHTML=""; document.getElementById("qAns").innerHTML=""; renderQuestionVideoPlayer(curQuestion); drawDiagram(curQuestion.diagram||"none",curQuestion.diagramLabel||"Look at the diagram"); renderSideQuestionBoxes(); }
+function renderCurrent(){ updateModeCounts(); const title=TOPICS[curCat][curTopic]; curQuestion=generateTopicQuestion(title,curIdx,curMode); const total=Math.max(1,getTotal()); document.getElementById("exCounter").innerText=getTotal()>0?`Question ${curIdx+1} of ${getTotal()}`:"Empty Topic (0 Questions)"; document.getElementById("exProgress").style.width=getTotal()>0?((curIdx+1)/total*100)+"%":"0%"; document.getElementById("qExamTag").innerText=curQuestion.examTag||"EXAM"; document.getElementById("qSavedBadge").innerHTML=curQuestion.isCustomSaved?`<span class="savedBadge">SAVED Q</span>`:""; document.getElementById("qTitle").innerText=curQuestion.title; document.getElementById("qSource").innerText=curQuestion.source; document.getElementById("askBox").value=""; document.getElementById("askAns").innerHTML=""; document.getElementById("qAns").innerHTML=""; renderQuestionVideoPlayer(curQuestion); drawDiagram(curQuestion.diagram||"none",curQuestion.diagramLabel||"Look at the diagram"); renderSideQuestionBoxes(); }
 function playLesson(){ if(!curQuestion) return; drawDiagram(curQuestion.diagram||"none",curQuestion.diagramLabel||"Look at the diagram"); writeStructuredLesson(curQuestion,null); }
 function replayCurrent(){ playLesson(); }
 function nextQuestion(){ cancelAllPlayback(); const total=getTotal(); if(total<=0){alert("This topic is currently empty. Type a question below to solve it, or upload questions in Admin.");return} if(curIdx<total-1){curIdx++;renderCurrent();playLesson()}else alert("✅ Finished all "+total+" for this topic."); }
@@ -1788,7 +1644,7 @@ function solveSeqStatsMatEngine(qText, sourceLabel){
 }
 
 function solveIntegralEngine(qText, sourceLabel){
-  const norm = cleanDirectMathText(normalizeMathExpr(qText));
+  const norm = normalizeMathExpr(qText).replace(/\r/g, " ").replace(/\s+/g, " ").trim();
   const low = norm.toLowerCase();
   const boundsMatch = low.match(/(?:from\s*)?(-?\d+(?:\.\d+)?)\s*(?:to|,)\s*(-?\d+(?:\.\d+)?)/);
   const exprMatch = norm.match(/\(([^()]+)\)\s*dx/i) || norm.match(/(?:of|evaluate|integrate|integral)\s+(.+?)(?:\s+dx|\s+from|$)/i);
@@ -2184,9 +2040,8 @@ function solveAnyMathQuestion(q, sourceLabel){
 
 function solveQuestion(){
   const typedQ = document.getElementById("askBox").value.trim();
-  const hasPhoto = Boolean(attachedPhotoData && canUsePhotoSolver());
-  const effectiveQ = typedQ || (hasPhoto ? "Photo Math Question" : (curQuestion ? curQuestion.title : "Custom question"));
-  const sourceLabel = hasPhoto ? "Photo + Typed Question" : "Typed Question";
+  const effectiveQ = typedQ || (curQuestion ? curQuestion.title : "Custom question");
+  const sourceLabel = "Typed Question";
   const solved = solveAnyMathQuestion(effectiveQ, sourceLabel);
   const autoExp = buildAutoExplanation(effectiveQ, (curQuestion && curQuestion.key) || "Mathematics");
 
@@ -2203,8 +2058,7 @@ function solveQuestion(){
     check: solved.check,
     sideWorkLines: [],
     sideWorkExpl: "",
-    videoUrl: "",
-    photoUrl: hasPhoto ? attachedPhotoData : ""
+    videoUrl: ""
   };
 
   document.getElementById("qExamTag").innerText = curQuestion.examTag;
@@ -2228,7 +2082,7 @@ function changeAdminPass(){ const np=document.getElementById("newAdminPass").val
 function genPIN(){ const cat=document.getElementById("pinCat").value; const name=document.getElementById("studentName").value||"Student"; const pin=cat+"-"+Math.floor(1000+Math.random()*9000); const pins=getPins(); pins[pin]={cat,name,device:null,created:new Date().toLocaleDateString(),start:null}; savePins(pins); document.getElementById("genResult").innerHTML=`<div class="card" style="background:#eafff1"><b>PIN ✅ - Valid 1 MONTH - NOT Transferable</b><br>${name} • ${cat} • ₦5,000<br><b style="font-size:22px">PIN: ${pin}</b></div>`; renderPinList(); }
 function renderPinList(){ const pins=getPins(); let html=""; for(let k in pins){const p=pins[k];const st=!p.device?"🟢 NOT USED":isExpired(p)?"⏰ EXPIRED":"✅ ACTIVE - "+daysLeft(p)+" days left";const dev=p.device?`<br><span class="small">🔒 Locked to: ${p.device}</span>`:"";html+=`<div class="row"><span><b>${k}</b><br><span class="small">${p.name} • ${p.cat} • ${st}</span>${dev}</span></div>`} document.getElementById("pinList").innerHTML=html||"<p class='small'>No PINs yet.</p>"; }
 function activatePIN(){ const pin=document.getElementById("pinInput").value.trim().toUpperCase(); doActivate(pin,"pinMsg"); }
-function activatePIN2(){ const pin=document.getElementById("pinInput2").value.trim().toUpperCase(); doActivate(pin,"pinMsg2"); if(getPins()[pin]&&getPins()[pin].device===deviceId&&!isExpired(getPins()[pin])){ updatePhotoAccessUI(); openCategory(curCat); } }
-function doActivate(pin,msgId){ const pins=getPins(); const p=pins[pin]; if(!p){document.getElementById(msgId).innerText="❌ Invalid PIN.";return} if(p.device&&p.device!==deviceId){document.getElementById(msgId).innerText="❌ BLOCKED: PIN locked to another phone. NOT transferable.";alert("❌ PIN NOT TRANSFERABLE");return} if(!p.device){p.device=deviceId;p.start=Date.now();pins[pin]=p;savePins(pins);document.getElementById(msgId).innerText="✅ Success! PIN locked to THIS phone. NOT transferable. 1 MONTH started.";updateStats();updatePhotoAccessUI();return} if(isExpired(p)){document.getElementById(msgId).innerText="⏰ EXPIRED after 1 month. Renew.";return} document.getElementById(msgId).innerText=`✅ Welcome back! ${p.cat} unlocked. ${daysLeft(p)} days left.`; updateStats(); updatePhotoAccessUI(); }
+function activatePIN2(){ const pin=document.getElementById("pinInput2").value.trim().toUpperCase(); doActivate(pin,"pinMsg2"); if(getPins()[pin]&&getPins()[pin].device===deviceId&&!isExpired(getPins()[pin])){ openCategory(curCat); } }
+function doActivate(pin,msgId){ const pins=getPins(); const p=pins[pin]; if(!p){document.getElementById(msgId).innerText="❌ Invalid PIN.";return} if(p.device&&p.device!==deviceId){document.getElementById(msgId).innerText="❌ BLOCKED: PIN locked to another phone. NOT transferable.";alert("❌ PIN NOT TRANSFERABLE");return} if(!p.device){p.device=deviceId;p.start=Date.now();pins[pin]=p;savePins(pins);document.getElementById(msgId).innerText="✅ Success! PIN locked to THIS phone. NOT transferable. 1 MONTH started.";updateStats();return} if(isExpired(p)){document.getElementById(msgId).innerText="⏰ EXPIRED after 1 month. Renew.";return} document.getElementById(msgId).innerText=`✅ Welcome back! ${p.cat} unlocked. ${daysLeft(p)} days left.`; updateStats(); }
 showHome(); initBoard(); updateAdminUI(); syncFromSupabase();
 </script></body></html>
